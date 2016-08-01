@@ -24,6 +24,8 @@ import ShopPage from './ShopPage';
 import WeatherPage from './WeatherPage';
 import FavoritePage from './FavoritePage';
 
+import MenuList from './MenuList';
+
 class  WindFinder extends Component {
 
 
@@ -38,6 +40,7 @@ class  WindFinder extends Component {
         (
             <View style={styles.drawer}>
                 <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer2!</Text>
+                <MenuList/>
             </View>
         );
 
