@@ -1,3 +1,8 @@
+/*
+   HISTORY
+   2016. 8. 1 trying to add function of the stickyheader
+*/
+
 'use strict';
 
 import  React, {Component} from 'react';
