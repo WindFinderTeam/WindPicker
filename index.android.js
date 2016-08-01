@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     drawer: {
-        backgroundColor: '#FFF111',
+        backgroundColor: '#FFFFFF',
         flex: 1,
     },
     toolbar: {
