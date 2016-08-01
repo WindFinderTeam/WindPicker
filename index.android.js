@@ -19,14 +19,23 @@ import CustomTabbar from './CustomTabbar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-class WindFinder extends Component {
+
+import ShopPage from './ShopPage';
+import WeatherPage from './WeatherPage';
+import FavoritePage from './FavoritePage';
+
+class  WindFinder extends Component {
+
+
+    //renderTabBar={() => <CustomTabbar />}
 
     openDrawer() {
         this.refs['DRAWER'].openDrawer()
     }
 
     render() {
-        var navigationView = (
+        var navigationView =
+        (
             <View style={styles.drawer}>
                 <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer2!</Text>
             </View>
@@ -50,18 +59,19 @@ class WindFinder extends Component {
                     titleColor="white"
                     title="WindFinder"/>
 
-                <ScrollableTabView renderTabBar={() => <CustomTabbar />}>
 
-                    <ScrollView tabLabel="md-sunny" style={styles.tabView}>
-                        <ReactPage/>
+                <ScrollableTabView tabBarUnderlineColor="#94000f" tabBarActiveTextColor="#94000f">
+
+                    <ScrollView tabLabel="날씨상황" style={styles.tabView}>
+                        <WeatherPage/>
                     </ScrollView>
 
-                    <ScrollView tabLabel="ios-heart" style={styles.tabView}>
-                        <FlowPage/>
+                    <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
+                        <ShopPage/>
                     </ScrollView>
 
-                    <ScrollView tabLabel="md-globe" style={styles.tabView}>
-                        <JestPage/>
+                    <ScrollView tabLabel="샾랭킹" style={styles.tabView}>
+                        <FavoritePage/>
                     </ScrollView>
 
                 </ScrollableTabView>
@@ -72,62 +82,6 @@ class WindFinder extends Component {
 }
 
 
-class ReactPage extends Component {
-
-    render() {
-
-        return (
-            <ScrollView>
-                <Ionicons name="ios-book" size={30} color="#4F8EF7"/>
-                <Image source={{uri: "http://sc5.io/blog/wp-content/uploads/2014/06/react.png"}}
-                       style={{flex: 1, height: 320}} resizeMode="cover"
-                />
-                <Text>
-                    JUST THE UI Lots of people use React as the V in MVC. Since React makes no assumptions about the
-                    rest of your technology stack, it's easy to try it out on a small feature in an existing project.
-                    VIRTUAL DOM React abstracts away the DOM from you, giving a simpler programming model and better
-                    performance. React can also render on the server using Node, and it can power native apps using
-                    React Native. DATA FLOW React implements one-way reactive data flow which reduces boilerplate and is
-                    easier to reason about than traditional data binding.
-                </Text>
-                <Image source={{uri: "http://sc5.io/blog/wp-content/uploads/2014/06/react.png"}}
-                       style={{flex: 1, height: 320}} resizeMode="cover"/>
-            </ScrollView>
-        )
-    }
-}
-
-
-class JestPage extends Component {
-    render() {
-        return (
-            <ScrollView>
-                <Image source={{uri: "http://facebook.github.io/jest/img/opengraph.png"}}
-                       style={{flex: 1, height: 320}} resizeMode="cover"/>
-                <Image source={{uri: "http://facebook.github.io/jest/img/opengraph.png"}}
-                       style={{flex: 1, height: 320}} resizeMode="cover"/>
-                <Image source={{uri: "http://facebook.github.io/jest/img/opengraph.png"}}
-                       style={{flex: 1, height: 320}} resizeMode="cover"/>
-            </ScrollView>
-        )
-    }
-}
-
-
-class FlowPage extends Component {
-    render() {
-        return (
-            <ScrollView>
-                <Image source={{uri: "http://www.adweek.com/socialtimes/files/2014/11/FlowLogo650.jpg"}}
-                       style={{flex: 1, height: 320}} resizeMode="contain"/>
-                <Image source={{uri: "http://www.adweek.com/socialtimes/files/2014/11/FlowLogo650.jpg"}}
-                       style={{flex: 1, height: 320}} resizeMode="contain"/>
-                <Image source={{uri: "http://www.adweek.com/socialtimes/files/2014/11/FlowLogo650.jpg"}}
-                       style={{flex: 1, height: 320}} resizeMode="contain"/>
-            </ScrollView>
-        )
-    }
-}
 
 
 const styles = StyleSheet.create({
