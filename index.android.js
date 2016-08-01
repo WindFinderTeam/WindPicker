@@ -39,7 +39,7 @@ class  WindFinder extends Component {
         var navigationView =
         (
             <View style={styles.drawer}>
-                <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer2!</Text>
+                <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>메뉴목록</Text>
                 <MenuList/>
             </View>
         );
@@ -60,7 +60,7 @@ class  WindFinder extends Component {
                     onIconClicked={() => this.refs['drawer'].openDrawer()}
                     style={styles.toolbar}
                     titleColor="white"
-                    title="WindFinder"/>
+                    title="윈드파인더"/>
 
 
                 <ScrollableTabView tabBarUnderlineColor="#94000f" tabBarActiveTextColor="#94000f">
