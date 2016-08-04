@@ -2,189 +2,98 @@
 
 import  React, {Component} from 'react';
 import {
-    AppRegistry,
+    Image,
+    ListView,
+    TouchableHighlight,
     StyleSheet,
     Text,
     View,
-    ListView,
-    TextInput,
-    TouchableHighlight,
-    DeviceEventEmitter,
-    ToastAndroid,
-    Image } from 'react-native';
-
-
-var testData = [
-    {"firstName":"Black","lastName":"Garrett"},
-    {"firstName":"Morales","lastName":"Duncan"},
-    {"firstName":"Ramos","lastName":"King"},
-    {"firstName":"Dunn","lastName":"Collins"},
-    {"firstName":"Fernandez","lastName":"Montgomery"},
-    {"firstName":"Burns","lastName":"Fox"},
-    {"firstName":"Richardson","lastName":"Kim"},
-    {"firstName":"Hanson","lastName":"Evans"},
-    {"firstName":"Anderson","lastName":"Hunt"},
-    {"firstName":"Carter","lastName":"Grant"},
-    {"firstName":"Ray","lastName":"Ruiz"},
-    {"firstName":"Hart","lastName":"Schmidt"},
-    {"firstName":"White","lastName":"Andrews"},
-    {"firstName":"Hall","lastName":"Holmes"},
-    {"firstName":"Hawkins","lastName":"Gomez"},
-    {"firstName":"Bowman","lastName":"Sullivan"},
-    {"firstName":"Brooks","lastName":"Evans"},
-    {"firstName":"Reyes","lastName":"Perez"},
-    {"firstName":"Dixon","lastName":"Barnes"},
-    {"firstName":"Ward","lastName":"Lee"},
-    {"firstName":"Berry","lastName":"Payne"},
-    {"firstName":"Murray","lastName":"Rose"},
-    {"firstName":"Stephens","lastName":"Fowler"},
-    {"firstName":"Rodriguez","lastName":"Lewis"},
-    {"firstName":"Cook","lastName":"Dean"}
-];
+} from 'react-native';
 
 
 
+var FavoriteList = React.createClass({
 
+    getInitialState: function() {
 
-class SampleRow extends Component{
-    render() {
+        var getSectionData = function(dataBlob, sectionID) {
+            return dataBlob[sectionID];
+        };
+
+        return {
+            dataBlob: {},
+            dataSource: new ListView.DataSource({
+                getSectionData: getSectionData,
+                rowHasChanged: (r1, r2) => r1 !== r2,
+                sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+            }).cloneWithRowsAndSections(this.generateRows()),
+        };
+    },
+
+    renderSectionHeader: function(sectionData, sectionID) {
         return (
-            <View style={styles.wrapper}>
-                <View>
-                    <Text style={styles.text}>{this.props.lastName}, {this.props.firstName}</Text>
-                </View>
+            <View style={styles.catListHeaderContainer}>
+                <Text style={styles.catListTitle}>
+                    Categories {sectionID}
+                </Text>
             </View>
         );
-    }
-};
+    },
 
-class FavoriteList extends Component{
-
-    constructor(prop){
-        super(prop);
-
-        var ds = new ListView.DataSource({
-            sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
-            rowHasChanged: (r1, r2) => r1 !== r2
-        });
-
-        var {data, sectionIds} = this.renderListViewData(testData);
-        this.state = {dataSource : ds.cloneWithRowsAndSections(data, sectionIds)};
-
-    }
-
-
-    renderListViewData(users) {
-
-        var data = {}  ;      // Object
-        var sectionIds = [];  // Array
-
-        sectionIds.push('Marketing');
-        data['Marketing']=[];
-        data['Marketing'].push(users[0]);
-        data['Marketing'].push(users[1]);
-        data['Marketing'].push(users[2]);
-
-        sectionIds.push('Sales');
-        data['Sales']=[];
-        data['Sales'].push(users[3]);
-        data['Sales'].push(users[4]);
-        data['Sales'].push(users[5]);
-
-        sectionIds.push('Account');
-        data['Account']=[];
-        data['Account'].push(users[6]);
-        data['Account'].push(users[7]);
-        data['Account'].push(users[8]);
-        data['Account'].push(users[8]);
-        data['Account'].push(users[9]);
-        data['Account'].push(users[10]);
-        data['Account'].push(users[11]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[6]);
-        data['Account'].push(users[7]);
-        data['Account'].push(users[8]);
-        data['Account'].push(users[8]);
-        data['Account'].push(users[9]);
-        data['Account'].push(users[10]);
-        data['Account'].push(users[11]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-
-        return {data, sectionIds};
-    }
-
-    renderSectionHeader(data, sectionId) {
-        console.log('##### sectionData  >>>>>' + data[0].lastName);  // Garrett
-
-        console.log('##### sectionData >>>>>' + data[1].lastName); // Duncan
-
-        return (
-            <View style={styles.sectionHeader}>
-                <Text style={styles.sectionHeaderText}>{sectionId}</Text>
-            </View>
-        );
-    }
-
-    renderRow(rowData) {
-        console.log('##### rowData >>>>>' + rowData.firstName);
-        return <SampleRow firstName={rowData.firstName} lastName={rowData.lastName} style={styles.row} />
-        // return <SampleRow {...rowData} style={styles.row} />  is same  as above
-    }
-
-
-    render() {
+    render: function() {
         return (
             <ListView
-                ref="listView"
-                automaticallyAdjustContentInsets={false}
+                contentContainerStyle={styles.list}
                 dataSource={this.state.dataSource}
-                renderSectionHeader={this.renderSectionHeader}
                 renderRow={this.renderRow}
-
+                renderSectionHeader={this.renderSectionHeader}
             />
         );
-    }
-};
+    },
 
+    renderRow: function(rowData: string, sectionID: number, rowID: number) {
+        return (
+            <TouchableHighlight underlayColor='rgba(0,0,0,0)'>
+                <View>
+                    <View style={styles.row}>
+                        <Text style={styles.text}>
+                            {rowData}
+                        </Text>
+                    </View>
+                </View>
+            </TouchableHighlight>
+        );
+    },
 
-var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#F5FCFF',
+    generateRows: function(): Array<string> {
+        var dataBlob = [];
+        for (var ii = 0; ii < 50; ii++) {
+            dataBlob.push('Cell ' + ii);
+        }
+        return [dataBlob, dataBlob];
     },
-    wrapper: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingRight: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#e9e9e9',
-    },
-    text: {
-        fontSize: 24,
-        fontWeight: "100",
-        color: 'black',
-    },
-    sectionHeader: {
-        backgroundColor: '#48D1CC'
-    },
-    sectionHeaderText: {
-        fontFamily: 'AvenirNext-Medium',
-        fontSize: 16,
-        color: 'white',
-        paddingLeft: 10
-    },
+
 });
 
+var styles = StyleSheet.create({
+    list: {
+    },
+    row: {
+        padding: 12,
+        backgroundColor: '#F6F6F6',
+        borderColor: '#eee',
+        borderBottomWidth: 1,
+    },
+    text: {
+    },
+    catListTitle: {
+        fontWeight: 'bold',
+        color: '#ffffff',
+    },
+    catListHeaderContainer: {
+        padding: 12,
+        backgroundColor: '#1F2036',
+    }
+});
 
 module.exports = FavoriteList;

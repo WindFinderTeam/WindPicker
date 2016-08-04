@@ -53,7 +53,7 @@ const CustomTabbar = React.createClass({
             <View style={[styles.tabs, this.props.style, ]}>
                 {this.props.tabs.map((tab, i) => {
                     return <TouchableOpacity key={tab} onPress={() => this.props.goToPage(i)} style={styles.tab}>
-                        <Icon
+                       <Icon
                             name={tab}
                             size={30}
                             color={this.props.activeTab ? 'rgb(148,0,15)' : 'rgb(255,255,255)'}

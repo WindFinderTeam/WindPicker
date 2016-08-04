@@ -12,7 +12,8 @@ import {
 
 
 // https://github.com/skv-headless/react-native-scrollable-tab-view
-var ScrollableTabView = require('react-native-scrollable-tab-view');
+//var ScrollableTabView = require('react-native-scrollable-tab-view');
+import ScrollableTabView, { ScrollableTabBar, } from 'react-native-scrollable-tab-view';
 import CustomTabbar from './CustomTabbar';
 
 //https://github.com/oblador/react-native-vector-icons
@@ -50,20 +51,20 @@ class  WindFinder extends Component {
                 drawerWidth={200}
                 drawerPosition={DrawerLayoutAndroid.positions.Left}
                 renderNavigationView={() => navigationView}
-                ref={'drawer'}
-            >
-
+                ref={'drawer'}>
 
                 <Ionicons.ToolbarAndroid
                     actions={[]}
                     navIconName="md-menu"
                     onIconClicked={() => this.refs['drawer'].openDrawer()}
                     style={styles.toolbar}
+                    iconColor="white"
                     titleColor="white"
-                    title="윈드파인더"/>
+                    title="WindFinder"/>
 
 
-                <ScrollableTabView tabBarUnderlineColor="#94000f" tabBarActiveTextColor="#94000f">
+                <ScrollableTabView tabBarUnderlineColor="#94000f" tabBarActiveTextColor="#94000f"
+                tabBarTextStyle={{fontFamily:'bmdohyeon'}}>
 
                     <ScrollView tabLabel="날씨상황" style={styles.tabView}>
                         <WeatherPage/>
@@ -88,17 +89,7 @@ class  WindFinder extends Component {
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
+
     instructions: {
         textAlign: 'center',
         color: '#333333',
@@ -109,6 +100,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     toolbar: {
+
         height: 56,
         backgroundColor: '#94000f',
     },
