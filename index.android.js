@@ -17,12 +17,12 @@ import ScrollableTabView, { ScrollableTabBar, } from 'react-native-scrollable-ta
 import CustomTabbar from './CustomTabbar';
 
 //https://github.com/oblador/react-native-vector-icons
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons     from 'react-native-vector-icons/Ionicons';
+import FontAwesome  from 'react-native-vector-icons/FontAwesome';
 
 
-import ShopPage from './ShopPage';
-import WeatherPage from './WeatherPage';
+import ShopPage     from './ShopPage';
+import WeatherPage  from './WeatherPage';
 import FavoritePage from './FavoritePage';
 
 import MenuList from './MenuList';
@@ -60,7 +60,7 @@ class  WindFinder extends Component {
                     style={styles.toolbar}
                     iconColor="white"
                     titleColor="white"
-                    title="WindFinder"/>
+                    title="WIND FINDER"/>
 
 
                 <ScrollableTabView tabBarUnderlineColor="#94000f" tabBarActiveTextColor="#94000f">
