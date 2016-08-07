@@ -9,6 +9,7 @@ import {
     ListView,
     TextInput,
     TouchableHighlight,
+    TouchableOpacity,
     DeviceEventEmitter,
     ToastAndroid,
     Image } from 'react-native';
@@ -47,13 +48,21 @@ var testData = [
 
 
 class SampleRow extends Component{
+
+    _onPressButton(){
+        ToastAndroid.show('This is a toast with long duration', ToastAndroid.LONG);
+
+    }
+
     render() {
         return (
-            <View style={styles.wrapper}>
-                <View>
-                    <Text style={styles.text}>{this.props.lastName}, {this.props.firstName}</Text>
+            <TouchableOpacity onPress={this._onPressButton}>
+                <View style={styles.wrapper}>
+                    <View>
+                        <Text style={styles.text}>{this.props.lastName}, {this.props.firstName}</Text>
+                    </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         );
     }
 };
@@ -167,6 +176,7 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingRight: 10,
+        backgroundColor: '#FF5E00',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
     },
@@ -176,7 +186,7 @@ var styles = StyleSheet.create({
         color: 'black',
     },
     sectionHeader: {
-        backgroundColor: '#48D1CC'
+        backgroundColor: '#5F00FF'
     },
     sectionHeaderText: {
         fontFamily: 'AvenirNext-Medium',
