@@ -63,13 +63,11 @@ class  WindFinder extends Component {
                     title="WindFinder"/>
 
 
-                <ScrollableTabView tabBarUnderlineColor="#94000f" tabBarActiveTextColor="#94000f"
-                tabBarTextStyle={{fontFamily:'bmdohyeon'}}>
+                <ScrollableTabView tabBarUnderlineColor="#94000f" tabBarActiveTextColor="#94000f">
 
                     <ScrollView tabLabel="날씨상황" style={styles.tabView}>
                         <WeatherPage/>
                     </ScrollView>
-
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
                         <FavoritePage/>
                     </ScrollView>
@@ -77,7 +75,6 @@ class  WindFinder extends Component {
                     <ScrollView tabLabel="샾랭킹" style={styles.tabView}>
                         <ShopPage/>
                     </ScrollView>
-
                 </ScrollableTabView>
 
             </DrawerLayoutAndroid>
