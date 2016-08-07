@@ -32,6 +32,14 @@ class  WindFinder extends Component {
 
     //renderTabBar={() => <CustomTabbar />}
 
+    constructor(prop){
+        super(prop);
+
+        this.openDrawer = this.openDrawer.bind(this);
+        this.state = {school : 'Wind Finder2'};
+
+    }
+
     openDrawer() {
         this.refs['DRAWER'].openDrawer()
     }
@@ -41,6 +49,7 @@ class  WindFinder extends Component {
         (
             <View style={styles.drawer}>
                 <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>메뉴목록</Text>
+
                 <MenuList/>
             </View>
         );
@@ -60,11 +69,10 @@ class  WindFinder extends Component {
                     style={styles.toolbar}
                     iconColor="white"
                     titleColor="white"
-                    title="WIND FINDER"/>
+                    title= {this.state.school}/>
 
 
                 <ScrollableTabView tabBarUnderlineColor="#94000f" tabBarActiveTextColor="#94000f">
-
                     <ScrollView tabLabel="날씨상황" style={styles.tabView}>
                         <WeatherPage/>
                     </ScrollView>

@@ -50,13 +50,13 @@ var testData = [
 class SampleRow extends Component{
 
     _onPressButton(){
-        ToastAndroid.show('This is a toast with long duration', ToastAndroid.LONG);
+        ToastAndroid.show('This is '+ this.props.lastName, ToastAndroid.SHORT);
 
     }
 
     render() {
         return (
-            <TouchableOpacity onPress={this._onPressButton}>
+            <TouchableOpacity onPress={() => { this._onPressButton()}}>
                 <View style={styles.wrapper}>
                     <View>
                         <Text style={styles.text}>{this.props.lastName}, {this.props.firstName}</Text>
