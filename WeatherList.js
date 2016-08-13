@@ -162,7 +162,7 @@ class WeatherList extends Component{
 
     render() {
         return (
-            <ScrollView>
+            <View style={{flex:1}}>
                 <Ionicons.ToolbarAndroid
                     actions={[]}
                     navIconName="ios-arrow-back"
@@ -172,6 +172,7 @@ class WeatherList extends Component{
                     titleColor="white"
                     title= {"SEOUL"}/>
 
+                <ScrollView>
                     <ListView
                         ref="listView"
                         automaticallyAdjustContentInsets={false}
@@ -180,6 +181,7 @@ class WeatherList extends Component{
                         renderRow={this.renderRow}
                     />
                 </ScrollView>
+            </View>
         );
     }
 };
