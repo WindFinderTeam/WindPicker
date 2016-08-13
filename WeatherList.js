@@ -170,7 +170,7 @@ class WeatherList extends Component{
                     style={styles.toolbar}
                     iconColor="white"
                     titleColor="white"
-                    title= {"SEOUL"}/>
+                    title= {this.props.rowData.lastName}/>
 
                 <ScrollView>
                     <ListView

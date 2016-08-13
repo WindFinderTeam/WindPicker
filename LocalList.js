@@ -43,8 +43,7 @@ var testData = [
     {"firstName":"Rodriguez","lastName":"Lewis"},
     {"firstName":"Cook","lastName":"Dean"}
 ];
-
-
+var selectedRowData ;
 
 import WeatherList from './WeatherList';
 
@@ -65,11 +64,14 @@ class SampleRow extends Component{
 class LocalList extends Component{
 
 
+
+
     setModalVisible(visible) {
         this.setState({modalVisible: visible});
     }
     _onPressButton(rowData){
         //ToastAndroid.show('This is '+ rowData.lastName, ToastAndroid.SHORT);
+        selectedRowData = rowData;
         this.setModalVisible(true);
     }
 
@@ -171,7 +173,7 @@ class LocalList extends Component{
                     visible={this.state.modalVisible}
                     onRequestClose={() => {this.setModalVisible(false)}}>
 
-                    <WeatherList modalVisible={this.setModalVisible}/>
+                    <WeatherList modalVisible={this.setModalVisible} rowData = {selectedRowData} />
 
 
                 </Modal>
