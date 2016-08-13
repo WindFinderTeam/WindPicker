@@ -60,12 +60,13 @@ class  WindFinder extends Component {
                 drawerWidth={200}
                 drawerPosition={DrawerLayoutAndroid.positions.Left}
                 renderNavigationView={() => navigationView}
+                drawerLockMode ='locked-closed'
                 ref={'drawer'}>
 
                 <Ionicons.ToolbarAndroid
                     actions={[]}
                     navIconName="md-menu"
-                    onIconClicked={() => this.refs['drawer'].openDrawer()}
+                   // onIconClicked={() => this.refs['drawer'].openDrawer()}
                     style={styles.toolbar}
                     iconColor="white"
                     titleColor="white"

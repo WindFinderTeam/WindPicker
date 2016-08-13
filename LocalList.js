@@ -11,7 +11,6 @@ import {
     TouchableHighlight,
     TouchableOpacity,
     DeviceEventEmitter,
-    ScrollView,
     ToastAndroid,
     Modal,
     Image } from 'react-native';
@@ -46,8 +45,8 @@ var testData = [
 ];
 
 
-import Ionicons     from 'react-native-vector-icons/Ionicons';
 
+import WeatherList from './WeatherList';
 
 class SampleRow extends Component{
 
@@ -63,18 +62,21 @@ class SampleRow extends Component{
     }
 };
 
-class WeatherList extends Component{
+class LocalList extends Component{
 
 
-
+    setModalVisible(visible) {
+        this.setState({modalVisible: visible});
+    }
     _onPressButton(rowData){
-        ToastAndroid.show('This is '+ rowData.lastName, ToastAndroid.SHORT);
-
+        //ToastAndroid.show('This is '+ rowData.lastName, ToastAndroid.SHORT);
+        this.setModalVisible(true);
     }
 
     constructor(prop){
         super(prop);
 
+        this.setModalVisible = this.setModalVisible.bind(this);
         this.renderRow = this.renderRow.bind(this);
 
         var ds = new ListView.DataSource({
@@ -94,17 +96,17 @@ class WeatherList extends Component{
         var data = {}  ;      // Object
         var sectionIds = [];  // Array
 
-        sectionIds.push('Marketing');
-        data['Marketing']=[];
-        data['Marketing'].push(users[0]);
-        data['Marketing'].push(users[1]);
-        data['Marketing'].push(users[2]);
+        sectionIds.push('SEOUL');
+        data['SEOUL']=[];
+        data['SEOUL'].push(users[0]);
+        data['SEOUL'].push(users[1]);
+        data['SEOUL'].push(users[2]);
 
-        sectionIds.push('Sales');
-        data['Sales']=[];
-        data['Sales'].push(users[3]);
-        data['Sales'].push(users[4]);
-        data['Sales'].push(users[5]);
+        sectionIds.push('KyungNAm');
+        data['KyungNAm']=[];
+        data['KyungNAm'].push(users[3]);
+        data['KyungNAm'].push(users[4]);
+        data['KyungNAm'].push(users[5]);
 
         sectionIds.push('Account');
         data['Account']=[];
@@ -139,8 +141,8 @@ class WeatherList extends Component{
     }
 
     renderSectionHeader(data, sectionId) {
-        console.log('##### sectionData  >>>>>' + data[0].lastName);  // Garrett
-        console.log('##### sectionData >>>>>' + data[1].lastName); // Duncan
+        //console.log('##### sectionData  >>>>>' + data[0].lastName);  // Garrett
+        //console.log('##### sectionData >>>>>' + data[1].lastName); // Duncan
 
         return (
             <View style={styles.sectionHeader}>
@@ -150,7 +152,7 @@ class WeatherList extends Component{
     }
 
     renderRow(rowData) {
-        console.log('##### rowData >>>>>' + rowData.firstName);
+        //console.log('##### rowData >>>>>' + rowData.firstName);
         return (
             <TouchableOpacity   onPress={() => { this._onPressButton(rowData)}}>
                 <SampleRow firstName={rowData.firstName} lastName={rowData.lastName} style={styles.row} />
@@ -162,24 +164,26 @@ class WeatherList extends Component{
 
     render() {
         return (
-            <ScrollView>
-                <Ionicons.ToolbarAndroid
-                    actions={[]}
-                    navIconName="ios-arrow-back"
-                    onIconClicked={()=>this.props.modalVisible(false)}//() => this.refs['drawer'].openDrawer()}
-                    style={styles.toolbar}
-                    iconColor="white"
-                    titleColor="white"
-                    title= {"SEOUL"}/>
+            <View>
+                <Modal
+                    animationType={"slide"}
+                    transparent={false}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {this.setModalVisible(false)}}>
 
-                    <ListView
-                        ref="listView"
-                        automaticallyAdjustContentInsets={false}
-                        dataSource={this.state.dataSource}
-                        renderSectionHeader={this.renderSectionHeader}
-                        renderRow={this.renderRow}
-                    />
-                </ScrollView>
+                    <WeatherList modalVisible={this.setModalVisible}/>
+
+
+                </Modal>
+
+            <ListView
+                ref="listView"
+                automaticallyAdjustContentInsets={false}
+                dataSource={this.state.dataSource}
+                renderSectionHeader={this.renderSectionHeader}
+                renderRow={this.renderRow}
+            />
+            </View>
         );
     }
 };
@@ -213,11 +217,7 @@ var styles = StyleSheet.create({
         color: 'white',
         paddingLeft: 10
     },
-    toolbar: {
-        height: 56,
-        backgroundColor: '#94000f'
-    },
 });
 
 
-module.exports = WeatherList;
+module.exports = LocalList;

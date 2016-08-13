@@ -1,18 +1,16 @@
 import  React, {Component} from 'react';
 import {
-    ScrollView,
-    Text,
-    Image
+    Text
 } from 'react-native';
 
-import WeatherList from './WeatherList';
+import LocalList from './LocalList';
 
 class WeatherPage extends Component {
 
     render() {
 
         return (
-      <WeatherList/>
+      <LocalList/>
         )
     }
 }
