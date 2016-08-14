@@ -22,23 +22,8 @@ var localData = require('./jsData/localData.json');
 var selectedRowData ;
 var selectedHeaderData ;
 
-class SampleRow extends Component{
-
-
-    render() {
-        return (
-            <View style={styles.listViewrow}>
-                <View>
-                    <Text style={styles.text}>{this.props.district}</Text>
-                </View>
-            </View>
-        );
-    }
-};
 
 class LocalList extends Component{
-
-
 
 
     setModalVisible(visible) {
@@ -107,11 +92,16 @@ class LocalList extends Component{
     renderRow(rowData, headerData) {
         console.log('#LocalList headerData >' + headerData);
         return (
-            <TouchableOpacity   onPress={() => { this._onPressButton(rowData, headerData)}}>
-                <SampleRow {...rowData} headerData={headerData}  style={styles.row} />
-            </TouchableOpacity>
+            <TouchableHighlight
+                underlayColor="rgb(255,0,0)"
+                onPress={() => { this._onPressButton(rowData, headerData)}}>
+                <View style={styles.listViewrow}>
+                    <View>
+                        <Text style={styles.text}>{rowData.district}</Text>
+                    </View>
+                </View>
+            </TouchableHighlight>
         )
-
     }
 
 
@@ -128,7 +118,6 @@ class LocalList extends Component{
                         modalVisible={this.setModalVisible}
                         rowData = {selectedRowData}
                         headerData = {selectedHeaderData}/>
-
 
                 </Modal>
 
