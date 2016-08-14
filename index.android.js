@@ -7,6 +7,7 @@ import {
     Image,
     ToolbarAndroid,
     DrawerLayoutAndroid,
+    TouchableOpacity,
     View,
     ToastAndroid
 } from 'react-native';
@@ -15,7 +16,9 @@ import {
 // https://github.com/skv-headless/react-native-scrollable-tab-view
 //var ScrollableTabView = require('react-native-scrollable-tab-view');
 import ScrollableTabView, { ScrollableTabBar, } from 'react-native-scrollable-tab-view';
-import CustomTabbar from './CustomTabbar';
+//import CustomTabbar from './CustomTabbar';
+
+import Modal from 'react-native-simple-modal';
 
 //https://github.com/oblador/react-native-vector-icons
 import Ionicons     from 'react-native-vector-icons/Ionicons';
@@ -36,8 +39,9 @@ class  WindFinder extends Component {
     constructor(prop){
         super(prop);
 
-        this.openDrawer = this.openDrawer.bind(this);
-        this.state = {school : 'Wind Finder2'};
+        this.setConfigModalVisible = this.setConfigModalVisible.bind(this);
+        this.openDrawer            = this.openDrawer.bind(this);
+        this.state = {school : 'Wind Finder2', open: false};
 
     }
 
@@ -45,14 +49,18 @@ class  WindFinder extends Component {
         this.refs['DRAWER'].openDrawer()
     }
 
+    setConfigModalVisible(visible) {
+        this.setState({open: visible});
+    }
 
 
     onActionSelected(position) {
 
-    if (position === 0) { // index of 'Settings'
-        ToastAndroid.show('Setting Cliked', ToastAndroid.SHORT);
+        if (position === 0) { // index of 'Settings'
+            //ToastAndroid.show('Setting Cliked', ToastAndroid.SHORT);
+            this.setConfigModalVisible(true);
+        }
     }
-}
 
 
     render() {
@@ -76,7 +84,6 @@ class  WindFinder extends Component {
                 ref={'drawer'}>
 
                <Ionicons.ToolbarAndroid
-                    //actions={[]}
                     //navIconName="md-menu"
 
                    // onIconClicked={() => this.refs['drawer'].openDrawer()}
@@ -108,6 +115,32 @@ class  WindFinder extends Component {
                         <ShopPage/>
                     </ScrollView>
                 </ScrollableTabView>
+
+                <Modal
+                    offset={this.state.offset}
+                    open={this.state.open}
+                    modalDidOpen={() => console.log('modal did open')}
+                    modalDidClose={() => this.setState({open: false})}
+                    style={{alignItems: 'center'}}>
+                    <View>
+                        <Text style={{fontSize: 20, marginBottom: 10}}>Hello world!</Text>
+                        <TouchableOpacity
+                            style={{margin: 5}}
+                            onPress={() => this.setState({offset: -100})}>
+                            <Text>Move modal up</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{margin: 5}}
+                            onPress={() => this.setState({offset: 0})}>
+                            <Text>Reset modal position</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{margin: 5}}
+                            onPress={() => this.setState({open: false})}>
+                            <Text>Close modal</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
 
             </DrawerLayoutAndroid>
         );

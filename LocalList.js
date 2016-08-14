@@ -18,6 +18,7 @@ import {
 
 import WeatherList from './WeatherList';
 
+
 var localData = require('./jsData/localData.json');
 var selectedRowData ;
 var selectedHeaderData ;
@@ -29,6 +30,9 @@ class LocalList extends Component{
     setModalVisible(visible) {
         this.setState({modalVisible: visible});
     }
+
+
+
     _onPressButton(rowData, headerData){
         //ToastAndroid.show('This is '+ rowData.lastName, ToastAndroid.SHORT);
         selectedRowData = rowData;
@@ -39,8 +43,10 @@ class LocalList extends Component{
     constructor(prop){
         super(prop);
 
+        //---------------- Binding to Custom Func ----------------
         this.setModalVisible = this.setModalVisible.bind(this);
         this.renderRow = this.renderRow.bind(this);
+        //---------------------------------------------------------
 
         var ds = new ListView.DataSource({
             sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
@@ -48,9 +54,10 @@ class LocalList extends Component{
         });
 
         var {data, sectionIds} = this.renderListViewData(localData);
-        this.state = {dataSource : ds.cloneWithRowsAndSections(data, sectionIds)
-            ,modalVisible: false};
-
+        this.state = {
+                       dataSource          : ds.cloneWithRowsAndSections(data, sectionIds)
+                      ,modalVisible        : false
+        };
     }
 
 
@@ -120,6 +127,8 @@ class LocalList extends Component{
                         headerData = {selectedHeaderData}/>
 
                 </Modal>
+
+
 
                 <ListView
                     ref="listView"
