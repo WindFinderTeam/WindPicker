@@ -142,8 +142,8 @@ class WeatherList extends Component{
 
     render() {
         return (
-            <ScrollView>
 
+            <View style={{flex:1}}>
 
                 <Ionicons.ToolbarAndroid
                     actions={[]}
@@ -158,6 +158,7 @@ class WeatherList extends Component{
                          overlayColor="rgba(0, 0, 200, 0.5)"
                          size="large"       />
 
+            <ScrollView>
                 <ListView
                     ref="listView"
                     automaticallyAdjustContentInsets={false}
@@ -166,6 +167,7 @@ class WeatherList extends Component{
                     renderRow={this.renderRow}
                 />
             </ScrollView>
+            </View>
         );
     }
 };
