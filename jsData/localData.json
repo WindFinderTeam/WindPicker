@@ -1,0 +1,14 @@
+
+[
+
+  {
+    "category":"surfing",
+    "local":[
+      {"province":"제주", "district":"중문색달해변"}
+    ,{"province":"제주", "district":"월정리해변"}
+    ,{"province":"제주", "district":"곽지해수욕 장"}
+    ,{"province":"서울", "district":"한강(마포대교)"}
+    ,{"province":"서울", "district":"뚝섬"}
+    ]
+  }
+]

@@ -15,51 +15,12 @@ import {
     Modal,
     Image } from 'react-native';
 
-var localData = [
-
-    {
-        "category":"surfing",
-        "local":[
-            {"province":"제주", "district":"중문색달해변"}
-            ,{"province":"제주", "district":"월정리해변"}
-            ,{"province":"제주", "district":"곽지해수욕 장"}
-            ,{"province":"서울", "district":"한강(마포대교)"}
-            ,{"province":"서울", "district":"뚝섬"}
-        ]
-    }
-]
-var testData = [
-    {"firstName":"Black","lastName":"Garrett"},
-    {"firstName":"Morales","lastName":"Duncan"},
-    {"firstName":"Ramos","lastName":"King"},
-    {"firstName":"Dunn","lastName":"Collins"},
-    {"firstName":"Fernandez","lastName":"Montgomery"},
-    {"firstName":"Burns","lastName":"Fox"},
-    {"firstName":"Richardson","lastName":"Kim"},
-    {"firstName":"Hanson","lastName":"Evans"},
-    {"firstName":"Anderson","lastName":"Hunt"},
-    {"firstName":"Carter","lastName":"Grant"},
-    {"firstName":"Ray","lastName":"Ruiz"},
-    {"firstName":"Hart","lastName":"Schmidt"},
-    {"firstName":"White","lastName":"Andrews"},
-    {"firstName":"Hall","lastName":"Holmes"},
-    {"firstName":"Hawkins","lastName":"Gomez"},
-    {"firstName":"Bowman","lastName":"Sullivan"},
-    {"firstName":"Brooks","lastName":"Evans"},
-    {"firstName":"Reyes","lastName":"Perez"},
-    {"firstName":"Dixon","lastName":"Barnes"},
-    {"firstName":"Ward","lastName":"Lee"},
-    {"firstName":"Berry","lastName":"Payne"},
-    {"firstName":"Murray","lastName":"Rose"},
-    {"firstName":"Stephens","lastName":"Fowler"},
-    {"firstName":"Rodriguez","lastName":"Lewis"},
-    {"firstName":"Cook","lastName":"Dean"}
-];
-
-var selectedRowData ;
-var selectedHeaderData ;
 
 import WeatherList from './WeatherList';
+
+var localData = require('./jsData/localData.json');
+var selectedRowData ;
+var selectedHeaderData ;
 
 class SampleRow extends Component{
 

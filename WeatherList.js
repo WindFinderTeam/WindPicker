@@ -143,10 +143,8 @@ class WeatherList extends Component{
     render() {
         return (
             <ScrollView>
-            <Spinner visible={this.state.spinnerVisible}
-                    overlayColor="rgba(0, 0, 200, 0.5)"
-                    size="large"
-            />
+
+
                 <Ionicons.ToolbarAndroid
                     actions={[]}
                     navIconName="ios-arrow-back"
@@ -155,6 +153,10 @@ class WeatherList extends Component{
                     iconColor="white"
                     titleColor="white"
                     title= {this.props.headerData}/>
+                <Spinner visible={this.state.spinnerVisible}
+                         style={{paddingTop:40}}
+                         overlayColor="rgba(0, 0, 200, 0.5)"
+                         size="large"       />
 
                 <ListView
                     ref="listView"
