@@ -20,11 +20,11 @@ var localData = [
     {
         "category":"surfing",
         "local":[
-                 {"province":"제주", "district":"중문색달해변"}
-                ,{"province":"제주", "district":"월정리해변"}
-                ,{"province":"제주", "district":"곽지해수욕 장"}
-                ,{"province":"서울", "district":"한강(마포대교)"}
-                ,{"province":"서울", "district":"뚝섬"}
+            {"province":"제주", "district":"중문색달해변"}
+            ,{"province":"제주", "district":"월정리해변"}
+            ,{"province":"제주", "district":"곽지해수욕 장"}
+            ,{"province":"서울", "district":"한강(마포대교)"}
+            ,{"province":"서울", "district":"뚝섬"}
         ]
     }
 ]
@@ -64,11 +64,11 @@ class SampleRow extends Component{
 
     render() {
         return (
-                <View style={styles.listViewrow}>
-                    <View>
-                        <Text style={styles.text}>{this.props.district}</Text>
-                    </View>
+            <View style={styles.listViewrow}>
+                <View>
+                    <Text style={styles.text}>{this.props.district}</Text>
                 </View>
+            </View>
         );
     }
 };
@@ -100,7 +100,7 @@ class LocalList extends Component{
 
         var {data, sectionIds} = this.renderListViewData(localData);
         this.state = {dataSource : ds.cloneWithRowsAndSections(data, sectionIds)
-                     ,modalVisible: false};
+            ,modalVisible: false};
 
     }
 
@@ -165,13 +165,13 @@ class LocalList extends Component{
 
                 </Modal>
 
-            <ListView
-                ref="listView"
-                automaticallyAdjustContentInsets={false}
-                dataSource={this.state.dataSource}
-                renderSectionHeader={this.renderSectionHeader}
-                renderRow={this.renderRow}
-            />
+                <ListView
+                    ref="listView"
+                    automaticallyAdjustContentInsets={false}
+                    dataSource={this.state.dataSource}
+                    renderSectionHeader={this.renderSectionHeader}
+                    renderRow={this.renderRow}
+                />
             </View>
         );
     }
