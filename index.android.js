@@ -7,7 +7,8 @@ import {
     Image,
     ToolbarAndroid,
     DrawerLayoutAndroid,
-    View
+    View,
+    ToastAndroid
 } from 'react-native';
 
 
@@ -44,6 +45,16 @@ class  WindFinder extends Component {
         this.refs['DRAWER'].openDrawer()
     }
 
+
+
+    onActionSelected(position) {
+
+    if (position === 0) { // index of 'Settings'
+        ToastAndroid.show('Setting Cliked', ToastAndroid.SHORT);
+    }
+}
+
+
     render() {
         var navigationView =
         (
@@ -54,6 +65,7 @@ class  WindFinder extends Component {
             </View>
         );
 
+
         return (
 
             <DrawerLayoutAndroid
@@ -63,17 +75,28 @@ class  WindFinder extends Component {
                 drawerLockMode ='locked-closed'
                 ref={'drawer'}>
 
-                <Ionicons.ToolbarAndroid
-                    actions={[]}
-                    navIconName="md-menu"
+               <Ionicons.ToolbarAndroid
+                    //actions={[]}
+                    //navIconName="md-menu"
+
                    // onIconClicked={() => this.refs['drawer'].openDrawer()}
                     style={styles.toolbar}
                     iconColor="white"
                     titleColor="white"
-                    title= {this.state.school}/>
+                    title= {this.state.school}
+                    actions={[
+                        { title: 'Settings', iconName: 'md-settings', iconSize: 30, show: 'always' },
+                        { title: 'Follow me on Twitter', iconName: 'md-menu', iconColor: "#4099FF", show: 'ifRoom' },
+                      ]}
+                    overflowIconName="md-more"
+                    onActionSelected={(position) => this.onActionSelected(position)}
+                />
 
 
-                <ScrollableTabView tabBarUnderlineColor="#94000f" tabBarActiveTextColor="#94000f">
+                <ScrollableTabView tabBarUnderlineColor="#FFFFFF"
+                                   tabBarActiveTextColor="#FFFFFF"
+                                   tabBarInactiveTextColor="#BDBDBD"
+                                   tabBarBackgroundColor="#9c0010">
                     <ScrollView tabLabel="날씨상황" style={styles.tabView}>
                         <WeatherPage/>
                     </ScrollView>
@@ -108,7 +131,7 @@ const styles = StyleSheet.create({
     toolbar: {
 
         height: 56,
-        backgroundColor: '#94000f',
+        backgroundColor: '#94000F',
     },
     tabView: {
         flex: 1,

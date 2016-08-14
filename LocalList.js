@@ -15,7 +15,21 @@ import {
     Modal,
     Image } from 'react-native';
 
+var localData = [
 
+    {
+        "category":"surfing",
+        "local":[
+                 {"province":'강원', "district":'양양'}
+                ,{"province":'강원', "district":'동해'}
+                ,{"province":'제주', "district":'협제해수욕장'}
+                ,{"province":'제주', "district":'동해'}
+                ,{"province":'제주', "district":'동해'}
+                ,{"province":'서울', "district":'한강(마포대교)'}
+                ,{"province":'서울', "district":'뚝섬'}
+        ]
+    }
+]
 var testData = [
     {"firstName":"Black","lastName":"Garrett"},
     {"firstName":"Morales","lastName":"Duncan"},
@@ -52,7 +66,7 @@ class SampleRow extends Component{
 
     render() {
         return (
-                <View style={styles.wrapper}>
+                <View style={styles.listViewrow}>
                     <View>
                         <Text style={styles.text}>{this.props.lastName}, {this.props.firstName}</Text>
                     </View>
@@ -98,11 +112,11 @@ class LocalList extends Component{
         var data = {}  ;      // Object
         var sectionIds = [];  // Array
 
-        sectionIds.push('SEOUL');
-        data['SEOUL']=[];
-        data['SEOUL'].push(users[0]);
-        data['SEOUL'].push(users[1]);
-        data['SEOUL'].push(users[2]);
+        sectionIds.push('서울');
+        data['서울']=[];
+        data['서울'].push(users[0]);
+        data['서울'].push(users[1]);
+        data['서울'].push(users[2]);
 
         sectionIds.push('KyungNAm');
         data['KyungNAm']=[];
@@ -157,7 +171,7 @@ class LocalList extends Component{
         //console.log('##### rowData >>>>>' + rowData.firstName);
         return (
             <TouchableOpacity   onPress={() => { this._onPressButton(rowData)}}>
-                <SampleRow firstName={rowData.firstName} lastName={rowData.lastName} style={styles.row} />
+                <SampleRow firstName={rowData.firstName} lastName={rowData.lastName}  />
             </TouchableOpacity>
         )
         // return <SampleRow {...rowData} style={styles.row} />  is same  as above
@@ -197,28 +211,31 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#F5FCFF',
     },
-    wrapper: {
+    listViewrow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingRight: 10,
-        backgroundColor: '#FF5E00',
+        backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
+        height:35,
+        alignItems: 'center',
     },
     text: {
-        fontSize: 24,
+        fontSize: 16,
         fontWeight: "100",
         color: 'black',
     },
     sectionHeader: {
-        backgroundColor: '#5F00FF'
+        backgroundColor: '#402e24',
+        height:30
     },
     sectionHeaderText: {
         fontFamily: 'AvenirNext-Medium',
-        fontSize: 16,
+        fontSize: 14,
         color: 'white',
         paddingLeft: 10
-    },
+    }
 });
 
 

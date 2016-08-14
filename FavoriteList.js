@@ -92,7 +92,7 @@ var styles = StyleSheet.create({
     },
     catListHeaderContainer: {
         padding: 12,
-        backgroundColor: '#1F2036',
+        backgroundColor: '#402e24',
     }
 });
 
