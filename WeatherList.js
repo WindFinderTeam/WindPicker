@@ -16,7 +16,7 @@ import {
     Modal,
     Image } from 'react-native';
 
-//import Spinner from 'react-native-loading-spinner-overlay';
+// https://github.com/maxs15/react-native-spinkit
 import Spinner from 'react-native-spinkit';
 
 import Ionicons     from 'react-native-vector-icons/Ionicons';
@@ -145,41 +145,58 @@ class WeatherList extends Component{
 
 
     render() {
+        return (
 
-            return (
-
-                <View style={{flex:1}}>
-
+            <View style={{flex:1}}>
 
 
-                    <Ionicons.ToolbarAndroid
-                        actions={[]}
-                        navIconName="ios-arrow-back"
-                        onIconClicked={()=>this.props.modalVisible(false)}//() => this.refs['drawer'].openDrawer()}
-                        style={styles.toolbar}
-                        iconColor="white"
-                        titleColor="white"
-                        title= {this.props.headerData}/>
+
+                <Ionicons.ToolbarAndroid
+                    actions={[]}
+                    navIconName="ios-arrow-back"
+                    onIconClicked={()=>this.props.modalVisible(false)}//() => this.refs['drawer'].openDrawer()}
+                    style={styles.toolbar}
+                    iconColor="white"
+                    titleColor="white"
+                    title= {this.props.headerData}/>
 
 
-                    <ScrollView>
-                        <Spinner style={styles.spinner} isVisible={this.state.isVisible} size={80} type={"Wave"} color={"red"}/>
-                        <ListView
-                            ref="listView"
-                            automaticallyAdjustContentInsets={false}
-                            dataSource={this.state.dataSource}
-                            renderSectionHeader={this.renderSectionHeader}
-                            renderRow={this.renderRow}
-                        />
-                    </ScrollView>
+                <ScrollView>
+
+                    <ListView
+                        ref="listView"
+                        automaticallyAdjustContentInsets={false}
+                        dataSource={this.state.dataSource}
+                        renderSectionHeader={this.renderSectionHeader}
+                        renderRow={this.renderRow}
+                    />
+                </ScrollView>
+                <Modal
+                    animationType={"none"}
+                    transparent={true}
+                    visible={this.state.isVisible}
+
+                >
+                <View style={styles.spinnerView}>
+                    <Spinner style={styles.spinner} isVisible={this.state.isVisible} size={80} type={"Wave"} color={"red"}/>
                 </View>
-            );
+                </Modal>
+
+            </View>
+        );
+
 
     }
 };
 
 
 var styles = StyleSheet.create({
+
+    spinnerView:{
+        flex:1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     container: {
         flex: 1,
         justifyContent: 'center',

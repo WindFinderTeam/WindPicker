@@ -18,6 +18,7 @@ import {
 import ScrollableTabView, { ScrollableTabBar, } from 'react-native-scrollable-tab-view';
 //import CustomTabbar from './CustomTabbar';
 
+// https://www.npmjs.com/package/react-native-simple-modal
 import Modal from 'react-native-simple-modal';
 
 //https://github.com/oblador/react-native-vector-icons
