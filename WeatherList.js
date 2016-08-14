@@ -16,60 +16,28 @@ import {
     Modal,
     Image } from 'react-native';
 
-
-var testData = [
-    {"firstName":"Black","lastName":"Garrett"},
-    {"firstName":"Morales","lastName":"Duncan"},
-    {"firstName":"Ramos","lastName":"King"},
-    {"firstName":"Dunn","lastName":"Collins"},
-    {"firstName":"Fernandez","lastName":"Montgomery"},
-    {"firstName":"Burns","lastName":"Fox"},
-    {"firstName":"Richardson","lastName":"Kim"},
-    {"firstName":"Hanson","lastName":"Evans"},
-    {"firstName":"Anderson","lastName":"Hunt"},
-    {"firstName":"Carter","lastName":"Grant"},
-    {"firstName":"Ray","lastName":"Ruiz"},
-    {"firstName":"Hart","lastName":"Schmidt"},
-    {"firstName":"White","lastName":"Andrews"},
-    {"firstName":"Hall","lastName":"Holmes"},
-    {"firstName":"Hawkins","lastName":"Gomez"},
-    {"firstName":"Bowman","lastName":"Sullivan"},
-    {"firstName":"Brooks","lastName":"Evans"},
-    {"firstName":"Reyes","lastName":"Perez"},
-    {"firstName":"Dixon","lastName":"Barnes"},
-    {"firstName":"Ward","lastName":"Lee"},
-    {"firstName":"Berry","lastName":"Payne"},
-    {"firstName":"Murray","lastName":"Rose"},
-    {"firstName":"Stephens","lastName":"Fowler"},
-    {"firstName":"Rodriguez","lastName":"Lewis"},
-    {"firstName":"Cook","lastName":"Dean"}
-];
-
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import Ionicons     from 'react-native-vector-icons/Ionicons';
 
-
 class SampleRow extends Component{
-
-
     render() {
         return (
-                <View style={styles.wrapper}>
-                    <View>
-                        <Text style={styles.text}>{this.props.lastName}, {this.props.firstName}</Text>
-                    </View>
+            <View style={styles.wrapper}>
+                <View>
+                    <Text style={styles.text}>
+                        {this.props.nameTitle}, {this.props.nameFirst} {this.props.nameLast}</Text>
                 </View>
+            </View>
         );
     }
 };
+var API_URL = 'http://demo9383702.mockable.io/users';
 
 class WeatherList extends Component{
 
-
-
     _onPressButton(rowData){
-        ToastAndroid.show('This is '+ rowData.lastName, ToastAndroid.SHORT);
-
+        ToastAndroid.show('This is '+ rowData.name.first, ToastAndroid.SHORT);
     }
 
     constructor(prop){
@@ -77,83 +45,92 @@ class WeatherList extends Component{
 
         this.renderRow = this.renderRow.bind(this);
 
+        var getSectionData = (dataBlob, sectionID) => {
+            return dataBlob[sectionID];
+        }
+
+        var getRowData = (dataBlob, sectionID, rowID) => {
+            return dataBlob[sectionID + ':' + rowID];
+        }
+
         var ds = new ListView.DataSource({
+
+            getSectionData: getSectionData,
+            getRowData: getRowData,
             sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
             rowHasChanged: (r1, r2) => r1 !== r2
         });
 
-        var {data, sectionIds} = this.renderListViewData(testData);
-        this.state = {dataSource : ds.cloneWithRowsAndSections(data, sectionIds)
-                     ,modalVisible: false};
+        this.state = {dataSource : ds
+            ,modalVisible: false
+            ,spinnerVisible: true
+        };
+
+        this.fetchData();
+
 
     }
 
+    fetchData() {
+        console.log("dd");
+        fetch(API_URL).then((response) => response.json()).then((responseData) => {
+            var organizations = responseData.results,
+                length = organizations.length,
+                dataBlob = {},
+                sectionIDs = [],
+                rowIDs = [],
+                organization,
+                users,
+                userLength,
+                user,
+                i,
+                j;
 
-    renderListViewData(users) {
+            for (i = 0; i < length; i++) {
+                organization = organizations[i];
 
-        var data = {}  ;      // Object
-        var sectionIds = [];  // Array
+                sectionIDs.push(organization.id);
+                dataBlob[organization.id] = organization.organization;
 
-        sectionIds.push('Marketing');
-        data['Marketing']=[];
-        data['Marketing'].push(users[0]);
-        data['Marketing'].push(users[1]);
-        data['Marketing'].push(users[2]);
+                users = organization.users;
+                userLength = users.length;
 
-        sectionIds.push('Sales');
-        data['Sales']=[];
-        data['Sales'].push(users[3]);
-        data['Sales'].push(users[4]);
-        data['Sales'].push(users[5]);
+                rowIDs[i] = [];
 
-        sectionIds.push('Account');
-        data['Account']=[];
-        data['Account'].push(users[6]);
-        data['Account'].push(users[7]);
-        data['Account'].push(users[8]);
-        data['Account'].push(users[8]);
-        data['Account'].push(users[9]);
-        data['Account'].push(users[10]);
-        data['Account'].push(users[11]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[6]);
-        data['Account'].push(users[7]);
-        data['Account'].push(users[8]);
-        data['Account'].push(users[8]);
-        data['Account'].push(users[9]);
-        data['Account'].push(users[10]);
-        data['Account'].push(users[11]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
+                for (j = 0; j < userLength; j++) {
+                    user = users[j].user;
+                    rowIDs[i].push(user.md5);
 
-        return {data, sectionIds};
+                    dataBlob[organization.id + ':' + user.md5] = user;
+                }
+            }
+            console.log("loaded endend dataBlob",dataBlob);
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
+                loaded: true,
+                spinnerVisible: !this.state.spinnerVisible
+
+            });
+
+        }).done();
     }
 
-    renderSectionHeader(data, sectionId) {
-        console.log('##### sectionData  >>>>>' + data[0].lastName);  // Garrett
-        console.log('##### sectionData >>>>>' + data[1].lastName); // Duncan
+    renderSectionHeader(sectionData, sectionID) {
+        console.log('##### sectionData  >>>>>' + sectionData);
 
         return (
             <View style={styles.sectionHeader}>
-                <Text style={styles.sectionHeaderText}>{sectionId}</Text>
+                <Text style={styles.sectionHeaderText}>{sectionData}</Text>
             </View>
         );
     }
 
     renderRow(rowData) {
-        console.log('##### rowData >>>>>' + rowData.firstName);
+        console.log('##### rowData >>>>>' + rowData.name.first);
         return (
             <TouchableOpacity   onPress={() => { this._onPressButton(rowData)}}>
-                <SampleRow firstName={rowData.firstName} lastName={rowData.lastName} style={styles.row} />
+                <SampleRow
+                    nameTitle={rowData.name.title} nameFirst={rowData.name.first} nameLast={rowData.name.last} style={styles.row} />
             </TouchableOpacity>
         )
         // return <SampleRow {...rowData} style={styles.row} />  is same  as above
@@ -162,7 +139,11 @@ class WeatherList extends Component{
 
     render() {
         return (
-            <View style={{flex:1}}>
+            <ScrollView>
+                <Spinner visible={this.state.spinnerVisible}
+                         overlayColor="rgba(255, 0, 0, 0.5)"
+                         size="large"
+                />
                 <Ionicons.ToolbarAndroid
                     actions={[]}
                     navIconName="ios-arrow-back"
@@ -170,18 +151,16 @@ class WeatherList extends Component{
                     style={styles.toolbar}
                     iconColor="white"
                     titleColor="white"
-                    title= {this.props.rowData.lastName}/>
+                    title= {"SEOUL"}/>
 
-                <ScrollView>
-                    <ListView
-                        ref="listView"
-                        automaticallyAdjustContentInsets={false}
-                        dataSource={this.state.dataSource}
-                        renderSectionHeader={this.renderSectionHeader}
-                        renderRow={this.renderRow}
-                    />
-                </ScrollView>
-            </View>
+                <ListView
+                    ref="listView"
+                    automaticallyAdjustContentInsets={false}
+                    dataSource={this.state.dataSource}
+                    renderSectionHeader={this.renderSectionHeader}
+                    renderRow={this.renderRow}
+                />
+            </ScrollView>
         );
     }
 };
@@ -200,6 +179,7 @@ var styles = StyleSheet.create({
         backgroundColor: '#FF5E00',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
+
     },
     text: {
         fontSize: 24,
@@ -207,13 +187,15 @@ var styles = StyleSheet.create({
         color: 'black',
     },
     sectionHeader: {
-        backgroundColor: '#5F00FF'
+        backgroundColor: '#5F00FF',
+
     },
     sectionHeaderText: {
         fontFamily: 'AvenirNext-Medium',
         fontSize: 16,
         color: 'white',
-        paddingLeft: 10
+        paddingLeft: 10,
+
     },
     toolbar: {
         height: 56,
