@@ -16,7 +16,8 @@ import {
     Modal,
     Image } from 'react-native';
 
-import Spinner from 'react-native-loading-spinner-overlay';
+//import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from 'react-native-spinkit';
 
 import Ionicons     from 'react-native-vector-icons/Ionicons';
 
@@ -67,6 +68,8 @@ class WeatherList extends Component{
         this.state = {dataSource : ds
             ,modalVisible: false
             ,spinnerVisible: true
+            ,isVisible: true
+
         };
 
         this.fetchData();
@@ -111,7 +114,8 @@ class WeatherList extends Component{
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
                 loaded: true,
-                spinnerVisible: !this.state.spinnerVisible
+                spinnerVisible: !this.state.spinnerVisible,
+                isVisible :!this.state.isVisible
 
             });
 
@@ -141,34 +145,36 @@ class WeatherList extends Component{
 
 
     render() {
-        return (
 
-            <View style={{flex:1}}>
+            return (
 
-                <Ionicons.ToolbarAndroid
-                    actions={[]}
-                    navIconName="ios-arrow-back"
-                    onIconClicked={()=>this.props.modalVisible(false)}//() => this.refs['drawer'].openDrawer()}
-                    style={styles.toolbar}
-                    iconColor="white"
-                    titleColor="white"
-                    title= {this.props.headerData}/>
-                <Spinner visible={this.state.spinnerVisible}
-                         style={{paddingTop:40}}
-                         overlayColor="rgba(0, 0, 200, 0.5)"
-                         size="large"       />
+                <View style={{flex:1}}>
 
-            <ScrollView>
-                <ListView
-                    ref="listView"
-                    automaticallyAdjustContentInsets={false}
-                    dataSource={this.state.dataSource}
-                    renderSectionHeader={this.renderSectionHeader}
-                    renderRow={this.renderRow}
-                />
-            </ScrollView>
-            </View>
-        );
+
+
+                    <Ionicons.ToolbarAndroid
+                        actions={[]}
+                        navIconName="ios-arrow-back"
+                        onIconClicked={()=>this.props.modalVisible(false)}//() => this.refs['drawer'].openDrawer()}
+                        style={styles.toolbar}
+                        iconColor="white"
+                        titleColor="white"
+                        title= {this.props.headerData}/>
+
+
+                    <ScrollView>
+                        <Spinner style={styles.spinner} isVisible={this.state.isVisible} size={80} type={"Wave"} color={"red"}/>
+                        <ListView
+                            ref="listView"
+                            automaticallyAdjustContentInsets={false}
+                            dataSource={this.state.dataSource}
+                            renderSectionHeader={this.renderSectionHeader}
+                            renderRow={this.renderRow}
+                        />
+                    </ScrollView>
+                </View>
+            );
+
     }
 };
 
@@ -210,6 +216,16 @@ var styles = StyleSheet.create({
     toolbar: {
         height: 56,
         backgroundColor: '#94000f'
+    },
+    spinnerContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#d35400',
+    },
+
+    spinner: {
+        marginBottom: 50
     },
 
 });
