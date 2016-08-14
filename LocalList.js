@@ -20,13 +20,11 @@ var localData = [
     {
         "category":"surfing",
         "local":[
-                 {"province":'강원', "district":'양양'}
-                ,{"province":'강원', "district":'동해'}
-                ,{"province":'제주', "district":'협제해수욕장'}
-                ,{"province":'제주', "district":'동해'}
-                ,{"province":'제주', "district":'동해'}
-                ,{"province":'서울', "district":'한강(마포대교)'}
-                ,{"province":'서울', "district":'뚝섬'}
+                 {"province":"제주", "district":"중문색달해변"}
+                ,{"province":"제주", "district":"월정리해변"}
+                ,{"province":"제주", "district":"곽지해수욕 장"}
+                ,{"province":"서울", "district":"한강(마포대교)"}
+                ,{"province":"서울", "district":"뚝섬"}
         ]
     }
 ]
@@ -68,7 +66,7 @@ class SampleRow extends Component{
         return (
                 <View style={styles.listViewrow}>
                     <View>
-                        <Text style={styles.text}>{this.props.lastName}, {this.props.firstName}</Text>
+                        <Text style={styles.text}>{this.props.district}</Text>
                     </View>
                 </View>
         );
@@ -100,58 +98,33 @@ class LocalList extends Component{
             rowHasChanged: (r1, r2) => r1 !== r2
         });
 
-        var {data, sectionIds} = this.renderListViewData(testData);
+        var {data, sectionIds} = this.renderListViewData(localData);
         this.state = {dataSource : ds.cloneWithRowsAndSections(data, sectionIds)
                      ,modalVisible: false};
 
     }
 
 
-    renderListViewData(users) {
+    renderListViewData(localData) {
 
         var data = {}  ;      // Object
         var sectionIds = [];  // Array
 
-        sectionIds.push('서울');
-        data['서울']=[];
-        data['서울'].push(users[0]);
-        data['서울'].push(users[1]);
-        data['서울'].push(users[2]);
+        //if(서핑테마 일 경우)
+        localData = localData[0].local;
 
-        sectionIds.push('KyungNAm');
-        data['KyungNAm']=[];
-        data['KyungNAm'].push(users[3]);
-        data['KyungNAm'].push(users[4]);
-        data['KyungNAm'].push(users[5]);
+        var province = null;
 
-        sectionIds.push('Account');
-        data['Account']=[];
-        data['Account'].push(users[6]);
-        data['Account'].push(users[7]);
-        data['Account'].push(users[8]);
-        data['Account'].push(users[8]);
-        data['Account'].push(users[9]);
-        data['Account'].push(users[10]);
-        data['Account'].push(users[11]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[6]);
-        data['Account'].push(users[7]);
-        data['Account'].push(users[8]);
-        data['Account'].push(users[8]);
-        data['Account'].push(users[9]);
-        data['Account'].push(users[10]);
-        data['Account'].push(users[11]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
-        data['Account'].push(users[12]);
+        for(var i=0; i< localData.length ; i++){
+
+            if(province != localData[i].province){
+                sectionIds.push(localData[i].province);
+                data[localData[i].province]=[];
+                province = localData[i].province;
+            }
+
+            data[localData[i].province].push(localData[i]);
+        }
 
         return {data, sectionIds};
     }
@@ -171,10 +144,10 @@ class LocalList extends Component{
         //console.log('##### rowData >>>>>' + rowData.firstName);
         return (
             <TouchableOpacity   onPress={() => { this._onPressButton(rowData)}}>
-                <SampleRow firstName={rowData.firstName} lastName={rowData.lastName}  />
+                <SampleRow {...rowData} style={styles.row} />
             </TouchableOpacity>
         )
-        // return <SampleRow {...rowData} style={styles.row} />  is same  as above
+
     }
 
 
@@ -214,7 +187,7 @@ var styles = StyleSheet.create({
     listViewrow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingRight: 10,
+        paddingLeft: 20,
         backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
@@ -227,14 +200,16 @@ var styles = StyleSheet.create({
         color: 'black',
     },
     sectionHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         backgroundColor: '#402e24',
         height:30
     },
     sectionHeaderText: {
-        fontFamily: 'AvenirNext-Medium',
-        fontSize: 14,
+        fontSize: 16,
         color: 'white',
-        paddingLeft: 10
+        marginLeft: 10
     }
 });
 
