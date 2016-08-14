@@ -43,6 +43,9 @@ class WeatherList extends Component{
     constructor(prop){
         super(prop);
 
+        console.log("the value from Parent, pressed rowData is",this.props.rowData);
+        console.log("the value from Parent, pressed headerData is",this.props.headerData);
+
         this.renderRow = this.renderRow.bind(this);
 
         var getSectionData = (dataBlob, sectionID) => {
@@ -72,7 +75,7 @@ class WeatherList extends Component{
     }
 
     fetchData() {
-        console.log("dd");
+
         fetch(API_URL).then((response) => response.json()).then((responseData) => {
             var organizations = responseData.results,
                 length = organizations.length,
@@ -104,7 +107,7 @@ class WeatherList extends Component{
                     dataBlob[organization.id + ':' + user.md5] = user;
                 }
             }
-            console.log("loaded endend dataBlob",dataBlob);
+
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
                 loaded: true,
@@ -116,7 +119,7 @@ class WeatherList extends Component{
     }
 
     renderSectionHeader(sectionData, sectionID) {
-        console.log('##### sectionData  >>>>>' + sectionData);
+        console.log('#WeatherLIst sectionHeaderData,Id  >' + sectionData ,sectionID);
 
         return (
             <View style={styles.sectionHeader}>
@@ -126,7 +129,7 @@ class WeatherList extends Component{
     }
 
     renderRow(rowData) {
-        console.log('##### rowData >>>>>' + rowData.name.first);
+        console.log('#WeatherLIst rowData >' + rowData.name.first ,rowData.name.last);
         return (
             <TouchableOpacity   onPress={() => { this._onPressButton(rowData)}}>
                 <SampleRow
@@ -140,10 +143,10 @@ class WeatherList extends Component{
     render() {
         return (
             <ScrollView>
-                <Spinner visible={this.state.spinnerVisible}
-                         overlayColor="rgba(255, 0, 0, 0.5)"
-                         size="large"
-                />
+            <Spinner visible={this.state.spinnerVisible}
+                    overlayColor="rgba(0, 0, 200, 0.5)"
+                    size="large"
+            />
                 <Ionicons.ToolbarAndroid
                     actions={[]}
                     navIconName="ios-arrow-back"
@@ -151,7 +154,7 @@ class WeatherList extends Component{
                     style={styles.toolbar}
                     iconColor="white"
                     titleColor="white"
-                    title= {"SEOUL"}/>
+                    title= {this.props.headerData}/>
 
                 <ListView
                     ref="listView"
@@ -176,31 +179,35 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingRight: 10,
-        backgroundColor: '#FF5E00',
+        backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
+        height:35,
+        alignItems: 'center',
 
     },
     text: {
-        fontSize: 24,
+        fontSize: 16,
         fontWeight: "100",
         color: 'black',
+        marginLeft: 10,
     },
     sectionHeader: {
-        backgroundColor: '#5F00FF',
-
+        backgroundColor: '#402e24',
+        height:30,
     },
     sectionHeaderText: {
         fontFamily: 'AvenirNext-Medium',
         fontSize: 16,
         color: 'white',
-        paddingLeft: 10,
-
+        fontWeight: "100",
+        marginLeft: 10
     },
     toolbar: {
         height: 56,
         backgroundColor: '#94000f'
     },
+
 });
 
 
