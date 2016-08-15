@@ -16,7 +16,7 @@ import {
     Image } from 'react-native';
 
 
-import WeatherList from './WeatherList';
+import WeatherList from './WeatherList2';
 
 
 var localData = require('./jsData/localData.json');
