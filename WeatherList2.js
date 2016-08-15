@@ -15,7 +15,8 @@ import {
     ScrollView,
     ToastAndroid,
     Modal,
-    Image
+    Image,
+    Dimensions
 } from 'react-native';
 
 //import Spinner from 'react-native-loading-spinner-overlay';
@@ -25,7 +26,7 @@ import Ionicons     from 'react-native-vector-icons/Ionicons';
 
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
-
+var districtImg = require('./yangyang.png');
 
 
 class WeatherList extends Component{
@@ -34,8 +35,12 @@ class WeatherList extends Component{
     constructor(props) {
         super(props);
 
+        console.log("the value from Parent, pressed rowData is",this.props.rowData);
+        console.log("the value from Parent, pressed headerData is",this.props.headerData);
+
 
         this.setModalVisible = this.setModalVisible.bind(this);
+
 
         var ds = new ListView.DataSource({
             sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
@@ -115,6 +120,8 @@ class WeatherList extends Component{
     // }
 
     setModalVisible(visible) {
+        alert('dfdf');
+        console.log('zzz');
         this.setState({
 
             isVisible :!this.state.isVisible
@@ -133,7 +140,7 @@ class WeatherList extends Component{
                 style={styles.container}
                 automaticallyAdjustContentInsets={false}
                 dataSource={this.state.dataSource}
-                onEndReached={()=>this.setModalVisible(!this.state.isVisible)}
+                onEndReached={()=>{this.setModalVisible(false)}}
                 renderRow={(rowData) => (
                     <View key={rowData} style={styles.row}>
 
@@ -154,7 +161,7 @@ class WeatherList extends Component{
 
                         renderBackground={() => (
                             <View key="background">
-                                <Image source={{uri: 'https://i.ytimg.com/vi/P-NZei5ANaQ/maxresdefault.jpg',
+                                <Image source={{uri: districtImg,
                                     width: window.width,
                                     height: PARALLAX_HEADER_HEIGHT}}/>
                                 <View style={{position: 'absolute',
@@ -171,10 +178,10 @@ class WeatherList extends Component{
 
 
                                 <Text style={ styles.sectionSpeakerText }>
-                                    SEOUL
+                                    {this.props.headerData}
                                 </Text>
                                 <Text style={ styles.sectionTitleText }>
-                                    SONPG-GU
+                                    {this.props.rowData.district}
                                 </Text>
                                 <Text style={ styles.sectionInfoListText }>
                                     Time      Wind      Weather      Air      Waves
@@ -213,6 +220,8 @@ class WeatherList extends Component{
 const ROW_HEIGHT = 40;
 const PARALLAX_HEADER_HEIGHT = 200;
 const STICKY_HEADER_HEIGHT = 70;
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
     container: {
@@ -295,16 +304,12 @@ const styles = StyleSheet.create({
     },
 
     spinnerView:{
-
         position:'absolute',
-        bottom:50,
-        left:100,
-        justifyContent: 'center',
-        alignItems: 'center'
+        bottom:SCREEN_HEIGHT/2,
+        left:SCREEN_WIDTH/2,
     },
 
     spinner: {
-
         margin: 0,
         padding:0,
     },
