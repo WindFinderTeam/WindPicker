@@ -127,6 +127,7 @@ class WeatherList extends Component{
         const { onScroll = () => {} } = this.props;
         return (
 
+            <View style={{flex:1}}>
             <ListView
                 ref="ListView"
                 style={styles.container}
@@ -166,9 +167,7 @@ class WeatherList extends Component{
 
                         renderForeground={() => (
                             <View key="parallax-header" style={ styles.parallaxHeader }>
-                                <View style={styles.spinnerView}>
-                                    <Spinner style={styles.spinner} isVisible={this.state.isVisible} size={80} type={"Wave"} color={"red"}/>
-                                </View>
+
 
 
                                 <Text style={ styles.sectionSpeakerText }>
@@ -203,10 +202,14 @@ class WeatherList extends Component{
                 )}
             />
 
+                <View style={styles.spinnerView}>
+                    <Spinner style={styles.spinner} isVisible={true} size={80} type={"Wave"} color={"red"}/>
+                </View>
+</View>
         );
     }
 }
-
+//this.state.isVisible
 const ROW_HEIGHT = 40;
 const PARALLAX_HEADER_HEIGHT = 200;
 const STICKY_HEADER_HEIGHT = 70;
@@ -292,17 +295,18 @@ const styles = StyleSheet.create({
     },
 
     spinnerView:{
+
         position:'absolute',
+        bottom:50,
+        left:100,
         justifyContent: 'center',
         alignItems: 'center'
     },
 
     spinner: {
 
-        alignSelf: 'center',
-        marginTop: 50,
-        marginLeft:150,
-        position:'absolute',
+        margin: 0,
+        padding:0,
     },
 });
 

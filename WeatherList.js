@@ -171,16 +171,10 @@ class WeatherList extends Component{
                         renderRow={this.renderRow}
                     />
                 </ScrollView>
-                <Modal
-                    animationType={"none"}
-                    transparent={true}
-                    visible={this.state.isVisible}
 
-                >
-                <View style={styles.spinnerView}>
-                    <Spinner style={styles.spinner} isVisible={this.state.isVisible} size={80} type={"Wave"} color={"red"}/>
+                <View style={styles.spinnerContainer}>
+                    <Spinner style={styles.spinner} isVisible={this.state.isVisible} size={60} type={"Wave"} color={"red"}/>
                 </View>
-                </Modal>
 
             </View>
         );
@@ -235,14 +229,17 @@ var styles = StyleSheet.create({
         backgroundColor: '#94000f'
     },
     spinnerContainer: {
-        flex: 1,
+        position:'absolute',
+        left:80,
+        bottom:80,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#d35400',
+        backgroundColor: 'green',
     },
 
     spinner: {
-        marginBottom: 50
+        padding:0,
+        margin: 0
     },
 
 });
