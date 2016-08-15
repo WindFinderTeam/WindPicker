@@ -26,7 +26,7 @@ import Ionicons     from 'react-native-vector-icons/Ionicons';
 
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
-var districtImg = require('./yangyang.png');
+
 
 
 class WeatherList extends Component{
@@ -161,7 +161,7 @@ class WeatherList extends Component{
 
                         renderBackground={() => (
                             <View key="background">
-                                <Image source={{uri: districtImg,
+                                <Image source={{uri: 'https://i.ytimg.com/vi/P-NZei5ANaQ/maxresdefault.jpg',
                                     width: window.width,
                                     height: PARALLAX_HEADER_HEIGHT}}/>
                                 <View style={{position: 'absolute',
