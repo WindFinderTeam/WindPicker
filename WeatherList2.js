@@ -28,7 +28,6 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
 
 
-
 class WeatherList extends Component{
 
 
@@ -37,7 +36,6 @@ class WeatherList extends Component{
 
         console.log("the value from Parent, pressed rowData is",this.props.rowData);
         console.log("the value from Parent, pressed headerData is",this.props.headerData);
-
 
         this.setModalVisible = this.setModalVisible.bind(this);
 
@@ -51,6 +49,8 @@ class WeatherList extends Component{
         this.state = {
             dataSource: ds.cloneWithRows(data)
             ,isVisible: true
+            ,viewWidth:0
+            ,viewHeight:0
         };
 
     }
@@ -129,7 +129,6 @@ class WeatherList extends Component{
     }
 
 
-
     render() {
         const { onScroll = () => {} } = this.props;
         return (
@@ -140,7 +139,7 @@ class WeatherList extends Component{
                 style={styles.container}
                 automaticallyAdjustContentInsets={false}
                 dataSource={this.state.dataSource}
-                onEndReached={()=>{this.setModalVisible(false)}}
+                onEndReached={()=>this.setState({isVisible:false})}
                 renderRow={(rowData) => (
                     <View key={rowData} style={styles.row}>
 
@@ -161,7 +160,7 @@ class WeatherList extends Component{
 
                         renderBackground={() => (
                             <View key="background">
-                                <Image source={{uri: 'https://i.ytimg.com/vi/P-NZei5ANaQ/maxresdefault.jpg',
+                                <Image source={{uri: 'http://lawyertechreview.com/wp-content/uploads/2011/04/map-screenshot-notes.jpg',
                                     width: window.width,
                                     height: PARALLAX_HEADER_HEIGHT}}/>
                                 <View style={{position: 'absolute',
@@ -209,10 +208,11 @@ class WeatherList extends Component{
                 )}
             />
 
-                <View style={styles.spinnerView}>
-                    <Spinner style={styles.spinner} isVisible={true} size={80} type={"Wave"} color={"red"}/>
-                </View>
-</View>
+            <Spinner
+                style={styles.spinner} isVisible={this.state.isVisible} size={SPINNER_SIZE} type={"Wave"} color={"red"}
+            />
+
+            </View>
         );
     }
 }
@@ -220,8 +220,11 @@ class WeatherList extends Component{
 const ROW_HEIGHT = 40;
 const PARALLAX_HEADER_HEIGHT = 200;
 const STICKY_HEADER_HEIGHT = 70;
+const SPINNER_SIZE  = 100;
+
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
+
 
 const styles = StyleSheet.create({
     container: {
@@ -310,9 +313,14 @@ const styles = StyleSheet.create({
     },
 
     spinner: {
-        margin: 0,
-        padding:0,
-    },
+        position:'absolute',
+        backgroundColor: 'black',
+        left: (SCREEN_WIDTH-SPINNER_SIZE)/2,
+        top: (SCREEN_HEIGHT-SPINNER_SIZE)/2,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 });
 
 module.exports = WeatherList;
