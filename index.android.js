@@ -124,21 +124,21 @@ class  WindFinder extends Component {
                     modalDidClose={() => this.setState({open: false})}
                     style={{alignItems: 'center'}}>
                     <View>
-                        <Text style={{fontSize: 20, marginBottom: 10}}>Hello world!</Text>
+                        <Text style={{fontSize: 20, marginBottom: 10}}>모드선택</Text>
                         <TouchableOpacity
                             style={{margin: 5}}
                             onPress={() => this.setState({offset: -100})}>
-                            <Text>Move modal up</Text>
+                            <Text>서 핑</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{margin: 5}}
                             onPress={() => this.setState({offset: 0})}>
-                            <Text>Reset modal position</Text>
+                            <Text>페러글라이딩</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{margin: 5}}
                             onPress={() => this.setState({open: false})}>
-                            <Text>Close modal</Text>
+                            <Text>바다낚시</Text>
                         </TouchableOpacity>
                     </View>
                 </Modal>
