@@ -17,7 +17,7 @@ import {
 
 
 import WeatherList from './WeatherList';
-
+import Ionicons     from 'react-native-vector-icons/Ionicons';
 
 var localData = require('./jsData/localData.json');
 var selectedRowData ;
@@ -28,7 +28,9 @@ class LocalList extends Component{
 
 
     setModalVisible(visible) {
-        this.setState({modalVisible: visible});
+        this.setState({modalVisible: visible,
+                       heartFlag:false
+        });
     }
 
 
@@ -98,6 +100,7 @@ class LocalList extends Component{
 
     renderRow(rowData, headerData) {
         console.log('#LocalList headerData >' + headerData);
+        var heartColor="#FFF"
         return (
             <TouchableHighlight
                 underlayColor="rgb(255,0,0)"
@@ -106,6 +109,11 @@ class LocalList extends Component{
                     <View>
                         <Text style={styles.text}>{rowData.district}</Text>
                     </View>
+                    <TouchableHighlight onPress={() => { if(this.state.heartFlag);}}>
+                        <View style={{marginRight:20}}>
+                            <Ionicons name="ios-heart" size={30} color="gold" />
+                        </View>
+                    </TouchableHighlight>
                 </View>
             </TouchableHighlight>
         )
