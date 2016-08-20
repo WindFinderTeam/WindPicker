@@ -9,6 +9,7 @@
     "react": "15.2.1",
     "react-native": "^0.30.0",
     "react-native-loading-spinner-overlay": "^0.3.0",
+    "react-native-maps-google": "^1.1.4",
     "react-native-parallax-scroll-view": "^0.19.0",
     "react-native-scrollable-tab-view": "^0.5.3",
     "react-native-simple-modal": "^4.0.1",

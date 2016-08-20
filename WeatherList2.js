@@ -26,7 +26,7 @@ import Ionicons     from 'react-native-vector-icons/Ionicons';
 
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
-
+import MyGoogleMap  from 'react-native-maps-google';
 
 class WeatherList extends Component{
 
@@ -160,9 +160,10 @@ class WeatherList extends Component{
 
                         renderBackground={() => (
                             <View key="background">
-                                <Image source={{uri: 'http://lawyertechreview.com/wp-content/uploads/2011/04/map-screenshot-notes.jpg',
-                                    width: window.width,
-                                    height: PARALLAX_HEADER_HEIGHT}}/>
+
+   <View  style={{width: window.width,height: PARALLAX_HEADER_HEIGHT,backgroundColor:'gold'}}/>
+
+
                                 <View style={{position: 'absolute',
                                     top: 0,
                                     width: window.width,
@@ -174,17 +175,17 @@ class WeatherList extends Component{
                         renderForeground={() => (
                             <View key="parallax-header" style={ styles.parallaxHeader }>
 
-
-
                                 <Text style={ styles.sectionSpeakerText }>
                                     {this.props.headerData}
                                 </Text>
                                 <Text style={ styles.sectionTitleText }>
                                     {this.props.rowData.district}
                                 </Text>
-                                <Text style={ styles.sectionInfoListText }>
-                                    Time      Wind      Weather      Air      Waves
-                                </Text>
+                                <View style={ styles.sectionInfoListTextContainer }>
+                                    <Text style={ styles.sectionInfoListText }>
+                                        Time      Wind      Weather      Air      Waves
+                                    </Text>
+                                </View>
                             </View>
                         )}
 
@@ -209,7 +210,7 @@ class WeatherList extends Component{
             />
 
             <Spinner
-                style={styles.spinner} isVisible={this.state.isVisible} size={SPINNER_SIZE} type={"Wave"} color={"red"}
+                style={styles.spinner} isVisible={this.state.isVisible} size={SPINNER_SIZE} type={"Bounce"} color={"#94000F"}
             />
 
             </View>
@@ -241,7 +242,8 @@ const styles = StyleSheet.create({
     stickySection: {
         height: STICKY_HEADER_HEIGHT,
         width: 350,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+
     },
     stickySectionText: {
         color: 'white',
@@ -249,6 +251,7 @@ const styles = StyleSheet.create({
         margin: 10,
         fontWeight:'bold',
         justifyContent: 'center',
+
     },
     fixedSection: {
         position: 'absolute',
@@ -264,11 +267,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
         flexDirection: 'column',
-        paddingTop: 100
+        paddingTop: 60
     },
     sectionSpeakerText: {
         color: 'white',
-        fontSize: 24,
+        fontSize: 30,
         paddingVertical: 5
     },
     sectionTitleText: {
@@ -276,12 +279,18 @@ const styles = StyleSheet.create({
         fontSize: 18,
         paddingVertical: 5
     },
+
+    sectionInfoListTextContainer:{
+        flex: 1,
+        flexDirection: 'row',
+        alignItems:'flex-end',
+    },
     sectionInfoListText: {
         color: 'white',
         fontSize: 18,
-        paddingVertical: 45,
         fontWeight:'bold',
         justifyContent: 'center',
+
 
     },
     row: {
@@ -314,7 +323,6 @@ const styles = StyleSheet.create({
 
     spinner: {
         position:'absolute',
-        backgroundColor: 'black',
         left: (SCREEN_WIDTH-SPINNER_SIZE)/2,
         top: (SCREEN_HEIGHT-SPINNER_SIZE)/2,
         flexDirection: 'row',

@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.oblador.vectoricons.VectorIconsPackage;
-
+import xyz.plan.android.pptmapview.PPTGoogleMapPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -30,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage()
           , new VectorIconsPackage()
           , new RNSpinkitPackage()
+          ,new PPTGoogleMapPackage()
       );
     }
   };
