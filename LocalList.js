@@ -28,9 +28,7 @@ class LocalList extends Component{
 
 
     setModalVisible(visible) {
-        this.setState({modalVisible: visible,
-                       heartFlag:false
-        });
+        this.setState({modalVisible: visible});
     }
 
 
@@ -59,6 +57,8 @@ class LocalList extends Component{
         this.state = {
                        dataSource          : ds.cloneWithRowsAndSections(data, sectionIds)
                       ,modalVisible        : false
+                      ,heartFlag:false
+                      ,heartColor:"gold"
         };
     }
 
@@ -98,6 +98,7 @@ class LocalList extends Component{
         );
     }
 
+
     renderRow(rowData, headerData) {
         console.log('#LocalList headerData >' + headerData);
         var heartColor="#FFF"
@@ -109,11 +110,24 @@ class LocalList extends Component{
                     <View>
                         <Text style={styles.text}>{rowData.district}</Text>
                     </View>
-                    <TouchableHighlight onPress={() => { if(this.state.heartFlag);}}>
+                    <TouchableOpacity onPress={() => {
+                                                        console.log("###### > "+ this.state.heartColor);
+                                                        if(this.state.heartFlag)
+                                                            {
+                                                              this.setState({heartFlag:false
+                                                                            ,heartColor:"gold"});
+                                                            }
+                                                         else
+                                                         {
+                                                                   this.setState({heartFlag:true
+                                                                            ,heartColor:"red"});
+                                                         }
+                                                        }
+                                                  }>
                         <View style={{marginRight:20}}>
-                            <Ionicons name="ios-heart" size={30} color="gold" />
+                            <Ionicons name="ios-heart" size={30} color={this.state.heartColor} />
                         </View>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
             </TouchableHighlight>
         )
@@ -136,8 +150,6 @@ class LocalList extends Component{
 
                 </Modal>
 
-
-
                 <ListView
                     ref="listView"
                     automaticallyAdjustContentInsets={false}
@@ -145,6 +157,7 @@ class LocalList extends Component{
                     renderSectionHeader={this.renderSectionHeader}
                     renderRow={this.renderRow}
                 />
+
             </View>
         );
     }
