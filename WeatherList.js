@@ -237,7 +237,7 @@ class WeatherList extends Component {
                     </View>
 
                     <Spinner
-                        style={styles.spinner} isVisible={!this.state.loaded} size={SPINNER_SIZE} type={"9CubeGrid"}
+                        style={styles.spinner} isVisible={!this.state.loaded} size={SPINNER_SIZE} type={"Bounce"}
                         color={"#94000F"}
                     />
 
