@@ -55,7 +55,7 @@ class WeatherList extends Component{
         this.state = {
             dataSource: ds.cloneWithRows(data)
             ,isVisible: true
-            ,topAlpha:1
+            ,topAlpha: 1
         };
 
     }
@@ -144,20 +144,24 @@ class WeatherList extends Component{
         var currentOffset = event.nativeEvent.contentOffset.y;
         var direction = currentOffset > offset ? 'down' : 'up';
         offset = currentOffset;
-        console.log("offset is" + offset);
 
         switch (direction) {
             case 'down'  :
-                console.log("in down");
-                this.setState({
-                    topAlpha : 0
-                });
+
+                    this.setState({
+                        topAlpha : 0
+                    });
+
+
                 break;
             case 'up' :
                 console.log("in up");
-                this.setState({
-                    topAlpha : 1
-                });
+
+                    this.setState({
+                        topAlpha : 1
+                    });
+
+                console.log("offset is topAlpha up" + this.state.topAlpha);
                 break;
         };
 
