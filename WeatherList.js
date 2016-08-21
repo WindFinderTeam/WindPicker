@@ -247,8 +247,13 @@ class WeatherList extends Component {
                         )}
                         renderRow={(rowData) => (
                             <View key={rowData} style={styles.row}>
-                                <Text
-                                    style={styles.rowText}>{rowData.name.title} {rowData.name.first} {rowData.name.last}</Text>
+                                <View style={styles.row_flex1}>
+                                    <Text style={styles.rowText}>{rowData.name.title}</Text></View>
+                                <View style={styles.row_flex2}>
+                                    <Text style={styles.rowText}>{rowData.name.first}</Text></View>
+                                <View style={styles.row_flex3}>
+                                    <Text style={styles.rowText}>{rowData.name.last}</Text></View>
+
                             </View>
                         )}
 
@@ -424,16 +429,23 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     row: {
-        overflow: 'hidden',
-        paddingHorizontal: 10,
-        height: ROW_HEIGHT,
-        backgroundColor: 'white',
-        borderColor: '#ccc',
-        borderBottomWidth: 1,
-
+        flex:1,
+        borderWidth: 1,
+        height: 30,
+        flexDirection: 'row',
+        justifyContent: 'center',
     },
     rowText: {
         fontSize: 20
+    },
+    row_flex1: {
+        flex: 1
+    },
+    row_flex2: {
+        flex: 1
+    },
+    row_flex3: {
+        flex: 1
     },
     sectionHeader: {
         backgroundColor: '#0080FF'
