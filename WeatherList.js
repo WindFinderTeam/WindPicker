@@ -42,11 +42,7 @@ class WeatherList extends Component {
     constructor(props) {
         super(props);
 
-        console.log("the value from Parent, pressed rowData(province,district) is", this.props.rowData);
-        console.log("the value from Parent, pressed headerData is", this.props.headerData);
 
-        this.setModalVisible = this.setModalVisible.bind(this);
-        //       this.setRgba = this.setRgba.bind(this);
         this.onScroll = this.onScroll.bind(this);
 
         var getSectionData = (dataBlob, sectionID) => {
@@ -118,13 +114,6 @@ class WeatherList extends Component {
         this.fetchData();
     }
 
-    setModalVisible(visible) {
-        alert('setModalVisible ok');
-        console.log('setModalVisible');
-        this.setState({
-            isVisible: !this.state.isVisible
-        });
-    }
 
     setRgba() {
         var myAlpha = this.state.topAlpha;
@@ -150,87 +139,10 @@ class WeatherList extends Component {
         };
     }
 
-    renderLoadingView() {
-        return (
-            <View style={{opacity:0.6, flex:1}}>
-                <ListView
-                    ref="ListView"
-                    style={styles.container}
-                    automaticallyAdjustContentInsets={false}
-                    dataSource={this.state.dataSource}
-                    renderSectionHeader={(sectionData) =>(
-                        <View style={styles.sectionHeader}>
-                            <Text style={styles.sectionHeaderText}>{sectionData}</Text>
-                        </View>
-                    )}
-                    renderRow={(rowData) => (
-                        <View key={rowData} style={styles.row}>
-                            <Text
-                                style={styles.rowText}>{rowData.name.title} {rowData.name.first} {rowData.name.last}</Text>
-                        </View>
-                    )}
 
-                    renderScrollComponent={  props => (
-                        <ParallaxScrollView
-                            stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
-                            parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
-                            backgroundSpeed={10}
-
-                            renderBackground={() => (
-                                <View key="background">
-                                    <View style={{
-                                        width: window.width,
-                                        height: PARALLAX_HEADER_HEIGHT,
-                                        backgroundColor: 'gold'
-                                    }}/>
-                                    <View style={{
-                                        position: 'absolute',
-                                        top: 0,
-                                        width: window.width,
-                                        backgroundColor: 'rgba(0,0,0,.4)',
-                                        height: PARALLAX_HEADER_HEIGHT
-                                    }}/>
-                                </View>
-                            )}
-
-                            renderForeground={() => (
-                                <View key="parallax-header" style={ styles.parallaxHeader }>
-
-                                    <Text style={ styles.sectionSpeakerText }>
-                                        {this.props.headerData}
-                                    </Text>
-                                    <Text style={ styles.sectionTitleText }>
-                                        {this.props.rowData.district}
-                                    </Text>
-                                    <View style={ styles.sectionInfoListTextContainer }>
-                                        <Text style={ styles.sectionInfoListText }>
-                                            Time Wind Weather Air Waves
-                                        </Text>
-                                    </View>
-                                </View>
-                            )}
-                        />
-                    )}
-                />
-                <Spinner
-                    style={styles.spinner} isVisible={true} size={SPINNER_SIZE} type={"Bounce"}
-                    color={"#94000F"}
-                />
-            </View>
-        );
-    }
 
     render() {
-        {/* ******** remove this the next commit ******** */}
-        {
-            //putting comments in jsx files, this way works.
-            //need to curly braces
-        }
-        {/* ******** remove this the next commit ******** */}
 
-        if (!this.state.loaded) {
-            return this.renderLoadingView();
-        } else {
             return (
 
                 <View style={{flex: 1}}>
@@ -267,11 +179,10 @@ class WeatherList extends Component {
                                 renderBackground={() => (
                                     <View key="background">
 
-                                        <View style={{
-                                            width: window.width,
-                                            height: PARALLAX_HEADER_HEIGHT,
-                                            backgroundColor: 'gold'
-                                        }}/>
+                                        <Image
+                                          source={{uri: 'http://www.kimjakgatour.com/m_upload/%EB%B6%80%EB%AA%A8%EB%8B%98%EA%B3%BC%EC%A0%9C%EC%A3%BC%EB%8F%843%EB%B0%954%EC%9D%BC%EC%97%AC%ED%96%89%EC%BD%94%EC%8A%A4113.jpg'}}
+                                          style={{width: window.width,height: PARALLAX_HEADER_HEIGHT}}
+                                        />
                                         <View style={{
                                             position: 'absolute',
                                             top: 0,
@@ -326,7 +237,7 @@ class WeatherList extends Component {
                     </View>
 
                     <Spinner
-                        style={styles.spinner} isVisible={this.state.isVisible} size={SPINNER_SIZE} type={"9CubeGrid"}
+                        style={styles.spinner} isVisible={!this.state.loaded} size={SPINNER_SIZE} type={"9CubeGrid"}
                         color={"#94000F"}
                     />
 
@@ -345,7 +256,7 @@ class WeatherList extends Component {
                 </View>
             );
         }
-    }
+
 }
 //this.state.isVisible
 const ROW_HEIGHT = 40;
