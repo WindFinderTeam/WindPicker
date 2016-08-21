@@ -1,4 +1,4 @@
-/**/
+
 'use strict';
 
 import  React, {Component} from 'react';
@@ -19,194 +19,177 @@ import {
     Dimensions
 } from 'react-native';
 
-//import Spinner from 'react-native-loading-spinner-overlay';
+
+
+import MyGoogleMap  from 'react-native-maps-google';
+
 import Spinner from 'react-native-spinkit';
 
 import Ionicons     from 'react-native-vector-icons/Ionicons';
 
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
-import MyGoogleMap  from 'react-native-maps-google';
-
 import ActionButton from 'react-native-action-button';
+
 
 var offset = 0;
 
-class WeatherList extends Component{
+var API_URL = 'http://demo9383702.mockable.io/users';
+
+class WeatherList extends Component {
 
 
     constructor(props) {
         super(props);
 
-        console.log("the value from Parent, pressed rowData is",this.props.rowData);
-        console.log("the value from Parent, pressed headerData is",this.props.headerData);
+        console.log("the value from Parent, pressed rowData(province,district) is", this.props.rowData);
+        console.log("the value from Parent, pressed headerData is", this.props.headerData);
 
         this.setModalVisible = this.setModalVisible.bind(this);
-        this.setRgba = this.setRgba.bind(this);
+        //       this.setRgba = this.setRgba.bind(this);
         this.onScroll = this.onScroll.bind(this);
 
+        var getSectionData = (dataBlob, sectionID) => {
+            return dataBlob[sectionID];
+        }
 
-        var ds = new ListView.DataSource({
-            sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
-            rowHasChanged: (r1, r2) => r1 !== r2
-        });
+        var getRowData = (dataBlob, sectionID, rowID) => {
+            return dataBlob[sectionID + ':' + rowID];
+        }
 
-        var {data} = this.renderListViewData();
+        this.fetchData();
+
         this.state = {
-            dataSource: ds.cloneWithRows(data)
-            ,isVisible: true
-            ,topAlpha: 1
+            dataSource: new ListView.DataSource({
+                getSectionData: getSectionData,
+                getRowData: getRowData,
+                rowHasChanged: (row1, row2) => row1 !== row2,
+                sectionHeaderHasChanged: (s1, s2) => s1 !== s2
+            })
+            , isVisible: false
+            , topAlpha: 1
         };
 
     }
 
-    renderListViewData(users) {
+    fetchData() {
+        console.log("start fetchData");
+        fetch(API_URL).then((response) => response.json()).then((responseData) => {
+            var organizations = responseData.results,
+                length = organizations.length,
+                dataBlob = {},
+                sectionIDs = [],
+                rowIDs = [],
+                organization,
+                users,
+                userLength,
+                user,
+                i,
+                j;
 
-        var data = [];  // Array
+            for (i = 0; i < length; i++) {
+                organization = organizations[i];
 
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
-        data.push('10:30   windy   42c   cloudy   40   0.5m');
+                sectionIDs.push(organization.id);
+                dataBlob[organization.id] = organization.organization;
 
+                users = organization.users;
+                userLength = users.length;
 
-        return {data};
+                rowIDs[i] = [];
+
+                for (j = 0; j < userLength; j++) {
+                    user = users[j].user;
+                    rowIDs[i].push(user.md5);
+
+                    dataBlob[organization.id + ':' + user.md5] = user;
+                }
+            }
+
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
+                loaded: true
+            });
+
+        }).done();
     }
 
-    // componentDidMount(){
-    //     this.setState({
-    //
-    //          isVisible :!this.state.isVisible
-    //     });
-    // }
+    componentDidMount() {
+        this.fetchData();
+    }
 
     setModalVisible(visible) {
-        alert('dfdf');
-        console.log('zzz');
+        alert('setModalVisible ok');
+        console.log('setModalVisible');
         this.setState({
-
-            isVisible :!this.state.isVisible
+            isVisible: !this.state.isVisible
         });
     }
 
-    setRgba(){
+    setRgba() {
         var myAlpha = this.state.topAlpha;
-
-        return `"rgba(231,76,60,`+`${myAlpha})"`;
-
+        return `"rgba(231,76,60,` + `${myAlpha})"`;
     }
 
-    onScroll(event){
+    onScroll(event) {
         var currentOffset = event.nativeEvent.contentOffset.y;
         var direction = currentOffset > offset ? 'down' : 'up';
         offset = currentOffset;
 
         switch (direction) {
             case 'down'  :
-
-                    this.setState({
-                        topAlpha : 0
-                    });
-
-
+                this.setState({
+                    topAlpha: 0
+                });
                 break;
             case 'up' :
-                console.log("in up");
-
-                    this.setState({
-                        topAlpha : 1
-                    });
-
-                console.log("offset is topAlpha up" + this.state.topAlpha);
+                this.setState({
+                    topAlpha: 1
+                });
                 break;
         };
-
     }
 
-
-    render() {
-
+    renderLoadingView() {
         return (
-
-            <View style={{flex:1}}>
-
+            <View style={{opacity:0.6, flex:1}}>
                 <ListView
                     ref="ListView"
                     style={styles.container}
                     automaticallyAdjustContentInsets={false}
                     dataSource={this.state.dataSource}
-                    onEndReached={()=>this.setState({isVisible:false})}
+                    renderSectionHeader={(sectionData) =>(
+                        <View style={styles.sectionHeader}>
+                            <Text style={styles.sectionHeaderText}>{sectionData}</Text>
+                        </View>
+                    )}
                     renderRow={(rowData) => (
                         <View key={rowData} style={styles.row}>
-
-                            <Text style={styles.rowText}>
-                                {rowData}
-                            </Text>
-
+                            <Text
+                                style={styles.rowText}>{rowData.name.title} {rowData.name.first} {rowData.name.last}</Text>
                         </View>
                     )}
 
                     renderScrollComponent={  props => (
                         <ParallaxScrollView
-                            onScroll={this.onScroll}
-                            headerBackgroundColor="#333"
                             stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
                             parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
                             backgroundSpeed={10}
 
                             renderBackground={() => (
                                 <View key="background">
-
-                                    <View  style={{width: window.width,height: PARALLAX_HEADER_HEIGHT,backgroundColor:'gold'}}/>
-                                    <View style={{position: 'absolute',
+                                    <View style={{
+                                        width: window.width,
+                                        height: PARALLAX_HEADER_HEIGHT,
+                                        backgroundColor: 'gold'
+                                    }}/>
+                                    <View style={{
+                                        position: 'absolute',
                                         top: 0,
                                         width: window.width,
                                         backgroundColor: 'rgba(0,0,0,.4)',
-                                        height: PARALLAX_HEADER_HEIGHT}}/>
+                                        height: PARALLAX_HEADER_HEIGHT
+                                    }}/>
                                 </View>
                             )}
 
@@ -221,59 +204,142 @@ class WeatherList extends Component{
                                     </Text>
                                     <View style={ styles.sectionInfoListTextContainer }>
                                         <Text style={ styles.sectionInfoListText }>
-                                            Time      Wind      Weather      Air      Waves
+                                            Time Wind Weather Air Waves
                                         </Text>
                                     </View>
-                                </View>
-                            )}
-
-                            renderStickyHeader={() => (
-                                <View key="sticky-header" style={styles.stickySection}>
-
-                                    <View style={styles.navbar}>
-                                        <Text style={{ color:"#FFF",fontSize:20 }}>
-                                            {this.props.headerData}
-                                        </Text>
-                                        <Text style={{ color:"#FFF",fontSize:15 }}>
-                                            {this.props.rowData.district}
-                                        </Text>
-                                    </View>
-                                    <Text style={styles.stickySectionText}>
-                                        Time      Wind      Weather      Air      Waves
-                                    </Text>
-                                </View>
-                            )}
-
-                            renderFixedHeader={() => (
-                                <View key="fixed-header" style={styles.fixedSection}>
-                                    <Text style={styles.fixedSectionText}
-                                          onPress={() => this.refs.ListView.scrollTo({ x: 0, y: 0 })}>
-                                        Top
-                                    </Text>
                                 </View>
                             )}
                         />
                     )}
                 />
-                <View style={{position:'absolute',left:10,top:10}}>
-                    <TouchableOpacity  onPress={()=>this.props.modalVisible(false)}>
-                        <Ionicons name="ios-arrow-back" size={30} color="#FFF" />
-                    </TouchableOpacity>
-                </View>
                 <Spinner
-                    style={styles.spinner} isVisible={this.state.isVisible} size={SPINNER_SIZE} type={"Bounce"} color={"#94000F"}
+                    style={styles.spinner} isVisible={true} size={SPINNER_SIZE} type={"Bounce"}
+                    color={"#94000F"}
                 />
-
-                <ActionButton
-                    //   buttonColor="rgba(231,76,60,1)"
-                    buttonColor={this.setRgba()}
-                    onPress={() => this.refs.ListView.scrollTo({ x: 0, y: 0 })}
-                    //  icon={<Ionicons name="md-arrow-round-up" style={styles.actionButtonIcon} />}
-                    icon={<Ionicons name="md-arrow-round-up" style={{fontSize:20, height:22, color:'white', opacity:this.state.topAlpha}} />}
-                />
-
             </View>
         );
+    }
+
+    render() {
+        {/* ******** remove this the next commit ******** */}
+        {
+            //putting comments in jsx files, this way works.
+            //need to curly braces
+        }
+        {/* ******** remove this the next commit ******** */}
+
+        if (!this.state.loaded) {
+            return this.renderLoadingView();
+        } else {
+            return (
+
+                <View style={{flex: 1}}>
+
+                    <ListView
+                        ref="ListView"
+                        style={styles.container}
+                        automaticallyAdjustContentInsets={false}
+                        dataSource={this.state.dataSource}
+                        renderSectionHeader={(sectionData) =>(
+                            <View style={styles.sectionHeader}>
+                                <Text style={styles.sectionHeaderText}>{sectionData}</Text>
+                            </View>
+                        )}
+                        renderRow={(rowData) => (
+                            <View key={rowData} style={styles.row}>
+                                <Text
+                                    style={styles.rowText}>{rowData.name.title} {rowData.name.first} {rowData.name.last}</Text>
+                            </View>
+                        )}
+
+                        renderScrollComponent={  props => (
+                            <ParallaxScrollView
+                                onScroll={this.onScroll}
+                                stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
+                                parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
+                                backgroundSpeed={10}
+
+                                renderBackground={() => (
+                                    <View key="background">
+
+                                        <View style={{
+                                            width: window.width,
+                                            height: PARALLAX_HEADER_HEIGHT,
+                                            backgroundColor: 'gold'
+                                        }}/>
+                                        <View style={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            width: window.width,
+                                            backgroundColor: 'rgba(0,0,0,.4)',
+                                            height: PARALLAX_HEADER_HEIGHT
+                                        }}/>
+                                    </View>
+                                )}
+
+                                renderForeground={() => (
+                                    <View key="parallax-header" style={ styles.parallaxHeader }>
+
+                                        <Text style={ styles.sectionSpeakerText }>
+                                            {this.props.headerData}
+                                        </Text>
+                                        <Text style={ styles.sectionTitleText }>
+                                            {this.props.rowData.district}
+                                        </Text>
+                                        <View style={ styles.sectionInfoListTextContainer }>
+                                            <Text style={ styles.sectionInfoListText }>
+                                                Time Wind Weather Air Waves
+                                            </Text>
+                                        </View>
+                                    </View>
+                                )}
+
+                                renderStickyHeader={() => (
+                                    <View key="sticky-header" style={styles.stickySection}>
+
+                                        <View style={styles.navbar}>
+                                            <Text style={{color: "#FFF", fontSize: 20}}>
+                                                {this.props.headerData}
+                                            </Text>
+                                            <Text style={{color: "#FFF", fontSize: 15}}>
+                                                {this.props.rowData.district}
+                                            </Text>
+                                        </View>
+                                        <Text style={styles.stickySectionText}>
+                                            Time Wind Weather Air Waves
+                                        </Text>
+                                    </View>
+                                )}
+
+                            />
+                        )}
+                    />
+                    <View style={{position: 'absolute', left: 10, top: 10}}>
+                        <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
+                            <Ionicons name="ios-arrow-back" size={30} color="#FFF"/>
+                        </TouchableOpacity>
+                    </View>
+
+                    <Spinner
+                        style={styles.spinner} isVisible={this.state.isVisible} size={SPINNER_SIZE} type={"9CubeGrid"}
+                        color={"#94000F"}
+                    />
+
+                    <ActionButton
+                        buttonColor={this.setRgba()}
+                        onPress={() => this.refs.ListView.scrollTo({x: 0, y: 0})}
+                        //  icon={<Ionicons name="md-arrow-round-up" style={styles.actionButtonIcon} />}
+                        icon={<Ionicons name="md-arrow-round-up" style={{
+                            fontSize: 20,
+                            height: 22,
+                            color: 'white',
+                            opacity: this.state.topAlpha
+                        }}/>}
+                    />
+
+                </View>
+            );
+        }
     }
 }
 //this.state.isVisible
@@ -289,9 +355,8 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'black'
+        backgroundColor: 'white'
     },
-
     navbar:{
         alignItems: 'center',
         flex: 1,
@@ -347,7 +412,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         paddingVertical: 5
     },
-
     sectionInfoListTextContainer:{
         flex: 1,
         flexDirection: 'row',
@@ -358,8 +422,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight:'bold',
         justifyContent: 'center',
-
-
     },
     row: {
         overflow: 'hidden',
@@ -374,21 +436,14 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     sectionHeader: {
-        backgroundColor: '#48D1CC'
+        backgroundColor: '#0080FF'
     },
     sectionHeaderText: {
         fontFamily: 'AvenirNext-Medium',
         fontSize: 16,
         color: 'white',
-        paddingLeft: 10
+        paddingLeft: 20
     },
-
-    spinnerView:{
-        position:'absolute',
-        bottom:SCREEN_HEIGHT/2,
-        left:SCREEN_WIDTH/2,
-    },
-
     spinner: {
         position:'absolute',
         left: (SCREEN_WIDTH-SPINNER_SIZE)/2,
