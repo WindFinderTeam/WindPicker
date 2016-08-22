@@ -48,17 +48,16 @@ class LocalList extends Component{
         this.renderRow = this.renderRow.bind(this);
         //---------------------------------------------------------
 
-        var ds = new ListView.DataSource({
+        this.ds = new ListView.DataSource({
             sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
             rowHasChanged: (r1, r2) => r1 !== r2
         });
 
         var {data, sectionIds} = this.renderListViewData(localData);
         this.state = {
-                       dataSource          : ds.cloneWithRowsAndSections(data, sectionIds)
+                       dataSource          : this.ds.cloneWithRowsAndSections(data, sectionIds)
                       ,modalVisible        : false
-                      ,heartFlag:false
-                      ,heartColor:"gold"
+
         };
     }
 
@@ -101,33 +100,12 @@ class LocalList extends Component{
 
     renderRow(rowData, headerData) {
         console.log('#LocalList headerData >' + headerData);
-        var heartColor="#FFF"
         return (
             <TouchableHighlight
                 underlayColor="rgb(255,0,0)"
                 onPress={() => { this._onPressButton(rowData, headerData)}}>
                 <View style={styles.listViewrow}>
-                    <View>
                         <Text style={styles.text}>{rowData.district}</Text>
-                    </View>
-                    <TouchableOpacity onPress={() => {
-                                                        console.log("###### > "+ this.state.heartColor);
-                                                        if(this.state.heartFlag)
-                                                            {
-                                                              this.setState({heartFlag:false
-                                                                            ,heartColor:"gold"});
-                                                            }
-                                                         else
-                                                         {
-                                                                   this.setState({heartFlag:true
-                                                                            ,heartColor:"red"});
-                                                         }
-                                                        }
-                                                  }>
-                        <View style={{marginRight:20}}>
-                            <Ionicons name="ios-heart" size={30} color={this.state.heartColor} />
-                        </View>
-                    </TouchableOpacity>
                 </View>
             </TouchableHighlight>
         )
