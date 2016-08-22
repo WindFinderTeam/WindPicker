@@ -198,7 +198,9 @@ class WeatherList extends Component {
                                         <Text style={ styles.sectionTitleText }>
                                             {this.props.rowData.district}
                                         </Text>
-                                        <Ionicons name="md-heart" size={30} color="#fff" />
+                                        <TouchableOpacity>
+                                            <Ionicons name="md-heart" size={30} color="gold" />
+                                        </TouchableOpacity>
                                         <View style={ styles.sectionInfoListTextContainer }>
                                             <Text style={ styles.sectionInfoListText }>
                                                 Time Wind Weather Air Waves
@@ -221,7 +223,11 @@ class WeatherList extends Component {
                                         <Text style={styles.stickySectionText}>
                                             Time Wind Weather Air Waves
                                         </Text>
-                                        <Ionicons name="md-heart" size={30} color="#fff" style={{position:"absolute",right:10,top:10}}/>
+                                        <View style={{position: 'absolute', right: 10, top: 10}}>
+                                            <TouchableOpacity>
+                                                 <Ionicons name="md-heart" size={30} color="gold"/>
+                                             </TouchableOpacity>
+                                         </View>
                                     </View>
                                 )}
 

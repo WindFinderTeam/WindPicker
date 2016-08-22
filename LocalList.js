@@ -166,7 +166,7 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#212121',
+        backgroundColor: '#005A81',
         height:30
     },
     sectionHeaderText: {
