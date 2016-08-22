@@ -22,13 +22,9 @@ import {
 
 
 import MyGoogleMap  from 'react-native-maps-google';
-
 import Spinner from 'react-native-spinkit';
-
 import Ionicons     from 'react-native-vector-icons/Ionicons';
-
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
-
 import ActionButton from 'react-native-action-button';
 
 
@@ -202,6 +198,7 @@ class WeatherList extends Component {
                                         <Text style={ styles.sectionTitleText }>
                                             {this.props.rowData.district}
                                         </Text>
+                                        <Ionicons name="md-heart" size={30} color="#fff" />
                                         <View style={ styles.sectionInfoListTextContainer }>
                                             <Text style={ styles.sectionInfoListText }>
                                                 Time Wind Weather Air Waves
@@ -224,6 +221,7 @@ class WeatherList extends Component {
                                         <Text style={styles.stickySectionText}>
                                             Time Wind Weather Air Waves
                                         </Text>
+                                        <Ionicons name="md-heart" size={30} color="#fff" style={{position:"absolute",right:10,top:10}}/>
                                     </View>
                                 )}
 

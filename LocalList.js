@@ -101,13 +101,12 @@ class LocalList extends Component{
     renderRow(rowData, headerData) {
         console.log('#LocalList headerData >' + headerData);
         return (
-            <TouchableHighlight
-                underlayColor="rgb(255,0,0)"
+            <TouchableOpacity
                 onPress={() => { this._onPressButton(rowData, headerData)}}>
                 <View style={styles.listViewrow}>
                         <Text style={styles.text}>{rowData.district}</Text>
                 </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
         )
     }
 
@@ -159,7 +158,7 @@ var styles = StyleSheet.create({
         alignItems: 'center',
     },
     text: {
-        fontSize: 16,
+        fontSize: 15,
         fontWeight: "100",
         color: 'black',
     },
@@ -167,11 +166,11 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#402e24',
+        backgroundColor: '#212121',
         height:30
     },
     sectionHeaderText: {
-        fontSize: 16,
+        fontSize: 15,
         color: 'white',
         marginLeft: 10
     }
