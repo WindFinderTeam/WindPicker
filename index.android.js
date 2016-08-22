@@ -89,12 +89,11 @@ class  WindFinder extends Component {
 
                    // onIconClicked={() => this.refs['drawer'].openDrawer()}
                     style={styles.toolbar}
-                    iconColor="white"
-                    titleColor="white"
+                    iconColor="#94000F"
+                    titleColor="#94000F"
                     title= {this.state.school}
                     actions={[
-                        { title: 'Settings', iconName: 'md-settings', iconSize: 30, show: 'always' },
-                        { title: 'Follow me on Twitter', iconName: 'md-menu', iconColor: "#4099FF", show: 'ifRoom' },
+                        { title: 'Settings', iconName: 'md-settings',iconColor:'gray', iconSize: 30, show: 'always' },
                       ]}
                     overflowIconName="md-more"
                     onActionSelected={(position) => this.onActionSelected(position)}
@@ -165,7 +164,7 @@ const styles = StyleSheet.create({
     toolbar: {
 
         height: 56,
-        backgroundColor: '#94000F',
+        backgroundColor: '#FFFFFF',
     },
     tabView: {
         flex: 1,
