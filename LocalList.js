@@ -169,7 +169,8 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#005A81',
         height:30,
-        marginTop:10
+        marginTop:10,
+
     },
     sectionHeaderText: {
         fontSize: 15,
