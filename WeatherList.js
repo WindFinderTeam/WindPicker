@@ -59,7 +59,7 @@ class WeatherList extends Component {
                 sectionHeaderHasChanged: (s1, s2) => s1 !== s2
             })
             , isVisible: false
-            , topAlpha: 0.9
+            , topAlpha: 0.8
         };
 
     }
@@ -113,7 +113,7 @@ class WeatherList extends Component {
 
     setRgba() {
         var myAlpha = this.state.topAlpha;
-        return `"rgba(231,76,60,` + `${myAlpha})"`;
+        return `"rgba(156,0,16,` + `${myAlpha})"`;
     }
 
     onScroll(event) {
@@ -129,7 +129,7 @@ class WeatherList extends Component {
                 break;
             case 'up' :
                 this.setState({
-                    topAlpha: 0.9
+                    topAlpha: 0.8
                 });
                 break;
         };
