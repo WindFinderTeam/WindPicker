@@ -133,7 +133,6 @@ class LocalList extends Component{
                     dataSource={this.state.dataSource}
                     renderSectionHeader={this.renderSectionHeader}
                     renderRow={this.renderRow}
-                    style={{margin:10}}
                 />
 
             </View>
@@ -167,14 +166,14 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#005A81',
+        backgroundColor: '#d4d4d4',
         height:30,
-        marginTop:10,
+        marginTop:0,
 
     },
     sectionHeaderText: {
         fontSize: 15,
-        color: 'white',
+        color: '#424242',
         marginLeft: 10
     }
 });

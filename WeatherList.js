@@ -43,11 +43,11 @@ class WeatherList extends Component {
 
         var getSectionData = (dataBlob, sectionID) => {
             return dataBlob[sectionID];
-        }
+        };
 
         var getRowData = (dataBlob, sectionID, rowID) => {
             return dataBlob[sectionID + ':' + rowID];
-        }
+        };
 
         this.fetchData();
 
@@ -59,7 +59,7 @@ class WeatherList extends Component {
                 sectionHeaderHasChanged: (s1, s2) => s1 !== s2
             })
             , isVisible: false
-            , topAlpha: 1
+            , topAlpha: 0.9
         };
 
     }
@@ -129,7 +129,7 @@ class WeatherList extends Component {
                 break;
             case 'up' :
                 this.setState({
-                    topAlpha: 1
+                    topAlpha: 0.9
                 });
                 break;
         };
@@ -199,7 +199,7 @@ class WeatherList extends Component {
                                             {this.props.rowData.district}
                                         </Text>
                                         <TouchableOpacity>
-                                            <Ionicons name="md-heart" size={30} color="gold" />
+                                            <Ionicons name="md-heart" size={30} color="#94000F" />
                                         </TouchableOpacity>
                                         <View style={ styles.sectionInfoListTextContainer }>
                                             <Text style={ styles.sectionInfoListText }>
@@ -213,10 +213,10 @@ class WeatherList extends Component {
                                     <View key="sticky-header" style={styles.stickySection}>
 
                                         <View style={styles.navbar}>
-                                            <Text style={{color: "#FFF", fontSize: 20}}>
+                                            <Text style={{color: "#94000F", fontSize: 20}}>
                                                 {this.props.headerData}
                                             </Text>
-                                            <Text style={{color: "#FFF", fontSize: 15}}>
+                                            <Text style={{color: "#94000F", fontSize: 15}}>
                                                 {this.props.rowData.district}
                                             </Text>
                                         </View>
@@ -225,7 +225,7 @@ class WeatherList extends Component {
                                         </Text>
                                         <View style={{position: 'absolute', right: 10, top: 10}}>
                                             <TouchableOpacity>
-                                                 <Ionicons name="md-heart" size={30} color="gold"/>
+                                                 <Ionicons name="md-heart" size={30} color="#94000F"/>
                                              </TouchableOpacity>
                                          </View>
                                     </View>
@@ -236,13 +236,13 @@ class WeatherList extends Component {
                     />
                     <View style={{position: 'absolute', left: 10, top: 10}}>
                         <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
-                            <Ionicons name="ios-arrow-back" size={30} color="#FFF"/>
+                            <Ionicons name="ios-arrow-back" size={30} color="#94000F"/>
                         </TouchableOpacity>
                     </View>
 
                     <Spinner
                         style={styles.spinner} isVisible={!this.state.loaded} size={SPINNER_SIZE} type={"Bounce"}
-                        color={"#94000F"}
+                    color={"#94000F"}
                     />
 
                     <ActionButton
@@ -262,11 +262,9 @@ class WeatherList extends Component {
         }
 
 }
-//this.state.isVisible
-const ROW_HEIGHT = 40;
 const PARALLAX_HEADER_HEIGHT = 200;
 const STICKY_HEADER_HEIGHT = 90;
-const SPINNER_SIZE  = 100;
+const SPINNER_SIZE  = 80;
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -283,7 +281,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         width:SCREEN_WIDTH,
         height:50,
-        backgroundColor:"#94000F"
+        backgroundColor:"#FFF"
     },
     background: {
         position: 'absolute',
@@ -344,11 +342,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     row: {
-        flex:1,
-        borderWidth: 1,
-        height: 30,
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
+        paddingLeft: 20,
+        backgroundColor: '#F6F6F6',
+        borderBottomWidth: 1,
+        borderBottomColor: '#e9e9e9',
+        height:35,
+        alignItems: 'center',
     },
     rowText: {
         fontSize: 20
@@ -363,13 +364,18 @@ const styles = StyleSheet.create({
         flex: 1
     },
     sectionHeader: {
-        backgroundColor: '#0080FF'
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#d4d4d4',
+        height:30,
+        marginTop:0,
+
     },
     sectionHeaderText: {
-        fontFamily: 'AvenirNext-Medium',
-        fontSize: 16,
-        color: 'white',
-        paddingLeft: 20
+        fontSize: 15,
+        color: '#424242',
+        marginLeft: 0
     },
     spinner: {
         position:'absolute',
