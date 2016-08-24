@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "logcat" : "adb logcat *:S ReactNative:V ReactNativeJS:V"
+    "logcat": "adb logcat *:S ReactNative:V ReactNativeJS:V"
   },
   "dependencies": {
     "react": "15.2.1",
     "react-native": "^0.30.0",
+    "react-native-accordion": "^1.0.1",
     "react-native-action-button": "^1.1.11",
     "react-native-loading-spinner-overlay": "^0.3.0",
     "react-native-maps-google": "^1.1.4",

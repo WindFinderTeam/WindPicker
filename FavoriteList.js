@@ -8,91 +8,118 @@ import {
     StyleSheet,
     Text,
     View,
+
 } from 'react-native';
 
 
 
-var FavoriteList = React.createClass({
+import Accordion from 'react-native-accordion';
 
-    getInitialState: function() {
+class FavoriteList extends Component {
 
-        var getSectionData = function(dataBlob, sectionID) {
-            return dataBlob[sectionID];
+    constructor(props){
+        super(props);
+
+        this._renderRow = this._renderRow.bind(this);
+
+
+        var ds = new ListView.DataSource(
+            {
+                rowHasChanged:(r1, r2) => r1 !== r2
+            }
+        );
+
+        this.state = {
+            dataSource : ds.cloneWithRows(
+                [
+                    'SURFING',
+                    'PARAGLIDING'
+                ]
+            ),
+
+            dataSource2 : ds.cloneWithRows(
+                [
+
+                 'YANGYANG', 'MALIPO', 'JOONGMUN'
+
+                ]
+
+            ),
         };
+    }
 
-        return {
-            dataBlob: {},
-            dataSource: new ListView.DataSource({
-                getSectionData: getSectionData,
-                rowHasChanged: (r1, r2) => r1 !== r2,
-                sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-            }).cloneWithRowsAndSections(this.generateRows()),
-        };
-    },
-
-    renderSectionHeader: function(sectionData, sectionID) {
-        return (
-            <View style={styles.catListHeaderContainer}>
-                <Text style={styles.catListTitle}>
-                    Categories {sectionID}
-                </Text>
+    _renderRow(rowData){
+        var header = (
+            <View style={styles.sectionHeader}>
+                <Text style={styles.sectionHeaderText}>{rowData}</Text>
             </View>
         );
-    },
 
-    render: function() {
+        var content = (
+            <ListView
+                dataSource = {this.state.dataSource2}
+                renderRow = {(rowData) => (
+                    <View style={styles.listViewrow}>
+                        <Text style={styles.listViewrowText}>{rowData}</Text>
+                    </View>
+                    )
+                }
+            />
+
+        );
+
+        return (
+            <Accordion
+                header={header}
+                content={content}
+                easing="easeOutCubic"
+            />
+        )
+    }
+
+    render() {
         return (
             <ListView
-                contentContainerStyle={styles.list}
-                dataSource={this.state.dataSource}
-                renderRow={this.renderRow}
-                renderSectionHeader={this.renderSectionHeader}
+                dataSource = {this.state.dataSource}
+                renderRow = {this._renderRow}
             />
-        );
-    },
 
-    renderRow: function(rowData: string, sectionID: number, rowID: number) {
-        return (
-            <TouchableHighlight underlayColor='rgba(0,0,0,0)'>
-                <View>
-                    <View style={styles.row}>
-                        <Text style={styles.text}>
-                            {rowData}
-                        </Text>
-                    </View>
-                </View>
-            </TouchableHighlight>
-        );
-    },
+        )
+    }
 
-    generateRows: function(): Array<string> {
-        var dataBlob = [];
-        for (var ii = 0; ii < 50; ii++) {
-            dataBlob.push('Cell ' + ii);
-        }
-        return [dataBlob, dataBlob];
-    },
 
-});
+}
 
 var styles = StyleSheet.create({
-    list: {
-    },
-    row: {
-        padding: 12,
+
+    listViewrow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 20,
         backgroundColor: '#F6F6F6',
-        borderColor: '#eee',
         borderBottomWidth: 1,
+        borderBottomColor: '#e9e9e9',
+        height:35,
+        alignItems: 'center',
     },
-    text: {
+    listViewrowText: {
+        fontSize: 15,
+        fontWeight: "100",
+        color: 'black',
     },
-    catListTitle: {
-        fontWeight: 'bold',
-        color: '#ffffff',
+    sectionHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#d4d4d4',
+        height:30,
+        marginTop:0,
+
     },
-    catListHeaderContainer: {
-        padding: 12,
-        backgroundColor: '#402e24',
+    sectionHeaderText: {
+        fontSize: 15,
+        color: '#424242',
+        marginLeft: 10
     }
 });
 
