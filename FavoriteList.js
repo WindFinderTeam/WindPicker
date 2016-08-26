@@ -13,6 +13,7 @@ import {
 
 
 
+
 import Accordion from 'react-native-accordion';
 
 class FavoriteList extends Component {
@@ -25,28 +26,36 @@ class FavoriteList extends Component {
 
         var ds = new ListView.DataSource(
             {
-                rowHasChanged:(r1, r2) => r1 !== r2
+                rowHasChanged:(r1, r2) => r1 !== r2,
+                sectionHeaderHasChanged: (r1, r2) => r1 !== r2
             }
         );
 
         this.state = {
-            dataSource : ds.cloneWithRows(
+            dataSource_local : ds.cloneWithRows(
                 [
                     'SURFING',
                     'PARAGLIDING'
                 ]
             ),
 
-            dataSource2 : ds.cloneWithRows(
+            dataSource_fav_Sur : ds.cloneWithRows(
                 [
-
-                 'YANGYANG', 'MALIPO', 'JOONGMUN'
+                    'YANGYANG','INGU','MALIPO','HAJODAE','SONGJEONG','SONGJIHO'
 
                 ]
-
             ),
+
+            dataSource_fav_Par : ds.cloneWithRows(
+                [
+                    'DANYANG','MOUNTAING','HILL'
+                ]
+            ),
+
         };
     }
+
+
 
     _renderRow(rowData){
         var header = (
@@ -55,18 +64,37 @@ class FavoriteList extends Component {
             </View>
         );
 
-        var content = (
-            <ListView
-                dataSource = {this.state.dataSource2}
-                renderRow = {(rowData) => (
-                    <View style={styles.listViewrow}>
-                        <Text style={styles.listViewrowText}>{rowData}</Text>
-                    </View>
-                    )
-                }
-            />
+        if (rowData == "SURFING"){
+            console.log("surfing ok ok ");
+            var content = (
 
-        );
+                <ListView
+                    dataSource = {this.state.dataSource_fav_Sur}
+                    renderRow = {(rowData, rowID) => (
+                        <View style = {styles.listViewrow}>
+                            <Text style={styles.listViewrowText}>{rowData}</Text>
+                        </View>
+                    )
+                    }
+                />
+
+            );
+        } else if (rowData == "PARAGLIDING"){
+            console.log("PARAGLIDING ok ok ");
+            var content = (
+
+                <ListView
+                    dataSource = {this.state.dataSource_fav_Par}
+                    renderRow = {(rowData, rowID) => (
+                        <View style = {styles.listViewrow}>
+                            <Text style={styles.listViewrowText}>{rowData}</Text>
+                        </View>
+                    )
+                    }
+                />
+
+            );
+        }
 
         return (
             <Accordion
@@ -80,8 +108,9 @@ class FavoriteList extends Component {
     render() {
         return (
             <ListView
-                dataSource = {this.state.dataSource}
+                dataSource = {this.state.dataSource_local}
                 renderRow = {this._renderRow}
+
             />
 
         )
