@@ -8,6 +8,7 @@ import {
     StyleSheet,
     Text,
     View,
+    Dimensions
 
 } from 'react-native';
 
@@ -34,8 +35,10 @@ class FavoriteList extends Component {
         this.state = {
             dataSource_local : ds.cloneWithRows(
                 [
-                    'SURFING',
-                    'PARAGLIDING'
+
+                    <Image ref="surf" resizeMode={Image.resizeMode.contain} source={require('./image/surfing.jpg')} />,
+                    <Image ref="para" resizeMode={Image.resizeMode.contain} source={require('./image/paragliding.jpg')} />
+
                 ]
             ),
 
@@ -58,14 +61,17 @@ class FavoriteList extends Component {
 
 
     _renderRow(rowData){
+
         var header = (
-            <View style={styles.sectionHeader}>
-                <Text style={styles.sectionHeaderText}>{rowData}</Text>
-            </View>
+
+                <View style={styles.sectionHeader}>
+                    {rowData}
+                </View>
+
         );
 
-        if (rowData == "SURFING"){
-            console.log("surfing ok ok ");
+        if (rowData.ref == 'surf'){
+
             var content = (
 
                 <ListView
@@ -79,8 +85,8 @@ class FavoriteList extends Component {
                 />
 
             );
-        } else if (rowData == "PARAGLIDING"){
-            console.log("PARAGLIDING ok ok ");
+        } else if (rowData.ref == 'para'){
+
             var content = (
 
                 <ListView
@@ -94,6 +100,8 @@ class FavoriteList extends Component {
                 />
 
             );
+        } else {
+            console.log (rowData );
         }
 
         return (
@@ -119,6 +127,7 @@ class FavoriteList extends Component {
 
 }
 
+
 var styles = StyleSheet.create({
 
     listViewrow: {
@@ -137,12 +146,12 @@ var styles = StyleSheet.create({
         color: 'black',
     },
     sectionHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flex:1,
+        height:100,
+        alignSelf: 'stretch',
+        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#d4d4d4',
-        height:30,
-        marginTop:0,
+
 
     },
     sectionHeaderText: {
