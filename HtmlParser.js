@@ -12,6 +12,10 @@ function getSufingWeather (responseData){
 
     console.log("--------------------------------");
 
-    console.log(root.querySelectorAll('.weathertable__header').rawText);
+    var arr=root.querySelectorAll('.weathertable__header');
+
+    console.log(arr[0].removeWhitespace().rawText);
+    console.log(arr[1].removeWhitespace().rawText);
+    console.log(arr[2].removeWhitespace().rawText);
 
 }
