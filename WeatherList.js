@@ -1,4 +1,3 @@
-
 'use strict';
 
 import  React, {Component} from 'react';
@@ -21,23 +20,21 @@ import {
 
 
 
-import MyGoogleMap  from 'react-native-maps-google';
-import Spinner from 'react-native-spinkit';
-import Ionicons     from 'react-native-vector-icons/Ionicons';
+//import MyGoogleMap  from 'react-native-maps-google';
+import Spinner            from 'react-native-spinkit';
+import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
-import ActionButton from 'react-native-action-button';
+import ActionButton       from 'react-native-action-button';
 
+var HtmlParser = require('./HtmlParser');
+var offset     = 0;
 
-var offset = 0;
-
-var API_URL = 'http://demo9383702.mockable.io/users';
+var API_URL = 'https://www.windfinder.com/forecast/changjon';
 
 class WeatherList extends Component {
 
-
     constructor(props) {
         super(props);
-
 
         this.onScroll = this.onScroll.bind(this);
 
@@ -64,51 +61,13 @@ class WeatherList extends Component {
 
     }
 
-    fetchData() {
-        console.log("start fetchData");
-        fetch(API_URL).then((response) => response.json()).then((responseData) => {
-            var organizations = responseData.results,
-                length = organizations.length,
-                dataBlob = {},
-                sectionIDs = [],
-                rowIDs = [],
-                organization,
-                users,
-                userLength,
-                user,
-                i,
-                j;
+    fetchData(){
 
-            for (i = 0; i < length; i++) {
-                organization = organizations[i];
-
-                sectionIDs.push(organization.id);
-                dataBlob[organization.id] = organization.organization;
-
-                users = organization.users;
-                userLength = users.length;
-
-                rowIDs[i] = [];
-
-                for (j = 0; j < userLength; j++) {
-                    user = users[j].user;
-                    rowIDs[i].push(user.md5);
-
-                    dataBlob[organization.id + ':' + user.md5] = user;
-                }
-            }
-
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
-                loaded: true
-            });
-
+        fetch(API_URL).then((responseData) => {
+            HtmlParser.getSufingWeather(responseData);  // Data Parsing
         }).done();
     }
 
-    componentDidMount() {
-        this.fetchData();
-    }
 
 
     setRgba() {
@@ -139,21 +98,21 @@ class WeatherList extends Component {
 
     render() {
 
-            return (
+        return (
 
-                <View style={{flex: 1}}>
+            <View style={{flex: 1}}>
 
-                    <ListView
-                        ref="ListView"
-                        style={styles.container}
-                        automaticallyAdjustContentInsets={false}
-                        dataSource={this.state.dataSource}
-                        renderSectionHeader={(sectionData) =>(
+                <ListView
+                    ref="ListView"
+                    style={styles.container}
+                    automaticallyAdjustContentInsets={false}
+                    dataSource={this.state.dataSource}
+                    renderSectionHeader={(sectionData) =>(
                             <View style={styles.sectionHeader}>
                                 <Text style={styles.sectionHeaderText}>{sectionData}</Text>
                             </View>
                         )}
-                        renderRow={(rowData) => (
+                    renderRow={(rowData) => (
                             <View key={rowData} style={styles.row}>
                                 <View style={styles.row_flex1}>
                                     <Text style={styles.rowText}>{rowData.name.title}</Text></View>
@@ -165,7 +124,7 @@ class WeatherList extends Component {
                             </View>
                         )}
 
-                        renderScrollComponent={  props => (
+                    renderScrollComponent={  props => (
                             <ParallaxScrollView
                                 onScroll={this.onScroll}
                                 stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
@@ -233,33 +192,31 @@ class WeatherList extends Component {
 
                             />
                         )}
-                    />
-                    <View style={{position: 'absolute', left: 10, top: 10}}>
-                        <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
-                            <Ionicons name="ios-arrow-back" size={30} color="#94000F"/>
-                        </TouchableOpacity>
-                    </View>
+                />
+                <View style={{position: 'absolute', left: 10, top: 10}}>
+                    <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
+                        <Ionicons name="ios-arrow-back" size={30} color="#94000F"/>
+                    </TouchableOpacity>
+                </View>
 
-                    <Spinner
-                        style={styles.spinner} isVisible={!this.state.loaded} size={SPINNER_SIZE} type={"Bounce"}
+                <Spinner
+                    style={styles.spinner} isVisible={!this.state.loaded} size={SPINNER_SIZE} type={"Bounce"}
                     color={"#94000F"}
-                    />
+                />
 
-                    <ActionButton
-                        buttonColor={this.setRgba()}
-                        onPress={() => this.refs.ListView.scrollTo({x: 0, y: 0})}
-                        //  icon={<Ionicons name="md-arrow-round-up" style={styles.actionButtonIcon} />}
-                        icon={<Ionicons name="md-arrow-round-up" style={{
+                <ActionButton
+                    buttonColor={this.setRgba()}
+                    onPress={() => this.refs.ListView.scrollTo({x: 0, y: 0})}
+                    icon={<Ionicons name="md-arrow-round-up" style={{
                             fontSize: 20,
                             height: 22,
                             color: 'white',
                             opacity: this.state.topAlpha
                         }}/>}
-                    />
-
-                </View>
-            );
-        }
+                />
+            </View>
+        );
+    }
 
 }
 const PARALLAX_HEADER_HEIGHT = 200;
