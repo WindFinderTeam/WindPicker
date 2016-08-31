@@ -10,7 +10,7 @@ function getSufingWeather (responseData){
     var htmlTest = responseData._bodyInit;
     var root = HTMLParser.parse(htmlTest);
 
-    console.log("--------------------------------");
+    console.log("----------- sejin ---------------------");
 
     var arr=root.querySelectorAll('.weathertable__header');
 
