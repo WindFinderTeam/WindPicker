@@ -112,9 +112,9 @@ class FavoriteList extends Component {
 
         var header = (
 
-                <View style={styles.sectionHeader}>
-                    {rowData}
-                </View>
+            <View style={styles.sectionHeader}>
+                {rowData}
+            </View>
 
         );
 
