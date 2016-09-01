@@ -17,7 +17,6 @@ import {
 
 import Accordion from 'react-native-accordion';
 import WeatherList from './WeatherList';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 var selectedRowData ;
 var collapsedTF = true;
@@ -44,14 +43,16 @@ class FavoriteList extends Component {
                 [
 
                     <Image ref="surf" source={require('./image/surfing.jpg')} style={styles.container}>
-                        <Ionicons name={this.isCollapsed===true?"ios-arrow-down":"ios-arrow-up"} size={20} style={styles.sectionHeaderIcon}/>
-                        <Text style={styles.sectionHeaderText}>서                   핑</Text>
+                        <View style={{ flex:1, alignItems :'center',justifyContent:'center'}}>
+                            <Text style={styles.sectionHeaderText}>서 핑</Text>
+                        </View>
                     </Image>
 
                     ,
                     <Image ref="para" source={require('./image/paragliding.jpg')}  style={styles.container}>
-                        <Ionicons name={this.isCollapsed===true?"ios-arrow-down":"ios-arrow-up"} size={20} style={styles.sectionHeaderIcon}/>
-                        <Text style={styles.sectionHeaderText}>패 러 글 라 이 딩</Text>
+                        <View style={{ flex:1, alignItems :'center',justifyContent:'center'}}>
+                            <Text style={styles.sectionHeaderText}>패 러 글 라 이 딩</Text>
+                        </View>
                     </Image>
 
 
@@ -107,6 +108,7 @@ class FavoriteList extends Component {
 
     _renderRow(rowData){
 
+        var dataSourceList;
 
         var header = (
 
@@ -116,44 +118,27 @@ class FavoriteList extends Component {
 
         );
 
-        if (rowData.ref == 'surf'){
-
-            var content = (
-
-                <ListView
-                    dataSource = {this.state.dataSource_fav_Sur}
-                    renderRow = {(rowData, rowID) => (
-                        <View style = {styles.listViewrow}>
-                            <TouchableOpacity
-                                onPress={() => { this._onPressButton(rowData)}}>
-                                <Text style={styles.listViewrowText}>{rowData}</Text>
-                            </TouchableOpacity>
-
-                        </View>
-                    )
-                    }
-                />
-
-            );
-        } else if (rowData.ref == 'para'){
+        switch(rowData.ref){
+            case 'surf' : dataSourceList = this.state.dataSource_fav_Sur; break;
+            case 'para' : dataSourceList = this.state.dataSource_fav_Par; break;
+        }
 
         var content = (
 
             <ListView
-                dataSource = {this.state.dataSource_fav_Par}
+                dataSource = {dataSourceList}
                 renderRow = {(rowData, rowID) => (
-                    <View style = {styles.listViewrow}>
-                        <TouchableOpacity
-                            onPress={() => { this._onPressButton(rowData)}}>
+                    <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>
+                        <View style = {styles.listViewrow}>
                             <Text style={styles.listViewrowText}>{rowData}</Text>
-                        </TouchableOpacity>
-                    </View>
+
+                        </View>
+                    </TouchableOpacity>
                 )
                 }
             />
 
-            );
-        }
+        );
 
         return (
             <Accordion
@@ -196,11 +181,9 @@ const WINDOW_WIDTH = Dimensions.get('window').width;
 
 var styles = StyleSheet.create({
     container: {
-        flex: 1,
+
         width: WINDOW_WIDTH,
-        height: 250,
-        justifyContent: 'center',
-        alignItems: 'center'
+        height:150
     },
 
     listViewrow: {
@@ -220,21 +203,14 @@ var styles = StyleSheet.create({
     },
     sectionHeader: {
         flex:1,
-        height:200,
+        height:150,
         justifyContent: 'center',
 
     },
     sectionHeaderText: {
+        fontFamily : 'bmdohyeon',
         fontSize: 15,
         color: 'white',
-        position:'absolute',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign:'center',
-        marginLeft : (WINDOW_WIDTH-100)/2,
-        marginTop : 15
-
 
     },
     sectionHeaderIcon: {
