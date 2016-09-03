@@ -29,13 +29,14 @@ import ActionButton       from 'react-native-action-button';
 var SurfParser = require('./SurfParser');
 var offset     = 0;
 
-var API_URL = 'https://www.windfinder.com/forecast/changjon';
+var API_URL ;
 
-class WeatherList extends Component {
+class SurfWeatherList extends Component {
 
     constructor(props) {
         super(props);
 
+        API_URL = this.props.rowData.weatherURL; // 날씨URL 가져오기
         this.onScroll = this.onScroll.bind(this);
 
         var getSectionData = (dataBlob, sectionID) => {
@@ -152,7 +153,7 @@ class WeatherList extends Component {
                                     <View key="parallax-header" style={ styles.parallaxHeader }>
 
                                         <Text style={ styles.sectionSpeakerText }>
-                                            {this.props.headerData}
+                                            {this.props.rowData.province}
                                         </Text>
                                         <Text style={ styles.sectionTitleText }>
                                             {this.props.rowData.district}
@@ -400,4 +401,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = WeatherList;
+module.exports = SurfWeatherList;

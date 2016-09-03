@@ -2,7 +2,7 @@
 {
   "category":"gliding",
   "local":[
-    {"province":"제주도g", "district":"중문색달해변"}
+    {"province":"제주도g", "district":"중문색달해변", "weatherURL":"https://www.windfinder.com/forecast/changjon"}
     ,{"province":"제주도g", "district":"월정리2해변"}
     ,{"province":"제주도g", "district":"곽지해수2욕 장"}
     ,{"province":"서울특별g시", "district":"한강22(마포대교)"}

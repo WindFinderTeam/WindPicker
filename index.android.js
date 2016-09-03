@@ -146,7 +146,7 @@ class  WindFinder extends Component {
                             style={{margin: 5}}
                             onPress={() => {
                                             this.setState({viewMode:'surf',open: false});
-                                            this.refs.toast.show('서핑모드가 모드로 전환합니다',DURATION.LENGTH_LONG);
+                                            this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
                             }
                             }>
                             <Text>서 핑</Text>

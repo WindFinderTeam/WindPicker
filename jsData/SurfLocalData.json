@@ -2,7 +2,7 @@
   {
     "category":"surf",
     "local":[
-      {"province":"제주도", "district":"중문색달해변", "webcam":"./image.surfing.jpg"}
+      {"province":"제주도", "district":"중문색달해변", "weatherURL":"https://www.windfinder.com/forecast/changjon","webcam":"./image.surfing.jpg"}
     ,{"province":"제주도", "district":"월정리해변"}
     ,{"province":"제주도", "district":"곽지해수욕 장"}
     ,{"province":"서울특별시", "district":"한강(마포대교)", "webcam":"./image.surfing.jpg"}
