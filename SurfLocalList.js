@@ -17,9 +17,9 @@ import {
 
 
 import WeatherList from './WeatherList';
-import Ionicons     from 'react-native-vector-icons/Ionicons';
 
-var localData = require('./jsData/localData.json');
+var surfLocalData = require('./jsData/SurfLocalData.json');
+
 var selectedRowData ;
 var selectedHeaderData ;
 
@@ -53,7 +53,7 @@ class LocalList extends Component{
             rowHasChanged: (r1, r2) => r1 !== r2
         });
 
-        var {data, sectionIds} = this.renderListViewData(localData);
+        var {data, sectionIds} = this.renderListViewData(surfLocalData);
         this.state = {
                        dataSource          : this.ds.cloneWithRowsAndSections(data, sectionIds)
                       ,modalVisible        : false
@@ -62,25 +62,25 @@ class LocalList extends Component{
     }
 
 
-    renderListViewData(localData) {
+    renderListViewData(surfLocalData) {
 
         var data = {}  ;      // Object
         var sectionIds = [];  // Array
 
         //if(서핑테마 일 경우)
-        localData = localData[0].local;
+        surfLocalData = surfLocalData.local;
 
         var province = null;
 
-        for(var i=0; i< localData.length ; i++){
+        for(var i=0; i< surfLocalData.length ; i++){
 
-            if(province != localData[i].province){
-                sectionIds.push(localData[i].province);
-                data[localData[i].province]=[];
-                province = localData[i].province;
+            if(province != surfLocalData[i].province){
+                sectionIds.push(surfLocalData[i].province);
+                data[surfLocalData[i].province]=[];
+                province = surfLocalData[i].province;
             }
 
-            data[localData[i].province].push(localData[i]);
+            data[surfLocalData[i].province].push(surfLocalData[i]);
         }
 
         return {data, sectionIds};

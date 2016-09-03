@@ -9,14 +9,14 @@ import {
     DrawerLayoutAndroid,
     TouchableOpacity,
     View,
-    ToastAndroid
 } from 'react-native';
 
 
-// https://github.com/skv-headless/react-native-scrollable-tab-view
-//var ScrollableTabView = require('react-native-scrollable-tab-view');
-import ScrollableTabView, { ScrollableTabBar, } from 'react-native-scrollable-tab-view';
+
 //import CustomTabbar from './CustomTabbar';
+
+//https://github.com/crazycodeboy/react-native-easy-toast
+import Toast, { DURATION } from 'react-native-easy-toast';
 
 // https://www.npmjs.com/package/react-native-simple-modal
 import Modal from 'react-native-simple-modal';
@@ -27,9 +27,11 @@ import FontAwesome  from 'react-native-vector-icons/FontAwesome';
 
 
 import ShopPage     from './ShopPage';
-import WeatherPage  from './WeatherPage';
-import FavoritePage from './FavoritePage';
-
+import GlidingLocalList  from './GlidingLocalList';
+import SurfLocalList  from './SurfLocalList';
+import FavoriteList from './FavoriteList';
+// https://github.com/skv-headless/react-native-scrollable-tab-view
+import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import MenuList from './MenuList';
 
 class  WindFinder extends Component {
@@ -42,7 +44,7 @@ class  WindFinder extends Component {
 
         this.setConfigModalVisible = this.setConfigModalVisible.bind(this);
         this.openDrawer            = this.openDrawer.bind(this);
-        this.state = {school : 'Wind Finder2', open: false};
+        this.state = {school : 'Wind Finder2', open: false, viewMode:'surf'};
 
     }
 
@@ -65,6 +67,8 @@ class  WindFinder extends Component {
 
 
     render() {
+
+
         var navigationView =
         (
             <View style={styles.drawer}>
@@ -73,6 +77,13 @@ class  WindFinder extends Component {
                 <MenuList/>
             </View>
         );
+
+        var localList ;
+        if(this.state.viewMode =='surf'){
+            localList =  (<SurfLocalList/>);
+        } else {
+            localList =  (<GlidingLocalList/>);
+        }
 
 
         return (
@@ -111,10 +122,10 @@ class  WindFinder extends Component {
                                    tabBarInactiveTextColor="#BDBDBD"
                                    tabBarBackgroundColor="#9c0010">
                     <ScrollView tabLabel="날씨상황" style={styles.tabView}>
-                        <WeatherPage/>
+                        {localList}
                     </ScrollView>
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
-                        <FavoritePage/>
+                        <FavoriteList/>
                     </ScrollView>
 
                     <ScrollView tabLabel="샾랭킹" style={styles.tabView}>
@@ -132,22 +143,35 @@ class  WindFinder extends Component {
                         <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F'}}>모드선택</Text>
                         <TouchableOpacity
                             style={{margin: 5}}
-                            onPress={() => this.setState({offset: -100})}>
+                            onPress={() => {
+                                            this.setState({viewMode:'surf',open: false});
+                                            this.refs.toast.show('서핑모드가 모드로 전환합니다',DURATION.LENGTH_LONG);
+                            }
+                            }>
                             <Text>서 핑</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{margin: 5}}
-                            onPress={() => this.setState({offset: 0})}>
+                            onPress={() => {
+                                            this.setState({viewMode:'gliding',open: false});
+                                            this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
+                            }
+                            }>
                             <Text>페러글라이딩</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{margin: 5}}
                             onPress={() => this.setState({open: false})}>
-                            <Text>바다낚시</Text>
+                            <Text>Close</Text>
                         </TouchableOpacity>
+
                     </View>
                 </Modal>
-
+                <Toast
+                    ref="toast"
+                    style={{backgroundColor:'#222222'}}
+                    position='bottom'
+                />
             </DrawerLayoutAndroid>
         );
     }

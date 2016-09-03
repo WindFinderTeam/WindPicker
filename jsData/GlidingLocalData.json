@@ -1,18 +1,16 @@
 
-[
-
-  {
-    "category":"surfing",
-    "local":[
-      {"province":"제주도", "district":"중문색달해변"}
-    ,{"province":"제주도", "district":"월정리해변"}
-    ,{"province":"제주도", "district":"곽지해수욕 장"}
-    ,{"province":"서울특별시", "district":"한강(마포대교)"}
-    ,{"province":"서울특별시", "district":"뚝섬"}
+{
+  "category":"gliding",
+  "local":[
+    {"province":"제주도g", "district":"중문색달해변"}
+    ,{"province":"제주도g", "district":"월정리2해변"}
+    ,{"province":"제주도g", "district":"곽지해수2욕 장"}
+    ,{"province":"서울특별g시", "district":"한강22(마포대교)"}
+    ,{"province":"서울특별시", "district":"뚝섬2"}
     ,{"province":"부산광역시", "district":"해운대"}
-    ,{"province":"부산광역시", "district":"송정"}
-    ,{"province":"부산광역시", "district":"곽지해수욕 장"}
-    ,{"province":"부산광역시", "district":"한강(마포대교)"}
+    ,{"province":"부산22광역시", "district":"송2정"}
+    ,{"province":"부산광역시", "district":"곽지2해수욕 장"}
+    ,{"province":"부산2광역시", "district":"한강(마포대교)"}
     ,{"province":"경상남도", "district":"뚝섬"}
     ,{"province":"경상남도", "district":"중문색달해변"}
     ,{"province":"경상북도", "district":"포항"}
@@ -26,6 +24,5 @@
     ,{"province":"충청북도", "district":"뚝섬"}
     ,{"province":"강원도", "district":"하조대"}
     ,{"province":"강원도", "district":"양양"}
-    ]
-  }
-]
+  ]
+}
