@@ -26,7 +26,7 @@ import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import ActionButton       from 'react-native-action-button';
 
-var HtmlParser = require('./HtmlParser');
+var SurfParser = require('./SurfParser');
 var offset     = 0;
 
 var API_URL = 'https://www.windfinder.com/forecast/changjon';
@@ -64,7 +64,7 @@ class WeatherList extends Component {
     fetchData(){
 
         fetch(API_URL).then((responseData) => {
-            HtmlParser.getSufingWeather(responseData);  // Data Parsing
+            SurfParser.getSurfWeather(responseData);  // Data Parsing
         }).done();
     }
 
@@ -160,10 +160,29 @@ class WeatherList extends Component {
                                         <TouchableOpacity>
                                             <Ionicons name="md-heart" size={30} color="#94000F" />
                                         </TouchableOpacity>
-                                        <View style={ styles.sectionInfoListTextContainer }>
-                                            <Text style={ styles.sectionInfoListText }>
-                                                Time Wind Weather Air Waves
-                                            </Text>
+
+                                        <View style={ styles.foreGroundMenuContainer }>
+                                            <View style={{ flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>시간</Text>
+                                            </View>
+                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>날씨</Text>
+                                            </View>
+                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>기온</Text>
+                                            </View>
+                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>바람</Text>
+                                            </View>
+                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>파도</Text>
+                                            </View>
+                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>조수</Text>
+                                            </View>
+                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>판정</Text>
+                                            </View>
                                         </View>
                                     </View>
                                 )}
@@ -179,9 +198,29 @@ class WeatherList extends Component {
                                                 {this.props.rowData.district}
                                             </Text>
                                         </View>
-                                        <Text style={styles.stickySectionText}>
-                                            Time Wind Weather Air Waves
-                                        </Text>
+                                        <View style={ styles.stickyMenuContainer }>
+                                            <View style={{ flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>시간</Text>
+                                            </View>
+                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>날씨</Text>
+                                            </View>
+                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>기온</Text>
+                                            </View>
+                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>바람</Text>
+                                            </View>
+                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>파도</Text>
+                                            </View>
+                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>조수</Text>
+                                            </View>
+                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                                <Text style={styles.sectionInfoListText}>판정</Text>
+                                            </View>
+                                        </View>
                                         <View style={{position: 'absolute', right: 10, top: 10}}>
                                             <TouchableOpacity>
                                                  <Ionicons name="md-heart" size={30} color="#94000F"/>
@@ -195,7 +234,9 @@ class WeatherList extends Component {
                 />
                 <View style={{position: 'absolute', left: 10, top: 10}}>
                     <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
-                        <Ionicons name="ios-arrow-back" size={30} color="#94000F"/>
+                        <View style={{width:40}}>
+                            <Ionicons name="ios-arrow-back" size={30} color="#94000F"/>
+                        </View>
                     </TouchableOpacity>
                 </View>
 
@@ -220,7 +261,7 @@ class WeatherList extends Component {
 
 }
 const PARALLAX_HEADER_HEIGHT = 200;
-const STICKY_HEADER_HEIGHT = 90;
+const STICKY_HEADER_HEIGHT = 95;
 const SPINNER_SIZE  = 80;
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -248,9 +289,10 @@ const styles = StyleSheet.create({
         height: PARALLAX_HEADER_HEIGHT
     },
     stickySection: {
+
         height: STICKY_HEADER_HEIGHT,
         width: SCREEN_WIDTH,
-        backgroundColor:'#9c0010'
+        backgroundColor:'#94000F'
 
     },
     stickySectionText: {
@@ -275,29 +317,43 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
         flexDirection: 'column',
-        paddingTop: 60
+        paddingTop: 40
     },
     sectionSpeakerText: {
         color: 'white',
         fontSize: 30,
-        paddingVertical: 5
+        paddingVertical: 0
     },
     sectionTitleText: {
         color: 'white',
         fontSize: 18,
         paddingVertical: 5
     },
-    sectionInfoListTextContainer:{
+    stickyMenuContainer:{
         flex: 1,
         flexDirection: 'row',
-        alignItems:'flex-end',
+        height:30,
+        alignItems:'center',
+
+
     },
-    sectionInfoListText: {
-        color: 'white',
-        fontSize: 18,
-        fontWeight:'bold',
-        justifyContent: 'center',
+    foreGroundMenuContainer:{
+        flex: 1,
+        flexDirection: 'row',
+        height:0,
+        alignItems:'center',
+        marginTop: 10,
+
+
     },
+
+    sectionInfoListText:{
+        color:'white',
+        textAlign:'center',
+        fontSize:15,
+
+    },
+
     row: {
         flexDirection: 'row',
         justifyContent: 'space-between',

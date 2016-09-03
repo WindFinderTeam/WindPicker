@@ -120,7 +120,8 @@ class  WindFinder extends Component {
                 <ScrollableTabView tabBarUnderlineColor="#FFFFFF"
                                    tabBarActiveTextColor="#FFFFFF"
                                    tabBarInactiveTextColor="#BDBDBD"
-                                   tabBarBackgroundColor="#9c0010">
+                                   tabBarBackgroundColor="#9c0010"
+                                   ref={'scrollView'}>
                     <ScrollView tabLabel="날씨상황" style={styles.tabView}>
                         {localList}
                     </ScrollView>
@@ -155,7 +156,8 @@ class  WindFinder extends Component {
                             onPress={() => {
                                             this.setState({viewMode:'gliding',open: false});
                                             this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
-                            }
+
+                                            }
                             }>
                             <Text>페러글라이딩</Text>
                         </TouchableOpacity>

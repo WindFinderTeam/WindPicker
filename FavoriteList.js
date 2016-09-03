@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 import Accordion from 'react-native-accordion';
-import WeatherList from './WeatherList';
+import WeatherList from './SurfWeatherList';
 
 var selectedRowData ;
 var collapsedTF = true;

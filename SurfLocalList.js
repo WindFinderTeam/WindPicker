@@ -16,7 +16,7 @@ import {
     Image } from 'react-native';
 
 
-import WeatherList from './WeatherList';
+import SurfWeatherList from './SurfWeatherList';
 
 var surfLocalData = require('./jsData/SurfLocalData.json');
 
@@ -120,7 +120,7 @@ class LocalList extends Component{
                     visible={this.state.modalVisible}
                     onRequestClose={() => {this.setModalVisible(false)}}>
 
-                    <WeatherList
+                    <SurfWeatherList
                         modalVisible={this.setModalVisible}
                         rowData = {selectedRowData}
                         headerData = {selectedHeaderData}/>

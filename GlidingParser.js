@@ -1,11 +1,11 @@
 /**
  * Created by maestrolsj on 16. 8. 28.
  */
-exports.getSufingWeather = getSufingWeather;
+exports.getGlidingWeather = getGlidingWeather;
 
 var HTMLParser = require('fast-html-parser');
 
-function getSufingWeather (responseData){
+function getGlidingWeather (responseData){
 
     var htmlTest = responseData._bodyInit;
     var root = HTMLParser.parse(htmlTest);
