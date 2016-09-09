@@ -87,8 +87,6 @@ class LocalList extends Component{
     }
 
     renderSectionHeader(data, sectionId) {
-        //console.log('##### sectionData  >>>>>' + data[0].lastName);  // Garrett
-        //console.log('##### sectionData >>>>>' + data[1].lastName); // Duncan
 
         return (
             <View style={styles.sectionHeader}>
@@ -99,7 +97,6 @@ class LocalList extends Component{
 
 
     renderRow(rowData, headerData) {
-        console.log('#LocalList headerData >' + headerData);
         return (
             <TouchableOpacity
                 onPress={() => { this._onPressButton(rowData, headerData)}}>

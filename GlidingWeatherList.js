@@ -26,7 +26,6 @@ import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import ActionButton       from 'react-native-action-button';
 
-var GlidingParser = require('./GlidingParser');
 var offset     = 0;
 
 var API_URL;
@@ -39,20 +38,11 @@ class GlidingWeatherList extends Component {
         API_URL = this.props.rowData.weatherURL; // 날씨URL 가져오기
         this.onScroll = this.onScroll.bind(this);
 
-        var getSectionData = (dataBlob, sectionID) => {
-            return dataBlob[sectionID];
-        };
-
-        var getRowData = (dataBlob, sectionID, rowID) => {
-            return dataBlob[sectionID + ':' + rowID];
-        };
 
         this.fetchData();
 
         this.state = {
             dataSource: new ListView.DataSource({
-                getSectionData: getSectionData,
-                getRowData: getRowData,
                 rowHasChanged: (row1, row2) => row1 !== row2,
                 sectionHeaderHasChanged: (s1, s2) => s1 !== s2
             })
@@ -64,9 +54,15 @@ class GlidingWeatherList extends Component {
 
     fetchData(){
 
-        fetch(API_URL).then((responseData) => {
-            GlidingParser.getGlidingWeather(responseData);  // Data Parsing
-        }).done();
+        fetch(API_URL)
+            .then((response) => response.json())
+            .then((responseJSON) => {
+                console.log(responseJSON);
+
+            })
+            .catch((error) => {
+                console.warn(error);
+            });
     }
 
 
