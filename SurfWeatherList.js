@@ -37,44 +37,96 @@ class SurfWeatherList extends Component {
         super(props);
 
         API_URL = this.props.rowData.weatherURL; // 날씨URL 가져오기
+
         this.onScroll = this.onScroll.bind(this);
+        this.fetchData = this.fetchData.bind(this);
 
-        var getSectionData = (dataBlob, sectionID) => {
-            return dataBlob[sectionID];
-        };
+        // var getSectionData = (dataBlob, sectionID) => {
+        //     return dataBlob[sectionID];
+        // };
+        //
+        // var getRowData = (dataBlob, sectionID, rowID) => {
+        //     return dataBlob[sectionID + ':' + rowID];
+        // };
 
-        var getRowData = (dataBlob, sectionID, rowID) => {
-            return dataBlob[sectionID + ':' + rowID];
+
+        this.state = {
+            dataSource : new ListView.DataSource(
+                {
+                    //      getSectionData: getSectionData,
+                    //       getRowData: getRowData,
+                    rowHasChanged: (row1, row2) => row1 !== row2,
+                    sectionHeaderHasChanged: (s1, s2) => s1 !== s2
+                }),
+            isVisible: false
+            , topAlpha: 0.8
         };
 
         this.fetchData();
-
-        this.state = {
-            dataSource: new ListView.DataSource({
-                getSectionData: getSectionData,
-                getRowData: getRowData,
-                rowHasChanged: (row1, row2) => row1 !== row2,
-                sectionHeaderHasChanged: (s1, s2) => s1 !== s2
-            })
-            , isVisible: false
-            , topAlpha: 0.8
-        };
 
     }
 
     fetchData(){
 
         fetch(API_URL).then((responseData) => {
-            SurfParser.getSurfWeather(responseData);  // Data Parsing
+
+            //     var {dataBlob, sectionIDs, rowIDs} = SurfParser.getSurfWeather(responseData);
+            var {dataBlob, sectionIDs} = SurfParser.getTest(responseData);
+            // for(var i=0; i<sectionIDs.length; i++){
+            //     for(var j=0; j<dataBlob[sectionIDs[i]].length; j++){
+            //         console.log( "*******>>:" + sectionIDs[i] + ":" + dataBlob[sectionIDs[i]][j].time);
+            //     }
+            // }
+            console.log("%%%%%%%%%%%%%%%%%%%:> " + dataBlob[sectionIDs[2]][30].lastName);
+            this.setState({
+                dataSource:  this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs),
+                loaded: true
+            });
+
+            console.log("ok");
         }).done();
     }
-
 
 
     setRgba() {
         var myAlpha = this.state.topAlpha;
         return `"rgba(156,0,16,` + `${myAlpha})"`;
     }
+
+    sectionHeader(rowData, sectionID){
+
+        console.log("ksdafjsadfjdaskfj: " + rowData[0].key);
+        console.log("ksdafjsadfjdaskfj22: " + sectionID);
+        return (
+            <View style={styles.sectionHeader}>
+                <Text style={styles.sectionHeaderText}>{sectionID}</Text>
+            </View>
+        )
+    }
+
+
+    renderRow(rowData, sectionID, rowID){
+
+        console.log("sectionID"+sectionID);
+        console.log("rowID:"+rowID);
+
+        for(var a in rowData){
+            console.log(">>>>rowData  -> idx "  + rowData[a]);
+        }
+
+        return (
+            <View style={styles.row}>
+
+                <Text>{rowData.firstName}</Text>
+                <Text>{rowData.lastName}</Text>
+
+
+            </View>
+        );
+    }
+
+
+
 
     onScroll(event) {
         var currentOffset = event.nativeEvent.contentOffset.y;
@@ -98,7 +150,6 @@ class SurfWeatherList extends Component {
 
 
     render() {
-
         return (
 
             <View style={{flex: 1}}>
@@ -108,130 +159,116 @@ class SurfWeatherList extends Component {
                     style={styles.container}
                     automaticallyAdjustContentInsets={false}
                     dataSource={this.state.dataSource}
-                    renderSectionHeader={(sectionData) =>(
-                            <View style={styles.sectionHeader}>
-                                <Text style={styles.sectionHeaderText}>{sectionData}</Text>
-                            </View>
-                        )}
-                    renderRow={(rowData) => (
-                            <View key={rowData} style={styles.row}>
-                                <View style={styles.row_flex1}>
-                                    <Text style={styles.rowText}>{rowData.name.title}</Text></View>
-                                <View style={styles.row_flex2}>
-                                    <Text style={styles.rowText}>{rowData.name.first}</Text></View>
-                                <View style={styles.row_flex3}>
-                                    <Text style={styles.rowText}>{rowData.name.last}</Text></View>
-
-                            </View>
-                        )}
+                    renderSectionHeader={this.sectionHeader}
+                    renderRow={this.renderRow}
 
                     renderScrollComponent={  props => (
-                            <ParallaxScrollView
-                                onScroll={this.onScroll}
-                                stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
-                                parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
-                                backgroundSpeed={10}
+                        <ParallaxScrollView
+                            onScroll={this.onScroll}
+                            stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
+                            parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
+                            backgroundSpeed={10}
 
-                                renderBackground={() => (
-                                    <View key="background">
+                            renderBackground={() => (
+                                <View key="background">
 
-                                        <Image
-                                          source={{uri: 'http://www.kimjakgatour.com/m_upload/%EB%B6%80%EB%AA%A8%EB%8B%98%EA%B3%BC%EC%A0%9C%EC%A3%BC%EB%8F%843%EB%B0%954%EC%9D%BC%EC%97%AC%ED%96%89%EC%BD%94%EC%8A%A4113.jpg'}}
-                                          style={{width: window.width,height: PARALLAX_HEADER_HEIGHT}}
-                                        />
-                                        <View style={{
-                                            position: 'absolute',
-                                            top: 0,
-                                            width: window.width,
-                                            backgroundColor: 'rgba(0,0,0,.4)',
-                                            height: PARALLAX_HEADER_HEIGHT
-                                        }}/>
+                                    <Image
+                                        source={{uri: 'http://www.kimjakgatour.com/m_upload/%EB%B6%80%EB%AA%A8%EB%8B%98%EA%B3%BC%EC%A0%9C%EC%A3%BC%EB%8F%843%EB%B0%954%EC%9D%BC%EC%97%AC%ED%96%89%EC%BD%94%EC%8A%A4113.jpg'}}
+                                        style={{width: window.width,height: PARALLAX_HEADER_HEIGHT}}
+                                    />
+                                    <View style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        width: window.width,
+                                        backgroundColor: 'rgba(0,0,0,.4)',
+                                        height: PARALLAX_HEADER_HEIGHT
+                                    }}/>
+                                </View>
+                            )}
+
+                            renderForeground={() => (
+                                <View key="parallax-header" style={ styles.parallaxHeader }>
+
+                                    <Text style={ styles.sectionSpeakerText }>
+                                        {this.props.rowData.province}
+                                    </Text>
+                                    <Text style={ styles.sectionTitleText }>
+                                        {this.props.rowData.district}
+                                    </Text>
+                                    <TouchableOpacity>
+                                        <Ionicons name="md-heart" size={30} color="#94000F" />
+                                    </TouchableOpacity>
+
+                                    <View style={ styles.foreGroundMenuContainer }>
+                                        <View style={{ flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>시간</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>날씨</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>기온</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>바람</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>파도</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>조수</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>판정</Text>
+                                        </View>
                                     </View>
-                                )}
+                                </View>
+                            )}
 
-                                renderForeground={() => (
-                                    <View key="parallax-header" style={ styles.parallaxHeader }>
+                            renderStickyHeader={() => (
+                                <View key="sticky-header" style={styles.stickySection}>
 
-                                        <Text style={ styles.sectionSpeakerText }>
+                                    <View style={styles.navbar}>
+                                        <Text style={{color: "#94000F", fontSize: 20}}>
                                             {this.props.rowData.province}
                                         </Text>
-                                        <Text style={ styles.sectionTitleText }>
+                                        <Text style={{color: "#94000F", fontSize: 15}}>
                                             {this.props.rowData.district}
                                         </Text>
+                                    </View>
+                                    <View style={ styles.stickyMenuContainer }>
+                                        <View style={{ flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>시간</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>날씨</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>기온</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>바람</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>파도</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>조수</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>판정</Text>
+                                        </View>
+                                    </View>
+                                    <View style={{position: 'absolute', right: 10, top: 10}}>
                                         <TouchableOpacity>
-                                            <Ionicons name="md-heart" size={30} color="#94000F" />
+                                            <Ionicons name="md-heart" size={30} color="#94000F"/>
                                         </TouchableOpacity>
-
-                                        <View style={ styles.foreGroundMenuContainer }>
-                                            <View style={{ flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>시간</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>날씨</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>기온</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>바람</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>파도</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>조수</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>판정</Text>
-                                            </View>
-                                        </View>
                                     </View>
-                                )}
+                                </View>
+                            )}
 
-                                renderStickyHeader={() => (
-                                    <View key="sticky-header" style={styles.stickySection}>
-
-                                        <View style={styles.navbar}>
-                                            <Text style={{color: "#94000F", fontSize: 20}}>
-                                                {this.props.headerData}
-                                            </Text>
-                                            <Text style={{color: "#94000F", fontSize: 15}}>
-                                                {this.props.rowData.district}
-                                            </Text>
-                                        </View>
-                                        <View style={ styles.stickyMenuContainer }>
-                                            <View style={{ flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>시간</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>날씨</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>기온</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>바람</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>파도</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>조수</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>판정</Text>
-                                            </View>
-                                        </View>
-                                        <View style={{position: 'absolute', right: 10, top: 10}}>
-                                            <TouchableOpacity>
-                                                 <Ionicons name="md-heart" size={30} color="#94000F"/>
-                                             </TouchableOpacity>
-                                         </View>
-                                    </View>
-                                )}
-
-                            />
-                        )}
+                        />
+                    )}
                 />
                 <View style={{position: 'absolute', left: 10, top: 10}}>
                     <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
@@ -250,11 +287,11 @@ class SurfWeatherList extends Component {
                     buttonColor={this.setRgba()}
                     onPress={() => this.refs.ListView.scrollTo({x: 0, y: 0})}
                     icon={<Ionicons name="md-arrow-round-up" style={{
-                            fontSize: 20,
-                            height: 22,
-                            color: 'white',
-                            opacity: this.state.topAlpha
-                        }}/>}
+                        fontSize: 20,
+                        height: 22,
+                        color: 'white',
+                        opacity: this.state.topAlpha
+                    }}/>}
                 />
             </View>
         );
