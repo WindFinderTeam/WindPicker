@@ -41,20 +41,10 @@ class SurfWeatherList extends Component {
         this.onScroll = this.onScroll.bind(this);
         this.fetchData = this.fetchData.bind(this);
 
-        // var getSectionData = (dataBlob, sectionID) => {
-        //     return dataBlob[sectionID];
-        // };
-        //
-        // var getRowData = (dataBlob, sectionID, rowID) => {
-        //     return dataBlob[sectionID + ':' + rowID];
-        // };
-
 
         this.state = {
             dataSource : new ListView.DataSource(
                 {
-                    //      getSectionData: getSectionData,
-                    //       getRowData: getRowData,
                     rowHasChanged: (row1, row2) => row1 !== row2,
                     sectionHeaderHasChanged: (s1, s2) => s1 !== s2
                 }),
@@ -71,13 +61,13 @@ class SurfWeatherList extends Component {
         fetch(API_URL).then((responseData) => {
 
             //     var {dataBlob, sectionIDs, rowIDs} = SurfParser.getSurfWeather(responseData);
-            var {dataBlob, sectionIDs} = SurfParser.getTest(responseData);
+            var {dataBlob, sectionIDs} = SurfParser.getSurfWeather(responseData);
             // for(var i=0; i<sectionIDs.length; i++){
             //     for(var j=0; j<dataBlob[sectionIDs[i]].length; j++){
             //         console.log( "*******>>:" + sectionIDs[i] + ":" + dataBlob[sectionIDs[i]][j].time);
             //     }
             // }
-            console.log("%%%%%%%%%%%%%%%%%%%:> " + dataBlob[sectionIDs[2]][30].lastName);
+            console.log("%%%%%%%%%%%%%%%%%%%:> " + dataBlob[sectionIDs[8]][7].key);
             this.setState({
                 dataSource:  this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs),
                 loaded: true
@@ -95,8 +85,8 @@ class SurfWeatherList extends Component {
 
     sectionHeader(rowData, sectionID){
 
-        console.log("ksdafjsadfjdaskfj: " + rowData[0].key);
-        console.log("ksdafjsadfjdaskfj22: " + sectionID);
+        // console.log("ksdafjsadfjdaskfj: " + rowData[0].key);
+        // console.log("ksdafjsadfjdaskfj22: " + sectionID);
         return (
             <View style={styles.sectionHeader}>
                 <Text style={styles.sectionHeaderText}>{sectionID}</Text>
@@ -107,25 +97,27 @@ class SurfWeatherList extends Component {
 
     renderRow(rowData, sectionID, rowID){
 
-        console.log("sectionID"+sectionID);
-        console.log("rowID:"+rowID);
+        // console.log("sectionID"+sectionID);
+        // console.log("rowID:"+rowID);
 
-        for(var a in rowData){
-            console.log(">>>>rowData  -> idx "  + rowData[a]);
-        }
+        // for(var a in rowData){
+        //     console.log(">>>>rowData  -> idx "  + rowData[a]);
+        // }
 
         return (
-            <View style={styles.row}>
+            <View style={styles.rowContain}>
 
-                <Text>{rowData.firstName}</Text>
-                <Text>{rowData.lastName}</Text>
-
+                <Text style={styles.rowText}>{rowData.time}</Text>
+                <Text style={styles.rowText}>{rowData.cloud}</Text>
+                <Text style={styles.rowText}>{rowData.temperature}</Text>
+                <Text style={styles.rowText}>{rowData.wind}</Text>
+                <Text style={styles.rowText}>{rowData.gust}</Text>
+                <Text style={styles.rowText}>{rowData.pressure}</Text>
+                <Text style={styles.rowText}>{rowData.howGoodTosurf}</Text>
 
             </View>
         );
     }
-
-
 
 
     onScroll(event) {
@@ -147,8 +139,6 @@ class SurfWeatherList extends Component {
         };
     }
 
-
-
     render() {
         return (
 
@@ -156,6 +146,7 @@ class SurfWeatherList extends Component {
 
                 <ListView
                     ref="ListView"
+                    initialListSize={100}
                     style={styles.container}
                     automaticallyAdjustContentInsets={false}
                     dataSource={this.state.dataSource}
@@ -372,8 +363,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height:30,
         alignItems:'center',
-
-
     },
     foreGroundMenuContainer:{
         flex: 1,
@@ -381,8 +370,6 @@ const styles = StyleSheet.create({
         height:0,
         alignItems:'center',
         marginTop: 10,
-
-
     },
 
     sectionInfoListText:{
@@ -392,48 +379,40 @@ const styles = StyleSheet.create({
 
     },
 
-    row: {
+    rowContain: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingLeft: 20,
         backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
         height:35,
         alignItems: 'center',
+        flex: 1,
+
     },
     rowText: {
-        fontSize: 20
+        flex: 1,
+        padding:0,
+        margin:0,
+        textAlign : 'center'
     },
-    row_flex1: {
-        flex: 1
-    },
-    row_flex2: {
-        flex: 1
-    },
-    row_flex3: {
-        flex: 1
-    },
+
     sectionHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+
         backgroundColor: '#d4d4d4',
-        height:30,
-        marginTop:0,
+        height:20,
 
     },
     sectionHeaderText: {
         fontSize: 15,
         color: '#424242',
-        marginLeft: 0
+        marginLeft: 10
     },
     spinner: {
         position:'absolute',
         left: (SCREEN_WIDTH-SPINNER_SIZE)/2,
         top: (SCREEN_HEIGHT-SPINNER_SIZE)/2,
         flexDirection: 'row',
-        justifyContent: 'center',
         alignItems: 'center',
     }
 });
