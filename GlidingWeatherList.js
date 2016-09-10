@@ -38,18 +38,20 @@ class GlidingWeatherList extends Component {
 
         API_URL = this.props.rowData.weatherURL; // 날씨URL 가져오기
         this.onScroll = this.onScroll.bind(this);
+        this.fetchData = this.fetchData.bind(this);
 
-
-        this.fetchData();
 
         this.state = {
-            dataSource: new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 !== row2,
-                sectionHeaderHasChanged: (s1, s2) => s1 !== s2
-            })
-            , isVisible: false
+            dataSource : new ListView.DataSource(
+                {
+                    rowHasChanged: (row1, row2) => row1 !== row2,
+                    sectionHeaderHasChanged: (s1, s2) => s1 !== s2
+                }),
+            isVisible: false
             , topAlpha: 0.8
         };
+
+        this.fetchData();
 
     }
 
@@ -59,7 +61,14 @@ class GlidingWeatherList extends Component {
             .then((response) => response.json())
             .then((responseJSON) => {
 
-                var { dataBlob, sectionIds} = GlidingParser.getGlidingWeather(responseJSON);  // Data Parsing
+                var  {dataBlob, sectionIDs}= GlidingParser.getGlidingWeather(responseJSON);  // Data Parsing
+                console.log("%%%%%%%%%%%%%%%%%%%:> " + dataBlob[sectionIDs[0]].length);
+                console.log("%%%%%%%%%%%%%%%%%%%:> " + dataBlob[sectionIDs[1]].length);
+                console.log("%%%%%%%%%%%%%%%%%%%:> " + dataBlob[sectionIDs[2]].length);
+                this.setState({
+                    dataSource:  this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs),
+                    loaded: true
+                });
 
 
             })
@@ -73,6 +82,30 @@ class GlidingWeatherList extends Component {
     setRgba() {
         var myAlpha = this.state.topAlpha;
         return `"rgba(156,0,16,` + `${myAlpha})"`;
+    }
+
+
+    sectionHeader(rowData, sectionID){
+
+        return (
+            <View style={styles.sectionHeader}>
+                <Text style={styles.sectionHeaderText}>{sectionID}</Text>
+            </View>
+        )
+    }
+
+
+    renderRow(rowData, sectionID, rowID){
+
+        return (
+            <View style={styles.row}>
+
+                <Text>{rowData.firstName}</Text>
+                <Text>{rowData.lastName}</Text>
+
+
+            </View>
+        );
     }
 
     onScroll(event) {
@@ -101,29 +134,14 @@ class GlidingWeatherList extends Component {
         return (
 
             <View style={{flex: 1}}>
-
                 <ListView
                     ref="ListView"
                     style={styles.container}
+                    initialListSize={100}
                     automaticallyAdjustContentInsets={false}
                     dataSource={this.state.dataSource}
-                    renderSectionHeader={(sectionData) =>(
-                            <View style={styles.sectionHeader}>
-                                <Text style={styles.sectionHeaderText}>{sectionData}</Text>
-                            </View>
-                        )}
-                    renderRow={(rowData) => (
-                            <View key={rowData} style={styles.row}>
-                                <View style={styles.row_flex1}>
-                                    <Text style={styles.rowText}>{rowData.name.title}</Text></View>
-                                <View style={styles.row_flex2}>
-                                    <Text style={styles.rowText}>{rowData.name.first}</Text></View>
-                                <View style={styles.row_flex3}>
-                                    <Text style={styles.rowText}>{rowData.name.last}</Text></View>
-
-                            </View>
-                        )}
-
+                    renderSectionHeader={this.sectionHeader}
+                    renderRow={this.renderRow}
                     renderScrollComponent={  props => (
                             <ParallaxScrollView
                                 onScroll={this.onScroll}
@@ -273,6 +291,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white'
     },
+
     navbar:{
         alignItems: 'center',
         flex: 1,
