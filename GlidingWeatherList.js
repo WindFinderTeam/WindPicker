@@ -57,6 +57,9 @@ class GlidingWeatherList extends Component {
         fetch(API_URL)
             .then((response) => response.json())
             .then((responseJSON) => {
+                var d = new Date();
+                var localeDate  =  d.toLocaleDateString();
+                console.log(" ==>>>>>>>>>>>>>> "+ localeDate.substr(0,2) );
                 console.log(responseJSON);
 
             })
