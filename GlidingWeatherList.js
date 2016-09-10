@@ -26,8 +26,9 @@ import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import ActionButton       from 'react-native-action-button';
 
-var offset     = 0;
+var GlidingParser = require('./GlidingParser');
 
+var offset =0;
 var API_URL;
 
 class GlidingWeatherList extends Component {
@@ -57,10 +58,9 @@ class GlidingWeatherList extends Component {
         fetch(API_URL)
             .then((response) => response.json())
             .then((responseJSON) => {
-                var d = new Date();
-                var localeDate  =  d.toLocaleDateString();
-                console.log(" ==>>>>>>>>>>>>>> "+ localeDate.substr(0,2) );
-                console.log(responseJSON);
+
+                var { dataBlob, sectionIds} = GlidingParser.getGlidingWeather(responseJSON);  // Data Parsing
+
 
             })
             .catch((error) => {
