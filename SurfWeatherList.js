@@ -50,6 +50,7 @@ class SurfWeatherList extends Component {
                 }),
             isVisible: false
             , topAlpha: 0.8
+            , loaded:false
         };
 
         this.fetchData();
@@ -159,7 +160,7 @@ class SurfWeatherList extends Component {
                             stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
                             parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
                             backgroundSpeed={10}
-
+                            scrollEnabled={this.state.loaded}
                             renderBackground={() => (
                                 <View key="background">
 
