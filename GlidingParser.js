@@ -6,12 +6,12 @@ exports.getGlidingWeather = getGlidingWeather;
 
 function getGlidingWeather (responseJSON){
 
+
     var d = new Date();
     var localeDate  =  d.toLocaleDateString()    ;
     var year        = '20'+localeDate.substr(6,4);
     var month       = localeDate.substr(0,2)     ;
     var date        = localeDate.substr(3,2)     ;
-
 
     var dataBlob   = {};
     var sectionIDs = [];
@@ -26,7 +26,7 @@ function getGlidingWeather (responseJSON){
     // Wind info
     var responseJSON = responseJSON.fcst['3'];
 
-    console.log("update_last >>>> "+responseJSON.update_last);
+    //console.log("update_last >>>> "+responseJSON.update_last);
     sunInfo.push('12:00') ;
     var totalRow = responseJSON.hr_h.length;
 
@@ -40,7 +40,7 @@ function getGlidingWeather (responseJSON){
     var day = week[new Date(year+'-'+month+'-'+dayArr[dayArrIdx]).getDay()];
     sectionIDs.push(month+'월 '+dayArr[dayArrIdx]+'일 '+day); //  첫번 째 섹션헤더 push
     dataBlob[sectionIDs[0]] = [];
-    console.log(" Total Rows >>>>>>  " + totalRow);
+
 
     for(var i=0,j=0; i < totalRow; i++){
 
@@ -66,7 +66,7 @@ function getGlidingWeather (responseJSON){
             "windGust"    : responseJSON.GUST[i],    // 돌풍
         };
 
-        console.log(  " **** section *** " +j+ "> "+   sectionIDs[j]);
+
         dataBlob[sectionIDs[j]].push(rowJson);
 
     }
