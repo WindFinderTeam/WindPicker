@@ -15,7 +15,7 @@ import {
     ToastAndroid
 } from 'react-native';
 
-import Accordion from 'react-native-accordion';
+import Accordion from 'react-native-collapsible/Accordion';
 import WeatherList from './SurfWeatherList';
 
 var selectedRowData ;
@@ -27,6 +27,7 @@ class FavoriteList extends Component {
         super(props);
 
         this._renderRow     = this._renderRow.bind(this);
+        this._renderHeader   = this._renderHeader.bind(this);
         this.setModalVisible = this.setModalVisible.bind(this);
         this._onPressButtonHeader = this._onPressButtonHeader.bind(this);
         this._onPressButton = this._onPressButton.bind(this);
@@ -39,38 +40,30 @@ class FavoriteList extends Component {
         );
 
         this.state = {
-            dataSource_local : ds.cloneWithRows(
-                [
+            dataSource_local :
+                [{
+                    title :
+                        <Image ref="surf" source={require('./image/surfing.jpg')} style={styles.container}>
+                            <View style={{ flex:1, alignItems :'center',justifyContent:'center'}}>
+                                <Text style={styles.sectionHeaderText}>서 핑</Text>
+                            </View>
+                        </Image>,
+                    content : ds.cloneWithRows(
+                        [
+                            '금일해당화 해수욕장','다대포 해수욕장','한섬 해수욕장','경포 해수욕장','꽃지 해수욕장','만리포 해수욕장'
 
-                    <Image ref="surf" source={require('./image/surfing.jpg')} style={styles.container}>
-                        <View style={{ flex:1, alignItems :'center',justifyContent:'center'}}>
-                            <Text style={styles.sectionHeaderText}>서 핑</Text>
-                        </View>
-                    </Image>
-
-                    ,
-                    <Image ref="para" source={require('./image/paragliding.jpg')}  style={styles.container}>
+                        ])
+                },
+                    {title:<Image ref="para" source={require('./image/paragliding.jpg')}  style={styles.container}>
                         <View style={{ flex:1, alignItems :'center',justifyContent:'center'}}>
                             <Text style={styles.sectionHeaderText}>패 러 글 라 이 딩</Text>
                         </View>
-                    </Image>
-
-
-                ]
-            ),
-
-            dataSource_fav_Sur : ds.cloneWithRows(
-                [
-                    'YANGYANG','INGU','MALIPO','HAJODAE','SONGJEONG','SONGJIHO'
-
-                ]
-            ),
-
-            dataSource_fav_Par : ds.cloneWithRows(
-                [
-                    'DANYANG','MOUNTAING','HILL'
-                ]
-            )
+                    </Image>,
+                        content : ds.cloneWithRows(
+                            [
+                                '연천군 갈말 이륙장','포천시 운천 이륙장','홍성군 백월산 이륙장'
+                            ])
+                    }]
 
             ,modalVisible        : false
             ,isCollapsed         : false
@@ -96,57 +89,38 @@ class FavoriteList extends Component {
         collapsedTF = this.state.isCollapsed;
         console.log("dfsdf2 ->" + collapsedTF);
 
-        this.setState(ds.cloneWithRows(
-            [
-                'YANGYANG','INGU','MALIPO','HAJODAE','SONGJEONG','SONGJIHO'
 
-            ]
-        ));
+    }
+
+    _renderHeader(section){
+        return (
+            <View style={styles.sectionHeader}>
+                {section.title}
+            </View>
+        )
     }
 
 
 
-    _renderRow(rowData){
+    _renderRow(section){
 
-        var dataSourceList;
 
-        var header = (
+        var dataSourceList = this.state + `.section.content`;
 
-            <View style={styles.sectionHeader}>
-                {rowData}
-            </View>
 
-        );
-
-        switch(rowData.ref){
-            case 'surf' : dataSourceList = this.state.dataSource_fav_Sur; break;
-            case 'para' : dataSourceList = this.state.dataSource_fav_Par; break;
-        }
-
-        var content = (
-
+        return(
             <ListView
-                dataSource = {dataSourceList}
+                dataSource = {section.content}
                 renderRow = {(rowData, rowID) => (
                     <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>
                         <View style = {styles.listViewrow}>
                             <Text style={styles.listViewrowText}>{rowData}</Text>
-
                         </View>
                     </TouchableOpacity>
                 )
                 }
             />
-
         );
-
-        return (
-            <Accordion
-                header={header}
-                content={content}
-                easing="easeOutCubic"
-            />
-        )
     }
 
     render() {
@@ -165,9 +139,10 @@ class FavoriteList extends Component {
 
                 </Modal>
 
-                <ListView
-                    dataSource = {this.state.dataSource_local}
-                    renderRow  = {this._renderRow}
+                <Accordion
+                    sections = {this.state.dataSource_local}
+                    renderHeader  = {this._renderHeader}
+                    renderContent = {this._renderRow}
                 />
             </View>
 
