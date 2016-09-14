@@ -49,7 +49,8 @@ class GlidingWeatherList extends Component {
             ,topAlpha: 0.8
             ,sunrise:"00:00"
             ,sunset:"00:00"
-            ,updateTime:"00:00"
+            ,updateTime:"00:00",
+            loaded: false,
         };
         this.fetchData();
     }
@@ -141,7 +142,7 @@ class GlidingWeatherList extends Component {
                                 stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
                                 parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
                                 backgroundSpeed={10}
-
+                                scrollEnabled={this.state.loaded}
                                 renderBackground={() => (
                                     <View key="background" style={styles.headerBackground}>
 
