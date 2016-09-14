@@ -43,25 +43,25 @@ class FavoriteList extends Component {
             dataSource_local :
                 [{
                     title :
-                        <Image ref="surf" source={require('./image/surfing.jpg')} style={styles.container}>
+                        <Image source={require('./image/surfing.jpg')} style={styles.container}>
                             <View style={{ flex:1, alignItems :'center',justifyContent:'center'}}>
                                 <Text style={styles.sectionHeaderText}>서 핑</Text>
                             </View>
                         </Image>,
                     content : ds.cloneWithRows(
                         [
-                            '금일해당화 해수욕장','다대포 해수욕장','한섬 해수욕장','경포 해수욕장','꽃지 해수욕장','만리포 해수욕장'
+                            'aa','ss'
 
                         ])
                 },
-                    {title:<Image ref="para" source={require('./image/paragliding.jpg')}  style={styles.container}>
+                    {title:<Image source={require('./image/paragliding.jpg')}  style={styles.container}>
                         <View style={{ flex:1, alignItems :'center',justifyContent:'center'}}>
                             <Text style={styles.sectionHeaderText}>패 러 글 라 이 딩</Text>
                         </View>
                     </Image>,
                         content : ds.cloneWithRows(
                             [
-                                '연천군 갈말 이륙장','포천시 운천 이륙장','홍성군 백월산 이륙장'
+                                'aafff','ggss'
                             ])
                     }]
 
@@ -83,11 +83,8 @@ class FavoriteList extends Component {
     }
 
     _onPressButtonHeader() {
-        console.log("dfsfsdf");
         this.setState({isCollapsed: !this.state.isCollapsed});
-        console.log("dfsdf ->" + collapsedTF);
         collapsedTF = this.state.isCollapsed;
-        console.log("dfsdf2 ->" + collapsedTF);
 
 
     }
@@ -103,9 +100,6 @@ class FavoriteList extends Component {
 
 
     _renderRow(section){
-
-
-        var dataSourceList = this.state + `.section.content`;
 
 
         return(
