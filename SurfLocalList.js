@@ -99,7 +99,6 @@ class LocalList extends Component{
 
 
     renderRow(rowData, headerData) {
-        console.log('#LocalList headerData >' + headerData);
         return (
             <TouchableOpacity
                 onPress={() => { this._onPressButton(rowData, headerData)}}>

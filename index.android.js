@@ -68,7 +68,6 @@ class  WindFinder extends Component {
 
     render() {
 
-
         var navigationView =
         (
             <View style={styles.drawer}>
@@ -85,9 +84,7 @@ class  WindFinder extends Component {
             localList =  (<GlidingLocalList/>);
         }
 
-
         return (
-
 
             <DrawerLayoutAndroid
                 drawerWidth={200}
@@ -130,6 +127,7 @@ class  WindFinder extends Component {
                     </ScrollView>
 
                     <ScrollView tabLabel="샾랭킹" style={styles.tabView}>
+
                         <ShopPage/>
                     </ScrollView>
                 </ScrollableTabView>
