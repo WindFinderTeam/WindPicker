@@ -19,7 +19,6 @@ import {
 } from 'react-native';
 
 
-
 //import MyGoogleMap  from 'react-native-maps-google';
 import Spinner            from 'react-native-spinkit';
 import Ionicons           from 'react-native-vector-icons/Ionicons';
@@ -28,7 +27,7 @@ import ActionButton       from 'react-native-action-button';
 
 var GlidingParser = require('./GlidingParser');
 
-var offset =0;
+var offset = 0;
 var API_URL;
 
 class GlidingWeatherList extends Component {
@@ -40,53 +39,47 @@ class GlidingWeatherList extends Component {
         this.onScroll = this.onScroll.bind(this);
         this.fetchData = this.fetchData.bind(this);
 
-
         this.state = {
-            dataSource : new ListView.DataSource(
+            dataSource: new ListView.DataSource(
                 {
                     rowHasChanged: (row1, row2) => row1 !== row2,
                     sectionHeaderHasChanged: (s1, s2) => s1 !== s2
-                }),
-            isVisible: false
-            , topAlpha: 0.8
+                })
+            ,isVisible: false
+            ,topAlpha: 0.8
+            ,sunrise:"00:00"
+            ,sunset:"00:00"
+            ,updateTime:"00:00"
         };
-
         this.fetchData();
-
     }
 
-    fetchData(){
-
+    fetchData() {
         fetch(API_URL)
             .then((response) => response.json())
             .then((responseJSON) => {
-
-                var  {dataBlob, sectionIDs}= GlidingParser.getGlidingWeather(responseJSON);  // Data Parsing
-                console.log("%%%%%%%%%%%%%%%%%%%:> " + dataBlob[sectionIDs[0]].length);
-                console.log("%%%%%%%%%%%%%%%%%%%:> " + dataBlob[sectionIDs[1]].length);
-                console.log("%%%%%%%%%%%%%%%%%%%:> " + dataBlob[sectionIDs[2]].length);
+                var {dataBlob, sectionIDs,sunInfo}= GlidingParser.getGlidingWeather(responseJSON);  // Data Parsing
                 this.setState({
-                    dataSource:  this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs),
-                    loaded: true
+                    dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs),
+                    loaded: true,
+                    sunrise:sunInfo[0],
+                    sunset:sunInfo[1],
+                    updateTime:sunInfo[2]
                 });
-
-
             })
             .catch((error) => {
                 console.warn(error);
             });
     }
 
-
-
+    // set the Floating Circle-Button Color
     setRgba() {
         var myAlpha = this.state.topAlpha;
         return `"rgba(156,0,16,` + `${myAlpha})"`;
     }
 
-
-    sectionHeader(rowData, sectionID){
-
+    // Draw List's Headers
+    sectionHeader(rowData, sectionID) {
         return (
             <View style={styles.sectionHeader}>
                 <Text style={styles.sectionHeaderText}>{sectionID}</Text>
@@ -94,16 +87,17 @@ class GlidingWeatherList extends Component {
         )
     }
 
-
-    renderRow(rowData, sectionID, rowID){
-
+    // Draw List's Rows
+    renderRow(rowData, sectionID, rowID) {
         return (
             <View style={styles.row}>
-
-                <Text>{rowData.firstName}</Text>
-                <Text>{rowData.lastName}</Text>
-
-
+                <Text>{rowData.time}</Text>
+                <Text>{rowData.temperature}</Text>
+                <Text>{rowData.rain}</Text>
+                <Text>{rowData.cloud}</Text>
+                <Text>{rowData.windSpeed}</Text>
+                <Text>{rowData.windDir}</Text>
+                <Text>{rowData.windGust}</Text>
             </View>
         );
     }
@@ -124,16 +118,15 @@ class GlidingWeatherList extends Component {
                     topAlpha: 0.8
                 });
                 break;
-        };
+        }
+        ;
     }
 
 
-
     render() {
-
         return (
-
             <View style={{flex: 1}}>
+
                 <ListView
                     ref="ListView"
                     style={styles.container}
@@ -143,62 +136,56 @@ class GlidingWeatherList extends Component {
                     renderSectionHeader={this.sectionHeader}
                     renderRow={this.renderRow}
                     renderScrollComponent={  props => (
+
                             <ParallaxScrollView
-                                onScroll={this.onScroll}
                                 stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
                                 parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
                                 backgroundSpeed={10}
 
                                 renderBackground={() => (
-                                    <View key="background">
+                                    <View key="background" style={styles.headerBackground}>
 
-                                        <Image
-                                          source={{uri: 'http://www.kimjakgatour.com/m_upload/%EB%B6%80%EB%AA%A8%EB%8B%98%EA%B3%BC%EC%A0%9C%EC%A3%BC%EB%8F%843%EB%B0%954%EC%9D%BC%EC%97%AC%ED%96%89%EC%BD%94%EC%8A%A4113.jpg'}}
-                                          style={{width: window.width,height: PARALLAX_HEADER_HEIGHT}}
-                                        />
-                                        <View style={{
-                                            position: 'absolute',
-                                            top: 0,
-                                            width: window.width,
-                                            backgroundColor: 'rgba(0,0,0,.4)',
-                                            height: PARALLAX_HEADER_HEIGHT
-                                        }}/>
                                     </View>
                                 )}
 
                                 renderForeground={() => (
                                     <View key="parallax-header" style={ styles.parallaxHeader }>
 
-                                        <Text style={ styles.sectionSpeakerText }>
-                                            {this.props.rowData.province}
-                                        </Text>
-                                        <Text style={ styles.sectionTitleText }>
+                                        <Text style={{color:'#FFF'}}>업데이트 09월06일 {this.state.updateTime}</Text>
+                                        <Text style={ styles.headerDistrictText }>
                                             {this.props.rowData.district}
                                         </Text>
-                                        <TouchableOpacity>
-                                            <Ionicons name="md-heart" size={30} color="#94000F" />
-                                        </TouchableOpacity>
+                                        <View style={{flexDirection:'row',flex:1,marginTop:10}}>
+                                           <View style={styles.sunInfo}>
+                                              <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
+                                           </View>
+                                           <View style={styles.sunInfo}>
+                                              <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
+                                           </View>
+                                        </View>
+
+
 
                                         <View style={ styles.foreGroundMenuContainer }>
-                                            <View style={{ flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <View style={styles.normalMenus}>
                                                 <Text style={styles.sectionInfoListText}>시간</Text>
                                             </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <View style={styles.normalMenus}>
                                                 <Text style={styles.sectionInfoListText}>날씨</Text>
                                             </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <View style={styles.normalMenus}>
                                                 <Text style={styles.sectionInfoListText}>기온</Text>
                                             </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <View style={styles.normalMenus}>
                                                 <Text style={styles.sectionInfoListText}>바람</Text>
                                             </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <View style={styles.normalMenus}>
                                                 <Text style={styles.sectionInfoListText}>파도</Text>
                                             </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <View style={styles.normalMenus}>
                                                 <Text style={styles.sectionInfoListText}>조수</Text>
                                             </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <View style={styles.normalMenus}>
                                                 <Text style={styles.sectionInfoListText}>판정</Text>
                                             </View>
                                         </View>
@@ -239,15 +226,13 @@ class GlidingWeatherList extends Component {
                                                 <Text style={styles.sectionInfoListText}>판정</Text>
                                             </View>
                                         </View>
-                                        <View style={{position: 'absolute', right: 10, top: 10}}>
-                                            <TouchableOpacity>
-                                                 <Ionicons name="md-heart" size={30} color="#94000F"/>
-                                             </TouchableOpacity>
-                                         </View>
+
                                     </View>
                                 )}
 
                             />
+
+
                         )}
                 />
                 <View style={{position: 'absolute', left: 10, top: 10}}>
@@ -257,7 +242,11 @@ class GlidingWeatherList extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
-
+                <View style={styles.heartView}>
+                    <TouchableOpacity>
+                        <Ionicons name="md-heart" size={30} color="#94000F"/>
+                    </TouchableOpacity>
+                </View>
                 <Spinner
                     style={styles.spinner} isVisible={!this.state.loaded} size={SPINNER_SIZE} type={"Bounce"}
                     color={"#94000F"}
@@ -280,7 +269,7 @@ class GlidingWeatherList extends Component {
 }
 const PARALLAX_HEADER_HEIGHT = 200;
 const STICKY_HEADER_HEIGHT = 95;
-const SPINNER_SIZE  = 80;
+const SPINNER_SIZE = 80;
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -291,14 +280,38 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white'
     },
+    normalMenus:{ flex:1, padding:0,marginBottom:5,justifyContent:'center', alignItems:'flex-end',
+        flexDirection: 'row',
 
-    navbar:{
+    },
+    heartView:{position: 'absolute', right: 10, top: 10,         borderRadius:100,
+        width:40,height:40,
+        borderWidth: 1,
+        borderColor: '#FFF',
+        alignItems: 'center',
+        justifyContent:'center'},
+    headerBackground: {
+        width: window.width,
+        height: PARALLAX_HEADER_HEIGHT,
+        backgroundColor: 'rgb(244, 201, 107)'
+    },
+    sunInfo: {
+        borderRadius: 20,
+        width: 90,
+        height: 30,
+        borderWidth: 1,
+        borderColor: '#FFF',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 5
+    },
+    navbar: {
         alignItems: 'center',
         flex: 1,
         flexDirection: 'column',
-        width:SCREEN_WIDTH,
-        height:50,
-        backgroundColor:"#FFF"
+        width: SCREEN_WIDTH,
+        height: 50,
+        backgroundColor: "#FFF"
     },
     background: {
         position: 'absolute',
@@ -308,19 +321,16 @@ const styles = StyleSheet.create({
         height: PARALLAX_HEADER_HEIGHT
     },
     stickySection: {
-
         height: STICKY_HEADER_HEIGHT,
         width: SCREEN_WIDTH,
-        backgroundColor:'#94000F'
-
+        backgroundColor: '#94000F'
     },
     stickySectionText: {
         color: 'white',
         fontSize: 14,
         margin: 10,
-        fontWeight:'bold',
+        fontWeight: 'bold',
         justifyContent: 'center',
-
     },
     fixedSection: {
         position: 'absolute',
@@ -330,7 +340,7 @@ const styles = StyleSheet.create({
     fixedSectionText: {
         color: '#999',
         fontSize: 15,
-        textAlignVertical:'center'
+        textAlignVertical: 'center'
     },
     parallaxHeader: {
         alignItems: 'center',
@@ -338,38 +348,30 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         paddingTop: 40
     },
-    sectionSpeakerText: {
-        color: 'white',
-        fontSize: 30,
-        paddingVertical: 0
-    },
-    sectionTitleText: {
+    headerProvinceText: {
         color: 'white',
         fontSize: 18,
-        paddingVertical: 5
     },
-    stickyMenuContainer:{
+    headerDistrictText: {
+        color: 'white',
+        fontSize: 30,
+        paddingTop: 0
+    },
+    stickyMenuContainer: {
         flex: 1,
         flexDirection: 'row',
-        height:30,
-        alignItems:'center',
-
-
+        height: 30,
+        alignItems: 'center',
     },
-    foreGroundMenuContainer:{
+    foreGroundMenuContainer: {
         flex: 1,
         flexDirection: 'row',
-        height:0,
-        alignItems:'center',
-        marginTop: 10,
-
-
     },
 
-    sectionInfoListText:{
-        color:'white',
-        textAlign:'center',
-        fontSize:15,
+    sectionInfoListText: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 15,
 
     },
 
@@ -380,7 +382,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
-        height:35,
+        height: 35,
         alignItems: 'center',
     },
     rowText: {
@@ -400,8 +402,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#d4d4d4',
-        height:30,
-        marginTop:0,
+        height: 30,
+        marginTop: 0,
 
     },
     sectionHeaderText: {
@@ -410,9 +412,9 @@ const styles = StyleSheet.create({
         marginLeft: 0
     },
     spinner: {
-        position:'absolute',
-        left: (SCREEN_WIDTH-SPINNER_SIZE)/2,
-        top: (SCREEN_HEIGHT-SPINNER_SIZE)/2,
+        position: 'absolute',
+        left: (SCREEN_WIDTH - SPINNER_SIZE) / 2,
+        top: (SCREEN_HEIGHT - SPINNER_SIZE) / 2,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
