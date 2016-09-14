@@ -38,7 +38,7 @@ class SurfWeatherList extends Component {
 
         API_URL = this.props.rowData.weatherURL; // 날씨URL 가져오기
 
-        this.onScroll = this.onScroll.bind(this);
+        this.onScrollEnd = this.onScrollEnd.bind(this);
         this.fetchData = this.fetchData.bind(this);
 
 
@@ -86,8 +86,6 @@ class SurfWeatherList extends Component {
 
     sectionHeader(rowData, sectionID){
 
-        // console.log("ksdafjsadfjdaskfj: " + rowData[0].key);
-        // console.log("ksdafjsadfjdaskfj22: " + sectionID);
         return (
             <View style={styles.sectionHeader}>
                 <Text style={styles.sectionHeaderText}>{sectionID}</Text>
@@ -121,7 +119,7 @@ class SurfWeatherList extends Component {
     }
 
 
-    onScroll(event) {
+    onScrollEnd(event) {
         var currentOffset = event.nativeEvent.contentOffset.y;
         var direction = currentOffset > offset ? 'down' : 'up';
         offset = currentOffset;
@@ -131,11 +129,13 @@ class SurfWeatherList extends Component {
                 this.setState({
                     topAlpha: 0
                 });
+                console.log("+++++++++++++++> down down down");
                 break;
             case 'up' :
                 this.setState({
                     topAlpha: 0.8
                 });
+                console.log("+++++++++++++++> up up up");
                 break;
         };
     }
@@ -156,7 +156,8 @@ class SurfWeatherList extends Component {
 
                     renderScrollComponent={  props => (
                         <ParallaxScrollView
-                            onScroll={this.onScroll}
+
+                            onScrollEndDrag={this.onScrollEnd}
                             stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
                             parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
                             backgroundSpeed={10}
