@@ -26,10 +26,10 @@ import Ionicons     from 'react-native-vector-icons/Ionicons';
 import FontAwesome  from 'react-native-vector-icons/FontAwesome';
 
 
-import ShopPage     from './ShopPage';
+import ShopPage          from './ShopPage';
 import GlidingLocalList  from './GlidingLocalList';
-import SurfLocalList  from './SurfLocalList';
-import FavoriteList from './FavoriteList';
+import SurfLocalList     from './SurfLocalList';
+import FavoriteList      from './FavoriteList';
 // https://github.com/skv-headless/react-native-scrollable-tab-view
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import MenuList from './MenuList';
