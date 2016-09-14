@@ -28,7 +28,7 @@ import ActionButton       from 'react-native-action-button';
 
 var SurfParser = require('./SurfParser');
 var offset     = 0;
-
+var rowKey     = 0;
 var API_URL ;
 
 class SurfWeatherList extends Component {
@@ -102,9 +102,9 @@ class SurfWeatherList extends Component {
         // for(var a in rowData){
         //     console.log(">>>>rowData  -> idx "  + rowData[a]);
         // }
-
+        rowKey++;
         return (
-            <View style={styles.rowContain}>
+            <View key={rowKey}  style={styles.rowContain}>
 
                 <Text style={styles.rowText}>{rowData.time}</Text>
                 <Text style={styles.rowText}>{rowData.cloud}</Text>

@@ -29,6 +29,7 @@ var GlidingParser = require('./GlidingParser');
 
 var offset = 0;
 var API_URL;
+var rowKey = 0;
 
 class GlidingWeatherList extends Component {
 
@@ -90,8 +91,9 @@ class GlidingWeatherList extends Component {
 
     // Draw List's Rows
     renderRow(rowData, sectionID, rowID) {
+        rowKey++;
         return (
-            <View style={styles.row}>
+            <View key={rowKey} style={styles.row}>
                 <Text>{rowData.time}</Text>
                 <Text>{rowData.temperature}</Text>
                 <Text>{rowData.rain}</Text>
