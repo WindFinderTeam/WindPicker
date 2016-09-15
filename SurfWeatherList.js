@@ -51,6 +51,8 @@ class SurfWeatherList extends Component {
             isVisible: false
             , topAlpha: 0.8
             , loaded:false
+            , sunRise: "00:00"
+            , sunSet: "00:00"
         };
 
         this.fetchData();
@@ -62,19 +64,22 @@ class SurfWeatherList extends Component {
         fetch(API_URL).then((responseData) => {
 
             //     var {dataBlob, sectionIDs, rowIDs} = SurfParser.getSurfWeather(responseData);
-            var {dataBlob, sectionIDs} = SurfParser.getSurfWeather(responseData);
+            var {dataBlob, sectionIDs, sunInfo} = SurfParser.getSurfWeather(responseData);
             // for(var i=0; i<sectionIDs.length; i++){
             //     for(var j=0; j<dataBlob[sectionIDs[i]].length; j++){
             //         console.log( "*******>>:" + sectionIDs[i] + ":" + dataBlob[sectionIDs[i]][j].time);
             //     }
             // }
-            console.log("%%%%%%%%%%%%%%%%%%%:> " + dataBlob[sectionIDs[8]][7].key);
+            console.log("%%%%%%%%%%%%%%%%%%%:> " + dataBlob[sectionIDs[8]][7].key + ", " + sunInfo[0]  + ", " + sunInfo[1]  + ", " + sunInfo[2]);
             this.setState({
                 dataSource:  this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs),
-                loaded: true
+                loaded: true,
+                sunRise: sunInfo[0],
+                sunSet: sunInfo[1],
+                lastUpdate: sunInfo[2]
             });
 
-            console.log("ok");
+            console.log("setState ok");
         }).done();
     }
 
@@ -147,26 +152,27 @@ class SurfWeatherList extends Component {
 
                 <ListView
                     ref="ListView"
-                    initialListSize={100}
+                    initialListSize={10}
+                    pageSize={50}
                     style={styles.container}
-                    automaticallyAdjustContentInsets={false}
+
                     dataSource={this.state.dataSource}
                     renderSectionHeader={this.sectionHeader}
                     renderRow={this.renderRow}
 
                     renderScrollComponent={  props => (
                         <ParallaxScrollView
-
                             onScrollEndDrag={this.onScrollEnd}
                             stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
                             parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
                             backgroundSpeed={10}
+
                             scrollEnabled={this.state.loaded}
                             renderBackground={() => (
-                                <View key="background">
+                                <View key="background" style={{opacity:1}}>
 
                                     <Image
-                                        source={{uri: 'http://www.kimjakgatour.com/m_upload/%EB%B6%80%EB%AA%A8%EB%8B%98%EA%B3%BC%EC%A0%9C%EC%A3%BC%EB%8F%843%EB%B0%954%EC%9D%BC%EC%97%AC%ED%96%89%EC%BD%94%EC%8A%A4113.jpg'}}
+                                        source={{uri: 'http://img.wallpaperfolder.com/f/464DBCFCD944/1920x1200px-blur-light-effect-300575.jpg'}}
                                         style={{width: window.width,height: PARALLAX_HEADER_HEIGHT}}
                                     />
                                     <View style={{
@@ -182,15 +188,20 @@ class SurfWeatherList extends Component {
                             renderForeground={() => (
                                 <View key="parallax-header" style={ styles.parallaxHeader }>
 
-                                    <Text style={ styles.sectionSpeakerText }>
-                                        {this.props.rowData.province}
-                                    </Text>
-                                    <Text style={ styles.sectionTitleText }>
+                                    <Text style={{color:'#FFF'}}>마지막 업데이트 {this.state.lastUpdate}</Text>
+                                    <Text style={ styles.headerDistrictText }>
                                         {this.props.rowData.district}
                                     </Text>
-                                    <TouchableOpacity>
-                                        <Ionicons name="md-heart" size={30} color="#94000F" />
-                                    </TouchableOpacity>
+                                    <View style={{flexDirection:'row',flex:1,marginTop:10}}>
+                                        <View style={styles.sunInfo}>
+                                            <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunRise}</Text>
+                                        </View>
+                                        <View style={styles.sunInfo}>
+                                            <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunSet}</Text>
+                                        </View>
+                                    </View>
+
+
 
                                     <View style={ styles.foreGroundMenuContainer }>
                                         <View style={{ flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
@@ -220,6 +231,7 @@ class SurfWeatherList extends Component {
 
                             renderStickyHeader={() => (
                                 <View key="sticky-header" style={styles.stickySection}>
+
 
                                     <View style={styles.navbar}>
                                         <Text style={{color: "#94000F", fontSize: 20}}>
@@ -252,11 +264,7 @@ class SurfWeatherList extends Component {
                                             <Text style={styles.sectionInfoListText}>판정</Text>
                                         </View>
                                     </View>
-                                    <View style={{position: 'absolute', right: 10, top: 10}}>
-                                        <TouchableOpacity>
-                                            <Ionicons name="md-heart" size={30} color="#94000F"/>
-                                        </TouchableOpacity>
-                                    </View>
+
                                 </View>
                             )}
 
@@ -270,6 +278,12 @@ class SurfWeatherList extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
+                <View style={styles.heartView}>
+                    <TouchableOpacity>
+                        <Ionicons name="md-heart" size={30} color="#94000F"/>
+                    </TouchableOpacity>
+                </View>
+
 
                 <Spinner
                     style={styles.spinner} isVisible={!this.state.loaded} size={SPINNER_SIZE} type={"Bounce"}
@@ -339,6 +353,18 @@ const styles = StyleSheet.create({
         bottom: 10,
         right: 10
     },
+    heartView:{
+        position: 'absolute',
+        right: 10,
+        top: 10,
+        borderRadius:100,
+        width:40,
+        height:40,
+        borderWidth: 1,
+        borderColor: '#FFF',
+        alignItems: 'center',
+        justifyContent:'center'
+    },
     fixedSectionText: {
         color: '#999',
         fontSize: 15,
@@ -350,16 +376,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         paddingTop: 40
     },
-    sectionSpeakerText: {
-        color: 'white',
-        fontSize: 30,
-        paddingVertical: 0
-    },
-    sectionTitleText: {
-        color: 'white',
-        fontSize: 18,
-        paddingVertical: 5
-    },
+
     stickyMenuContainer:{
         flex: 1,
         flexDirection: 'row',
@@ -416,7 +433,23 @@ const styles = StyleSheet.create({
         top: (SCREEN_HEIGHT-SPINNER_SIZE)/2,
         flexDirection: 'row',
         alignItems: 'center',
-    }
+    },
+    sunInfo: {
+        borderRadius: 20,
+        width: 90,
+        height: 30,
+        borderWidth: 1,
+        borderColor: '#FFF',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 5
+    },
+    headerDistrictText: {
+        color: 'white',
+        fontSize: 30,
+        paddingTop: 0
+    },
+
 });
 
 module.exports = SurfWeatherList;
