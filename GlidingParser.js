@@ -1,6 +1,3 @@
-/**
- * Created by maestrolsj on 16. 8. 28.
- */
 exports.getGlidingWeather = getGlidingWeather;
 
 
@@ -15,6 +12,7 @@ function getGlidingWeather (responseJSON){
 
     var dataBlob   = {};
     var sectionIDs = [];
+    var rowIDs = [];
     var sunInfo    = [];  // sunRise, sunSet Time, updateTime
 
     // set the sun Info
@@ -41,23 +39,25 @@ function getGlidingWeather (responseJSON){
     var sectionKey = month+'월 '+dayArr[dayArrIdx]+'일 '+day;
 
     sectionIDs.push(sectionKey);         //  첫번 째 섹션헤더(오늘 년월일) push
-    dataBlob[sectionIDs[0]] = sectionKey;
 
+    dataBlob[sectionIDs[0]] = sectionKey;
+    rowIDs[0] = []
 
     for(var i=0,j=0; i < totalRow; i++){
 
-        rowIDs[i] = [];
+
 
         if(responseJSON.hr_h[i] === '00') {
             dayArrIdx++;
             day = week[new Date(year+'-'+month+'-'+dayArr[dayArrIdx]).getDay()];
             if(i==0){
-                var sectionIDs = [];
+
                 j= -1;
             }
+            j++;
             sectionKey = month+'월 '+dayArr[dayArrIdx]+'일 '+day;
             sectionIDs.push(sectionKey);
-            j++;
+            rowIDs[j] = [];
             dataBlob[sectionIDs[j]] = sectionKey;
 
         }
@@ -71,12 +71,10 @@ function getGlidingWeather (responseJSON){
             "windDir"     : responseJSON.WINDDIR[i], // 바람방향
             "windGust"    : responseJSON.GUST[i],    // 돌풍
         };
-        rowIDs[i].push(rowJson.key);
-       // dataBlob[sectionIDs[j]].push(rowJson);
+        rowIDs[j].push(rowJson.key);
+        // dataBlob[sectionIDs[j]].push(rowJson);
         dataBlob[sectionKey + ':' + rowJson.key] = rowJson;
-
     }
-
 
     return {dataBlob,sectionIDs, rowIDs,sunInfo};
 

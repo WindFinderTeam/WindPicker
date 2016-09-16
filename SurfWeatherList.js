@@ -120,17 +120,32 @@ class SurfWeatherList extends Component {
         rowKey++;
         return (
             <View key={rowKey}  style={styles.rowContain}>
-
-
-                <Text style={styles.rowText}>{rowData.time}</Text>
-                <Text style={styles.rowText}>{rowData.cloud}</Text>
-                <Text style={styles.rowText}>{rowData.temperature}</Text>
-                <Text style={styles.rowText}>{rowData.wind}</Text>
-                <Text style={styles.rowText}>{rowData.gust}</Text>
-                <Text style={styles.rowText}>{rowData.pressure}</Text>
-                <Text style={styles.rowText}>{rowData.howGoodTosurf}</Text>
-
-
+                <View key={"View1"+rowKey} style={{flex:1}}>
+                    <Text style={styles.rowText}>{rowData.time}</Text>
+                </View>
+                <View key={"View2"+rowKey} style={{flexDirection:'column', flex:1}}>
+                    <View key={"View11"+rowKey} style={{flex:1}}>
+                        <Text style={styles.rowText}>{rowData.cloud}</Text>
+                    </View>
+                    <View key={"View12"+rowKey} style={{flexDirection:'column', flex:1}}>
+                        <Text style={styles.rowText}>{rowData.cloud}</Text>
+                    </View>
+                </View>
+                <View key={"View3"+rowKey} style={{flex:1}}>
+                    <Text style={styles.rowText}>{rowData.temperature}</Text>
+                </View>
+                <View key={"View4"+rowKey} style={{flex:1}}>
+                    <Text style={styles.rowText}>{rowData.wind}</Text>
+                </View>
+                <View key={"View5"+rowKey} style={{flex:1}}>
+                    <Text style={styles.rowText}>{rowData.gust}</Text>
+                </View>
+                <View key={"View6"+rowKey} style={{flex:1}}>
+                    <Text style={styles.rowText}>{rowData.pressure}</Text>
+                </View>
+                <View key={"View7"+rowKey} style={{flex:1}}>
+                    <Text style={styles.rowText}>{rowData.howGoodTosurf}</Text>
+                </View>
             </View>
         );
     }
