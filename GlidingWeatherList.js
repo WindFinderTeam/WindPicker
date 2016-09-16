@@ -50,10 +50,11 @@ class GlidingWeatherList extends Component {
 
 
         this.state = {
-            getSectionData          : getSectionData,
-            getRowData              : getRowData,
+
             dataSource: new ListView.DataSource(
                 {
+                    getSectionData          : getSectionData,
+                    getRowData              : getRowData,
                     rowHasChanged: (row1, row2) => row1 !== row2,
                     sectionHeaderHasChanged: (s1, s2) => s1 !== s2
                 })
