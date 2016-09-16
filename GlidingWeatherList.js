@@ -154,105 +154,105 @@ class GlidingWeatherList extends Component {
                     renderRow={this.renderRow}
                     renderScrollComponent={  props => (
 
-                            <ParallaxScrollView
-                                stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
-                                parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
-                                backgroundSpeed={10}
-                                onScrollEndDrag={this.onScrollEnd}
-                                onMomentumScrollEnd={this.onScrollEnd}
-                                scrollEnabled={this.state.loaded}
-                                renderBackground={() => (
-                                    <View key="background" style={styles.headerBackground}>
+                        <ParallaxScrollView
+                            stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
+                            parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
+                            backgroundSpeed={10}
+                            onScrollEndDrag={this.onScrollEnd}
+                            onMomentumScrollEnd={this.onScrollEnd}
+                            scrollEnabled={this.state.loaded}
+                            renderBackground={() => (
+                                <View key="background" style={styles.headerBackground}>
 
+                                </View>
+                            )}
+
+                            renderForeground={() => (
+                                <View key="parallax-header" style={ styles.parallaxHeader }>
+
+                                    <Text style={{color:'#FFF'}}>업데이트 09월06일 {this.state.updateTime}</Text>
+                                    <Text style={ styles.headerDistrictText }>
+                                        {this.props.rowData.district}
+                                    </Text>
+                                    <View style={{flexDirection:'row',flex:1,marginTop:10}}>
+                                        <View style={styles.sunInfo}>
+                                            <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
+                                        </View>
+                                        <View style={styles.sunInfo}>
+                                            <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
+                                        </View>
                                     </View>
-                                )}
 
-                                renderForeground={() => (
-                                    <View key="parallax-header" style={ styles.parallaxHeader }>
 
-                                        <Text style={{color:'#FFF'}}>업데이트 09월06일 {this.state.updateTime}</Text>
-                                        <Text style={ styles.headerDistrictText }>
+
+                                    <View style={ styles.foreGroundMenuContainer }>
+                                        <View style={styles.normalMenus}>
+                                            <Text style={styles.sectionInfoListText}>시간</Text>
+                                        </View>
+                                        <View style={styles.normalMenus}>
+                                            <Text style={styles.sectionInfoListText}>날씨</Text>
+                                        </View>
+                                        <View style={styles.normalMenus}>
+                                            <Text style={styles.sectionInfoListText}>기온</Text>
+                                        </View>
+                                        <View style={styles.normalMenus}>
+                                            <Text style={styles.sectionInfoListText}>바람</Text>
+                                        </View>
+                                        <View style={styles.normalMenus}>
+                                            <Text style={styles.sectionInfoListText}>파도</Text>
+                                        </View>
+                                        <View style={styles.normalMenus}>
+                                            <Text style={styles.sectionInfoListText}>조수</Text>
+                                        </View>
+                                        <View style={styles.normalMenus}>
+                                            <Text style={styles.sectionInfoListText}>판정</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            )}
+
+                            renderStickyHeader={() => (
+                                <View key="sticky-header" style={styles.stickySection}>
+
+                                    <View style={styles.navbar}>
+                                        <Text style={{color: "#94000F", fontSize: 20}}>
+                                            {this.props.headerData}
+                                        </Text>
+                                        <Text style={{color: "#94000F", fontSize: 15}}>
                                             {this.props.rowData.district}
                                         </Text>
-                                        <View style={{flexDirection:'row',flex:1,marginTop:10}}>
-                                           <View style={styles.sunInfo}>
-                                              <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
-                                           </View>
-                                           <View style={styles.sunInfo}>
-                                              <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
-                                           </View>
+                                    </View>
+                                    <View style={ styles.stickyMenuContainer }>
+                                        <View style={{ flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>시간</Text>
                                         </View>
-
-
-
-                                        <View style={ styles.foreGroundMenuContainer }>
-                                            <View style={styles.normalMenus}>
-                                                <Text style={styles.sectionInfoListText}>시간</Text>
-                                            </View>
-                                            <View style={styles.normalMenus}>
-                                                <Text style={styles.sectionInfoListText}>날씨</Text>
-                                            </View>
-                                            <View style={styles.normalMenus}>
-                                                <Text style={styles.sectionInfoListText}>기온</Text>
-                                            </View>
-                                            <View style={styles.normalMenus}>
-                                                <Text style={styles.sectionInfoListText}>바람</Text>
-                                            </View>
-                                            <View style={styles.normalMenus}>
-                                                <Text style={styles.sectionInfoListText}>파도</Text>
-                                            </View>
-                                            <View style={styles.normalMenus}>
-                                                <Text style={styles.sectionInfoListText}>조수</Text>
-                                            </View>
-                                            <View style={styles.normalMenus}>
-                                                <Text style={styles.sectionInfoListText}>판정</Text>
-                                            </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>날씨</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>기온</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>바람</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>파도</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>조수</Text>
+                                        </View>
+                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
+                                            <Text style={styles.sectionInfoListText}>판정</Text>
                                         </View>
                                     </View>
-                                )}
 
-                                renderStickyHeader={() => (
-                                    <View key="sticky-header" style={styles.stickySection}>
+                                </View>
+                            )}
 
-                                        <View style={styles.navbar}>
-                                            <Text style={{color: "#94000F", fontSize: 20}}>
-                                                {this.props.headerData}
-                                            </Text>
-                                            <Text style={{color: "#94000F", fontSize: 15}}>
-                                                {this.props.rowData.district}
-                                            </Text>
-                                        </View>
-                                        <View style={ styles.stickyMenuContainer }>
-                                            <View style={{ flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>시간</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>날씨</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>기온</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>바람</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>파도</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>조수</Text>
-                                            </View>
-                                            <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                                <Text style={styles.sectionInfoListText}>판정</Text>
-                                            </View>
-                                        </View>
-
-                                    </View>
-                                )}
-
-                            />
+                        />
 
 
-                        )}
+                    )}
                 />
                 <View style={{position: 'absolute', left: 10, top: 10}}>
                     <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
