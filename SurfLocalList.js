@@ -87,8 +87,6 @@ class LocalList extends Component{
     }
 
     renderSectionHeader(data, sectionId) {
-        //console.log('##### sectionData  >>>>>' + data[0].lastName);  // Garrett
-        //console.log('##### sectionData >>>>>' + data[1].lastName); // Duncan
 
         return (
             <View style={styles.sectionHeader}>
@@ -109,12 +107,11 @@ class LocalList extends Component{
         )
     }
 
-
     render() {
         return (
             <View>
                 <Modal
-                    animationType={"slide"}
+                    animationType={"fade"}
                     transparent={false}
                     visible={this.state.modalVisible}
                     onRequestClose={() => {this.setModalVisible(false)}}>

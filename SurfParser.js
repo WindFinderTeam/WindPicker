@@ -59,11 +59,12 @@ function getSurfWeather (responseData){
     // call header section
     var dataBlob = {},
         sectionIDs = [],
+        rowIDs = [],
         sunInfo = [],
         i, j, count =0,
 
         /* ------------------------------
-        last update, sunrise, sunset
+         last update, sunrise, sunset
          -------------------------------*/
         parsing_lastUpdate = root.querySelector('.tabmeta__update'),
         parsing_localstats = root.querySelector('.spotmeta__localstats'),
@@ -92,13 +93,13 @@ function getSurfWeather (responseData){
 
         parsing_rawData_direction_speed_gust = root.querySelectorAll('.cell-wind-3.weathertable__cellgroup'), //total 83
         parsing_rawData_directionarrow_wind = root.querySelectorAll('.data-direction-unit.units-wd.units-wd-deg.data--minor.weathertable__cell');
-        //wind direction arrow(icon) //now text 83
-        //parsing_rawData_speed = root.querySelectorAll('.data-bar.data--major.weathertable__cell.wsmax-level-3'), //wind 48
-        //parsing_rawData_gust = root.querySelectorAll('.data-gusts.data--minor.ws1.weathertable__cell'), //gust(max) 18
+    //wind direction arrow(icon) //now text 83
+    //parsing_rawData_speed = root.querySelectorAll('.data-bar.data--major.weathertable__cell.wsmax-level-3'), //wind 48
+    //parsing_rawData_gust = root.querySelectorAll('.data-gusts.data--minor.ws1.weathertable__cell'), //gust(max) 18
 
-        parsing_rawData_directionarrow_wave = root.querySelectorAll('data-direction-unit.units-wad.units-wad-deg.data--minor.weathertable__cell');
-        //wave direction arrow(icon) //now text 0
-        parsing_rawData_waveheight = root.querySelectorAll('.data-waveheight.data--major.weathertable__cell'), //height 83
+    parsing_rawData_directionarrow_wave = root.querySelectorAll('data-direction-unit.units-wad.units-wad-deg.data--minor.weathertable__cell');
+    //wave direction arrow(icon) //now text 0
+    parsing_rawData_waveheight = root.querySelectorAll('.data-waveheight.data--major.weathertable__cell'), //height 83
         parsing_rawData_wavefreq = root.querySelectorAll('.data-wavefreq.data--minor.weathertable__cell'); //frequency 83
 
     for(i=0;i<10;i++){
@@ -152,7 +153,7 @@ function getSurfWeather (responseData){
     console.log("lastUpdate, sunRise, sunSet ::::::::::::" + lastUpdate, sunRise, sunSet);
 
     /* -------------------------------------------
-    sectionIDs(date) translate to Korean.
+     sectionIDs(date) translate to Korean.
      --------------------------------------------*/
     var dayoftheweek_kor, month_kor, today,
         currentTime = new Date();
@@ -198,6 +199,8 @@ function getSurfWeather (responseData){
 
         //sectionIDs.push(parsing_sectionData[i].removeWhitespace().rawText);
         sectionIDs.push(today);
+        dataBlob[sectionIDs[i]] = sectionIDs[i];
+        rowIDs[i] = [];
 
         /* -------------------------------------------
          configure lastupdate, local stats
@@ -217,9 +220,9 @@ function getSurfWeather (responseData){
 
         /* ------------------------------------
          configure daily data
-        ---------------------------------------*/
+         ---------------------------------------*/
 
-        dataBlob[sectionIDs[i]] = [];
+
 
         for(j=count;j<((parsing_rowData_time.length-count)>8?(count+8):(count+3));j++){
 
@@ -283,15 +286,14 @@ function getSurfWeather (responseData){
             //dataBlob[sectionIDs[i]][parsing_rowData_time[j].removeWhitespace().rawText] = [];
             //dataBlob[sectionIDs[i]][k] = [];
             //dataBlob[sectionIDs[i]+':'+ rowJson.key] = rowJson;
-            //rowIDs[i].push(rowJson.key);
-            dataBlob[sectionIDs[i]].push(rowJson);
+            rowIDs[i].push(rowJson.key);
+            dataBlob[today + ':' + rowJson.key] = rowJson;
 
         }
 
         count = count + 8;
     }
-    console.log("========================>" + dataBlob[sectionIDs[9]][2].key);
     console.log('end ok');
 
-    return {dataBlob, sectionIDs, sunInfo};
+    return {dataBlob,sectionIDs, rowIDs,sunInfo};
 }

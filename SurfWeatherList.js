@@ -41,15 +41,25 @@ class SurfWeatherList extends Component {
         this.onScrollEnd = this.onScrollEnd.bind(this);
         this.fetchData = this.fetchData.bind(this);
 
+        var getSectionData = (dataBlob, sectionID) => {
+            return dataBlob[sectionID];
+        };
+
+        var getRowData = (dataBlob, sectionID, rowID) => {
+            return dataBlob[sectionID + ':' + rowID];
+        };
+
 
         this.state = {
             dataSource : new ListView.DataSource(
                 {
+                    getSectionData          : getSectionData,
+                    getRowData              : getRowData,
                     rowHasChanged: (row1, row2) => row1 !== row2,
                     sectionHeaderHasChanged: (s1, s2) => s1 !== s2
                 }),
             isVisible: false
-            , topAlpha: 0.8
+            , topAlpha: 0
             , loaded:false
             , sunRise: "00:00"
             , sunSet: "00:00"
@@ -64,15 +74,14 @@ class SurfWeatherList extends Component {
         fetch(API_URL).then((responseData) => {
 
             //     var {dataBlob, sectionIDs, rowIDs} = SurfParser.getSurfWeather(responseData);
-            var {dataBlob, sectionIDs, sunInfo} = SurfParser.getSurfWeather(responseData);
+            var {dataBlob,sectionIDs, rowIDs,sunInfo} = SurfParser.getSurfWeather(responseData);
             // for(var i=0; i<sectionIDs.length; i++){
             //     for(var j=0; j<dataBlob[sectionIDs[i]].length; j++){
             //         console.log( "*******>>:" + sectionIDs[i] + ":" + dataBlob[sectionIDs[i]][j].time);
             //     }
             // }
-            console.log("%%%%%%%%%%%%%%%%%%%:> " + dataBlob[sectionIDs[8]][7].key + ", " + sunInfo[0]  + ", " + sunInfo[1]  + ", " + sunInfo[2]);
             this.setState({
-                dataSource:  this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs),
+                dataSource:  this.state.dataSource.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs),
                 loaded: true,
                 sunRise: sunInfo[0],
                 sunSet: sunInfo[1],
@@ -107,9 +116,11 @@ class SurfWeatherList extends Component {
         // for(var a in rowData){
         //     console.log(">>>>rowData  -> idx "  + rowData[a]);
         // }
+        //rowContain
         rowKey++;
         return (
             <View key={rowKey}  style={styles.rowContain}>
+
 
                 <Text style={styles.rowText}>{rowData.time}</Text>
                 <Text style={styles.rowText}>{rowData.cloud}</Text>
@@ -119,10 +130,10 @@ class SurfWeatherList extends Component {
                 <Text style={styles.rowText}>{rowData.pressure}</Text>
                 <Text style={styles.rowText}>{rowData.howGoodTosurf}</Text>
 
+
             </View>
         );
     }
-
 
     onScrollEnd(event) {
         var currentOffset = event.nativeEvent.contentOffset.y;
@@ -145,6 +156,11 @@ class SurfWeatherList extends Component {
         };
     }
 
+    onMomentumScrollEnd(event){
+        var currentOffset = event.nativeEvent.contentOffset.y;
+        console.log("onMomentumScrollEnd / height : " + Dimensions.get('window').height + ", " + currentOffset);
+    }
+
     render() {
         return (
 
@@ -152,8 +168,8 @@ class SurfWeatherList extends Component {
 
                 <ListView
                     ref="ListView"
-                    initialListSize={10}
-                    pageSize={50}
+                    initialListSize={1}
+                    pageSize={100}
                     style={styles.container}
 
                     dataSource={this.state.dataSource}
@@ -166,7 +182,7 @@ class SurfWeatherList extends Component {
                             stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
                             parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
                             backgroundSpeed={10}
-
+                            onMomentumScrollEnd={this.onScrollEnd}
                             scrollEnabled={this.state.loaded}
                             renderBackground={() => (
                                 <View key="background" style={{opacity:1}}>
@@ -292,6 +308,8 @@ class SurfWeatherList extends Component {
 
                 <ActionButton
                     buttonColor={this.setRgba()}
+                    type={'tab'}
+                    position={'right'}
                     onPress={() => this.refs.ListView.scrollTo({x: 0, y: 0})}
                     icon={<Ionicons name="md-arrow-round-up" style={{
                         fontSize: 20,
@@ -404,7 +422,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
-        height:35,
+        height:40,
         alignItems: 'center',
         flex: 1,
 

@@ -1,63 +1,64 @@
 {
-  "category":"gliding",
+  "category":"surfing",
   "local":[
-    {"province":"강원도", "district":"경포 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/gangneung_virtual_buoy","matching":"80","location":"강릉시 안현동"}
-  ,{"province":"강원도", "district":"교암 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/sokcho","matching":"80","location":"고성군 토성면"}
-  ,{"province":"강원도", "district":"금진 해수욕장" , "webcam":"http://goodsurf.co.kr/#"         , "weatherURL":"","location":"강릉시 옥계면"}
-  ,{"province":"강원도", "district":"기사문 해수욕장" , "webcam":"http://goodsurf.co.kr/#"         , "weatherURL":"https://www.windfinder.com/forecast/gisamun_beach", "matching":"100", "location":"강원도 양양군 현북면"}
-  ,{"province":"강원도", "district":"남애 해수욕장" , "webcam":"http://goodsurf.co.kr/#"         , "weatherURL":"https://www.windfinder.com/forecast/hyeonnam_myeon", "matching":"80", "location":"강원도 현남면"}
-  ,{"province":"강원도", "district":"남항진 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/gangneung","matching":"80","location":"강릉시 성덕동"}
-  ,{"province":"강원도", "district":"대진 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/yeongdeok","matching":"80","location":"영덕군 영해면"}
-  ,{"province":"강원도", "district":"동산 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/hyeonnam_myeon", "matching":"80", "location":"강원도 현남면"}
-  ,{"province":"강원도", "district":"동호 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/yangyang_virtual_buoy", "matching":"80","location":"양양군 손양면"}
-  ,{"province":"강원도", "district":"망상 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/donghae", "matching":"80","location":"동해시 망상동"}
-  ,{"province":"강원도", "district":"물치 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/sokcho","matching":"80","location":"양양군 강현면 물치리"}
-  ,{"province":"강원도", "district":"봉수대 해수욕장" , "webcam":""         , "weatherURL":"", "location":"고성군 죽왕면"}
-  ,{"province":"강원도", "district":"사천 해수욕장" , "webcam":"http://www.wsbfarm-mag.com/surf-cam/sacheon/"         , "weatherURL":"https://www.windfinder.com/forecast/bukgangneung","matching":"60","location":"강릉시 사천면"}
-  ,{"province":"강원도", "district":"안목 해수욕장" , "webcam":""         , "weatherURL":"","matching":"80", "location":"강릉시 견소동"}
-  ,{"province":"강원도", "district":"옥계 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/donghae", "matching":"80", "location":" 강릉시 옥계면"}
-  ,{"province":"강원도", "district":"인구 해수욕장" , "webcam":"http://www.wsbfarm-mag.com/surf-cams/ingu/"         , "weatherURL":"https://www.windfinder.com/forecast/hyeonnam_myeon", "matching":"80", "location":"강원도 현남면"}
-  ,{"province":"강원도", "district":"자작도 해수욕장" , "webcam":"http://goodsurf.co.kr/#"         , "weatherURL":"https://www.windfinder.com/forecast/sokcho","matching":"60", "location":"강원 고성군 죽왕면 문암리"}
-  ,{"province":"강원도", "district":"잔교 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/hyeonnam_myeon","matching":"80","location":"양양군 현북면"}
-  ,{"province":"강원도", "district":"죽도 해수욕장" , "webcam":"http://goodsurf.co.kr/#"         , "weatherURL":"https://www.windfinder.com/forecast/hyeonnam_myeon", "matching":"80", "location":"강원도 현남면"}
-  ,{"province":"강원도", "district":"천진 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/geojin","matching":"80","location":"고성군 토성면"}
-   ,{"province":"강원도", "district":"추암 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/donghae", "matching":"80","location":"동해시 북평동"}
-  ,{"province":"강원도", "district":"하조대 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/hyeonnam_myeon","matching":"80","location":"양양군 현북면"}
-  ,{"province":"강원도", "district":"한섬 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/donghae","matching":"80", "location":"동해시 천곡동"}
-  ,{"province":"강원도", "district":"화진포 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/geojin","matching":"80", "location":"강원도 거진읍 화포리"}
+    {"province":"강원도", "district":"경포 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/gangneung_virtual_buoy","matching":"80","location":"강릉시 안현동"}
+  ,{"province":"강원도", "district":"교암 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/sokcho","matching":"80","location":"고성군 토성면"}
+  ,{"province":"강원도", "district":"금진 해수욕장" , "webcam1":"http://goodsurf.co.kr/shop/skin/apple_tree/mall/second.html"         ,"camprovider1":"세컨라운지", "weatherURL":"https://www.windfinder.com/forecast/gangneung","webcam2":"http://cctvlive.kr/wsb.htm?no=8", "camprovider2":"알로하서", "matching":"60","location":"강릉시 옥계면"}
+  ,{"province":"강원도", "district":"기사문 해수욕장" , "webcam1":"http://cctvlive.kr/wsb.htm?no=4"         ,"camprovider1":"양양서프", "webcam2":"http://goodsurf.co.kr/shop/skin/apple_tree/mall/goodsurf.html","camprovider2":"", "weatherURL":"https://www.windfinder.com/forecast/gisamun_beach", "matching":"100", "location":"강원도 양양군 현북면"}
+  ,{"province":"강원도", "district":"남애 해수욕장" , "webcam1":"http://goodsurf.co.kr/shop/skin/apple_tree/mall/namae.html"         , "camprovider1":"팔봉서프" ,"weatherURL":"https://www.windfinder.com/forecast/hyeonnam_myeon", "matching":"80", "location":"강원도 현남면"}
+  ,{"province":"강원도", "district":"남항진 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/gangneung","matching":"80","location":"강릉시 성덕동"}
+  ,{"province":"강원도", "district":"대진 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/yeongdeok","matching":"80","location":"영덕군 영해면"}
+  ,{"province":"강원도", "district":"동산 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/hyeonnam_myeon", "matching":"80", "location":"강원도 현남면"}
+  ,{"province":"강원도", "district":"동호 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/yangyang_virtual_buoy", "matching":"80","location":"양양군 손양면"}
+  ,{"province":"강원도", "district":"망상 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/donghae", "matching":"80","location":"동해시 망상동"}
+  ,{"province":"강원도", "district":"물치 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/sokcho","matching":"80","location":"양양군 강현면 물치리"}
+  ,{"province":"강원도", "district":"봉수대 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/sokcho", "matching":"60", "location":"고성군 죽왕면"}
+  ,{"province":"강원도", "district":"사천 해수욕장" , "webcam1":"http://cctvlive.kr/wsb.htm?no=11"         , "camprovider1":"플라밍고서프","weatherURL":"https://www.windfinder.com/forecast/bukgangneung","matching":"60","location":"강릉시 사천면"}
+  ,{"province":"강원도", "district":"안목 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/gangneung","matching":"80", "location":"강릉시 견소동"}
+  ,{"province":"강원도", "district":"옥계 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/donghae", "matching":"80", "location":" 강릉시 옥계면"}
+  ,{"province":"강원도", "district":"인구 해수욕장" , "webcam1":"http://cctvlive.kr/wsb.htm?no=7", "camprovider1":"", "weatherURL":"https://www.windfinder.com/forecast/hyeonnam_myeon", "matching":"80", "location":"강원도 현남면"}
+  ,{"province":"강원도", "district":"자작도 해수욕장" , "webcam1":"http://goodsurf.co.kr/shop/skin/apple_tree/mall/gogo.html"         ,"camprovider1":"고고비치", "weatherURL":"https://www.windfinder.com/forecast/sokcho","matching":"60", "location":"강원 고성군 죽왕면 문암리"}
+  ,{"province":"강원도", "district":"잔교 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/hyeonnam_myeon","matching":"80","location":"양양군 현북면"}
+  ,{"province":"강원도", "district":"죽도 해수욕장" , "webcam1":"http://goodsurf.co.kr/shop/skin/apple_tree/mall/movies.htm?kind=population", "camprovider1":"미노스서프", "webcam2":"http://cctvlive.kr/wsb.htm?no=2", "camprovider2":"서프라이즈", "weatherURL":"https://www.windfinder.com/forecast/hyeonnam_myeon", "matching":"80", "location":"강원도 현남면"}
+  ,{"province":"강원도", "district":"천진 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/geojin","matching":"80","location":"고성군 토성면"}
+  ,{"province":"강원도", "district":"추암 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/donghae", "matching":"80","location":"동해시 북평동"}
+  ,{"province":"강원도", "district":"하조대 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/hyeonnam_myeon","matching":"80","location":"양양군 현북면"}
+  ,{"province":"강원도", "district":"한섬 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/donghae","matching":"80", "location":"동해시 천곡동"}
+  ,{"province":"강원도", "district":"화진포 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/geojin","matching":"80", "location":"강원도 거진읍 화포리"}
 
-  ,{"province":"충청남도", "district":"꽃지 해수욕장" , "webcam":"https://www.windfinder.com/forecast/anmyeondo"   ,"matching":"80",   "weatherURL":"","location":"태안군 안면읍"}
-  ,{"province":"충청남도", "district":"만리포 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/mallipo", "location":"", "matching":"100"}
-
-  ,{"province":"경상남도", "district":"광안리 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/gwang_an_beach", "matching":"100"}
-  ,{"province":"경상남도", "district":"나사리 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/nasari", "matching":"100"}
-  ,{"province":"경상남도", "district":"송정 해수욕장" , "webcam":"http://www.wsbfarm-mag.com/surf-cams/songjeong/"         , "weatherURL":"https://www.windfinder.com/forecast/songjung_beach", "matching":"100"}
-  ,{"province":"경상남도", "district":"임랑 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/nasari", "matching":"80","location":"부산광역시 장안읍"}
-  ,{"province":"경상남도", "district":"진하 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/jinha_beach_ulsan", "matching":"100"}
-  ,{"province":"경상남도", "district":"해운대 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/haeundae_beach", "matching":"100"}
-  ,{"province":"경상남도", "district":"흥남 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/heung_hwan_beach", "matching":"100"}
+  ,{"province":"충청남도", "district":"꽃지 해수욕장" , "webcam1":""   ,"weatherURL":"https://www.windfinder.com/forecast/anmyeondo", "matching":"80","location":"태안군 안면읍"}
+  ,{"province":"충청남도", "district":"만리포 해수욕장" , "webcam1":"http://cctvlive.kr/wsb.htm?no=5"         ,"camprovider1":"MLP서프", "weatherURL":"https://www.windfinder.com/forecast/mallipo", "location":"", "matching":"100"}
 
 
-  ,{"province":"전라남도", "district":"금일해당화 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/wan-do", "matching":"80"}
-  ,{"province":"전라남도", "district":"남열해돋이 해수욕장" , "webcam":"", "weatherURL":"https://www.windfinder.com/forecast/YEOSU" ,    "matching":"40" ,"location":"고흥군 영남면"}
-  ,{"province":"경상남도", "district":"다대포 해수욕장" , "webcam":"http://goodsurf.co.kr/#"         , "weatherURL":"https://www.windfinder.com/forecast/dadaepo_beach", "matching":"100"}
-  ,{"province":"전라남도", "district":"송정솔바람 해수욕장" , "webcam":"", "weatherURL":"https://www.windfinder.com/forecast/YEOSU" ,    "matching":"40"    ,"location":"남해군 미조면"}
-  ,{"province":"전라남도", "district":"신덕 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/YEOSU","matching":"80","location":"여수시 삼일동"}
+  ,{"province":"경상남도", "district":"광안리 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/gwang_an_beach", "matching":"100"}
+  ,{"province":"경상남도", "district":"나사리 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/nasari", "matching":"100"}
+  ,{"province":"경상남도", "district":"다대포 해수욕장" , "webcam1":"http://goodsurf.co.kr/shop/skin/apple_tree/mall/Dade.html"         ,"provider":"힐링서프", "weatherURL":"https://www.windfinder.com/forecast/dadaepo_beach", "matching":"100"}
+  ,{"province":"경상남도", "district":"송정 해수욕장" , "webcam1":"http://cctvlive.kr/wsb.htm?no=1"         , "camprovider1":"서프홀릭", "weatherURL":"https://www.windfinder.com/forecast/songjung_beach", "matching":"100"}
+  ,{"province":"경상남도", "district":"임랑 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/nasari", "matching":"80","location":"부산광역시 장안읍"}
+  ,{"province":"경상남도", "district":"진하 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/jinha_beach_ulsan", "matching":"100"}
+  ,{"province":"경상남도", "district":"해운대 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/haeundae_beach", "matching":"100"}
+  ,{"province":"경상남도", "district":"흥남 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/heung_hwan_beach", "matching":"100"}
 
-  ,{"province":"경상북도", "district":"망양정 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/uljin", "matching":"80", "location":"경상북도 울진군 근남면"}
-  ,{"province":"경상북도", "district":"신항만 해수욕장" , "webcam":"http://www.wsbfarm-mag.com/surf-cams/sinhangman/"         , "weatherURL":"https://www.windfinder.com/forecast/dadaepo_beach","matching":"60","location":"포항시 용안리"}
-  ,{"province":"경상북도", "district":"월포 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/yeongdeok", "matching":"80","location":"포항시 청하면"}
-  ,{"province":"경상북도", "district":"칠포 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/yonghan", "matching":"80", "location":" 경상북도 포항시 북구 흥해읍 칠포리"}
-  ,{"province":"경상북도", "district":"화진 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/yonghan", "matching":"80", "location":" 경상북도 포항시 북구 송라면 화진리"}
 
-  ,{"province":"제주도", "district":"곽지 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/cheju-do_hyeopje_beach","matching":"60","location":"제주도 애월읍"}
-  ,{"province":"제주도", "district":"사계 해수욕장" , "webcam":"https://www.windfinder.com/forecast/mosulpo_jeju_do"     ,"matching":"60",    "weatherURL":"https://www.windfinder.com/forecast/mosulpo_jeju_do","location":"서귀포시 안덕면 사계리 131-8"}
-  ,{"province":"제주도", "district":"쇠소깍 해수욕장" , "webcam":"https://www.windfinder.com/forecast/SEOGWIPO","matching":"80",          "weatherURL":"https://www.windfinder.com/forecast/SEOGWIPO","location":"서귀포시 하효동 쇠소깍로"}
-  ,{"province":"제주도", "district":"월정리 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/hamdok_ri_beach","matching":"60", "location":"제주시 구좌읍"}
-  ,{"province":"제주도", "district":"이호테우 해수욕장" , "webcam":"http://www.wsbfarm-mag.com/surf-cam-old/ihotewoo"         , "weatherURL":"https://www.windfinder.com/forecast/jeju-do" ,"matching":"80","location":"제주시 이호일동"}
-  ,{"province":"제주도", "district":"중문색달 해수욕장" , "webcam":"http://www.wsbfarm-mag.com/surf-cams/jungmun/"         , "weatherURL":"https://www.windfinder.com/forecast/jungmun", "matching":"100"}
-  ,{"province":"제주도", "district":"표선해비치 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/seongsan_jeju-do","matching":"60","location":"서귀포시 표선면"}
-  ,{"province":"제주도", "district":"함덕서우봉 해수욕장" , "webcam":""         , "weatherURL":"https://www.windfinder.com/forecast/hamdok_ri_beach", "matching":"100", "location":"제주시 조천읍"}
+  ,{"province":"전라남도", "district":"금일해당화 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/wan-do", "matching":"80"}
+  ,{"province":"전라남도", "district":"남열해돋이 해수욕장" , "webcam1":"", "weatherURL":"https://www.windfinder.com/forecast/YEOSU" ,    "matching":"40" ,"location":"고흥군 영남면"}
+  ,{"province":"전라남도", "district":"송정솔바람 해수욕장" , "webcam1":"", "weatherURL":"https://www.windfinder.com/forecast/YEOSU" ,    "matching":"40"    ,"location":"남해군 미조면"}
+  ,{"province":"전라남도", "district":"신덕 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/YEOSU","matching":"80","location":"여수시 삼일동"}
+
+  ,{"province":"경상북도", "district":"망양정 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/uljin", "matching":"80", "location":"경상북도 울진군 근남면"}
+  ,{"province":"경상북도", "district":"신항만 해수욕장" , "webcam1":"http://cctvlive.kr/wsb.htm?no=3"         ,"camprovider1":"포항서핑아카데미", "weatherURL":"https://www.windfinder.com/forecast/dadaepo_beach","matching":"60","location":"포항시 용안리"}
+  ,{"province":"경상북도", "district":"월포 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/yeongdeok", "matching":"80","location":"포항시 청하면"}
+  ,{"province":"경상북도", "district":"칠포 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/yonghan", "matching":"80", "location":" 경상북도 포항시 북구 흥해읍 칠포리"}
+  ,{"province":"경상북도", "district":"화진 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/yonghan", "matching":"80", "location":" 경상북도 포항시 북구 송라면 화진리"}
+
+  ,{"province":"제주도", "district":"곽지 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/cheju-do_hyeopje_beach","matching":"60","location":"제주도 애월읍"}
+  ,{"province":"제주도", "district":"사계 해수욕장" , "webcam1":"https://www.windfinder.com/forecast/mosulpo_jeju_do"     ,"matching":"60",    "weatherURL":"https://www.windfinder.com/forecast/mosulpo_jeju_do","location":"서귀포시 안덕면 사계리 131-8"}
+  ,{"province":"제주도", "district":"쇠소깍 해수욕장" , "webcam1":"https://www.windfinder.com/forecast/SEOGWIPO","matching":"80",          "weatherURL":"https://www.windfinder.com/forecast/SEOGWIPO","location":"서귀포시 하효동 쇠소깍로"}
+  ,{"province":"제주도", "district":"월정리 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/hamdok_ri_beach","matching":"60", "location":"제주시 구좌읍"}
+  ,{"province":"제주도", "district":"이호테우 해수욕장" , "webcam1":"http://cctvlive.kr/wsb.htm?no=9"         ,"camprovider1":"J*AVALON", "weatherURL":"https://www.windfinder.com/forecast/jeju-do" ,"matching":"80","location":"제주시 이호일동"}
+  ,{"province":"제주도", "district":"중문 해수욕장" , "webcam1":"http://cctvlive.kr/wsb.htm?no=6"         ,"camprovider1":"J*AVALON", "weatherURL":"https://www.windfinder.com/forecast/jungmun", "matching":"100"}
+  ,{"province":"제주도", "district":"표선해비치 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/seongsan_jeju-do","matching":"60","location":"서귀포시 표선면"}
+  ,{"province":"제주도", "district":"함덕서우봉 해수욕장" , "webcam1":""         , "weatherURL":"https://www.windfinder.com/forecast/hamdok_ri_beach", "matching":"100", "location":"제주시 조천읍"}
 
   ]
 }

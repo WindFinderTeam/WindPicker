@@ -37,7 +37,7 @@ class GlidingWeatherList extends Component {
         super(props);
 
         API_URL = this.props.rowData.weatherURL; // 날씨URL 가져오기
-        this.onScroll = this.onScroll.bind(this);
+        this.onScrollEnd = this.onScrollEnd.bind(this);
         this.fetchData = this.fetchData.bind(this);
 
         this.state = {
@@ -47,7 +47,7 @@ class GlidingWeatherList extends Component {
                     sectionHeaderHasChanged: (s1, s2) => s1 !== s2
                 })
             ,isVisible: false
-            ,topAlpha: 0.8
+            ,topAlpha: 0
             ,sunrise:"00:00"
             ,sunset:"00:00"
             ,updateTime:"00:00",
@@ -105,7 +105,7 @@ class GlidingWeatherList extends Component {
         );
     }
 
-    onScroll(event) {
+    onScrollEnd(event) {
         var currentOffset = event.nativeEvent.contentOffset.y;
         var direction = currentOffset > offset ? 'down' : 'up';
         offset = currentOffset;
@@ -115,14 +115,15 @@ class GlidingWeatherList extends Component {
                 this.setState({
                     topAlpha: 0
                 });
+                console.log("+++++++++++++++> down down down");
                 break;
             case 'up' :
                 this.setState({
                     topAlpha: 0.8
                 });
+                console.log("+++++++++++++++> up up up");
                 break;
-        }
-        ;
+        };
     }
 
 
@@ -144,6 +145,8 @@ class GlidingWeatherList extends Component {
                                 stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
                                 parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
                                 backgroundSpeed={10}
+                                onScrollEndDrag={this.onScrollEnd}
+                                onMomentumScrollEnd={this.onScrollEnd}
                                 scrollEnabled={this.state.loaded}
                                 renderBackground={() => (
                                     <View key="background" style={styles.headerBackground}>
@@ -257,13 +260,15 @@ class GlidingWeatherList extends Component {
 
                 <ActionButton
                     buttonColor={this.setRgba()}
+                    type={'tab'}
+                    position={'right'}
                     onPress={() => this.refs.ListView.scrollTo({x: 0, y: 0})}
                     icon={<Ionicons name="md-arrow-round-up" style={{
-                            fontSize: 20,
-                            height: 22,
-                            color: 'white',
-                            opacity: this.state.topAlpha
-                        }}/>}
+                        fontSize: 20,
+                        height: 22,
+                        color: 'white',
+                        opacity: this.state.topAlpha
+                    }}/>}
                 />
             </View>
         );
