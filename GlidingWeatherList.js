@@ -40,7 +40,18 @@ class GlidingWeatherList extends Component {
         this.onScrollEnd = this.onScrollEnd.bind(this);
         this.fetchData = this.fetchData.bind(this);
 
+        var getSectionData = (dataBlob, sectionID) => {
+            return dataBlob[sectionID];
+        };
+
+        var getRowData = (dataBlob, sectionID, rowID) => {
+            return dataBlob[sectionID + ':' + rowID];
+        };
+
+
         this.state = {
+            getSectionData          : getSectionData,
+            getRowData              : getRowData,
             dataSource: new ListView.DataSource(
                 {
                     rowHasChanged: (row1, row2) => row1 !== row2,
@@ -50,8 +61,8 @@ class GlidingWeatherList extends Component {
             ,topAlpha: 0
             ,sunrise:"00:00"
             ,sunset:"00:00"
-            ,updateTime:"00:00",
-            loaded: false,
+            ,updateTime:"00:00"
+            ,loaded: false,
         };
         this.fetchData();
     }
@@ -60,9 +71,9 @@ class GlidingWeatherList extends Component {
         fetch(API_URL)
             .then((response) => response.json())
             .then((responseJSON) => {
-                var {dataBlob, sectionIDs,sunInfo}= GlidingParser.getGlidingWeather(responseJSON);  // Data Parsing
+                var {dataBlob,sectionIDs, rowIDs,sunInfo} = GlidingParser.getGlidingWeather(responseJSON);  // Data Parsing
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs),
+                    dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
                     loaded: true,
                     sunrise:sunInfo[0],
                     sunset:sunInfo[1],
@@ -134,7 +145,8 @@ class GlidingWeatherList extends Component {
                 <ListView
                     ref="ListView"
                     style={styles.container}
-                    initialListSize={100}
+                    initialListSize={1}
+                    pageSize={100}
                     automaticallyAdjustContentInsets={false}
                     dataSource={this.state.dataSource}
                     renderSectionHeader={this.sectionHeader}

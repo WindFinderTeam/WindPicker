@@ -37,12 +37,16 @@ function getGlidingWeather (responseJSON){
     var dayArrIdx = 0;
     var week      = new Array('(일)', '(월)', '(화)', '(수)', '(목)', '(금)', '(토)');
 
-    var day = week[new Date(year+'-'+month+'-'+dayArr[dayArrIdx]).getDay()];
-    sectionIDs.push(month+'월 '+dayArr[dayArrIdx]+'일 '+day); //  첫번 째 섹션헤더 push
-    dataBlob[sectionIDs[0]] = [];
+    var day        = week[new Date(year+'-'+month+'-'+dayArr[dayArrIdx]).getDay()];
+    var sectionKey = month+'월 '+dayArr[dayArrIdx]+'일 '+day;
+
+    sectionIDs.push(sectionKey);         //  첫번 째 섹션헤더(오늘 년월일) push
+    dataBlob[sectionIDs[0]] = sectionKey;
 
 
     for(var i=0,j=0; i < totalRow; i++){
+
+        rowIDs[i] = [];
 
         if(responseJSON.hr_h[i] === '00') {
             dayArrIdx++;
@@ -51,12 +55,14 @@ function getGlidingWeather (responseJSON){
                 var sectionIDs = [];
                 j= -1;
             }
-            sectionIDs.push(month+'월 '+dayArr[dayArrIdx]+'일 '+day);
+            sectionKey = month+'월 '+dayArr[dayArrIdx]+'일 '+day;
+            sectionIDs.push(sectionKey);
             j++;
-            dataBlob[sectionIDs[j]] = [];
+            dataBlob[sectionIDs[j]] = sectionKey;
 
         }
         var rowJson={
+            "key" : "rowID" + i,
             "time"        : responseJSON.hr_h[i],    // 시간
             "temperature" : responseJSON.TMPE[i],    // 온도
             "rain"        : responseJSON.PCPT[i],    // 강수량
@@ -65,14 +71,14 @@ function getGlidingWeather (responseJSON){
             "windDir"     : responseJSON.WINDDIR[i], // 바람방향
             "windGust"    : responseJSON.GUST[i],    // 돌풍
         };
-
-
-        dataBlob[sectionIDs[j]].push(rowJson);
+        rowIDs[i].push(rowJson.key);
+       // dataBlob[sectionIDs[j]].push(rowJson);
+        dataBlob[sectionKey + ':' + rowJson.key] = rowJson;
 
     }
 
 
-    return {dataBlob, sectionIDs,sunInfo};
+    return {dataBlob,sectionIDs, rowIDs,sunInfo};
 
 
 }
