@@ -31,6 +31,8 @@ var offset     = 0;
 var rowKey     = 0;
 var API_URL ;
 
+var testTime, testTime2;
+
 class SurfWeatherList extends Component {
 
     constructor(props) {
@@ -80,6 +82,8 @@ class SurfWeatherList extends Component {
             //         console.log( "*******>>:" + sectionIDs[i] + ":" + dataBlob[sectionIDs[i]][j].time);
             //     }
             // }
+            testTime = new Date();
+            console.log("SETSTATE START : >>>> " + testTime.getTime());
             this.setState({
                 dataSource:  this.state.dataSource.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs),
                 loaded: true,
@@ -88,7 +92,10 @@ class SurfWeatherList extends Component {
                 lastUpdate: sunInfo[2]
             });
 
-            console.log("setState ok");
+            testTime2 = new Date();
+            console.log("SETSTATE END : >>>> " + testTime2.getTime());
+            console.log("SETSTATE DIFF TIME: >>>> ");
+            console.log(testTime2.getTime() - testTime.getTime());
         }).done();
     }
 
@@ -118,6 +125,8 @@ class SurfWeatherList extends Component {
         // }
         //rowContain
         rowKey++;
+        var testTime3 = new Date();
+        console.log("RENDER ROW : >>>> " + rowKey + " >> "+ testTime3.getTime());
         return (
             <View key={rowKey}  style={styles.rowContain}>
                 <View key={"View1"+rowKey} style={{flex:1}}>

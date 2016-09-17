@@ -15,6 +15,7 @@ function getGlidingWeather (responseJSON){
     var rowIDs = [];
     var sunInfo    = [];  // sunRise, sunSet Time, updateTime
 
+
     // set the sun Info
     sunInfo.push(responseJSON.sunrise);
     sunInfo.push(responseJSON.sunset) ;

@@ -2,53 +2,10 @@
  * Created by maestrolsj on 16. 8. 28.
  */
 exports.getSurfWeather = getSurfWeather;
-exports.getTest = getTest;
 
 
 var HTMLParser = require('fast-html-parser');
-
-function getTest (responseData){
-
-    console.log("---------- test test parser OK !---------------------");
-
-    var dataBlob = {},
-        sectionIDs = [];
-
-    var testData = [
-        {"firstName":"Black","lastName":"Garrett"},
-        {"firstName":"Morales","lastName":"Duncan"},
-        {"firstName":"Ramos","lastName":"King"},
-        {"firstName":"Dunn","lastName":"Collins"},
-        {"firstName":"Fernandez","lastName":"Montgomery"},
-        {"firstName":"Burns","lastName":"Fox"},
-        {"firstName":"Richardson","lastName":"Kim"}];
-
-    sectionIDs.push('Marketing');
-    dataBlob['Marketing']=[];
-    dataBlob['Marketing'].push(testData[0]);
-    dataBlob['Marketing'].push(testData[1]);
-    dataBlob['Marketing'].push(testData[0]);
-    dataBlob['Marketing'].push(testData[1]);
-
-    sectionIDs.push('Sales');
-    dataBlob['Sales']=[];
-    dataBlob['Sales'].push(testData[3]);
-    dataBlob['Sales'].push(testData[4]);
-    dataBlob['Sales'].push(testData[3]);
-    dataBlob['Sales'].push(testData[4]);
-    dataBlob['Sales'].push(testData[4]);
-
-    sectionIDs.push('Account');
-    dataBlob['Account']=[];
-    dataBlob['Account'].push(testData[5]);
-    dataBlob['Account'].push(testData[6]);
-    dataBlob['Account'].push(testData[5]);
-    dataBlob['Account'].push(testData[6]);
-
-    return {dataBlob, sectionIDs};
-
-}
-
+var testTime, testTime2;
 
 function getSurfWeather (responseData){
 
@@ -56,6 +13,8 @@ function getSurfWeather (responseData){
     var root = HTMLParser.parse(htmlTest);
 
     console.log("---------- parser call ok ---------------------");
+    testTime = new Date();
+    console.log("Parse Start : >>>> " + testTime.getTime());
     // call header section
     var dataBlob = {},
         sectionIDs = [],
@@ -102,7 +61,7 @@ function getSurfWeather (responseData){
     parsing_rawData_waveheight = root.querySelectorAll('.data-waveheight.data--major.weathertable__cell'), //height 83
         parsing_rawData_wavefreq = root.querySelectorAll('.data-wavefreq.data--minor.weathertable__cell'); //frequency 83
 
-    for(i=0;i<10;i++){
+    for(i=0;i<0;i++){
         console.log("----------------- parsing data display ---------------------");
 
         if(typeof parsing_rowData_tides[i] == "undefined"){
@@ -194,8 +153,9 @@ function getSurfWeather (responseData){
             default     :  month_kor = month; break;
         };
 
-        console.log("today: " + today); // 괄호()안에 지정한 형식으로 날짜 표시
+
         today = year[3] + "년 " + month_kor + " " + day + "일, " + dayoftheweek_kor;
+        // console.log("today: " + today); // 괄호()안에 지정한 형식으로 날짜 표시
 
         //sectionIDs.push(parsing_sectionData[i].removeWhitespace().rawText);
         sectionIDs.push(today);
@@ -293,7 +253,10 @@ function getSurfWeather (responseData){
 
         count = count + 8;
     }
-    console.log('end ok');
 
+    testTime2 = new Date();
+    console.log("Parse END : >>>> " + testTime.getTime());
+    console.log("Parse DIFF: >>>> " );
+    console.log(testTime2.getTime()-testTime.getTime());
     return {dataBlob,sectionIDs, rowIDs,sunInfo};
 }

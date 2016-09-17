@@ -73,7 +73,7 @@ class  WindFinder extends Component {
             <View style={styles.drawer}>
                 <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>메뉴목록</Text>
 
-                <MenuList/>
+                {/* <MenuList/> */}
             </View>
         );
 

@@ -98,7 +98,6 @@ class LocalList extends Component{
 
 
     showWebcam1(rowData) {
-        console.log("showWebcam1 : " +  rowData.webcam1);
         return (
             <WebView
                 ref='WebView1'
