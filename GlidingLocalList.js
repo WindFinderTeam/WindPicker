@@ -33,10 +33,9 @@ class LocalList extends Component{
 
 
 
-    _onPressButton(rowData, headerData){
+    _onPressButton(rowData){
         //ToastAndroid.show('This is '+ rowData.lastName, ToastAndroid.SHORT);
         selectedRowData = rowData;
-        selectedHeaderData = headerData;
         this.setModalVisible(true);
     }
 
@@ -96,10 +95,10 @@ class LocalList extends Component{
     }
 
 
-    renderRow(rowData, headerData) {
+    renderRow(rowData) {
         return (
             <TouchableOpacity
-                onPress={() => { this._onPressButton(rowData, headerData)}}>
+                onPress={() => { this._onPressButton(rowData)}}>
                 <View style={styles.listViewrow}>
                         <Text style={styles.text}>{rowData.district}</Text>
                 </View>
@@ -112,15 +111,14 @@ class LocalList extends Component{
         return (
             <View>
                 <Modal
-                    animationType={"slide"}
+                    animationType={"fade"}
                     transparent={false}
                     visible={this.state.modalVisible}
                     onRequestClose={() => {this.setModalVisible(false)}}>
 
                     <GlidingWeatherList
                         modalVisible={this.setModalVisible}
-                        rowData = {selectedRowData}
-                        headerData = {selectedHeaderData}/>
+                        rowData = {selectedRowData} />
 
                 </Modal>
 

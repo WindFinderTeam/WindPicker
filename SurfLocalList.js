@@ -12,11 +12,13 @@ import {
     TouchableOpacity,
     DeviceEventEmitter,
     ToastAndroid,
+    WebView,
     Modal,
     Image } from 'react-native';
 
 
 import SurfWeatherList from './SurfWeatherList';
+import Ionicons        from 'react-native-vector-icons/Ionicons';
 
 var surfLocalData = require('./jsData/SurfLocalData.json');
 
@@ -33,10 +35,9 @@ class LocalList extends Component{
 
 
 
-    _onPressButton(rowData, headerData){
+    _onPressButton(rowData){
         //ToastAndroid.show('This is '+ rowData.lastName, ToastAndroid.SHORT);
         selectedRowData = rowData;
-        selectedHeaderData = headerData;
         this.setModalVisible(true);
     }
 
@@ -96,14 +97,45 @@ class LocalList extends Component{
     }
 
 
-    renderRow(rowData, headerData) {
+    showWebcam1(rowData) {
+        console.log("showWebcam1 : " +  rowData.webcam1);
         return (
-            <TouchableOpacity
-                onPress={() => { this._onPressButton(rowData, headerData)}}>
-                <View style={styles.listViewrow}>
-                        <Text style={styles.text}>{rowData.district}</Text>
+            <WebView
+                ref='WebView1'
+                automaticallyAdjustContentInsets={false}
+                style={styles.webView}
+                source={{uri: rowData.webcam1}}
+                javaScriptEnabled={true}
+                domStorageEnabled={true}
+
+                startInLoadingState={true}
+                scalesPageToFit={true}
+
+            />
+        );
+    }
+
+
+    renderRow(rowData) {
+        return (
+            <View style={{flex:1, flexDirection:'row'}}>
+                <View style={{flex:1}}>
+                    <TouchableOpacity
+                        onPress={() => { this._onPressButton(rowData)}}>
+                        <View style={styles.listViewrow}>
+                                <Text style={styles.text}>{rowData.district}</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
-            </TouchableOpacity>
+                <View style={{flex:1}}>
+                        <View style={styles.listViewrow}>
+                            <TouchableOpacity onPress={()=>{this.showWebcam1(rowData)}}>
+                                <Ionicons name="ios-videocam-outline" size={30} color="#94000F"/>
+                            </TouchableOpacity>
+                        </View>
+
+                </View>
+            </View>
         )
     }
 
@@ -118,8 +150,7 @@ class LocalList extends Component{
 
                     <SurfWeatherList
                         modalVisible={this.setModalVisible}
-                        rowData = {selectedRowData}
-                        headerData = {selectedHeaderData}/>
+                        rowData = {selectedRowData}/>
 
                 </Modal>
 
@@ -171,8 +202,12 @@ var styles = StyleSheet.create({
         fontSize: 15,
         color: '#424242',
         marginLeft: 10
-    }
+    },
+    webView: {
+        backgroundColor: 'white',
+        opacity:0.8,
+        height: 350,
+    },
 });
-
 
 module.exports = LocalList;
