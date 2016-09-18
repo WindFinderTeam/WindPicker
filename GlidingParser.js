@@ -42,7 +42,7 @@ function getGlidingWeather (responseJSON){
     sectionIDs.push(sectionKey);         //  첫번 째 섹션헤더(오늘 년월일) push
 
     dataBlob[sectionIDs[0]] = sectionKey;
-    rowIDs[0] = []
+    rowIDs[0] = [];
 
     for(var i=0,j=0; i < totalRow; i++){
 
@@ -52,7 +52,8 @@ function getGlidingWeather (responseJSON){
             dayArrIdx++;
             day = week[new Date(year+'-'+month+'-'+dayArr[dayArrIdx]).getDay()];
             if(i==0){
-
+                sectionIDs=[];
+                rowIDs=[];
                 j= -1;
             }
             j++;
