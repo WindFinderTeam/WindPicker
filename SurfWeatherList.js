@@ -199,14 +199,15 @@ class SurfWeatherList extends Component {
                     dataSource={this.state.dataSource}
                     renderSectionHeader={this.sectionHeader}
                     renderRow={this.renderRow}
-
+                    onMomentumScrollEnd={this.onScrollEnd}
+                    onScrollEndDrag={this.onScrollEnd}
                     renderScrollComponent={  props => (
                         <ParallaxScrollView
-                            onScrollEndDrag={this.onScrollEnd}
+
                             stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
                             parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
                             backgroundSpeed={10}
-                            onMomentumScrollEnd={this.onScrollEnd}
+
                             scrollEnabled={this.state.loaded}
                             renderBackground={() => (
                                 <View key="background" style={{opacity:1}}>
