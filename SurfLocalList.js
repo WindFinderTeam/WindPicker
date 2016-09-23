@@ -14,14 +14,15 @@ import {
     ToastAndroid,
     WebView,
     Modal,
-    Image } from 'react-native';
+    Image,
+    Dimensions } from 'react-native';
 
 
 import SurfWeatherList from './SurfWeatherList';
 import Ionicons        from 'react-native-vector-icons/Ionicons';
 
 var surfLocalData = require('./jsData/SurfLocalData.json');
-
+var camUri = "", webcamClicked="";
 var selectedRowData ;
 var selectedHeaderData ;
 
@@ -29,10 +30,32 @@ var selectedHeaderData ;
 class LocalList extends Component{
 
 
-    setModalVisible(visible) {
-        this.setState({modalVisible: visible});
+    setCamVisible(visible) {
+
+        this.setState({camVisible: visible});
+        console.log("changed !!!!!!! this.state.camVisible :" + this.state.camVisible + " camUri  : " + camUri);
+        // off camLOadedOpa
+        this.setState({camLoadedOpa:0 });
+
     }
 
+    setCamLoadedOK(visible) {
+        if(visible == '1'){
+            this.setState({camLoadedOpa:1 });
+        }
+
+        console.log("ccamLoadedOpa: visible OK OK :" + this.state.camLoadedOpa);
+    }
+
+    setModalVisible(visible) {
+        this.setState({modalVisible: visible});
+        console.log("changed !!! this.state.modalVisible :" + this.state.modalVisible);
+    }
+
+    setRgba(alpha) {
+        var myAlpha = alpha;
+        return `"rgba(156,0,16,` + `${myAlpha})"`;
+    }
 
 
     _onPressButton(rowData){
@@ -41,12 +64,26 @@ class LocalList extends Component{
         this.setModalVisible(true);
     }
 
+
+
+    _onPressWebcam(cam, webcam) {
+
+        webcamClicked = cam;
+
+        camUri = webcam;
+
+        this.setCamVisible(true);
+        console.log("webcamClicked cam is : " + webcamClicked , " state :" + this.state.camVisible + " camUri : " + camUri);
+    }
+
     constructor(prop){
         super(prop);
 
         //---------------- Binding to Custom Func ----------------
         this.setModalVisible = this.setModalVisible.bind(this);
+        this.setCamVisible = this.setCamVisible.bind(this);
         this.renderRow = this.renderRow.bind(this);
+        this.setCamLoadedOK = this.setCamLoadedOK.bind(this)
         //---------------------------------------------------------
 
         this.ds = new ListView.DataSource({
@@ -56,8 +93,10 @@ class LocalList extends Component{
 
         var {data, sectionIds} = this.renderListViewData(surfLocalData);
         this.state = {
-                       dataSource          : this.ds.cloneWithRowsAndSections(data, sectionIds)
-                      ,modalVisible        : false
+            dataSource          : this.ds.cloneWithRowsAndSections(data, sectionIds)
+            ,modalVisible        : false
+            ,camVisible          : false
+            ,camLoadedOpa         : 0
 
         };
     }
@@ -97,41 +136,45 @@ class LocalList extends Component{
     }
 
 
-    showWebcam1(rowData) {
-        return (
-            <WebView
-                ref='WebView1'
-                automaticallyAdjustContentInsets={false}
-                style={styles.webView}
-                source={{uri: rowData.webcam1}}
-                javaScriptEnabled={true}
-                domStorageEnabled={true}
-
-                startInLoadingState={true}
-                scalesPageToFit={true}
-
-            />
-        );
-    }
-
 
     renderRow(rowData) {
+
+
+        var webcam1 = "", webcam2 = "";
+
+        if(typeof rowData.webcam1 == "undefined"){
+            webcam1 = "";
+        } else {
+            webcam1 = rowData.webcam1;
+        }
+
+        if(typeof rowData.webcam2 == "undefined"){
+            webcam2 = "";
+        } else {
+            webcam2 = rowData.webcam2;
+        }
+
         return (
             <View style={{flex:1, flexDirection:'row'}}>
                 <View style={{flex:1}}>
-                    <TouchableOpacity
-                        onPress={() => { this._onPressButton(rowData)}}>
-                        <View style={styles.listViewrow}>
-                                <Text style={styles.text}>{rowData.district}</Text>
-                        </View>
-                    </TouchableOpacity>
+
+                    <View style={styles.listViewrow}>
+                        <TouchableOpacity
+                            onPress={() => { this._onPressButton(rowData)}}>
+                            <Text style={styles.text}>{rowData.district}</Text>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
                 <View style={{flex:1}}>
-                        <View style={styles.listViewrow}>
-                            <TouchableOpacity onPress={()=>{this.showWebcam1(rowData)}}>
-                                <Ionicons name="ios-videocam-outline" size={30} color="#94000F"/>
-                            </TouchableOpacity>
-                        </View>
+                    <View style={styles.listViewrowCam}>
+                        <TouchableOpacity onPress={()=>{this._onPressWebcam("cam1", rowData.webcam1)}}>
+                            <Ionicons name="ios-videocam-outline" size={30} color={webcam1==""?this.setRgba(0):this.setRgba(1)}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>{this._onPressWebcam("cam2", rowData.webcam2)}}>
+                            <Ionicons name="ios-videocam-outline" size={30} color={webcam2==""?this.setRgba(0):this.setRgba(1)}/>
+                        </TouchableOpacity>
+                    </View>
 
                 </View>
             </View>
@@ -139,6 +182,7 @@ class LocalList extends Component{
     }
 
     render() {
+
         return (
             <View>
                 <Modal
@@ -153,6 +197,34 @@ class LocalList extends Component{
 
                 </Modal>
 
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={this.state.camVisible}
+                    onRequestClose={() => {this.setCamVisible(false)}}>
+                    <View style={styles.modalContainer}>
+                        <View>
+                            <View style={[styles.closeContain, {opacity:this.state.camLoadedOpa}]}>
+                                <TouchableOpacity onPress={()=>{this.setCamVisible(false)}}>
+                                    <Ionicons name="md-close" size={25} color={'#94000F'}/>
+                                </TouchableOpacity>
+                            </View>
+                            <WebView
+                                ref='WebView1'
+                                modalVisible={this.setCamVisible}
+                                onLoad={()=>{this.setCamLoadedOK("1")}}
+                                automaticallyAdjustContentInsets={false}
+                                style={styles.webView}
+                                source={{uri: camUri}}
+                                javaScriptEnabled={true}
+                                startInLoadingState={true}
+                                scalesPageToFit={true}
+                            />
+                        </View>
+                    </View>
+
+                </Modal>
+
                 <ListView
                     ref="listView"
                     automaticallyAdjustContentInsets={false}
@@ -160,12 +232,14 @@ class LocalList extends Component{
                     renderSectionHeader={this.renderSectionHeader}
                     renderRow={this.renderRow}
                 />
-
             </View>
         );
     }
 };
 
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 var styles = StyleSheet.create({
     container: {
@@ -183,10 +257,36 @@ var styles = StyleSheet.create({
         height:35,
         alignItems: 'center',
     },
+    listViewrowCam: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        backgroundColor: '#F6F6F6',
+        borderBottomWidth: 1,
+        borderBottomColor: '#e9e9e9',
+        height:35,
+    },
     text: {
         fontSize: 15,
         fontWeight: "100",
         color: 'black',
+    },
+    modalContainer:{
+        flex: 1,
+        justifyContent: 'center',
+        padding: 5,
+        backgroundColor:'rgba(0, 0, 0, 0.5)',
+
+    },
+    innerContainer:{
+        backgroundColor:'rgba(0, 0, 0, 0.5)',
+        height:SCREEN_HEIGHT/2,
+    },
+    webView: {
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor:'white',
+        height:SCREEN_HEIGHT/2
     },
     sectionHeader: {
         flexDirection: 'row',
@@ -202,11 +302,20 @@ var styles = StyleSheet.create({
         color: '#424242',
         marginLeft: 10
     },
-    webView: {
-        backgroundColor: 'white',
-        opacity:0.8,
-        height: 350,
+
+    closeContain:{
+        backgroundColor:'gray',
+        flexDirection:'row',
+        justifyContent:'center',
+        borderRadius: 100,
+        width: 30,
+        height: 30,
+        borderWidth: 1,
+        borderColor: '#FFF',
+        alignItems: 'center',
+        marginLeft: SCREEN_WIDTH-45
     },
+
 });
 
 module.exports = LocalList;
