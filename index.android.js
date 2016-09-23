@@ -69,13 +69,13 @@ class  WindFinder extends Component {
     render() {
 
         var navigationView =
-        (
-            <View style={styles.drawer}>
-                <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>메뉴목록</Text>
+            (
+                <View style={styles.drawer}>
+                    <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>메뉴목록</Text>
 
-                {/* <MenuList/> */}
-            </View>
-        );
+                    {/* <MenuList/> */}
+                </View>
+            );
 
         var localList ;
         if(this.state.viewMode =='surf'){
@@ -93,10 +93,10 @@ class  WindFinder extends Component {
                 drawerLockMode ='locked-closed'
                 ref={'drawer'}>
 
-               <Ionicons.ToolbarAndroid
+                <Ionicons.ToolbarAndroid
                     //navIconName={require('./image/app_logo.png')}
                     //logo={require('./image/app_logo.png')}
-                   // onIconClicked={() => this.refs['drawer'].openDrawer()}
+                    // onIconClicked={() => this.refs['drawer'].openDrawer()}
                     style={styles.toolbar}
                     iconColor="#94000F"
                     titleColor="#94000F"
@@ -114,10 +114,10 @@ class  WindFinder extends Component {
                         style={{height:30,width:130}}
                     />
                 </View>
-                <ScrollableTabView tabBarUnderlineColor="#FFFFFF"
-                                   tabBarActiveTextColor="#FFFFFF"
-                                   tabBarInactiveTextColor="#BDBDBD"
-                                   tabBarBackgroundColor="#9c0010"
+                <ScrollableTabView tabBarUnderlineColor   = "#FFFFFF"
+                                   tabBarActiveTextColor  = "#FFFFFF"
+                                   tabBarInactiveTextColor= "#BDBDBD"
+                                   tabBarBackgroundColor  = "#9c0010"
                                    ref={'scrollView'}>
                     <ScrollView tabLabel="날씨상황" style={styles.tabView}>
                         {localList}

@@ -61,6 +61,7 @@ class GlidingWeatherList extends Component {
                     sectionHeaderHasChanged: (s1, s2) => s1 !== s2
                 })
             ,topAlpha: 0
+            ,borderAlpha:0
             ,sunrise:"00:00"
             ,sunset:"00:00"
             ,updateTime:"00:00"
@@ -72,7 +73,6 @@ class GlidingWeatherList extends Component {
     }
 
     fetchData() {
-        console.log("fecth before zz! state.loadOK + " + this.state.loadOK);
         fetch(API_URL)
             .then((response) => response.json())
             .then((responseJSON) => {
@@ -90,7 +90,6 @@ class GlidingWeatherList extends Component {
             .catch((error) => {
                 console.warn(error);
             });
-        console.log("fecth ok! state.loadOK + " + this.state.loadOK);
 
 
     }
@@ -99,6 +98,11 @@ class GlidingWeatherList extends Component {
     setRgba() {
         var myAlpha = this.state.topAlpha;
         return `"rgba(156,0,16,` + `${myAlpha})"`;
+    }
+
+    setBorderRgba(){
+        var myAlpha = this.state.borderAlpha;
+        return `"rgba(255,255,255,` + `${myAlpha})"`;
     }
 
 
@@ -119,14 +123,29 @@ class GlidingWeatherList extends Component {
 
         return (
             <View key={rowKey} style={styles.row}>
-                <Text>{rowData.time}</Text>
-                <Text>{rowData.temperature}</Text>
-                <Text>{rowData.rain}</Text>
-                <Text>{rowData.cloud}</Text>
-                <Text>{rowData.windSpeed}</Text>
-                <Text>{rowData.windDir}</Text>
-                <Text>{rowData.windGust}</Text>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.time}h</Text>
+                </View>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>날씨</Text>
+                </View>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.temperature}</Text>
+                </View>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.rain}</Text>
+                </View>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.cloud}</Text>
+                </View>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.windDir}</Text>
+                </View>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.windGust}</Text>
+                </View>
             </View>
+
         );
     }
 
@@ -155,14 +174,27 @@ class GlidingWeatherList extends Component {
 
         var currentOffset = event.nativeEvent.contentOffset.y;
         var direction = currentOffset > bfcurrentOffset ? 'down' : 'up';
+        var addOpacityNum ;
 
         bfcurrentOffset = currentOffset;
 
-        if (currentOffset <= 0) this.setState({menuOpacity : 0});
-        else if (currentOffset >= 125) this.setState({menuOpacity: this.state.menuOpacity + 0.2});
+        if (currentOffset <= 0) this.setState({menuOpacity : 0, borderAlpha:0});
+        else if (currentOffset >= 125) {
+
+            if(this.state.menuOpacity > 1) addOpacityNum =0 ;
+            else addOpacityNum=0.2;
+
+            this.setState({
+                menuOpacity: this.state.menuOpacity + addOpacityNum
+                , borderAlpha: 0.3
+            });
+
+        }
         else{
                 if (direction == 'down') this.setState({menuOpacity: this.state.menuOpacity + 0.025});
-                else this.setState({menuOpacity: this.state.menuOpacity - 0.025});
+                else this.setState({menuOpacity: this.state.menuOpacity - 0.025
+                , borderAlpha:0
+                });
         }
     }
 
@@ -180,17 +212,16 @@ class GlidingWeatherList extends Component {
         return (
             <View  style={{width: SCREEN_WIDTH, height: SCREEN_HEIGHT}}>
 
-                {/* ------------------------------- Navigator ------------------------------------*/}
-                <View style={{ position:'absolute', top:0,left:0,zIndex:1000}}>
+                {/* ------------------------------- Navigator Background ------------------------------------*/}
+                <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:1.5, borderColor:this.setBorderRgba()}}>
                     <Image
                         source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
-                        style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT,
+                        style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,
                          opacity:this.state.menuOpacity
                          }}/>
-
                 </View>
-
-                    <View style={styles.navigator}>
+                {/* ------------------------------- Navigator ------------------------------------*/}
+                <View style={styles.navigator}>
                         <View style={{ marginLeft:10}}>
                             <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
                                 <View style={{width:40}}>
@@ -207,9 +238,9 @@ class GlidingWeatherList extends Component {
                                 <Ionicons name="md-heart" size={30} color="#94000F"/>
                             </TouchableOpacity>
                         </View>
-                    </View>
+                </View>
 
-                {/* ------------------------------- TOP MENU ------------------------------------*/}
+                {/* ------------------------------- Navigator MENU ------------------------------------*/}
                 <View style={{
                     position:'absolute',
                     top:NAVI_HEIGHT,
@@ -217,7 +248,7 @@ class GlidingWeatherList extends Component {
                     zIndex:1000,
                     width:SCREEN_WIDTH,
                     height:MENU_HEIGHT,
-                    backgroundColor:'#9c0010',
+                    //backgroundColor:'#9c0010',
                     opacity:this.state.menuOpacity}}
                 >
                     <View style={styles.normalMenus}>
@@ -230,16 +261,16 @@ class GlidingWeatherList extends Component {
                         <Text style={styles.sectionInfoListText}>기온</Text>
                     </View>
                     <View style={styles.normalMenus}>
+                        <Text style={styles.sectionInfoListText}>강수량</Text>
+                    </View>
+                    <View style={styles.normalMenus}>
+                        <Text style={styles.sectionInfoListText}>구름</Text>
+                    </View>
+                    <View style={styles.normalMenus}>
                         <Text style={styles.sectionInfoListText}>바람</Text>
                     </View>
                     <View style={styles.normalMenus}>
-                        <Text style={styles.sectionInfoListText}>파도</Text>
-                    </View>
-                    <View style={styles.normalMenus}>
-                        <Text style={styles.sectionInfoListText}>조수</Text>
-                    </View>
-                    <View style={styles.normalMenus}>
-                        <Text style={styles.sectionInfoListText}>판정</Text>
+                        <Text style={styles.sectionInfoListText}>돌풍</Text>
                     </View>
                 </View>
 
@@ -275,11 +306,12 @@ class GlidingWeatherList extends Component {
 
 
 
-                            <Text style={{color:'#FFF'}}>업데이트 09월 18일 {this.state.updateTime}</Text>
+                            <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
                             <Text style={ styles.headerDistrictText }>
                                 {this.props.rowData.district}
                             </Text>
-                            <View style={{flexDirection:'row',flex:1,marginTop:10}}>
+                            <View><Text>활공방향</Text></View>
+                            <View style={{flexDirection:'row',flex:1,marginTop:5}}>
                                 <View style={styles.sunInfo}>
                                     <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
                                 </View>
@@ -297,27 +329,27 @@ class GlidingWeatherList extends Component {
                                 height:MENU_HEIGHT,
                                 }}
                          >
-                             <View style={styles.normalMenus}>
-                                 <Text style={styles.sectionInfoListText}>시간</Text>
-                             </View>
-                             <View style={styles.normalMenus}>
-                                 <Text style={styles.sectionInfoListText}>날씨</Text>
-                             </View>
-                             <View style={styles.normalMenus}>
-                                 <Text style={styles.sectionInfoListText}>기온</Text>
-                             </View>
-                             <View style={styles.normalMenus}>
-                                 <Text style={styles.sectionInfoListText}>바람</Text>
-                             </View>
-                             <View style={styles.normalMenus}>
-                                 <Text style={styles.sectionInfoListText}>파도</Text>
-                             </View>
-                             <View style={styles.normalMenus}>
-                                 <Text style={styles.sectionInfoListText}>조수</Text>
-                             </View>
-                             <View style={styles.normalMenus}>
-                                 <Text style={styles.sectionInfoListText}>판정</Text>
-                             </View>
+                            <View style={styles.normalMenus}>
+                            <Text style={styles.sectionInfoListText}>시간</Text>
+                            </View>
+                            <View style={styles.normalMenus}>
+                            <Text style={styles.sectionInfoListText}>날씨</Text>
+                            </View>
+                            <View style={styles.normalMenus}>
+                            <Text style={styles.sectionInfoListText}>기온</Text>
+                            </View>
+                            <View style={styles.normalMenus}>
+                            <Text style={styles.sectionInfoListText}>강수량</Text>
+                            </View>
+                            <View style={styles.normalMenus}>
+                            <Text style={styles.sectionInfoListText}>구름</Text>
+                            </View>
+                            <View style={styles.normalMenus}>
+                            <Text style={styles.sectionInfoListText}>바람</Text>
+                            </View>
+                            <View style={styles.normalMenus}>
+                            <Text style={styles.sectionInfoListText}>돌풍</Text>
+                            </View>
                          </View>
                      </View>
 
@@ -399,6 +431,11 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
 
+    rowListText:{
+        color: 'black',
+        textAlign: 'center',
+        fontSize: 13,
+    },
     heartView:{
         borderRadius:100,
         width:40,height:40,
@@ -446,7 +483,7 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingLeft: 20,
+        paddingLeft: 0,
         backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
@@ -459,14 +496,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#d4d4d4',
-        height: 30,
-        marginTop: 0,
+        height: 25,
 
     },
     sectionHeaderText: {
         fontSize: 15,
         color: '#424242',
-        marginLeft: 0
+        marginLeft: 5
     },
     spinner: {
         position: 'absolute',

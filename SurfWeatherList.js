@@ -59,8 +59,7 @@ class SurfWeatherList extends Component {
                     getRowData              : getRowData,
                     rowHasChanged: (row1, row2) => row1 !== row2,
                     sectionHeaderHasChanged: (s1, s2) => s1 !== s2
-                }),
-            isVisible: false
+                })
             , topAlpha: 0
             , loaded:false
             , sunRise: "00:00"
@@ -72,6 +71,7 @@ class SurfWeatherList extends Component {
     }
 
     fetchData(){
+        console.log("fecth before zz! state.loaded + " + this.state.loaded);
 
         fetch(API_URL).then((responseData) => {
 
@@ -97,6 +97,8 @@ class SurfWeatherList extends Component {
             console.log("SETSTATE DIFF TIME: >>>> ");
             console.log(testTime2.getTime() - testTime.getTime());
         }).done();
+
+        console.log("fecth ok! state.loaded + " + this.state.loaded);
     }
 
 
@@ -202,10 +204,11 @@ class SurfWeatherList extends Component {
 
                     renderScrollComponent={  props => (
                         <ParallaxScrollView
-                            onScrollEndDrag={this.onScrollEnd}
+
                             stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
                             parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
                             backgroundSpeed={10}
+                            onScrollEndDrag={this.onScrollEnd}
                             onMomentumScrollEnd={this.onScrollEnd}
                             scrollEnabled={this.state.loaded}
                             renderBackground={() => (
@@ -430,6 +433,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height:0,
         alignItems:'center',
+        justifyContent:'flex-end',
         marginTop: 10,
     },
 
