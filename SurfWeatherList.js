@@ -19,19 +19,17 @@ import {
 } from 'react-native';
 
 
-
 //import MyGoogleMap  from 'react-native-maps-google';
 import Spinner            from 'react-native-spinkit';
 import Ionicons           from 'react-native-vector-icons/Ionicons';
-import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import ActionButton       from 'react-native-action-button';
 
 var SurfParser = require('./SurfParser');
-var offset     = 0;
-var rowKey     = 0;
-var API_URL ;
 
-var testTime, testTime2;
+var offset = 0;           // before scroll position for Action Button
+var rowKey = 0;           // Listview`s row keys
+var bfcurrentOffset = 0;  // before scroll position for MenuBar
+var API_URL;
 
 class SurfWeatherList extends Component {
 
@@ -39,9 +37,10 @@ class SurfWeatherList extends Component {
         super(props);
 
         API_URL = this.props.rowData.weatherURL; // 날씨URL 가져오기
-
         this.onScrollEnd = this.onScrollEnd.bind(this);
-        this.fetchData = this.fetchData.bind(this);
+        this.onScrolling = this.onScrolling.bind(this);
+        this.fetchData   = this.fetchData.bind(this);
+        this.setSpinnerVisible   = this.setSpinnerVisible.bind(this);
 
         var getSectionData = (dataBlob, sectionID) => {
             return dataBlob[sectionID];
@@ -51,61 +50,58 @@ class SurfWeatherList extends Component {
             return dataBlob[sectionID + ':' + rowID];
         };
 
-
         this.state = {
-            dataSource : new ListView.DataSource(
+
+            dataSource: new ListView.DataSource(
                 {
                     getSectionData          : getSectionData,
                     getRowData              : getRowData,
                     rowHasChanged: (row1, row2) => row1 !== row2,
                     sectionHeaderHasChanged: (s1, s2) => s1 !== s2
-                }),
-            isVisible: false
-            , topAlpha: 0
-            , loaded:false
-            , sunRise: "00:00"
-            , sunSet: "00:00"
+                })
+            ,topAlpha: 0
+            ,borderAlpha:0
+            ,sunrise:"00:00"
+            ,sunset:"00:00"
+            ,updateTime:"00:00"
+            ,loadOK: false
+            ,spinnerVisible: true
+            ,menuOpacity: 0
         };
-
         this.fetchData();
-
     }
 
-    fetchData(){
-
+    fetchData() {
         fetch(API_URL).then((responseData) => {
-
-            //     var {dataBlob, sectionIDs, rowIDs} = SurfParser.getSurfWeather(responseData);
-            var {dataBlob,sectionIDs, rowIDs,sunInfo} = SurfParser.getSurfWeather(responseData);
-            // for(var i=0; i<sectionIDs.length; i++){
-            //     for(var j=0; j<dataBlob[sectionIDs[i]].length; j++){
-            //         console.log( "*******>>:" + sectionIDs[i] + ":" + dataBlob[sectionIDs[i]][j].time);
-            //     }
-            // }
-            testTime = new Date();
-            console.log("SETSTATE START : >>>> " + testTime.getTime());
-            this.setState({
-                dataSource:  this.state.dataSource.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs),
-                loaded: true,
-                sunRise: sunInfo[0],
-                sunSet: sunInfo[1],
-                lastUpdate: sunInfo[2]
+                var {dataBlob,sectionIDs, rowIDs,sunInfo} = SurfParser.getSurfWeather(responseData);  //data parsing
+                this.setState({
+                    dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
+                    sunrise:sunInfo[0],
+                    sunset:sunInfo[1],
+                    updateTime:sunInfo[2],
+                    loadOK:true
+                });
+                this.setSpinnerVisible(false);
+            })
+            .catch((error) => {
+                console.warn(error);
             });
-
-            testTime2 = new Date();
-            console.log("SETSTATE END : >>>> " + testTime2.getTime());
-            console.log("SETSTATE DIFF TIME: >>>> ");
-            console.log(testTime2.getTime() - testTime.getTime());
-        }).done();
     }
 
-
+    // set the Floating Circle-Button Color
     setRgba() {
         var myAlpha = this.state.topAlpha;
         return `"rgba(156,0,16,` + `${myAlpha})"`;
     }
 
-    sectionHeader(rowData, sectionID){
+    setBorderRgba(){
+        var myAlpha = this.state.borderAlpha;
+        return `"rgba(255,255,255,` + `${myAlpha})"`;
+    }
+
+
+    // Draw List's Headers
+    sectionHeader(rowData, sectionID) {
 
         return (
             <View style={styles.sectionHeader}>
@@ -114,52 +110,40 @@ class SurfWeatherList extends Component {
         )
     }
 
+    // Draw List's Rows
+    renderRow(rowData, sectionID, rowID) {
 
-    renderRow(rowData, sectionID, rowID){
-
-        // console.log("sectionID"+sectionID);
-        // console.log("rowID:"+rowID);
-
-        // for(var a in rowData){
-        //     console.log(">>>>rowData  -> idx "  + rowData[a]);
-        // }
-        //rowContain
         rowKey++;
-        var testTime3 = new Date();
-        console.log("RENDER ROW : >>>> " + rowKey + " >> "+ testTime3.getTime());
+
         return (
-            <View key={rowKey}  style={styles.rowContain}>
-                <View key={"View1"+rowKey} style={{flex:1}}>
-                    <Text style={styles.rowText}>{rowData.time}</Text>
+            <View key={rowKey}  style={styles.row}>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.time}</Text>
                 </View>
-                <View key={"View2"+rowKey} style={{flexDirection:'column', flex:1}}>
-                    <View key={"View11"+rowKey} style={{flex:1}}>
-                        <Text style={styles.rowText}>{rowData.cloud}</Text>
-                    </View>
-                    <View key={"View12"+rowKey} style={{flexDirection:'column', flex:1}}>
-                        <Text style={styles.rowText}>{rowData.cloud}</Text>
-                    </View>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.cloud}</Text>
                 </View>
-                <View key={"View3"+rowKey} style={{flex:1}}>
-                    <Text style={styles.rowText}>{rowData.temperature}</Text>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.temperature}</Text>
                 </View>
-                <View key={"View4"+rowKey} style={{flex:1}}>
-                    <Text style={styles.rowText}>{rowData.wind}</Text>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.wind}</Text>
                 </View>
-                <View key={"View5"+rowKey} style={{flex:1}}>
-                    <Text style={styles.rowText}>{rowData.gust}</Text>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.gust}</Text>
                 </View>
-                <View key={"View6"+rowKey} style={{flex:1}}>
-                    <Text style={styles.rowText}>{rowData.pressure}</Text>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.pressure}</Text>
                 </View>
-                <View key={"View7"+rowKey} style={{flex:1}}>
-                    <Text style={styles.rowText}>{rowData.howGoodTosurf}</Text>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.howGoodTosurf}</Text>
                 </View>
             </View>
         );
     }
 
     onScrollEnd(event) {
+
         var currentOffset = event.nativeEvent.contentOffset.y;
         var direction = currentOffset > offset ? 'down' : 'up';
         offset = currentOffset;
@@ -167,175 +151,218 @@ class SurfWeatherList extends Component {
         switch (direction) {
             case 'down'  :
                 this.setState({
-                    topAlpha: 0
+                    topAlpha: 0,
                 });
-                console.log("+++++++++++++++> down down down");
                 break;
             case 'up' :
                 this.setState({
-                    topAlpha: 0.8
+                    topAlpha: 0.8,
                 });
-                console.log("+++++++++++++++> up up up");
                 break;
         };
+
     }
 
-    onMomentumScrollEnd(event){
+    onScrolling(event) {
+
         var currentOffset = event.nativeEvent.contentOffset.y;
-        console.log("onMomentumScrollEnd / height : " + Dimensions.get('window').height + ", " + currentOffset);
+        var direction = currentOffset > bfcurrentOffset ? 'down' : 'up';
+        var addOpacityNum ;
+
+        bfcurrentOffset = currentOffset;
+
+        if (currentOffset <= 0) this.setState({menuOpacity : 0, borderAlpha:0});
+        else if (currentOffset >= 125) {
+
+            if(this.state.menuOpacity > 1) addOpacityNum =0 ;
+            else addOpacityNum=0.2;
+
+            this.setState({
+                menuOpacity: this.state.menuOpacity + addOpacityNum
+                , borderAlpha: 0.3
+            });
+
+        }
+        else{
+            if (direction == 'down') this.setState({menuOpacity: this.state.menuOpacity + 0.025});
+            else this.setState({menuOpacity: this.state.menuOpacity - 0.025
+                , borderAlpha:0
+            });
+        }
+    }
+
+    setSpinnerVisible(visible){
+        this.setState({
+            spinnerVisible : visible
+        });
     }
 
     render() {
         return (
+            <View  style={{width: SCREEN_WIDTH, height: SCREEN_HEIGHT}}>
 
-            <View style={{flex: 1}}>
+                {/* ------------------------------- Navigator Background ------------------------------------*/}
+                <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:1.5, borderColor:this.setBorderRgba()}}>
+                    <Image
+                        source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
+                        style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,
+                            opacity:this.state.menuOpacity
+                        }}/>
+                </View>
+                {/* ------------------------------- Navigator ------------------------------------*/}
+                <View style={styles.navigator}>
+                    <View style={{ marginLeft:10}}>
+                        <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
+                            <View style={{width:40}}>
+                                <Ionicons name="ios-arrow-back" size={30} color="#94000F"/>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{flex:2}}>
+                        <Text style={{color: "white", fontSize: 20, textAlign:'center', opacity:this.state.menuOpacity}}>{this.props.rowData.district}</Text>
 
-                <ListView
-                    ref="ListView"
-                    initialListSize={1}
-                    pageSize={100}
-                    style={styles.container}
+                    </View>
+                    <View style={styles.heartView}>
+                        <TouchableOpacity>
+                            <Ionicons name="md-heart" size={30} color="#94000F"/>
+                        </TouchableOpacity>
+                    </View>
+                </View>
 
-                    dataSource={this.state.dataSource}
-                    renderSectionHeader={this.sectionHeader}
-                    renderRow={this.renderRow}
-                    onMomentumScrollEnd={this.onScrollEnd}
+                {/* ------------------------------- Navigator MENU ------------------------------------*/}
+                <View style={{
+                    position:'absolute',
+                    top:NAVI_HEIGHT,
+                    flexDirection:'row',
+                    zIndex:1000,
+                    width:SCREEN_WIDTH,
+                    height:MENU_HEIGHT,
+                    //backgroundColor:'#9c0010',
+                    opacity:this.state.menuOpacity}}
+                >
+                    <View style={styles.normalMenus}>
+                        <Text style={styles.sectionInfoListText}>시간</Text>
+                    </View>
+                    <View style={styles.normalMenus}>
+                        <Text style={styles.sectionInfoListText}>날씨</Text>
+                    </View>
+                    <View style={styles.normalMenus}>
+                        <Text style={styles.sectionInfoListText}>기온</Text>
+                    </View>
+                    <View style={styles.normalMenus}>
+                        <Text style={styles.sectionInfoListText}>강수량</Text>
+                    </View>
+                    <View style={styles.normalMenus}>
+                        <Text style={styles.sectionInfoListText}>구름</Text>
+                    </View>
+                    <View style={styles.normalMenus}>
+                        <Text style={styles.sectionInfoListText}>바람</Text>
+                    </View>
+                    <View style={styles.normalMenus}>
+                        <Text style={styles.sectionInfoListText}>돌풍</Text>
+                    </View>
+                </View>
+
+
+                <ScrollView
+                    ref="ScrollView"
+                    onScroll={this.onScrolling}
+                    scrollEnabled={this.state.loadOK}
                     onScrollEndDrag={this.onScrollEnd}
-                    renderScrollComponent={  props => (
-                        <ParallaxScrollView
+                    onMomentumScrollEnd={this.onScrollEnd}
+                    style={{flex: 1}}>
 
-                            stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
-                            parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
-                            backgroundSpeed={10}
+                    <Image
+                        source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
+                        style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
 
-                            scrollEnabled={this.state.loaded}
-                            renderBackground={() => (
-                                <View key="background" style={{opacity:1}}>
+                        <View style={{flex:1,flexDirection:'column'}}>
 
-                                    <Image
-                                        source={{uri: 'http://img.wallpaperfolder.com/f/464DBCFCD944/1920x1200px-blur-light-effect-300575.jpg'}}
-                                        style={{width: window.width,height: PARALLAX_HEADER_HEIGHT}}
-                                    />
-                                    <View style={{
-                                        position: 'absolute',
-                                        top: 0,
-                                        width: window.width,
-                                        backgroundColor: 'rgba(0,0,0,.4)',
-                                        height: PARALLAX_HEADER_HEIGHT
-                                    }}/>
-                                </View>
-                            )}
 
-                            renderForeground={() => (
-                                <View key="parallax-header" style={ styles.parallaxHeader }>
+                            {/*----------------------------------- Main Board-----------------------------------*/}
+                            <View style={{
+                                flex:1,
+                                marginTop: 50,
+                                width:SCREEN_WIDTH,
+                                justifyContent:'center',
+                                alignItems:'center',
 
-                                    <Text style={{color:'#FFF'}}>마지막 업데이트 {this.state.lastUpdate}</Text>
-                                    <Text style={ styles.headerDistrictText }>
-                                        {this.props.rowData.district}
-                                    </Text>
-                                    <View style={{flexDirection:'row',flex:1,marginTop:10}}>
-                                        <View style={styles.sunInfo}>
-                                            <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunRise}</Text>
-                                        </View>
-                                        <View style={styles.sunInfo}>
-                                            <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunSet}</Text>
-                                        </View>
+                            }
+
+                            }>
+
+                                {/* ------------------------------- Navigator ------------------------------------*/}
+
+
+
+                                <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
+                                <Text style={ styles.headerDistrictText }>
+                                    {this.props.rowData.district}
+                                </Text>
+                                <View style={{flexDirection:'row',flex:1,marginTop:5}}>
+                                    <View style={styles.sunInfo}>
+                                        <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
                                     </View>
-
-
-
-                                    <View style={ styles.foreGroundMenuContainer }>
-                                        <View style={{ flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>시간</Text>
-                                        </View>
-                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>날씨</Text>
-                                        </View>
-                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>기온</Text>
-                                        </View>
-                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>바람</Text>
-                                        </View>
-                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>파도</Text>
-                                        </View>
-                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>조수</Text>
-                                        </View>
-                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>판정</Text>
-                                        </View>
+                                    <View style={styles.sunInfo}>
+                                        <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
                                     </View>
                                 </View>
-                            )}
 
-                            renderStickyHeader={() => (
-                                <View key="sticky-header" style={styles.stickySection}>
+                            </View>
 
-
-                                    <View style={styles.navbar}>
-                                        <Text style={{color: "#94000F", fontSize: 20}}>
-                                            {this.props.rowData.province}
-                                        </Text>
-                                        <Text style={{color: "#94000F", fontSize: 15}}>
-                                            {this.props.rowData.district}
-                                        </Text>
-                                    </View>
-                                    <View style={ styles.stickyMenuContainer }>
-                                        <View style={{ flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>시간</Text>
-                                        </View>
-                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>날씨</Text>
-                                        </View>
-                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>기온</Text>
-                                        </View>
-                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>바람</Text>
-                                        </View>
-                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>파도</Text>
-                                        </View>
-                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>조수</Text>
-                                        </View>
-                                        <View style={{  flex:1, padding:0,margin:0,justifyContent:'center', alignItems:'center'}}>
-                                            <Text style={styles.sectionInfoListText}>판정</Text>
-                                        </View>
-                                    </View>
-
+                            {/*-------------------------- BOTTOM MENU ---------------------------------*/}
+                            <View style={{
+                                flexDirection:'row',
+                                width:SCREEN_WIDTH,
+                                height:MENU_HEIGHT,
+                            }}
+                            >
+                                <View style={styles.normalMenus}>
+                                    <Text style={styles.sectionInfoListText}>시간</Text>
                                 </View>
-                            )}
-
-                        />
-                    )}
-                />
-                <View style={{position: 'absolute', left: 10, top: 10}}>
-                    <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
-                        <View style={{width:40}}>
-                            <Ionicons name="ios-arrow-back" size={30} color="#94000F"/>
+                                <View style={styles.normalMenus}>
+                                    <Text style={styles.sectionInfoListText}>날씨</Text>
+                                </View>
+                                <View style={styles.normalMenus}>
+                                    <Text style={styles.sectionInfoListText}>기온</Text>
+                                </View>
+                                <View style={styles.normalMenus}>
+                                    <Text style={styles.sectionInfoListText}>바람</Text>
+                                </View>
+                                <View style={styles.normalMenus}>
+                                    <Text style={styles.sectionInfoListText}>파도</Text>
+                                </View>
+                                <View style={styles.normalMenus}>
+                                    <Text style={styles.sectionInfoListText}>조수</Text>
+                                </View>
+                                <View style={styles.normalMenus}>
+                                    <Text style={styles.sectionInfoListText}>판정</Text>
+                                </View>
+                            </View>
                         </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.heartView}>
-                    <TouchableOpacity>
-                        <Ionicons name="md-heart" size={30} color="#94000F"/>
-                    </TouchableOpacity>
-                </View>
+
+                    </Image>
 
 
-                <Spinner
-                    style={styles.spinner} isVisible={!this.state.loaded} size={SPINNER_SIZE} type={"Bounce"}
-                    color={"#94000F"}
-                />
+                    <ListView
+                        style={styles.container}
+                        initialListSize={10}
+                        pageSize={10}
+                        automaticallyAdjustContentInsets={false}
+                        dataSource={this.state.dataSource}
+                        renderSectionHeader={this.sectionHeader}
+                        renderRow={this.renderRow}
+                    />
+
+                </ScrollView>
+
 
                 <ActionButton
                     buttonColor={this.setRgba()}
                     type={'tab'}
                     position={'right'}
-                    onPress={() => this.refs.ListView.scrollTo({x: 0, y: 0})}
+                    offsetY={35}
+                    onPress={() => this.refs.ScrollView.scrollTo({x: 0, y: 0})}
                     icon={<Ionicons name="md-arrow-round-up" style={{
                         fontSize: 20,
                         height: 22,
@@ -343,139 +370,72 @@ class SurfWeatherList extends Component {
                         opacity: this.state.topAlpha
                     }}/>}
                 />
+                <Spinner
+                    style={styles.spinner} isVisible={this.state.spinnerVisible} size={SPINNER_SIZE} type={"Bounce"}
+                    color={"#94000F"}
+                />
+
             </View>
         );
     }
 
 }
 const PARALLAX_HEADER_HEIGHT = 200;
-const STICKY_HEADER_HEIGHT = 95;
-const SPINNER_SIZE  = 80;
+const SPINNER_SIZE = 80;
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-
+const NAVI_HEIGHT = 60;
+const MENU_HEIGHT = 30;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white'
     },
-    navbar:{
-        alignItems: 'center',
-        flex: 1,
-        flexDirection: 'column',
+
+    foreGroundMenuContainer: {
+
+        position:'absolute',
+        top:NAVI_HEIGHT,
+        flexDirection:'row',
+        zIndex:1000,
         width:SCREEN_WIDTH,
-        height:50,
-        backgroundColor:"#FFF"
-    },
-    background: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: window.width,
-        height: PARALLAX_HEADER_HEIGHT
-    },
-    stickySection: {
-
-        height: STICKY_HEADER_HEIGHT,
-        width: SCREEN_WIDTH,
-        backgroundColor:'#94000F'
+        height:MENU_HEIGHT,
+        backgroundColor:'#9c0010'
 
     },
-    stickySectionText: {
+
+    normalMenus:{
+        flex:1,
+        justifyContent:'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+
+    sectionInfoListText: {
         color: 'white',
-        fontSize: 14,
-        margin: 10,
-        fontWeight:'bold',
-        justifyContent: 'center',
-
+        textAlign: 'center',
+        fontSize: 15,
     },
-    fixedSection: {
-        position: 'absolute',
-        bottom: 10,
-        right: 10
+
+    rowListText:{
+        color: 'black',
+        textAlign: 'center',
+        fontSize: 13,
     },
     heartView:{
-        position: 'absolute',
-        right: 10,
-        top: 10,
         borderRadius:100,
-        width:40,
-        height:40,
+        width:40,height:40,
         borderWidth: 1,
+        marginRight:10,
         borderColor: '#FFF',
         alignItems: 'center',
-        justifyContent:'center'
-    },
-    fixedSectionText: {
-        color: '#999',
-        fontSize: 15,
-        textAlignVertical:'center'
-    },
-    parallaxHeader: {
-        alignItems: 'center',
-        flex: 1,
-        flexDirection: 'column',
-        paddingTop: 40
-    },
-
-    stickyMenuContainer:{
-        flex: 1,
-        flexDirection: 'row',
-        height:30,
-        alignItems:'center',
-    },
-    foreGroundMenuContainer:{
-        flex: 1,
-        flexDirection: 'row',
-        height:0,
-        alignItems:'center',
-        marginTop: 10,
-    },
-
-    sectionInfoListText:{
-        color:'white',
-        textAlign:'center',
-        fontSize:15,
-
-    },
-
-    rowContain: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: '#F6F6F6',
-        borderBottomWidth: 1,
-        borderBottomColor: '#e9e9e9',
-        height:40,
-        alignItems: 'center',
-        flex: 1,
-
-    },
-    rowText: {
-        flex: 1,
-        padding:0,
-        margin:0,
-        textAlign : 'center'
-    },
-
-    sectionHeader: {
-
-        backgroundColor: '#d4d4d4',
-        height:20,
-
-    },
-    sectionHeaderText: {
-        fontSize: 15,
-        color: '#424242',
-        marginLeft: 10
-    },
-    spinner: {
-        position:'absolute',
-        left: (SCREEN_WIDTH-SPINNER_SIZE)/2,
-        top: (SCREEN_HEIGHT-SPINNER_SIZE)/2,
-        flexDirection: 'row',
-        alignItems: 'center',
+        justifyContent:'center'},
+    headerBackground: {
+        width: window.width,
+        height: PARALLAX_HEADER_HEIGHT,
+        backgroundColor: 'rgb(244, 201, 107)'
     },
     sunInfo: {
         borderRadius: 20,
@@ -487,11 +447,73 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         margin: 5
     },
+
+    background: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: window.width,
+        height: PARALLAX_HEADER_HEIGHT
+    },
+
+
+    headerProvinceText: {
+        color: 'white',
+        fontSize: 18,
+    },
     headerDistrictText: {
         color: 'white',
         fontSize: 30,
         paddingTop: 0
     },
+
+
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 0,
+        backgroundColor: '#F6F6F6',
+        borderBottomWidth: 1,
+        borderBottomColor: '#e9e9e9',
+        height: 35,
+        alignItems: 'center',
+    },
+
+    sectionHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#d4d4d4',
+        height: 25,
+
+    },
+    sectionHeaderText: {
+        fontSize: 15,
+        color: '#424242',
+        marginLeft: 5
+    },
+    spinner: {
+        position: 'absolute',
+        left: (SCREEN_WIDTH - SPINNER_SIZE) / 2,
+        top: (SCREEN_HEIGHT - SPINNER_SIZE) / 2 + 60,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex:1000
+    },
+    navigator:{
+        flex:1,
+        flexDirection: 'row',
+        justifyContent:'center',
+        alignItems:'center',
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width:SCREEN_WIDTH,
+        height:NAVI_HEIGHT ,
+        zIndex:1000,
+    },
+
 
 });
 
