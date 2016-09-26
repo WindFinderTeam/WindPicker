@@ -44,7 +44,7 @@ class  WindFinder extends Component {
 
         this.setConfigModalVisible = this.setConfigModalVisible.bind(this);
         this.openDrawer            = this.openDrawer.bind(this);
-        this.state = {school : 'Wind Finder2', open: false, viewMode:'gliding'};
+        this.state = {school : 'Wind Finder2', open: false, viewMode:'surf'};
 
     }
 

@@ -4,7 +4,7 @@
     {"province":"강원도", "district":"경포 해수욕장" ,  "weatherURL":"https://www.windfinder.com/forecast/gangneung_virtual_buoy","matching":"80","location":"강릉시 안현동"}
   ,{"province":"강원도", "district":"교암 해수욕장" ,   "weatherURL":"https://www.windfinder.com/forecast/sokcho","matching":"80","location":"고성군 토성면"}
   ,{"province":"강원도", "district":"금진 해수욕장" , "webcam1":"http://liveserver.iptime.org:82/hls/second.m3u8"         ,"camprovider1":"세컨라운지", "weatherURL":"https://www.windfinder.com/forecast/gangneung","webcam2":"http://cctvlive.kr/wsb.htm?no=8", "camprovider2":"알로하서프", "matching":"60","location":"강릉시 옥계면"}
-  ,{"province":"강원도", "district":"기사문 해수욕장" , "webcam1":"http://cctvlive.kr/wsb.htm?no=4"         ,"camprovider1":"양양서프", "webcam2":"http://liveserver.iptime.org:82/hls/goodsurf.m3u8","camprovider2":"", "weatherURL":"https://www.windfinder.com/forecast/gisamun_beach", "matching":"100", "location":"강원도 양양군 현북면"}
+  ,{"province":"강원도", "district":"기사문 해수욕장" , "shop":"", "webcam1":"http://cctvlive.kr/wsb.htm?no=4"         ,"camprovider1":"양양서프", "webcam2":"http://liveserver.iptime.org:82/hls/goodsurf.m3u8","camprovider2":"", "weatherURL":"https://www.windfinder.com/forecast/gisamun_beach", "matching":"100", "location":"강원도 양양군 현북면"}
   ,{"province":"강원도", "district":"남애 해수욕장" , "webcam1":"http://liveserver.iptime.org:82/hls/namae.m3u8"         , "camprovider1":"팔봉서프" ,"weatherURL":"https://www.windfinder.com/forecast/hyeonnam_myeon", "matching":"80", "location":"강원도 현남면"}
   ,{"province":"강원도", "district":"남항진 해수욕장" ,  "weatherURL":"https://www.windfinder.com/forecast/gangneung","matching":"80","location":"강릉시 성덕동"}
   ,{"province":"강원도", "district":"대진 해수욕장" ,   "weatherURL":"https://www.windfinder.com/forecast/yeongdeok","matching":"80","location":"영덕군 영해면"}
@@ -27,7 +27,7 @@
   ,{"province":"강원도", "district":"화진포 해수욕장" ,     "weatherURL":"https://www.windfinder.com/forecast/geojin","matching":"80", "location":"강원도 거진읍 화포리"}
 
   ,{"province":"충청남도", "district":"꽃지 해수욕장" ,    "weatherURL":"https://www.windfinder.com/forecast/anmyeondo", "matching":"80","location":"태안군 안면읍"}
-  ,{"province":"충청남도", "district":"만리포 해수욕장" , "webcam1":"http://cctvlive.kr/wsb.htm?no=5"         ,"camprovider1":"MLP서프", "weatherURL":"https://www.windfinder.com/forecast/mallipo", "location":"", "matching":"100"}
+  ,{"province":"충청남도", "district":"만리포 해수욕장" , "shop":"MLP서프", "webcam1":"http://cctvlive.kr/wsb.htm?no=5"         ,"camprovider1":"MLP서프", "weatherURL":"https://www.windfinder.com/forecast/mallipo", "location":"", "matching":"100"}
 
 
   ,{"province":"경상남도", "district":"광안리 해수욕장" ,     "weatherURL":"https://www.windfinder.com/forecast/gwang_an_beach", "matching":"100"}

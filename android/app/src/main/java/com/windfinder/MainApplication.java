@@ -8,7 +8,6 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
-import xyz.plan.android.pptmapview.PPTGoogleMapPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 
@@ -27,7 +26,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage()
-          ,new PPTGoogleMapPackage()
           , new VectorIconsPackage()
           , new RNSpinkitPackage()
       );

@@ -1,7 +1,6 @@
 package com.windfinder;
 
 import com.facebook.react.ReactActivity;
-import xyz.plan.android.pptmapview.PPTGoogleMapPackage;
 
 public class MainActivity extends ReactActivity {
 

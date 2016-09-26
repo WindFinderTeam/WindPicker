@@ -20,6 +20,8 @@ import {
 
 import SurfWeatherList from './SurfWeatherList';
 import Ionicons        from 'react-native-vector-icons/Ionicons';
+import Entypo          from 'react-native-vector-icons/Entypo';
+import Carousel        from 'react-native-carousel';
 
 var surfLocalData = require('./jsData/SurfLocalData.json');
 var camUri = "", webcamClicked="";
@@ -53,6 +55,11 @@ class LocalList extends Component{
     }
 
     setRgba(alpha) {
+        var myAlpha = alpha;
+        return `"rgba(156,0,16,` + `${myAlpha})"`;
+    }
+
+    setRgba_shop(alpha) {
         var myAlpha = alpha;
         return `"rgba(156,0,16,` + `${myAlpha})"`;
     }
@@ -140,7 +147,7 @@ class LocalList extends Component{
     renderRow(rowData) {
 
 
-        var webcam1 = "", webcam2 = "";
+        var webcam1 = "", webcam2 = "", shop = "";
 
         if(typeof rowData.webcam1 == "undefined"){
             webcam1 = "";
@@ -152,6 +159,12 @@ class LocalList extends Component{
             webcam2 = "";
         } else {
             webcam2 = rowData.webcam2;
+        }
+
+        if( typeof rowData.shop == "undefined"){
+            shop = "";
+        } else {
+            shop = rowData.shop;
         }
 
         return (
@@ -169,10 +182,13 @@ class LocalList extends Component{
                 <View style={{flex:1}}>
                     <View style={styles.listViewrowCam}>
                         <TouchableOpacity onPress={()=>{this._onPressWebcam("cam1", rowData.webcam1)}}>
-                            <Ionicons name="ios-videocam-outline" size={30} color={webcam1==""?this.setRgba(0):this.setRgba(1)}/>
+                            <Ionicons name="ios-videocam" size={25} color={webcam1==""?this.setRgba(0):this.setRgba(1)}/>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={()=>{this._onPressWebcam("cam2", rowData.webcam2)}}>
-                            <Ionicons name="ios-videocam-outline" size={30} color={webcam2==""?this.setRgba(0):this.setRgba(1)}/>
+                            <Ionicons name="ios-videocam" size={25} color={webcam2==""?this.setRgba(0):this.setRgba(1)}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>{this._onPressWebcam("cam2", rowData.webcam2)}}>
+                            <Entypo name = "shop" style={{marginTop:6, fontSize:20, color:shop==""?this.setRgba_shop(0):this.setRgba_shop(1)}}/>
                         </TouchableOpacity>
                     </View>
 
@@ -182,11 +198,6 @@ class LocalList extends Component{
     }
 
     render() {
-        var myHeader = `User-Agent: Samsung SHV-E300S stagefright/Beyonce/1.1.9 (Linux;Android 5.0.1) (SKT-HLS; SKT-SS-p.0.1; SHV-E300S)
-allow-cross-domain-redirect: false
-Host: liveserver.iptime.org:82
-Connection: Keep-Alive
-Accept-Encoding: gzip` ;
 
         return (
 
@@ -216,23 +227,42 @@ Accept-Encoding: gzip` ;
                     visible={this.state.camVisible}
                     onRequestClose={() => {this.setCamVisible(false)}}>
                     <View style={styles.modalContainer}>
-                        <View>
-                            <View style={[styles.closeContain, {opacity:this.state.camLoadedOpa}]}>
+                            <View style={[styles.closeIcon, {opacity:this.state.camLoadedOpa}]}>
                                 <TouchableOpacity onPress={()=>{this.setCamVisible(false)}}>
-                                    <Ionicons name="md-close" size={25} color={'#94000F'}/>
+                                    <Ionicons name="md-close" size={25} color={'white'}/>
                                 </TouchableOpacity>
                             </View>
-                            <WebView
-                                ref='WebView1'
-                                modalVisible={this.setCamVisible}
-                                onLoad={()=>{this.setCamLoadedOK("1")}}
-                                style={styles.webView}
-                                automaticallyAdjustContentInsets={true}
-                                source={{uri: camUri}}
-                                javaScriptEnabled={true}
-                                startInLoadingState={true}
-                                scalesPageToFit={true}
-                            />
+                            <View style={{height:SCREEN_HEIGHT/2}}>
+                            <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-50}>
+                                <View style={{flex:1}}>
+                                    <WebView
+                                        ref='WebView1'
+                                        modalVisible={this.setCamVisible}
+                                        onLoad={()=>{this.setCamLoadedOK("1")}}
+                                        style={[styles.webView,{backgroundColor:'red'}]}
+                                        automaticallyAdjustContentInsets={true}
+                                        source={{uri: camUri}}
+                                        javaScriptEnabled={true}
+                                        startInLoadingState={true}
+                                        scalesPageToFit={true}
+                                    />
+                                    <Text>provided by1</Text>
+                                    </View>
+                                <View style={{flex:1}}>
+                                    <WebView
+                                        ref='WebView2'
+                                        modalVisible={this.setCamVisible}
+                                        onLoad={()=>{this.setCamLoadedOK("1")}}
+                                        style={styles.webView}
+                                        automaticallyAdjustContentInsets={true}
+                                        source={{uri: camUri}}
+                                        javaScriptEnabled={true}
+                                        startInLoadingState={true}
+                                        scalesPageToFit={true}
+                                    />
+                                    <Text>provided by2</Text>
+                                </View>
+                            </Carousel>
                         </View>
                     </View>
                 </Modal>
@@ -285,6 +315,7 @@ var styles = StyleSheet.create({
         height:SCREEN_HEIGHT/2,
     },
     webView: {
+        flex:1,
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
@@ -318,6 +349,14 @@ var styles = StyleSheet.create({
         marginLeft: SCREEN_WIDTH-45
     },
 
+
+    closeIcon:{
+
+        right: 10,
+        top:5,
+        position:'absolute'
+
+    },
 });
 
 module.exports = LocalList;
