@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "logcat": "adb logcat *:S ReactNative:V"
+    "logcat": "adb logcat *:S ReactNative:V ReactNativeJS:V"
   },
   "dependencies": {
     "fast-html-parser": "^1.0.1",

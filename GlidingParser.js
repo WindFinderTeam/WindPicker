@@ -58,7 +58,7 @@ function getGlidingWeather (responseJSON){
         case 'Dec':  upMonth = "12."; break;
     };
 
-    update_last = upMonth + upDate + " "+upTime+  upDay;
+    update_last = upMonth + upDate +  upDay + " "+upTime;
     sunInfo.push(update_last) ;
     var totalRow = responseJSON.hr_h.length;
 
@@ -100,7 +100,7 @@ function getGlidingWeather (responseJSON){
             "key" : "rowID" + i,
             "time"        : responseJSON.hr_h[i],    // 시간
             "temperature" : responseJSON.TMPE[i],    // 온도
-            "rain"        : responseJSON.PCPT[i],    // 강수량
+            "rain"        : responseJSON.APCP[i],    // 강수량
             "cloud"       : responseJSON.HCDC[i],    // 구름
             "windSpeed"   : responseJSON.WINDSPD[i], // 바람스피드
             "windDir"     : responseJSON.WINDDIR[i], // 바람방향

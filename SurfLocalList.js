@@ -28,6 +28,8 @@ var camUri = "", webcamClicked="";
 var selectedRowData ;
 var selectedHeaderData ;
 
+var webCamView ;
+
 
 class LocalList extends Component{
 
@@ -73,11 +75,69 @@ class LocalList extends Component{
 
 
 
-    _onPressWebcam(cam, webcam) {
+    _onPressWebcam(webcam) {
 
-        webcamClicked = cam;
+        for(var i in webcam){
+            console.log("::::::::::::::::::::: i : " + webcam[i]);
+        }
 
-        camUri = webcam;
+        switch (i) {
+            case '0':
+                webCamView = (
+                    <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-50}>
+                        <View style={{flex:1}}>
+                            <WebView
+                                modalVisible={this.setCamVisible}
+                                onLoad={()=>{this.setCamLoadedOK("1")}}
+                                style={[styles.webView,{backgroundColor:'red'}]}
+                                automaticallyAdjustContentInsets={true}
+                                source={{uri: webcam[0]}}
+                                javaScriptEnabled={true}
+                                startInLoadingState={true}
+                                scalesPageToFit={true}
+                            />
+                            <Text>provided by```1</Text>
+                        </View>
+                        <View></View>
+                    </Carousel>
+                );
+                break;
+            case '1':
+                webCamView = (
+                    <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-50}>
+                        <View style={{flex:1}}>
+                            <WebView
+                                modalVisible={this.setCamVisible}
+                                onLoad={()=>{this.setCamLoadedOK("1")}}
+                                style={[styles.webView,{backgroundColor:'red'}]}
+                                automaticallyAdjustContentInsets={true}
+                                source={{uri: webcam[0]}}
+                                javaScriptEnabled={true}
+                                startInLoadingState={true}
+                                scalesPageToFit={true}
+                            />
+                            <Text>provided by1</Text>
+                        </View>
+                        <View style={{flex:1}}>
+                            <WebView
+                                modalVisible={this.setCamVisible}
+                                onLoad={()=>{this.setCamLoadedOK("1")}}
+                                style={styles.webView}
+                                automaticallyAdjustContentInsets={true}
+                                source={{uri: webcam[1]}}
+                                javaScriptEnabled={true}
+                                startInLoadingState={true}
+                                scalesPageToFit={true}
+                            />
+                            <Text>provided by2</Text>
+                        </View>
+                    </Carousel>
+                );
+                break;
+            default: break;
+        };
+
+
 
         this.setCamVisible(true);
         console.log("webcamClicked cam is : " + webcamClicked , " state :" + this.state.camVisible + " camUri : " + camUri);
@@ -147,24 +207,26 @@ class LocalList extends Component{
     renderRow(rowData) {
 
 
-        var webcam1 = "", webcam2 = "", shop = "";
+        var webcamVar = [], providerVar = [], webcamShow = false, shopShow = false;
 
-        if(typeof rowData.webcam1 == "undefined"){
-            webcam1 = "";
+        if(typeof rowData.webcam == "undefined"){
+            webcamShow = false;
         } else {
-            webcam1 = rowData.webcam1;
+            for(var i in rowData.webcam){
+                webcamVar[i] = rowData.webcam[i]["camUrl"];
+                providerVar[i] = rowData.webcam[i]["provider"];
+
+            }
+            console.log("webcam data exists: " + webcamVar[i] + ", " + providerVar[i] + ", " + i);
+
+            webcamShow = true;
         }
 
-        if(typeof rowData.webcam2 == "undefined"){
-            webcam2 = "";
-        } else {
-            webcam2 = rowData.webcam2;
-        }
 
         if( typeof rowData.shop == "undefined"){
-            shop = "";
+            shopShow = false;
         } else {
-            shop = rowData.shop;
+            shopShow = true;
         }
 
         return (
@@ -181,14 +243,11 @@ class LocalList extends Component{
                 </View>
                 <View style={{flex:1}}>
                     <View style={styles.listViewrowCam}>
-                        <TouchableOpacity onPress={()=>{this._onPressWebcam("cam1", rowData.webcam1)}}>
-                            <Ionicons name="ios-videocam" size={25} color={webcam1==""?this.setRgba(0):this.setRgba(1)}/>
+                        <TouchableOpacity onPress={()=>{this._onPressWebcam(webcamVar)}}>
+                            <Ionicons name="ios-videocam" size={22} color={webcamShow==false?this.setRgba(0):this.setRgba(1)}/>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={()=>{this._onPressWebcam("cam2", rowData.webcam2)}}>
-                            <Ionicons name="ios-videocam" size={25} color={webcam2==""?this.setRgba(0):this.setRgba(1)}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={()=>{this._onPressWebcam("cam2", rowData.webcam2)}}>
-                            <Entypo name = "shop" style={{marginTop:6, fontSize:20, color:shop==""?this.setRgba_shop(0):this.setRgba_shop(1)}}/>
+                        <TouchableOpacity>
+                            <Entypo name = "shop" style={{marginTop:6, fontSize:20, color:shopShow==false?this.setRgba_shop(0):this.setRgba_shop(1)}}/>
                         </TouchableOpacity>
                     </View>
 
@@ -233,36 +292,7 @@ class LocalList extends Component{
                                 </TouchableOpacity>
                             </View>
                             <View style={{height:SCREEN_HEIGHT/2}}>
-                            <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-50}>
-                                <View style={{flex:1}}>
-                                    <WebView
-                                        ref='WebView1'
-                                        modalVisible={this.setCamVisible}
-                                        onLoad={()=>{this.setCamLoadedOK("1")}}
-                                        style={[styles.webView,{backgroundColor:'red'}]}
-                                        automaticallyAdjustContentInsets={true}
-                                        source={{uri: camUri}}
-                                        javaScriptEnabled={true}
-                                        startInLoadingState={true}
-                                        scalesPageToFit={true}
-                                    />
-                                    <Text>provided by1</Text>
-                                    </View>
-                                <View style={{flex:1}}>
-                                    <WebView
-                                        ref='WebView2'
-                                        modalVisible={this.setCamVisible}
-                                        onLoad={()=>{this.setCamLoadedOK("1")}}
-                                        style={styles.webView}
-                                        automaticallyAdjustContentInsets={true}
-                                        source={{uri: camUri}}
-                                        javaScriptEnabled={true}
-                                        startInLoadingState={true}
-                                        scalesPageToFit={true}
-                                    />
-                                    <Text>provided by2</Text>
-                                </View>
-                            </Carousel>
+                                {webCamView}
                         </View>
                     </View>
                 </Modal>

@@ -105,6 +105,14 @@ class GlidingWeatherList extends Component {
         return `"rgba(255,255,255,` + `${myAlpha})"`;
     }
 
+    getTempColorRgb(temp){
+        var color = '#260e87';
+        //  ~35     , 35 ~ 30 ,  30~25  , 25~20   , 20~10   , 10~5   , 5 ~ -5 ,  -5 ~
+
+        return color;
+
+    }
+
 
     // Draw List's Headers
     sectionHeader(rowData, sectionID) {
@@ -120,6 +128,11 @@ class GlidingWeatherList extends Component {
     renderRow(rowData, sectionID, rowID) {
 
         rowKey++;
+        var windDir = rowData.windDir + 136;
+        windDir = windDir + " deg";
+
+        var temperature =  Math.round(rowData.temperature);
+        //var tempColor = getTempColorRgb(temperature);
 
         return (
             <View key={rowKey} style={styles.row}>
@@ -130,7 +143,9 @@ class GlidingWeatherList extends Component {
                     <Text style={styles.rowListText}>날씨</Text>
                 </View>
                 <View style={styles.normalMenus}>
-                    <Text style={styles.rowListText}>{rowData.temperature}</Text>
+                    <View style={{   justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:'#FFE400'}}>
+                        <Text style={styles.rowListText}>{temperature} ℃</Text>
+                    </View>
                 </View>
                 <View style={styles.normalMenus}>
                     <Text style={styles.rowListText}>{rowData.rain}</Text>
@@ -139,10 +154,17 @@ class GlidingWeatherList extends Component {
                     <Text style={styles.rowListText}>{rowData.cloud}</Text>
                 </View>
                 <View style={styles.normalMenus}>
-                    <Text style={styles.rowListText}>{rowData.windDir}</Text>
+                    <Ionicons name="ios-send" style={{
+                        fontSize:20,
+                        color: '#9c0010',
+                        marginLeft:3,
+                        paddingTop:0,
+                        transform:[{rotate: windDir}],
+                    }}/>
                 </View>
-                <View style={styles.normalMenus}>
-                    <Text style={styles.rowListText}>{rowData.windGust}</Text>
+                <View style={{flex:1,justifyContent:'center',alignItems: 'center',flexDirection: 'column',}}>
+                    <Text style={{color: 'black',textAlign: 'center',fontSize: 13,}}>{rowData.windSpeed+' kts'}</Text>
+                    <Text style={{color: 'black',textAlign: 'center',fontSize: 10,}}>{'(max '+rowData.windGust+')'}</Text>
                 </View>
             </View>
 
@@ -213,7 +235,7 @@ class GlidingWeatherList extends Component {
             <View  style={{width: SCREEN_WIDTH, height: SCREEN_HEIGHT}}>
 
                 {/* ------------------------------- Navigator Background ------------------------------------*/}
-                <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:1.5, borderColor:this.setBorderRgba()}}>
+                <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
                     <Image
                         source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
                         style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,
@@ -270,7 +292,7 @@ class GlidingWeatherList extends Component {
                         <Text style={styles.sectionInfoListText}>바람</Text>
                     </View>
                     <View style={styles.normalMenus}>
-                        <Text style={styles.sectionInfoListText}>돌풍</Text>
+                        <Text style={styles.sectionInfoListText}>속도</Text>
                     </View>
                 </View>
 
@@ -310,8 +332,17 @@ class GlidingWeatherList extends Component {
                                 <Text style={ styles.headerDistrictText }>
                                     {this.props.rowData.district}
                                 </Text>
-                                <View><Text>활공방향</Text></View>
-                                <View style={{flexDirection:'row',flex:1,marginTop:5}}>
+                                <View style={{flexDirection:'row'}}>
+                                    <Text style={{color: '#9c0010'}}>활공방향 </Text>
+                                    <Ionicons name="ios-send" style={{
+                                        fontSize:20,
+                                        color: '#9c0010',
+                                        marginLeft:3,
+                                        paddingTop:0,
+                                        transform:[{rotate: '136 deg'}],
+                                    }}/>
+                                </View>
+                                <View style={{flexDirection:'row',flex:1,marginTop:2}}>
                                     <View style={styles.sunInfo}>
                                         <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
                                     </View>
@@ -348,7 +379,7 @@ class GlidingWeatherList extends Component {
                                     <Text style={styles.sectionInfoListText}>바람</Text>
                                 </View>
                                 <View style={styles.normalMenus}>
-                                    <Text style={styles.sectionInfoListText}>돌풍</Text>
+                                    <Text style={styles.sectionInfoListText}>속도</Text>
                                 </View>
                             </View>
                         </View>

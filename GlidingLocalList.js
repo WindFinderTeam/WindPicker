@@ -54,8 +54,8 @@ class LocalList extends Component{
 
         var {data, sectionIds} = this.renderListViewData(glidingLocalData);
         this.state = {
-                       dataSource          : this.ds.cloneWithRowsAndSections(data, sectionIds)
-                      ,modalVisible        : false
+            dataSource          : this.ds.cloneWithRowsAndSections(data, sectionIds)
+            ,modalVisible        : false
 
         };
     }
@@ -100,7 +100,7 @@ class LocalList extends Component{
             <TouchableOpacity
                 onPress={() => { this._onPressButton(rowData)}}>
                 <View style={styles.listViewrow}>
-                        <Text style={styles.text}>{rowData.district}</Text>
+                    <Text style={styles.text}>{rowData.district}</Text>
                 </View>
             </TouchableOpacity>
         )
