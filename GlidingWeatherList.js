@@ -32,6 +32,15 @@ var rowKey = 0;           // Listview`s row keys
 var bfcurrentOffset = 0;  // before scroll position for MenuBar
 var API_URL;
 
+
+var color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
+    ,'#130ccb','#0e0cd2','#100edd','#0c0de4','#0f18e3','#0d20de','#0c32d5','#0e40d5','#104bcd','#1257cc'
+    ,'#0d65c6','#0f74bc','#1b7abe','#308ac6','#4a97cf','#5ba1d2','#70afd8','#84bae0','#95c2df','#add4e5'
+    ,'#c3daec','#d4e9ee','#fdfdc9','#fdfab7','#fdf99e','#fbf48a','#fdf579','#fef363','#fff150','#feee36'
+    ,'#feee25','#feeb12','#ffe60f','#fede11','#fed70e','#ffce10','#ffc710','#fec110','#ffb812','#fdb10d'
+    ,'#fea90e','#fa9e0f','#fd8d0d','#f9800b','#f96b09','#f35805','#f34a05','#f33a04','#f12a01','#ee1b00'
+    ,'#ed0b00','#eb0300'];
+
 class GlidingWeatherList extends Component {
 
     constructor(props) {
@@ -105,13 +114,7 @@ class GlidingWeatherList extends Component {
         return `"rgba(255,255,255,` + `${myAlpha})"`;
     }
 
-    getTempColorRgb(temp){
-        var color = '#260e87';
-        //  ~35     , 35 ~ 30 ,  30~25  , 25~20   , 20~10   , 10~5   , 5 ~ -5 ,  -5 ~
 
-        return color;
-
-    }
 
 
     // Draw List's Headers
@@ -132,7 +135,7 @@ class GlidingWeatherList extends Component {
         windDir = windDir + " deg";
 
         var temperature =  Math.round(rowData.temperature);
-        //var tempColor = getTempColorRgb(temperature);
+        var tempColor = color[temperature+20];
 
         return (
             <View key={rowKey} style={styles.row}>
@@ -143,7 +146,7 @@ class GlidingWeatherList extends Component {
                     <Text style={styles.rowListText}>날씨</Text>
                 </View>
                 <View style={styles.normalMenus}>
-                    <View style={{   justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:'#FFE400'}}>
+                    <View style={{   justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor}}>
                         <Text style={styles.rowListText}>{temperature} ℃</Text>
                     </View>
                 </View>
