@@ -28,7 +28,7 @@ var camUri = "", webcamClicked="";
 var selectedRowData ;
 var selectedHeaderData ;
 
-var webCamView ;
+var webCamView, webCamViewIndicator ;
 
 
 class LocalList extends Component{
@@ -84,12 +84,11 @@ class LocalList extends Component{
         switch (i) {
             case '0':
                 webCamView = (
-                    <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-50}>
-                        <View style={{flex:1}}>
+                        <View key="view1" style={{flex:1}}>
                             <WebView
                                 modalVisible={this.setCamVisible}
                                 onLoad={()=>{this.setCamLoadedOK("1")}}
-                                style={[styles.webView,{backgroundColor:'red'}]}
+                                style={styles.webView}
                                 automaticallyAdjustContentInsets={true}
                                 source={{uri: webcam[0]}}
                                 javaScriptEnabled={true}
@@ -98,18 +97,20 @@ class LocalList extends Component{
                             />
                             <Text>provided by```1</Text>
                         </View>
-                        <View></View>
-                    </Carousel>
+                );
+
+                webCamViewIndicator = (
+                    <Text style={{fontSize:50, color:"#94000F", textAlign:'center'}}>•</Text>
                 );
                 break;
             case '1':
                 webCamView = (
-                    <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-50}>
-                        <View style={{flex:1}}>
+                    <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-68}>
+                        <View key="view1" style={{flex:1}}>
                             <WebView
                                 modalVisible={this.setCamVisible}
                                 onLoad={()=>{this.setCamLoadedOK("1")}}
-                                style={[styles.webView,{backgroundColor:'red'}]}
+                                style={styles.webView}
                                 automaticallyAdjustContentInsets={true}
                                 source={{uri: webcam[0]}}
                                 javaScriptEnabled={true}
@@ -118,7 +119,7 @@ class LocalList extends Component{
                             />
                             <Text>provided by1</Text>
                         </View>
-                        <View style={{flex:1}}>
+                        <View key="view2" style={{flex:1}}>
                             <WebView
                                 modalVisible={this.setCamVisible}
                                 onLoad={()=>{this.setCamLoadedOK("1")}}
@@ -133,11 +134,11 @@ class LocalList extends Component{
                         </View>
                     </Carousel>
                 );
+
+                webCamViewIndicator = null;
                 break;
             default: break;
         };
-
-
 
         this.setCamVisible(true);
         console.log("webcamClicked cam is : " + webcamClicked , " state :" + this.state.camVisible + " camUri : " + camUri);
@@ -244,10 +245,10 @@ class LocalList extends Component{
                 <View style={{flex:1}}>
                     <View style={styles.listViewrowCam}>
                         <TouchableOpacity onPress={()=>{this._onPressWebcam(webcamVar)}}>
-                            <Ionicons name="ios-videocam" size={22} color={webcamShow==false?this.setRgba(0):this.setRgba(1)}/>
+                            <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Entypo name = "shop" style={{marginTop:6, fontSize:20, color:shopShow==false?this.setRgba_shop(0):this.setRgba_shop(1)}}/>
+                            <Entypo name = "shop" style={{color:shopShow==false?this.setRgba_shop(0):this.setRgba_shop(1), fontSize:23}}/>
                         </TouchableOpacity>
                     </View>
 
@@ -257,9 +258,7 @@ class LocalList extends Component{
     }
 
     render() {
-
         return (
-
             <View>
                 <Modal
                     animationType={"fade"}
@@ -270,7 +269,6 @@ class LocalList extends Component{
                     <SurfWeatherList
                         modalVisible={this.setModalVisible}
                         rowData = {selectedRowData}/>
-
                 </Modal>
                 <ListView
                     ref="listView"
@@ -288,12 +286,13 @@ class LocalList extends Component{
                     <View style={styles.modalContainer}>
                             <View style={[styles.closeIcon, {opacity:this.state.camLoadedOpa}]}>
                                 <TouchableOpacity onPress={()=>{this.setCamVisible(false)}}>
-                                    <Ionicons name="md-close" size={25} color={'white'}/>
+                                    <Ionicons name="md-close" size={35} color={'white'}/>
                                 </TouchableOpacity>
                             </View>
                             <View style={{height:SCREEN_HEIGHT/2}}>
                                 {webCamView}
-                        </View>
+                            </View>
+                            <View style={styles.circleIcon}>{webCamViewIndicator}</View>
                     </View>
                 </Modal>
             </View>
@@ -311,6 +310,11 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#F5FCFF',
     },
+    circleIcon : {
+        width : (SCREEN_WIDTH),
+        alignItems : 'center',
+        position:'absolute'
+    },
     listViewrow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -324,6 +328,7 @@ var styles = StyleSheet.create({
     listViewrowCam: {
         flexDirection: 'row',
         justifyContent: 'space-around',
+        alignItems :'center',
         backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
@@ -336,7 +341,7 @@ var styles = StyleSheet.create({
     },
     modalContainer:{
         justifyContent: 'center',
-        backgroundColor:'rgba(0, 0, 0, 0.5)',
+        backgroundColor:'rgba(0, 0, 0, 0.8)',
         flex:1
 
     },
