@@ -95,7 +95,6 @@ class LocalList extends Component{
                                 startInLoadingState={true}
                                 scalesPageToFit={true}
                             />
-                            <Text>provided by```1</Text>
                         </View>
                 );
 
@@ -117,7 +116,6 @@ class LocalList extends Component{
                                 startInLoadingState={true}
                                 scalesPageToFit={true}
                             />
-                            <Text>provided by1</Text>
                         </View>
                         <View key="view2" style={{flex:1}}>
                             <WebView
@@ -130,7 +128,6 @@ class LocalList extends Component{
                                 startInLoadingState={true}
                                 scalesPageToFit={true}
                             />
-                            <Text>provided by2</Text>
                         </View>
                     </Carousel>
                 );
@@ -311,7 +308,7 @@ var styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
     circleIcon : {
-        width : (SCREEN_WIDTH),
+        width : SCREEN_WIDTH,
         alignItems : 'center',
         position:'absolute'
     },
