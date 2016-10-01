@@ -41,6 +41,8 @@ var color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab
     ,'#fea90e','#fa9e0f','#fd8d0d','#f9800b','#f96b09','#f35805','#f34a05','#f33a04','#f12a01','#ee1b00'
     ,'#ed0b00','#eb0300'];
 
+var WeatherIcon = ['sunny.png','./image/weatherIcon/snow.png'];
+
 class GlidingWeatherList extends Component {
 
     constructor(props) {
@@ -127,6 +129,13 @@ class GlidingWeatherList extends Component {
         )
     }
 
+    getWeatherIcon(){
+
+        return (
+            <Image source={require('./image/weatherIcon/snow.png')}   style={{height: 35,width:35}}/>
+        );
+    }
+
     // Draw List's Rows
     renderRow(rowData, sectionID, rowID) {
 
@@ -137,13 +146,17 @@ class GlidingWeatherList extends Component {
         var temperature =  Math.round(rowData.temperature);
         var tempColor = color[temperature+20];
 
+         var wicon = (<Image source={require('./image/weatherIcon/snow.png')}   style={{height: 35,width:35}}/>);
+        //if(rowData.rain == '0' && rowData.cloud == '0' ) icon = WeatherIcon[0];
+        //else icon = WeatherIcon[1];
+
         return (
             <View key={rowKey} style={styles.row}>
                 <View style={styles.normalMenus}>
                     <Text style={styles.rowListText}>{rowData.time}h</Text>
                 </View>
                 <View style={styles.normalMenus}>
-                    <Text style={styles.rowListText}>날씨</Text>
+                    {wicon}
                 </View>
                 <View style={styles.normalMenus}>
                     <View style={{   justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor}}>
@@ -151,10 +164,10 @@ class GlidingWeatherList extends Component {
                     </View>
                 </View>
                 <View style={styles.normalMenus}>
-                    <Text style={styles.rowListText}>{rowData.rain}</Text>
+                    <Text style={styles.rowListText}>{rowData.rain}mm</Text>
                 </View>
                 <View style={styles.normalMenus}>
-                    <Text style={styles.rowListText}>{rowData.cloud}</Text>
+                    <Text style={styles.rowListText}>{rowData.cloud}%</Text>
                 </View>
                 <View style={styles.normalMenus}>
                     <Ionicons name="ios-send" style={{
