@@ -25,6 +25,7 @@ import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ActionButton       from 'react-native-action-button';
 
 var SurfParser = require('./SurfParser');
+var pickerStyle = require('./pickerStyle');
 
 var offset = 0;           // before scroll position for Action Button
 var rowKey = 0;           // Listview`s row keys
@@ -112,8 +113,8 @@ class SurfWeatherList extends Component {
     sectionHeader(rowData, sectionID) {
 
         return (
-            <View style={styles.sectionHeader}>
-                <Text style={styles.sectionHeaderText}>{sectionID}</Text>
+            <View style={pickerStyle.sectionHeader}>
+                <Text style={pickerStyle.sectionHeaderText}>{sectionID}</Text>
             </View>
         )
     }
@@ -203,7 +204,7 @@ class SurfWeatherList extends Component {
         };
 
         return (
-            <View key={rowKey}  style={[styles.row, {backgroundColor:rowData.time=='00'||rowData.time=='03'||rowData.time=='06'||rowData.time=='21'?'#F9F9F9':'#FFFFFF'}]}>
+            <View key={rowKey}  style={[pickerStyle.row, {/* backgroundColor:rowData.time=='00'||rowData.time=='03'||rowData.time=='06'||rowData.time=='21'?'#F9F9F9':'#FFFFFF' */}]}>
                 {/* 시간 */}
                 <View style={[styles.normalMenus, {flexDirection:'column'}]}>
                     <View>
@@ -224,12 +225,9 @@ class SurfWeatherList extends Component {
                     </View>
                 </View>
                 {/* 기온 */}
-                <View style={[styles.normalMenus, {flexDirection:'column'}]}>
-                    <View style={{justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor}}>
+                <View style={styles.normalMenus}>
+                    <View style={{justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor, width:30}}>
                         <Text style={styles.rowListText}>{rowData.temperature} ℃</Text>
-                    </View>
-                    <View>
-                        <Text style={[styles.rowListText, {fontSize:10}]}>{rowData.pressure} hPa</Text>
                     </View>
                 </View>
                 {/* 바람 */}
@@ -279,10 +277,7 @@ class SurfWeatherList extends Component {
                         <Text style={[styles.rowListText, {fontSize:11}]}>{rowData.tideheight}m {rowData.tidefreq}</Text>
                     </View>
                 </View>
-                {/* 높이판정 */}
-                <View style={styles.normalMenus}>
-                    <Text style={styles.rowListText}>{rowData.rainprecipation}</Text>
-                </View>
+
             </View>
         );
     }
@@ -402,9 +397,7 @@ class SurfWeatherList extends Component {
                     <View style={styles.normalMenus}>
                         <Text style={styles.sectionInfoListText}>조수</Text>
                     </View>
-                    <View style={styles.normalMenus}>
-                        <Text style={styles.sectionInfoListText}>높이판정</Text>
-                    </View>
+
                 </View>
 
 
@@ -479,9 +472,7 @@ class SurfWeatherList extends Component {
                                 <View style={styles.normalMenus}>
                                     <Text style={styles.sectionInfoListText}>조수</Text>
                                 </View>
-                                <View style={styles.normalMenus}>
-                                    <Text style={styles.sectionInfoListText}>높이판정</Text>
-                                </View>
+
                             </View>
                         </View>
 
@@ -610,30 +601,6 @@ const styles = StyleSheet.create({
     },
 
 
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingLeft: 0,
-        backgroundColor: '#F6F6F6',
-        borderBottomWidth: 1,
-        borderBottomColor: '#e9e9e9',
-        height: 40,
-        alignItems: 'center',
-    },
-
-    sectionHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-
-        height: 20,
-
-    },
-    sectionHeaderText: {
-        fontSize: 13,
-        color: '#424242',
-        marginLeft: 5
-    },
     spinner: {
         position: 'absolute',
         left: (SCREEN_WIDTH - SPINNER_SIZE) / 2,
