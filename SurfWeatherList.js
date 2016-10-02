@@ -31,14 +31,6 @@ var rowKey = 0;           // Listview`s row keys
 var bfcurrentOffset = 0;  // before scroll position for MenuBar
 var API_URL;
 
-var color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
-    ,'#130ccb','#0e0cd2','#100edd','#0c0de4','#0f18e3','#0d20de','#0c32d5','#0e40d5','#104bcd','#1257cc'
-    ,'#0d65c6','#0f74bc','#1b7abe','#308ac6','#4a97cf','#5ba1d2','#70afd8','#84bae0','#95c2df','#add4e5'
-    ,'#c3daec','#d4e9ee','#fdfdc9','#fdfab7','#fdf99e','#fbf48a','#fdf579','#fef363','#fff150','#feee36'
-    ,'#feee25','#feeb12','#ffe60f','#fede11','#fed70e','#ffce10','#ffc710','#fec110','#ffb812','#fdb10d'
-    ,'#fea90e','#fa9e0f','#fd8d0d','#f9800b','#f96b09','#f35805','#f34a05','#f33a04','#f12a01','#ee1b00'
-    ,'#ed0b00','#eb0300'];
-
 class SurfWeatherList extends Component {
 
     constructor(props) {
@@ -122,166 +114,29 @@ class SurfWeatherList extends Component {
     renderRow(rowData, sectionID, rowID) {
 
         rowKey++;
-        var windDir = rowData.winddirection + 136;
-        windDir = windDir + " deg";
-
-        var waveDir = rowData.wavedirection + 136;
-        waveDir = waveDir + " deg";
-
-        var temperature =  Math.round(rowData.temperature);
-        var tempColor = color[temperature+20];
-
-        var cloud = rowData.cloud, rainprecipation = rowData.rainprecipation, time = rowData.time;
-        var weatherIcon, precipitationIcon;
-
-        switch (time) {
-            case '00'  :
-            case '03'  :
-            case '06'  :
-            case '21'  :
-                if(cloud >= 0 && cloud <= 10){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/clear_night.png')} style={{width:22, height:22}}/>);
-                } else if(cloud >= 11 && cloud <= 25){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/overcast.png')} style={{width:22, height:22}}/>);
-                } else if(cloud >= 26 && cloud <= 50) {
-                    weatherIcon = (<Image source={require('./image/weatherIcon/overcast.png')} style={{width:22, height:22}}/>);
-                } else if(cloud >= 51 && cloud <= 87){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/overcast.png')} style={{width:22, height:22}}/>);
-                } else if((cloud >= 88 && cloud <= 100)){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/overcast.png')} style={{width:22, height:22}}/>);
-                } else {
-                    weatherIcon = (<Text></Text>);
-                }
-
-                if(rainprecipation == ""){
-                    precipitationIcon = (<Text></Text>);
-                } else if(rainprecipation >= 0 && rainprecipation <= 1){
-                    precipitationIcon = (<Image source={require('./image/weatherIcon/rain.png')} style={{width:22, height:22}}/>);
-                } else if(rainprecipation >= 2 && rainprecipation <= 3){
-                    precipitationIcon = (<Image source={require('./image/weatherIcon/rain.png')} style={{width:22, height:22}}/>);
-                } else if(rainprecipation >= 4){
-                    precipitationIcon = (<Image source={require('./image/weatherIcon/rain.png')} style={{width:22, height:22}}/>);
-                }
-
-                break;
-
-            case '09'  :
-            case '12'  :
-            case '15'  :
-            case '18'  :
-                if(cloud >= 0 && cloud <= 10){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/sunny.png')} style={{width:22, height:22}}/>);
-                } else if(cloud >= 11 && cloud <= 25){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/sunny.png')} style={{width:22, height:22}}/>);
-                } else if(cloud >= 26 && cloud <= 50) {
-                    weatherIcon = (<Image source={require('./image/weatherIcon/sunny.png')} style={{width:22, height:22}}/>);
-                } else if(cloud >= 51 && cloud <= 87){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/sunny.png')} style={{width:22, height:22}}/>);
-                } else if((cloud >= 88 && cloud <= 100)){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/sunny.png')} style={{width:22, height:22}}/>);
-                } else {
-                    weatherIcon = (<Text></Text>);
-                }
-
-                if(rainprecipation == ""){
-                    precipitationIcon = (<Text></Text>);
-                } else if(rainprecipation >= 0 && rainprecipation <= 1){
-                    precipitationIcon = (<Image source={require('./image/weatherIcon/rain.png')} style={{width:22, height:22}}/>);
-                } else if(rainprecipation >= 2 && rainprecipation <= 3){
-                    precipitationIcon = (<Image source={require('./image/weatherIcon/rain.png')} style={{width:22, height:22}}/>);
-                } else if(rainprecipation >= 4){
-                    precipitationIcon = (<Image source={require('./image/weatherIcon/rain.png')} style={{width:22, height:22}}/>);
-                }
-
-                break;
-
-            default    :
-                weatherIcon = (<Text></Text>);
-                precipitationIcon = (<Text></Text>);
-
-                break;
-        };
 
         return (
-            <View key={rowKey}  style={[styles.row, {backgroundColor:rowData.time=='00'||rowData.time=='03'||rowData.time=='06'||rowData.time=='21'?'#F9F9F9':'#FFFFFF'}]}>
-                {/* 시간 */}
-                <View style={[styles.normalMenus, {flexDirection:'column'}]}>
-                    <View>
-                        <Text style={styles.rowListText}>{rowData.time}</Text>
-                    </View>
-                    <View>
-                        <Text style={[styles.rowListText, {fontSize:10}]}>{rowData.ampm}</Text>
-                    </View>
-                </View>
-                {/* 날씨 */}
-                <View style={[styles.normalMenus, {flexDirection:'column'}]}>
-                    <View>
-                        {weatherIcon}
-
-                    </View>
-                    <View>
-                        {precipitationIcon}
-                    </View>
-                </View>
-                {/* 기온 */}
-                <View style={[styles.normalMenus, {flexDirection:'column'}]}>
-                    <View style={{justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor}}>
-                        <Text style={styles.rowListText}>{rowData.temperature} ℃</Text>
-                    </View>
-                    <View>
-                        <Text style={[styles.rowListText, {fontSize:10}]}>{rowData.pressure} hPa</Text>
-                    </View>
-                </View>
-                {/* 바람 */}
-                <View>
-                    <Ionicons name="ios-send" style={{
-                        fontSize:20,
-                        color: '#9c0010',
-                        marginLeft:3,
-                        paddingTop:0,
-                        transform:[{rotate: windDir}],
-                    }}/>
-                </View>
-                <View style={[styles.normalMenus, {flexDirection:'column'}]}>
-                    <View>
-                        <Text style={styles.rowListText}>{rowData.wind} kts</Text>
-                    </View>
-                    <View>
-                        <Text style={[styles.rowListText, {fontSize:10}]}>max {rowData.gust}</Text>
-                    </View>
-                </View>
-                {/* 파도 */}
-                <View>
-                    <Ionicons name="ios-send-outline" style={{
-                        fontSize:20,
-                        color: '#9c0010',
-                        marginLeft:3,
-                        paddingTop:0,
-                        transform:[{rotate: waveDir}],
-                    }}/>
-                </View>
-
-                <View style={[styles.normalMenus, {flexDirection:'column'}]}>
-                    <View>
-                        <Text style={styles.rowListText}>{rowData.waveheight}m</Text>
-                    </View>
-                    <View>
-                        <Text style={[styles.rowListText, {fontSize:11}]}>{rowData.wavefrequency}s</Text>
-                    </View>
-                </View>
-                {/* 조수 */}
-                <View style={[styles.normalMenus, {flexDirection:'column'}]}>
-
-                    <View>
-                        <Text style={{fontSize:11}}>그림</Text>
-                    </View>
-                    <View>
-                        <Text style={[styles.rowListText, {fontSize:11}]}>{rowData.tideheight}m {rowData.tidefreq}</Text>
-                    </View>
-                </View>
-                {/* 높이판정 */}
+            <View key={rowKey}  style={styles.row}>
                 <View style={styles.normalMenus}>
-                    <Text style={styles.rowListText}>{rowData.rainprecipation}</Text>
+                    <Text style={styles.rowListText}>{rowData.time}</Text>
+                </View>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.cloud}</Text>
+                </View>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.temperature}</Text>
+                </View>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.wind}</Text>
+                </View>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.gust}</Text>
+                </View>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.pressure}</Text>
+                </View>
+                <View style={styles.normalMenus}>
+                    <Text style={styles.rowListText}>{rowData.howGoodTosurf}</Text>
                 </View>
             </View>
         );
@@ -305,6 +160,7 @@ class SurfWeatherList extends Component {
                 });
                 break;
         };
+
     }
 
     onScrolling(event) {
@@ -394,16 +250,16 @@ class SurfWeatherList extends Component {
                         <Text style={styles.sectionInfoListText}>기온</Text>
                     </View>
                     <View style={styles.normalMenus}>
+                        <Text style={styles.sectionInfoListText}>강수량</Text>
+                    </View>
+                    <View style={styles.normalMenus}>
+                        <Text style={styles.sectionInfoListText}>구름</Text>
+                    </View>
+                    <View style={styles.normalMenus}>
                         <Text style={styles.sectionInfoListText}>바람</Text>
                     </View>
                     <View style={styles.normalMenus}>
-                        <Text style={styles.sectionInfoListText}>파도</Text>
-                    </View>
-                    <View style={styles.normalMenus}>
-                        <Text style={styles.sectionInfoListText}>조수</Text>
-                    </View>
-                    <View style={styles.normalMenus}>
-                        <Text style={styles.sectionInfoListText}>높이판정</Text>
+                        <Text style={styles.sectionInfoListText}>돌풍</Text>
                     </View>
                 </View>
 
@@ -480,7 +336,7 @@ class SurfWeatherList extends Component {
                                     <Text style={styles.sectionInfoListText}>조수</Text>
                                 </View>
                                 <View style={styles.normalMenus}>
-                                    <Text style={styles.sectionInfoListText}>높이판정</Text>
+                                    <Text style={styles.sectionInfoListText}>판정</Text>
                                 </View>
                             </View>
                         </View>
@@ -599,6 +455,8 @@ const styles = StyleSheet.create({
         width: window.width,
         height: PARALLAX_HEADER_HEIGHT
     },
+
+
     headerProvinceText: {
         color: 'white',
         fontSize: 18,
@@ -617,7 +475,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
-        height: 40,
+        height: 35,
         alignItems: 'center',
     },
 
@@ -625,12 +483,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-
-        height: 20,
+        backgroundColor: '#d4d4d4',
+        height: 25,
 
     },
     sectionHeaderText: {
-        fontSize: 13,
+        fontSize: 15,
         color: '#424242',
         marginLeft: 5
     },
@@ -655,6 +513,8 @@ const styles = StyleSheet.create({
         height:NAVI_HEIGHT ,
         zIndex:1000,
     },
+
+
 });
 
 module.exports = SurfWeatherList;
