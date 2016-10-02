@@ -84,19 +84,18 @@ class LocalList extends Component{
         switch (i) {
             case '0':
                 webCamView = (
-                        <View key="view1" style={{flex:1}}>
-                            <WebView
-                                modalVisible={this.setCamVisible}
-                                onLoad={()=>{this.setCamLoadedOK("1")}}
-                                style={styles.webView}
-                                automaticallyAdjustContentInsets={true}
-                                source={{uri: webcam[0]}}
-                                javaScriptEnabled={true}
-                                startInLoadingState={true}
-                                scalesPageToFit={true}
-                            />
-                            <Text>provided by```1</Text>
-                        </View>
+                    <View key="view1" style={{flex:1}}>
+                        <WebView
+                            modalVisible={this.setCamVisible}
+                            onLoad={()=>{this.setCamLoadedOK("1")}}
+                            style={styles.webView}
+                            automaticallyAdjustContentInsets={true}
+                            source={{uri: webcam[0]}}
+                            javaScriptEnabled={true}
+                            startInLoadingState={true}
+                            scalesPageToFit={true}
+                        />
+                    </View>
                 );
 
                 webCamViewIndicator = (
@@ -117,7 +116,6 @@ class LocalList extends Component{
                                 startInLoadingState={true}
                                 scalesPageToFit={true}
                             />
-                            <Text>provided by1</Text>
                         </View>
                         <View key="view2" style={{flex:1}}>
                             <WebView
@@ -130,7 +128,6 @@ class LocalList extends Component{
                                 startInLoadingState={true}
                                 scalesPageToFit={true}
                             />
-                            <Text>provided by2</Text>
                         </View>
                     </Carousel>
                 );
@@ -231,29 +228,25 @@ class LocalList extends Component{
         }
 
         return (
-            <View style={{flex:1, flexDirection:'row'}}>
-                <View style={{flex:1}}>
-
+            <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>
+                <View style={{flex:1, flexDirection:'row'}}>
                     <View style={styles.listViewrow}>
-                        <TouchableOpacity
-                            onPress={() => { this._onPressButton(rowData)}}>
-                            <Text style={styles.text}>{rowData.district}</Text>
-                        </TouchableOpacity>
+                        <Text style={styles.text}>{rowData.district}</Text>
                     </View>
 
-                </View>
-                <View style={{flex:1}}>
-                    <View style={styles.listViewrowCam}>
-                        <TouchableOpacity onPress={()=>{this._onPressWebcam(webcamVar)}}>
-                            <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Entypo name = "shop" style={{color:shopShow==false?this.setRgba_shop(0):this.setRgba_shop(1), fontSize:23}}/>
-                        </TouchableOpacity>
-                    </View>
+                    <View style={{flex:1}}>
+                        <View style={styles.listViewrowCam}>
+                            <TouchableOpacity onPress={()=>{this._onPressWebcam(webcamVar)}}>
+                                <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Entypo name = "shop" style={{color:shopShow==false?this.setRgba_shop(0):this.setRgba_shop(1), fontSize:23}}/>
+                            </TouchableOpacity>
+                        </View>
 
+                    </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
 
@@ -284,15 +277,15 @@ class LocalList extends Component{
                     visible={this.state.camVisible}
                     onRequestClose={() => {this.setCamVisible(false)}}>
                     <View style={styles.modalContainer}>
-                            <View style={[styles.closeIcon, {opacity:this.state.camLoadedOpa}]}>
-                                <TouchableOpacity onPress={()=>{this.setCamVisible(false)}}>
-                                    <Ionicons name="md-close" size={35} color={'white'}/>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{height:SCREEN_HEIGHT/2}}>
-                                {webCamView}
-                            </View>
-                            <View style={styles.circleIcon}>{webCamViewIndicator}</View>
+                        <View style={[styles.closeIcon, {opacity:this.state.camLoadedOpa}]}>
+                            <TouchableOpacity onPress={()=>{this.setCamVisible(false)}}>
+                                <Ionicons name="md-close" size={35} color={'white'}/>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{height:SCREEN_HEIGHT/2}}>
+                            {webCamView}
+                        </View>
+                        <View style={styles.circleIcon}>{webCamViewIndicator}</View>
                     </View>
                 </Modal>
             </View>
@@ -311,7 +304,7 @@ var styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
     circleIcon : {
-        width : (SCREEN_WIDTH),
+        width : SCREEN_WIDTH,
         alignItems : 'center',
         position:'absolute'
     },
@@ -324,6 +317,7 @@ var styles = StyleSheet.create({
         borderBottomColor: '#e9e9e9',
         height:35,
         alignItems: 'center',
+        flex:1
     },
     listViewrowCam: {
         flexDirection: 'row',

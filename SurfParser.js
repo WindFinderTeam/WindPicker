@@ -22,18 +22,18 @@ function getSurfWeather (responseData){
         sunInfo = [],
         i, j, count =0,
 
-    /* ------------------------------
-     last update, sunrise, sunset
-     -------------------------------*/
+        /* ------------------------------
+         last update, sunrise, sunset
+         -------------------------------*/
         parsing_lastUpdate = root.querySelector('.tabmeta__update'),
         parsing_localstats = root.querySelector('.spotmeta__localstats'),
 
-    /* ------------------------------
-     daily weather
-     -------------------------------*/
+        /* ------------------------------
+         daily weather
+         -------------------------------*/
 
         parsing_sectionData = root.querySelectorAll('.weathertable__header'),
-    //parsing_rawData = root.querySelectorAll('.weathertable__body');
+        //parsing_rawData = root.querySelectorAll('.weathertable__body');
 
         parsing_rowData_time = root.querySelectorAll('.cell-timespan.weathertable__cellgroup.weathertable__cellgroup--stacked'), //time 83
 
@@ -52,12 +52,12 @@ function getSurfWeather (responseData){
 
         parsing_rawData_direction_speed_gust = root.querySelectorAll('.cell-wind-3.weathertable__cellgroup'), //total 83
         parsing_rawData_directionarrow_wind = root.querySelectorAll('.data-direction-unit.units-wd.units-wd-deg.data--minor.weathertable__cell'),
-    //wind direction arrow(icon) //now text 83
-    //parsing_rawData_speed = root.querySelectorAll('.data-bar.data--major.weathertable__cell.wsmax-level-3'), //wind 48
-    //parsing_rawData_gust = root.querySelectorAll('.data-gusts.data--minor.ws1.weathertable__cell'), //gust(max) 18
+        //wind direction arrow(icon) //now text 83
+        //parsing_rawData_speed = root.querySelectorAll('.data-bar.data--major.weathertable__cell.wsmax-level-3'), //wind 48
+        //parsing_rawData_gust = root.querySelectorAll('.data-gusts.data--minor.ws1.weathertable__cell'), //gust(max) 18
 
         parsing_rawData_directionarrow_wave = root.querySelectorAll('.data-direction-unit.units-wad.units-wad-deg.data--minor.weathertable__cell'),
-    //wave direction arrow(icon) //now text 0
+        //wave direction arrow(icon) //now text 0
         parsing_rawData_waveheight = root.querySelectorAll('.data-waveheight.data--major.weathertable__cell'), //height 83
         parsing_rawData_wavefreq = root.querySelectorAll('.data-wavefreq.data--minor.weathertable__cell'); //frequency 83
 
