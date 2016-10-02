@@ -104,6 +104,7 @@ function getGlidingWeather (responseJSON){
             "temperature" : responseJSON.TMPE[i],    // 온도
             "rain"        : responseJSON.APCP[i],    // 강수량
             "cloud"       : responseJSON.TCDC[i],    // 구름
+            "snowYn"      : responseJSON.PCPT[i],    // 0:비, 1:눈
             "windSpeed"   : responseJSON.WINDSPD[i], // 바람스피드
             "windDir"     : responseJSON.WINDDIR[i], // 바람방향
             "windGust"    : responseJSON.GUST[i],    // 돌풍

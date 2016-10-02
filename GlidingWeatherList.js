@@ -146,9 +146,21 @@ class GlidingWeatherList extends Component {
         var temperature =  Math.round(rowData.temperature);
         var tempColor = color[temperature+20];
 
-         var wicon = (<Image source={require('./image/weatherIcon/snow.png')}   style={{height: 35,width:35}}/>);
-        //if(rowData.rain == '0' && rowData.cloud == '0' ) icon = WeatherIcon[0];
-        //else icon = WeatherIcon[1];
+         var wicon ;
+        if(Number(rowData.rain) == '0')
+        {
+            if(Number(rowData.cloud) == '0'){
+                if(rowData.time != '21') wicon = (<Image source={require('./image/weatherIcon/sunny.png')}       style={{height: 35,width:35}}/>);
+                else                     wicon = (<Image source={require('./image/weatherIcon/clear_night.png')} style={{height: 35,width:35}}/>);
+            }
+            else if( 90 <= Number(rowData.cloud) && Number(rowData.cloud) <=100 ){ // 헤비 구름
+                if(rowData.time != '21') wicon = (<Image source={require('./image/weatherIcon/overcast.png')}       style={{height: 35,width:35}}/>);
+                else                     wicon = (<Image source={require('./image/weatherIcon/heavy_cloudy_night.png')} style={{height: 35,width:35}}/>);
+            }
+
+        }
+        else   wicon = (<Image source={require('./image/weatherIcon/rain.png')} style={{height: 35,width:35}}/>);
+
 
         return (
             <View key={rowKey} style={styles.row}>

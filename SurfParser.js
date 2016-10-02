@@ -22,18 +22,18 @@ function getSurfWeather (responseData){
         sunInfo = [],
         i, j, count =0,
 
-        /* ------------------------------
-         last update, sunrise, sunset
-         -------------------------------*/
+    /* ------------------------------
+     last update, sunrise, sunset
+     -------------------------------*/
         parsing_lastUpdate = root.querySelector('.tabmeta__update'),
         parsing_localstats = root.querySelector('.spotmeta__localstats'),
 
-        /* ------------------------------
-         daily weather
-         -------------------------------*/
+    /* ------------------------------
+     daily weather
+     -------------------------------*/
 
         parsing_sectionData = root.querySelectorAll('.weathertable__header'),
-        //parsing_rawData = root.querySelectorAll('.weathertable__body');
+    //parsing_rawData = root.querySelectorAll('.weathertable__body');
 
         parsing_rowData_time = root.querySelectorAll('.cell-timespan.weathertable__cellgroup.weathertable__cellgroup--stacked'), //time 83
 
@@ -43,7 +43,7 @@ function getSurfWeather (responseData){
         parsing_rowData_tideDerections = root.querySelectorAll('.data-tidedirection.weathertable__cell'), //image.defection.must get div class
 
         parsing_rawData_cover = root.querySelectorAll('.data-cover.weathertable__cell'), //cloud 83
-        parsing_rawData_preciptype = root.querySelectorAll('.data-preciptype.weathertable__cell'), //precipation 83
+        parsing_rawData_precipitation = root.querySelectorAll('.data-rain.data--minor.weathertable__cell'), //precipation 83
 
 
         parsing_rawData_temp_pressure = root.querySelectorAll('.cell-weather-2.weathertable__cellgroup'), //temp+pressure 83
@@ -51,17 +51,18 @@ function getSurfWeather (responseData){
         parsing_rawData_pressure = root.querySelectorAll('.data-pressure.data--minor.weathertable__cell'), //pressure 83
 
         parsing_rawData_direction_speed_gust = root.querySelectorAll('.cell-wind-3.weathertable__cellgroup'), //total 83
-        parsing_rawData_directionarrow_wind = root.querySelectorAll('.data-direction-unit.units-wd.units-wd-deg.data--minor.weathertable__cell');
+        parsing_rawData_directionarrow_wind = root.querySelectorAll('.data-direction-unit.units-wd.units-wd-deg.data--minor.weathertable__cell'),
     //wind direction arrow(icon) //now text 83
     //parsing_rawData_speed = root.querySelectorAll('.data-bar.data--major.weathertable__cell.wsmax-level-3'), //wind 48
     //parsing_rawData_gust = root.querySelectorAll('.data-gusts.data--minor.ws1.weathertable__cell'), //gust(max) 18
 
-    parsing_rawData_directionarrow_wave = root.querySelectorAll('data-direction-unit.units-wad.units-wad-deg.data--minor.weathertable__cell');
+        parsing_rawData_directionarrow_wave = root.querySelectorAll('.data-direction-unit.units-wad.units-wad-deg.data--minor.weathertable__cell'),
     //wave direction arrow(icon) //now text 0
-    parsing_rawData_waveheight = root.querySelectorAll('.data-waveheight.data--major.weathertable__cell'), //height 83
+        parsing_rawData_waveheight = root.querySelectorAll('.data-waveheight.data--major.weathertable__cell'), //height 83
         parsing_rawData_wavefreq = root.querySelectorAll('.data-wavefreq.data--minor.weathertable__cell'); //frequency 83
 
-    for(i=0;i<0;i++){
+
+    for(i=0;i<1;i++){
         console.log("----------------- parsing data display ---------------------");
 
         if(typeof parsing_rowData_tides[i] == "undefined"){
@@ -85,13 +86,31 @@ function getSurfWeather (responseData){
             } else  {
                 console.log("parsing_rowData_tideDerections :" + parsing_rowData_tideDerections[i].removeWhitespace().rawText);
             }
+        }
 
+        if(typeof parsing_rawData_directionarrow_wave[i] == "undefined"){
+            console.log("parsing_rawData_directionarrow_wave : NOTHING!!! " );
+        } else  {
+            console.log("parsing_rawData_directionarrow_wave :" + parsing_rawData_directionarrow_wave[i].removeWhitespace().rawText);
+        }
+
+        if(typeof parsing_rawData_waveheight[j] == "undefined"){
+            console.log("parsing_rawData_waveheight : NOTHING!!! " );
+        } else  {
+            console.log("parsing_rawData_waveheight :" + parsing_rawData_waveheight[i].removeWhitespace().rawText);
+        }
+
+
+        if(typeof parsing_rawData_wavefreq[j] == "undefined"){
+            console.log("parsing_rawData_wavefreq : NOTHING!!! " );
+        } else  {
+            console.log("parsing_rawData_wavefreq :" + parsing_rawData_wavefreq[i].removeWhitespace().rawText);
         }
 
         console.log("parsing_rowData_time :" + parsing_rowData_time[i].removeWhitespace().rawText);
 
         console.log("parsing_rawData_cover :" + parsing_rawData_cover[i].removeWhitespace().rawText);
-        console.log("parsing_rawData_preciptype :" + parsing_rawData_preciptype[i].removeWhitespace().rawText);
+        console.log("parsing_rawData_precipitation :" + parsing_rawData_precipitation[i].removeWhitespace().rawText);
 
         console.log("parsing_rawData_temp_pressure :" + parsing_rawData_temp_pressure.length);
         // console.log("parsing_rawData_temp :" + parsing_rawData_temp[i].removeWhitespace().rawText);
@@ -103,13 +122,11 @@ function getSurfWeather (responseData){
         //console.log("parsing_rawData_gust :" + parsing_rawData_gust[i].removeWhitespace().rawText);
 
         //console.log("parsing_rawData_directionarrow_wave :" + parsing_rawData_directionarrow_wave[i].removeWhitespace().rawText);
-        console.log("parsing_rawData_waveheight :" + parsing_rawData_waveheight[i].removeWhitespace().rawText);
-        console.log("parsing_rawData_wavefreq :" + parsing_rawData_wavefreq[i].removeWhitespace().rawText);
+        //console.log("parsing_rawData_waveheight :" + parsing_rawData_waveheight[i].removeWhitespace().rawText);
+        // console.log("parsing_rawData_wavefreq :" + parsing_rawData_wavefreq[i].removeWhitespace().rawText);
+        // console.log("parsing_lastUpdate :" + parsing_lastUpdate.rawText);
     }
 
-
-
-    console.log("lastUpdate, sunRise, sunSet ::::::::::::" + lastUpdate, sunRise, sunSet);
 
     /* -------------------------------------------
      sectionIDs(date) translate to Korean.
@@ -154,8 +171,9 @@ function getSurfWeather (responseData){
         };
 
 
-        today = year[3] + "년 " + month_kor + " " + day + "일, " + dayoftheweek_kor;
+        // today = year[3] + "년 " + month_kor + " " + day + "일, " + dayoftheweek_kor;
         // console.log("today: " + today); // 괄호()안에 지정한 형식으로 날짜 표시
+        today = month_kor + " " + day + "일, " + dayoftheweek_kor;
 
         //sectionIDs.push(parsing_sectionData[i].removeWhitespace().rawText);
         sectionIDs.push(today);
@@ -167,6 +185,22 @@ function getSurfWeather (responseData){
          --------------------------------------------*/
         var lastUpdateArr, localStatsArr, lastUpdate, sunRise, sunSet;
 
+        if(!parsing_lastUpdate){
+            console.log(" null nul parsing_lastUpdate ");
+        } else {
+
+            lastUpdateArr = parsing_lastUpdate.removeWhitespace().rawText ;
+            localStatsArr = parsing_localstats.removeWhitespace().rawText;
+            lastUpdate = year[3] + "년 " + month_kor + " " + day + "일 " + lastUpdateArr.substr(12,5);
+            sunRise = localStatsArr.substr(0,4);
+            sunSet = localStatsArr.substr(4,5);
+
+            sunInfo.push(sunRise);
+            sunInfo.push(sunSet);
+            sunInfo.push(lastUpdate);
+
+        }
+
         lastUpdateArr = parsing_lastUpdate.removeWhitespace().rawText ;
         localStatsArr = parsing_localstats.removeWhitespace().rawText;
         lastUpdate = year[3] + "년 " + month_kor + " " + day + "일 " + lastUpdateArr.substr(12,5);
@@ -177,19 +211,20 @@ function getSurfWeather (responseData){
         sunInfo.push(sunSet);
         sunInfo.push(lastUpdate);
 
-
         /* ------------------------------------
          configure daily data
          ---------------------------------------*/
-
-
 
         for(j=count;j<((parsing_rowData_time.length-count)>8?(count+8):(count+3));j++){
 
             var speed_gust = parsing_rawData_direction_speed_gust[j].removeWhitespace().structuredText.split('\n');
             var temp_pressure = parsing_rawData_temp_pressure[j].removeWhitespace().structuredText.split('\n');
-            var waveheight, wavefreq;
+            var temperature = /\d+/.exec(temp_pressure[0]), pressure = /\d+/.exec(temp_pressure[1]);
+            var wind = /\d+/.exec(speed_gust[0]), gust = /\d+/.exec(speed_gust[1]);
+            var winddirectionarrow = /\d+/.exec(parsing_rawData_directionarrow_wind[j].removeWhitespace().rawText);
+            var time, ampm;
             var tideFreq, tideHeight, tideDerections;
+            var waveheight, wavefreq, wavedirection;
 
             if(typeof parsing_rowData_tides[j] == "undefined"){
                 tideDerections = "", tideFreq = "", tideHeight = "" ;
@@ -198,7 +233,7 @@ function getSurfWeather (responseData){
                 if(typeof parsing_rowData_tideHeight[j] == "undefined"){
                     tideHeight = "";
                 } else  {
-                    tideHeight = parsing_rowData_tideHeight[j].removeWhitespace().rawText;
+                    tideHeight = parsing_rowData_tideHeight[j].removeWhitespace().rawText.replace(/m/,"");;
                 }
 
                 if(typeof parsing_rowData_tideFreq[j] == "undefined"){
@@ -217,27 +252,56 @@ function getSurfWeather (responseData){
             if(typeof parsing_rawData_wavefreq[j] == "undefined"){
                 wavefreq = "";
             } else  {
-                wavefreq = parsing_rawData_wavefreq[j].removeWhitespace().rawText;
+                wavefreq = parsing_rawData_wavefreq[j].removeWhitespace().rawText.replace(/s/,"");
             }
+
+            if(typeof parsing_rawData_waveheight[j] == "undefined"){
+                waveheight = "";
+            } else  {
+                waveheight = parsing_rawData_waveheight[j].removeWhitespace().rawText.replace(/m/, "");
+            }
+
+            if(typeof parsing_rawData_directionarrow_wave[j] == "undefined"){
+                wavedirection = "";
+            } else  {
+                wavedirection = /\d+/.exec(parsing_rawData_directionarrow_wave[j].removeWhitespace().rawText);
+            }
+
+            time = parsing_rowData_time[j].removeWhitespace().rawText.replace(/h/, "");
+
+            switch (time) {
+                case '00'  :  ampm = "am"; break;
+                case '03'  :  ampm = "am"; break;
+                case '06'  :  ampm = "am"; break;
+                case '09'  :  ampm = "am"; break;
+                case '12'  :  ampm = "pm"; break;
+                case '15'  :  ampm = "pm"; break;
+                case '18'  :  ampm = "pm"; break;
+                case '21'  :  ampm = "pm"; break;
+                default    :  ampm = ""; break;
+            };
 
             var rowJson = {
                 "key" : "rowID" + j,
-                "time" : parsing_rowData_time[j].removeWhitespace().rawText,
-                "cloud" : parsing_rawData_cover[j].removeWhitespace().rawText,
-                "rainprecipation" : parsing_rawData_preciptype[j].removeWhitespace().rawText,
-                "temperature" : temp_pressure[0],
-                "pressure" : temp_pressure[1],
+                "time" : time,
+                "ampm" : ampm,
 
-                "winddirectionarrow" : "",
-                "wind" : speed_gust[0],
-                "gust" : speed_gust[1],
-                "wavedirectionarrow" : "",
+                "cloud" : parsing_rawData_cover[j].removeWhitespace().rawText.replace(/%/, ""),
+                "rainprecipation" : parsing_rawData_precipitation[j].removeWhitespace().rawText.replace(/mm/, ""),
+                "temperature" : temperature[0],
+                "pressure" : pressure[0],
+
+                "winddirection" : winddirectionarrow[0],
+                "wind" : wind[0],
+                "gust" : gust[0],
+
                 "waveheight" : waveheight,
                 "wavefrequency" : wavefreq,
+                "wavedirection" : wavedirection[0],
 
-                "tideHeight" : tideHeight,
-                "tideFreq" : tideFreq,
-                "tideDerections" : tideDerections,
+                "tideheight" : tideHeight,
+                "tidefreq" : tideFreq,
+                "tidederections" : tideDerections,
 
                 "howGoodTosurf" : ""
             };
