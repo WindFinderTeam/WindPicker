@@ -25,6 +25,7 @@ import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import ActionButton       from 'react-native-action-button';
 
+var pickerStyle = require('./pickerStyle');
 var GlidingParser = require('./GlidingParser');
 
 var offset = 0;           // before scroll position for Action Button
@@ -123,7 +124,7 @@ class GlidingWeatherList extends Component {
     sectionHeader(rowData, sectionID) {
 
         return (
-            <View style={styles.sectionHeader}>
+            <View style={pickerStyle.sectionHeader}>
                 <Text style={styles.sectionHeaderText}>{sectionID}</Text>
             </View>
         )
@@ -163,7 +164,7 @@ class GlidingWeatherList extends Component {
 
 
         return (
-            <View key={rowKey} style={styles.row}>
+            <View key={rowKey} style={pickerStyle.row}>
                 <View style={styles.normalMenus}>
                     <Text style={styles.rowListText}>{rowData.time}h</Text>
                 </View>
@@ -171,12 +172,12 @@ class GlidingWeatherList extends Component {
                     {wicon}
                 </View>
                 <View style={styles.normalMenus}>
-                    <View style={{   justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor}}>
+                    <View style={{  justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor, width:30}}>
                         <Text style={styles.rowListText}>{temperature} ℃</Text>
                     </View>
                 </View>
                 <View style={styles.normalMenus}>
-                    <Text style={styles.rowListText}>{rowData.rain}mm</Text>
+                    <Text style={styles.rowListText}>{rowData.rain}</Text><Text style={{fontSize:10}}>mm</Text>
                 </View>
                 <View style={styles.normalMenus}>
                     <Text style={styles.rowListText}>{rowData.cloud}%</Text>
@@ -538,26 +539,6 @@ const styles = StyleSheet.create({
         paddingTop: 0
     },
 
-
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingLeft: 0,
-        backgroundColor: '#F6F6F6',
-        borderBottomWidth: 1,
-        borderBottomColor: '#e9e9e9',
-        height: 35,
-        alignItems: 'center',
-    },
-
-    sectionHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: '#d4d4d4',
-        height: 25,
-
-    },
     sectionHeaderText: {
         fontSize: 15,
         color: '#424242',
