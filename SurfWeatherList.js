@@ -26,6 +26,7 @@ import ActionButton       from 'react-native-action-button';
 
 var SurfParser = require('./SurfParser');
 var pickerStyle = require('./pickerStyle');
+var WeatherImage = require('./WeatherImage');
 
 var offset = 0;           // before scroll position for Action Button
 var rowKey = 0;           // Listview`s row keys
@@ -132,76 +133,8 @@ class SurfWeatherList extends Component {
         var temperature =  Math.round(rowData.temperature);
         var tempColor = color[temperature+20];
 
-        var cloud = rowData.cloud, rainprecipation = rowData.rainprecipation, time = rowData.time;
-        var weatherIcon, precipitationIcon;
-
-        switch (time) {
-            case '00'  :
-            case '03'  :
-            case '06'  :
-            case '21'  :
-                if(cloud >= 0 && cloud <= 10){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/clear_night.png')} style={{width:22, height:22}}/>);
-                } else if(cloud >= 11 && cloud <= 25){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/overcast.png')} style={{width:22, height:22}}/>);
-                } else if(cloud >= 26 && cloud <= 50) {
-                    weatherIcon = (<Image source={require('./image/weatherIcon/overcast.png')} style={{width:22, height:22}}/>);
-                } else if(cloud >= 51 && cloud <= 87){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/overcast.png')} style={{width:22, height:22}}/>);
-                } else if((cloud >= 88 && cloud <= 100)){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/overcast.png')} style={{width:22, height:22}}/>);
-                } else {
-                    weatherIcon = (<Text></Text>);
-                }
-
-                if(rainprecipation == ""){
-                    precipitationIcon = (<Text></Text>);
-                } else if(rainprecipation >= 0 && rainprecipation <= 1){
-                    precipitationIcon = (<Image source={require('./image/weatherIcon/rain.png')} style={{width:22, height:22}}/>);
-                } else if(rainprecipation >= 2 && rainprecipation <= 3){
-                    precipitationIcon = (<Image source={require('./image/weatherIcon/rain.png')} style={{width:22, height:22}}/>);
-                } else if(rainprecipation >= 4){
-                    precipitationIcon = (<Image source={require('./image/weatherIcon/rain.png')} style={{width:22, height:22}}/>);
-                }
-
-                break;
-
-            case '09'  :
-            case '12'  :
-            case '15'  :
-            case '18'  :
-                if(cloud >= 0 && cloud <= 10){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/sunny.png')} style={{width:22, height:22}}/>);
-                } else if(cloud >= 11 && cloud <= 25){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/sunny.png')} style={{width:22, height:22}}/>);
-                } else if(cloud >= 26 && cloud <= 50) {
-                    weatherIcon = (<Image source={require('./image/weatherIcon/sunny.png')} style={{width:22, height:22}}/>);
-                } else if(cloud >= 51 && cloud <= 87){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/sunny.png')} style={{width:22, height:22}}/>);
-                } else if((cloud >= 88 && cloud <= 100)){
-                    weatherIcon = (<Image source={require('./image/weatherIcon/sunny.png')} style={{width:22, height:22}}/>);
-                } else {
-                    weatherIcon = (<Text></Text>);
-                }
-
-                if(rainprecipation == ""){
-                    precipitationIcon = (<Text></Text>);
-                } else if(rainprecipation >= 0 && rainprecipation <= 1){
-                    precipitationIcon = (<Image source={require('./image/weatherIcon/rain.png')} style={{width:22, height:22}}/>);
-                } else if(rainprecipation >= 2 && rainprecipation <= 3){
-                    precipitationIcon = (<Image source={require('./image/weatherIcon/rain.png')} style={{width:22, height:22}}/>);
-                } else if(rainprecipation >= 4){
-                    precipitationIcon = (<Image source={require('./image/weatherIcon/rain.png')} style={{width:22, height:22}}/>);
-                }
-
-                break;
-
-            default    :
-                weatherIcon = (<Text></Text>);
-                precipitationIcon = (<Text></Text>);
-
-                break;
-        };
+        var cloud = rowData.cloud, precipation = rowData.rainprecipation, time = rowData.time, snowrain = rowData.snowrain;
+        var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(time, cloud, precipation, snowrain);
 
         return (
             <View key={rowKey}  style={[pickerStyle.row, {/* backgroundColor:rowData.time=='00'||rowData.time=='03'||rowData.time=='06'||rowData.time=='21'?'#F9F9F9':'#FFFFFF' */}]}>
@@ -217,11 +150,11 @@ class SurfWeatherList extends Component {
                 {/* 날씨 */}
                 <View style={[styles.normalMenus, {flexDirection:'column'}]}>
                     <View>
-                        {weatherIcon}
+                        {weatherImg}
 
                     </View>
                     <View>
-                        {precipitationIcon}
+                        {precipitationImg}
                     </View>
                 </View>
                 {/* 기온 */}
@@ -599,8 +532,6 @@ const styles = StyleSheet.create({
         fontSize: 30,
         paddingTop: 0
     },
-
-
     spinner: {
         position: 'absolute',
         left: (SCREEN_WIDTH - SPINNER_SIZE) / 2,

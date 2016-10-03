@@ -28,6 +28,8 @@ function getSurfWeather (responseData){
         parsing_lastUpdate = root.querySelector('.tabmeta__update'),
         parsing_localstats = root.querySelector('.spotmeta__localstats'),
 
+
+
         /* ------------------------------
          daily weather
          -------------------------------*/
@@ -59,10 +61,11 @@ function getSurfWeather (responseData){
         parsing_rawData_directionarrow_wave = root.querySelectorAll('.data-direction-unit.units-wad.units-wad-deg.data--minor.weathertable__cell'),
         //wave direction arrow(icon) //now text 0
         parsing_rawData_waveheight = root.querySelectorAll('.data-waveheight.data--major.weathertable__cell'), //height 83
-        parsing_rawData_wavefreq = root.querySelectorAll('.data-wavefreq.data--minor.weathertable__cell'); //frequency 83
+        parsing_rawData_wavefreq = root.querySelectorAll('.data-wavefreq.data--minor.weathertable__cell'), //frequency 83
+        parsing_snowrain = root.querySelectorAll('.data-preciptype.weathertable__cell');
 
 
-    for(i=0;i<1;i++){
+    for(i=0;i<0;i++){
         console.log("----------------- parsing data display ---------------------");
 
         if(typeof parsing_rowData_tides[i] == "undefined"){
@@ -125,6 +128,12 @@ function getSurfWeather (responseData){
         //console.log("parsing_rawData_waveheight :" + parsing_rawData_waveheight[i].removeWhitespace().rawText);
         // console.log("parsing_rawData_wavefreq :" + parsing_rawData_wavefreq[i].removeWhitespace().rawText);
         // console.log("parsing_lastUpdate :" + parsing_lastUpdate.rawText);
+        if(typeof parsing_snowrain[i].childNodes[1] == "undefined"){
+            console.log("parsing_snowrain : NOTHING!!! " );
+        } else  {
+            console.log("parsing_snowrain :" + i + ": " +  parsing_snowrain[i].childNodes[1].classNames[0]);
+        }
+
     }
 
 
@@ -225,6 +234,20 @@ function getSurfWeather (responseData){
             var time, ampm;
             var tideFreq, tideHeight, tideDerections;
             var waveheight, wavefreq, wavedirection;
+            var snowrain;
+
+            if(typeof parsing_snowrain[j].childNodes[1] == "undefined"){
+                snowrain = "";
+            } else  {
+                if(parsing_snowrain[j].childNodes[1].classNames[0].substr(5,5) == 'rain-'){
+                    snowrain = '2';
+                } else if (parsing_snowrain[j].childNodes[1].classNames[0].substr(5,8) == 'rainsnow'){
+                    snowrain = '3';
+                } else {
+                    //눈만 오는 정보가 아직 확실하지 않기 때문에 그 외 정보를 1 로 받아보기로 한다.
+                    snowrain = '1';
+                }
+            }
 
             if(typeof parsing_rowData_tides[j] == "undefined"){
                 tideDerections = "", tideFreq = "", tideHeight = "" ;
@@ -287,6 +310,7 @@ function getSurfWeather (responseData){
                 "ampm" : ampm,
 
                 "cloud" : parsing_rawData_cover[j].removeWhitespace().rawText.replace(/%/, ""),
+                "snowrain" : snowrain,
                 "rainprecipation" : parsing_rawData_precipitation[j].removeWhitespace().rawText.replace(/mm/, ""),
                 "temperature" : temperature[0],
                 "pressure" : pressure[0],
