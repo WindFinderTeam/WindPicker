@@ -149,7 +149,7 @@ var styles = StyleSheet.create({
         backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
-        height:35,
+        height:40,
         alignItems: 'center',
     },
     text: {
