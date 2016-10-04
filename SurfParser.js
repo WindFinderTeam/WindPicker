@@ -238,9 +238,9 @@ function getSurfWeather (responseData){
                 snowrain = "";
             } else  {
                 if(parsing_snowrain[j].childNodes[1].classNames[0].substr(5,5) == 'rain-'){
-                    snowrain = '2';
+                    snowrain = '0';
                 } else if (parsing_snowrain[j].childNodes[1].classNames[0].substr(5,8) == 'rainsnow'){
-                    snowrain = '3';
+                    snowrain = '2';
                 } else {
                     //눈만 오는 정보가 아직 확실하지 않기 때문에 그 외 정보를 1 로 받아보기로 한다.
                     snowrain = '1';

@@ -27,6 +27,7 @@ import ActionButton       from 'react-native-action-button';
 
 var pickerStyle = require('./pickerStyle');
 var GlidingParser = require('./GlidingParser');
+var WeatherImage = require('./WeatherImage');
 
 var offset = 0;           // before scroll position for Action Button
 var rowKey = 0;           // Listview`s row keys
@@ -42,7 +43,7 @@ var color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab
     ,'#fea90e','#fa9e0f','#fd8d0d','#f9800b','#f96b09','#f35805','#f34a05','#f33a04','#f12a01','#ee1b00'
     ,'#ed0b00','#eb0300'];
 
-var WeatherIcon = ['sunny.png','./image/weatherIcon/snow.png'];
+
 
 class GlidingWeatherList extends Component {
 
@@ -147,29 +148,22 @@ class GlidingWeatherList extends Component {
         var temperature =  Math.round(rowData.temperature);
         var tempColor = color[temperature+20];
 
-         var wicon ;
-        if(Number(rowData.rain) == '0')
-        {
-            if(Number(rowData.cloud) == '0'){
-                if(rowData.time != '21') wicon = (<Image source={require('./image/weatherIcon/sunny.png')}       style={{height: 35,width:35}}/>);
-                else                     wicon = (<Image source={require('./image/weatherIcon/clear_night.png')} style={{height: 35,width:35}}/>);
-            }
-            else if( 90 <= Number(rowData.cloud) && Number(rowData.cloud) <=100 ){ // 헤비 구름
-                if(rowData.time != '21') wicon = (<Image source={require('./image/weatherIcon/overcast.png')}       style={{height: 35,width:35}}/>);
-                else                     wicon = (<Image source={require('./image/weatherIcon/heavy_cloudy_night.png')} style={{height: 35,width:35}}/>);
-            }
 
-        }
-        else   wicon = (<Image source={require('./image/weatherIcon/rain.png')} style={{height: 35,width:35}}/>);
-
+        var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(rowData.time, rowData.cloud, rowData.rain, rowData.snowYn );
 
         return (
             <View key={rowKey} style={pickerStyle.row}>
                 <View style={styles.normalMenus}>
                     <Text style={styles.rowListText}>{rowData.time}h</Text>
                 </View>
-                <View style={styles.normalMenus}>
-                    {wicon}
+                {/* 날씨 */}
+                <View style={[styles.normalMenus, {flexDirection:'column'}]}>
+                    <View>
+                        {weatherImg}
+                    </View>
+                    <View>
+                        {precipitationImg}
+                    </View>
                 </View>
                 <View style={styles.normalMenus}>
                     <View style={{  justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor, width:30}}>

@@ -67,12 +67,13 @@ function  getWatherImage(time, cloudQuantity, precipation, snowrain) {
 
     //눈비이미지생성
     switch(snowrain){
+
+        //0 : rain
+        case '0' : snowrainImage = (require('./image/weatherIcon/raindrop.png')); break;
         //1 : snow
         case '1' : snowrainImage = (require('./image/weatherIcon/snow.png')) ; break;
-        //2 : rain
-        case '2' : snowrainImage = (require('./image/weatherIcon/raindrop.png')); break;
-        //3 : snow+rain
-        case '3' : snowrainImage = (require('./image/weatherIcon/rainSnow.png')); break;
+        //2 : snow+rain
+        case '2' : snowrainImage = (require('./image/weatherIcon/rainSnow.png')); break;
         default  : snowrainImage = ""; break;
     }
 
