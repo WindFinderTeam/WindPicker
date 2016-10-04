@@ -236,12 +236,20 @@ class LocalList extends Component{
 
                     <View style={{flex:1}}>
                         <View style={styles.listViewrowCam}>
-                            <TouchableOpacity onPress={()=>{this._onPressWebcam(webcamVar)}}>
-                                <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <Entypo name = "shop" style={{color:shopShow==false?this.setRgba_shop(0):this.setRgba_shop(1), fontSize:23}}/>
-                            </TouchableOpacity>
+                            {/* cam showing control */}
+                            <View style={[styles.iconBorder, {opacity:webcamShow==false?0:1}]}>
+                                <TouchableOpacity onPress={()=>{this._onPressWebcam(webcamVar)}}>
+                                    <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
+                                </TouchableOpacity>
+                            </View>
+
+                            {/* shop showing control */}
+                            <View style={[styles.iconBorder, {opacity:shopShow==false?0:1}]}>
+                                <TouchableOpacity>
+                                    <Image source={require('./image/surfShop.png')}
+                                           style={{opacity:shopShow==false?0:1, width:23, height:24}}/>
+                                </TouchableOpacity>
+                            </View>
                         </View>
 
                     </View>
@@ -377,14 +385,18 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         marginLeft: SCREEN_WIDTH-45
     },
-
-
     closeIcon:{
-
         right: 10,
         top:5,
         position:'absolute'
-
+    },
+    iconBorder:{
+        borderRadius:100,
+        width:35,height:30,
+        borderWidth: 1,
+        borderColor: '#94000F',
+        alignItems: 'center',
+        justifyContent:'center'
     },
 });
 

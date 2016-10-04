@@ -134,6 +134,27 @@ class SurfWeatherList extends Component {
         var tempColor = color[temperature+20];
 
         var cloud = rowData.cloud, precipation = rowData.rainprecipation, time = rowData.time, snowrain = rowData.snowrain;
+        var tidedirections;
+
+        if(rowData.tidedirections != ""){
+            switch(rowData.tidedirections) {
+                case 'down' :
+                    tidedirections = (<Image source={require('./image/weatherIcon/cloud1.png')} style={{width:15, height:15}}/>);
+                    break;
+                case 'up' :
+                    tidedirections = (<Image source={require('./image/arrow.png')} style={{width:15, height:15}}/>);
+                    break;
+                case 'high' :
+                    tidedirections = (<Image source={require('./image/weatherIcon/snow.png')} style={{width:15, height:15}}/>);
+                    break;
+                case 'low' :
+                    tidedirections = (<Image source={require('./image/weatherIcon/cloud2.png')} style={{width:15, height:15}}/>);
+                    break;
+            }
+        } else {
+            tidedirections = (<Text></Text>);
+        }
+
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(time, cloud, precipation, snowrain);
 
         return (
@@ -151,7 +172,6 @@ class SurfWeatherList extends Component {
                 <View style={[styles.normalMenus, {flexDirection:'column'}]}>
                     <View>
                         {weatherImg}
-
                     </View>
                     <View>
                         {precipitationImg}
@@ -204,7 +224,7 @@ class SurfWeatherList extends Component {
                 <View style={[styles.normalMenus, {flexDirection:'column'}]}>
 
                     <View>
-                        <Text style={{fontSize:11}}>그림</Text>
+                        <Text style={{fontSize:11}}>{tidedirections}</Text>
                     </View>
                     <View>
                         <Text style={[styles.rowListText, {fontSize:11}]}>{rowData.tideheight}m {rowData.tidefreq}</Text>

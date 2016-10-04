@@ -28,8 +28,6 @@ function getSurfWeather (responseData){
         parsing_lastUpdate = root.querySelector('.tabmeta__update'),
         parsing_localstats = root.querySelector('.spotmeta__localstats'),
 
-
-
         /* ------------------------------
          daily weather
          -------------------------------*/
@@ -42,7 +40,7 @@ function getSurfWeather (responseData){
         parsing_rowData_tides = root.querySelectorAll('.cell-tides.weathertable__cellgroup.weathertable__cellgroup--stacked'), //tide
         parsing_rowData_tideHeight = root.querySelectorAll('.data-tideheight.weathertable__cell'), //height
         parsing_rowData_tideFreq = root.querySelectorAll('.data-tidefreq.data--minor.weathertable__cell.data-time'), //time
-        parsing_rowData_tideDerections = root.querySelectorAll('.data-tidedirection.weathertable__cell'), //image.defection.must get div class
+        parsing_rowData_tidedirections = root.querySelectorAll('.data-tidedirection.weathertable__cell'), //image.defection.must get div class
 
         parsing_rawData_cover = root.querySelectorAll('.data-cover.weathertable__cell'), //cloud 83
         parsing_rawData_precipitation = root.querySelectorAll('.data-rain.data--minor.weathertable__cell'), //precipation 83
@@ -84,10 +82,10 @@ function getSurfWeather (responseData){
                 console.log("parsing_rowData_tideFreq :" + parsing_rowData_tideFreq[i].removeWhitespace().rawText);
             }
 
-            if(typeof parsing_rowData_tideDerections[i] == "undefined"){
-                console.log("parsing_rowData_tideDerections : NOTHING!!! " );
+            if(typeof parsing_rowData_tidedirections[i] == "undefined"){
+                console.log("parsing_rowData_tidedirections : NOTHING!!! " );
             } else  {
-                console.log("parsing_rowData_tideDerections :" + parsing_rowData_tideDerections[i].removeWhitespace().rawText);
+                console.log("parsing_rowData_tidedirections :" + i + "," +  parsing_rowData_tidedirections[i].childNodes[0].classNames[0]);
             }
         }
 
@@ -232,7 +230,7 @@ function getSurfWeather (responseData){
             var wind = /\d+/.exec(speed_gust[0]), gust = /\d+/.exec(speed_gust[1]);
             var winddirectionarrow = /\d+/.exec(parsing_rawData_directionarrow_wind[j].removeWhitespace().rawText);
             var time, ampm;
-            var tideFreq, tideHeight, tideDerections;
+            var tideFreq, tideHeight, tidedirections;
             var waveheight, wavefreq, wavedirection;
             var snowrain;
 
@@ -250,7 +248,7 @@ function getSurfWeather (responseData){
             }
 
             if(typeof parsing_rowData_tides[j] == "undefined"){
-                tideDerections = "", tideFreq = "", tideHeight = "" ;
+                tidedirections = "", tideFreq = "", tideHeight = "" ;
             } else  {
 
                 if(typeof parsing_rowData_tideHeight[j] == "undefined"){
@@ -265,12 +263,26 @@ function getSurfWeather (responseData){
                     tideFreq = parsing_rowData_tideFreq[j].removeWhitespace().rawText;
                 }
 
-                if(typeof parsing_rowData_tideDerections[j] == "undefined"){
-                    tideDerections = "";
+                if(typeof parsing_rowData_tidedirections[j]== "undefined"){
+                    console.log("parsing_rowData_tidedirections : NOTHING!!! " );
                 } else  {
-                    tideDerections = parsing_rowData_tideDerections[j].removeWhitespace().rawText;
+                    var directionName = parsing_rowData_tidedirections[j].childNodes[1].classNames[0];
+                    console.log(directionName);
+                    if(directionName.substr(10,4) == 'down'){
+                        tidedirections = 'down';
+                    } else if (directionName.substr(10,3) == 'low'){
+                        tidedirections = 'low';
+                    } else if (directionName.substr(10,2) == 'up'){
+                        tidedirections = 'up';
+                    } else if (directionName.substr(10,4) == 'high') {
+                        tidedirections = 'high';
+                    } else {
+                        tidedirections = "";
+                    }
+
                 }
             }
+
 
             if(typeof parsing_rawData_wavefreq[j] == "undefined"){
                 wavefreq = "";
@@ -325,7 +337,7 @@ function getSurfWeather (responseData){
 
                 "tideheight" : tideHeight,
                 "tidefreq" : tideFreq,
-                "tidederections" : tideDerections,
+                "tidedirections" : tidedirections,
 
                 "howGoodTosurf" : ""
             };
