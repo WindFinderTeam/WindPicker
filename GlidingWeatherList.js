@@ -131,12 +131,7 @@ class GlidingWeatherList extends Component {
         )
     }
 
-    getWeatherIcon(){
 
-        return (
-            <Image source={require('./image/weatherIcon/snow.png')}   style={{height: 35,width:35}}/>
-        );
-    }
 
     // Draw List's Rows
     renderRow(rowData, sectionID, rowID) {

@@ -20,7 +20,6 @@ import {
 
 import SurfWeatherList from './SurfWeatherList';
 import Ionicons        from 'react-native-vector-icons/Ionicons';
-import Entypo          from 'react-native-vector-icons/Entypo';
 import Carousel        from 'react-native-carousel';
 
 var surfLocalData = require('./jsData/SurfLocalData.json');
@@ -229,29 +228,29 @@ class LocalList extends Component{
 
         return (
             <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>
-                <View style={{flex:1, flexDirection:'row'}}>
-                    <View style={styles.listViewrow}>
+                {/* row style */}
+                <View style={styles.listViewrow}>
+                    {/* distict */}
+                    <View style={styles.listViewrowDistrict}>
                         <Text style={styles.text}>{rowData.district}</Text>
                     </View>
 
-                    <View style={{flex:1}}>
-                        <View style={styles.listViewrowCam}>
-                            {/* cam showing control */}
-                            <View style={[styles.iconBorder, {opacity:webcamShow==false?0:1}]}>
-                                <TouchableOpacity onPress={()=>{this._onPressWebcam(webcamVar)}}>
-                                    <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
-                                </TouchableOpacity>
-                            </View>
-
-                            {/* shop showing control */}
-                            <View style={[styles.iconBorder, {opacity:shopShow==false?0:1}]}>
-                                <TouchableOpacity>
-                                    <Image source={require('./image/surfShop.png')}
-                                           style={{opacity:shopShow==false?0:1, width:23, height:24}}/>
-                                </TouchableOpacity>
-                            </View>
+                    {/* icons */}
+                    <View style={styles.listViewrowCam}>
+                        {/* cam icon showing control */}
+                        <View style={[styles.iconBorder, {opacity:webcamShow==false?0:1}]}>
+                            <TouchableOpacity onPress={()=>{this._onPressWebcam(webcamVar)}}>
+                                <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
+                            </TouchableOpacity>
                         </View>
 
+                        {/* shop icon showing control */}
+                        <View style={[styles.iconBorder, {opacity:shopShow==false?0:1}]}>
+                            <TouchableOpacity>
+                                <Image source={require('./image/surfShop.png')}
+                                       style={{opacity:shopShow==false?0:1, width:24, height:24}}/>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -317,13 +316,17 @@ var styles = StyleSheet.create({
         position:'absolute'
     },
     listViewrow: {
+        flex:1,
+        flexDirection:'row',
+        height:40
+    },
+    listViewrowDistrict: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingLeft: 20,
         backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
-        height:35,
         alignItems: 'center',
         flex:1
     },
@@ -334,7 +337,7 @@ var styles = StyleSheet.create({
         backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
-        height:35,
+        flex:1
     },
     text: {
         fontSize: 15,
@@ -392,7 +395,7 @@ var styles = StyleSheet.create({
     },
     iconBorder:{
         borderRadius:100,
-        width:35,height:30,
+        width:30,height:30,
         borderWidth: 1,
         borderColor: '#94000F',
         alignItems: 'center',

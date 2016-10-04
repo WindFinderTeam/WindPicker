@@ -126,10 +126,10 @@ class  WindFinder extends Component {
                         <FavoriteList/>
                     </ScrollView>
 
-                    <ScrollView tabLabel="샾랭킹" style={styles.tabView}>
+                    {/* <ScrollView tabLabel="샾랭킹" style={styles.tabView}>
 
                         <ShopPage/>
-                    </ScrollView>
+                    </ScrollView>*/}
                 </ScrollableTabView>
 
                 <Modal
