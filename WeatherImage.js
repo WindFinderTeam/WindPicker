@@ -10,12 +10,12 @@ import {
     Image,
 } from 'react-native';
 
-function  getWatherImage(time, cloudQuantity, precipation, snowrain) {
+function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
                                                                                     //1 : snow 2 : rain 3 :rainsnow
-    var time = time, cloudQuantity = cloudQuantity, precipation = precipation, snowrain = snowrain;
-    var snowrainImage = './image/weatherIcon/raindrop.png';
+    var time = p_time, cloudQuantity = p_cloudQuantity, precipation = p_precipation, snowrain = p_snowrain;
+    var snowrainImage, precipitationImg;
 
-    // console.log("WeatherImage in ok : time :" +  time + " ,cloudQuantity : " + cloudQuantity + ", precipation : " + precipation + ", snowrain: "+snowrain);
+    // console.log("WeatherImage in ok : time :" +  time + " ,cloudQuantity : " + cloudQuantity + ", precipation : " + precipation + ", snowrain:"+snowrain);
 
     // 구름이미지생성
     switch (time) {
@@ -65,7 +65,8 @@ function  getWatherImage(time, cloudQuantity, precipation, snowrain) {
             break;
     };
 
-    //눈비이미지생성
+
+    // 눈비이미지생성
     switch(snowrain){
 
         //0 : rain
@@ -77,7 +78,7 @@ function  getWatherImage(time, cloudQuantity, precipation, snowrain) {
         default  : snowrainImage = ""; break;
     }
 
-    if(precipation == ""){
+    if(precipation == "" || precipation == null){
         precipitationImg = (<Text></Text>);
     } else if(precipation >= 0 && precipation <= 1){
         precipitationImg = (<Image source={snowrainImage} style={{width:9, height:9}}/>);

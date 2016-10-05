@@ -435,11 +435,12 @@ class SurfWeatherList extends Component {
                     <ListView
                         style={styles.container}
                         initialListSize={10}
-                        pageSize={10}
+                        pageSize={1}
                         automaticallyAdjustContentInsets={false}
                         dataSource={this.state.dataSource}
                         renderSectionHeader={this.sectionHeader}
                         renderRow={this.renderRow}
+                        onEndReached={()=>{console.log("xxxxxxxxxx reachedd!!!!")}}
                     />
 
                 </ScrollView>
@@ -519,7 +520,8 @@ const styles = StyleSheet.create({
         marginRight:10,
         borderColor: '#FFF',
         alignItems: 'center',
-        justifyContent:'center'},
+        justifyContent:'center'
+    },
     headerBackground: {
         width: window.width,
         height: PARALLAX_HEADER_HEIGHT,

@@ -144,7 +144,7 @@ class GlidingWeatherList extends Component {
         var tempColor = color[temperature+20];
 
 
-        var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(rowData.time, rowData.cloud, rowData.rain, rowData.snowYn );
+        var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(rowData.time, rowData.cloud, rowData.rain, rowData.snowYn+"" );
 
         return (
             <View key={rowKey} style={pickerStyle.row}>
@@ -185,7 +185,6 @@ class GlidingWeatherList extends Component {
                     <Text style={{color: 'black',textAlign: 'center',fontSize: 10,}}>{'(max '+rowData.windGust+')'}</Text>
                 </View>
             </View>
-
         );
     }
 
