@@ -435,12 +435,12 @@ class SurfWeatherList extends Component {
                     <ListView
                         style={styles.container}
                         initialListSize={10}
-                        pageSize={1}
+                        pageSize={10}
                         automaticallyAdjustContentInsets={false}
                         dataSource={this.state.dataSource}
                         renderSectionHeader={this.sectionHeader}
                         renderRow={this.renderRow}
-                        onEndReached={()=>{console.log("xxxxxxxxxx reachedd!!!!")}}
+
                     />
 
                 </ScrollView>
