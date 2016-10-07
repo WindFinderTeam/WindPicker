@@ -384,8 +384,6 @@ class SurfWeatherList extends Component {
                         style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
 
                         <View style={{flex:1,flexDirection:'column'}}>
-
-
                             {/*----------------------------------- Main Board-----------------------------------*/}
                             <View style={{
                                 flex:1,
@@ -393,7 +391,6 @@ class SurfWeatherList extends Component {
                                 width:SCREEN_WIDTH,
                                 justifyContent:'center',
                                 alignItems:'center',
-
                             }
 
                             }>
