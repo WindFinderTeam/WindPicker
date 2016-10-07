@@ -24,6 +24,11 @@ import Spinner            from 'react-native-spinkit';
 import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ActionButton       from 'react-native-action-button';
 
+import {
+    LazyloadListView,
+    LazyloadView
+} from 'react-native-lazyload';
+
 var SurfParser = require('./SurfParser');
 var pickerStyle = require('./pickerStyle');
 var WeatherImage = require('./WeatherImage');
@@ -114,9 +119,11 @@ class SurfWeatherList extends Component {
     sectionHeader(rowData, sectionID) {
 
         return (
+            <LazyloadView host="listExample">
             <View style={pickerStyle.sectionHeader}>
                 <Text style={pickerStyle.sectionHeaderText}>{sectionID}</Text>
             </View>
+            </LazyloadView>
         )
     }
 
@@ -158,6 +165,7 @@ class SurfWeatherList extends Component {
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(time, cloud, precipation, snowrain);
 
         return (
+            <LazyloadView host="listExample">
             <View key={rowKey}  style={[pickerStyle.row, {/* backgroundColor:rowData.time=='00'||rowData.time=='03'||rowData.time=='06'||rowData.time=='21'?'#F9F9F9':'#FFFFFF' */}]}>
                 {/* 시간 */}
                 <View style={[styles.normalMenus, {flexDirection:'column'}]}>
@@ -232,6 +240,7 @@ class SurfWeatherList extends Component {
                 </View>
 
             </View>
+            </LazyloadView>
         );
     }
 
@@ -432,16 +441,18 @@ class SurfWeatherList extends Component {
                     </Image>
 
 
-                    <ListView
+                    <LazyloadListView
                         style={styles.container}
-                        initialListSize={10}
-                        pageSize={10}
-                        automaticallyAdjustContentInsets={false}
+                        // contentContainerStyle={styles.content}
+                        name="listExample"
                         dataSource={this.state.dataSource}
                         renderSectionHeader={this.sectionHeader}
                         renderRow={this.renderRow}
+                        scrollRenderAheadDistance={200}
+                        renderDistance={100}
+                        pageSize={1}
+                        initialListSize={10}/>
 
-                    />
 
                 </ScrollView>
 

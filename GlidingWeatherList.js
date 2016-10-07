@@ -25,6 +25,11 @@ import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import ActionButton       from 'react-native-action-button';
 
+import {
+    LazyloadListView,
+    LazyloadView
+} from 'react-native-lazyload';
+
 var pickerStyle = require('./pickerStyle');
 var GlidingParser = require('./GlidingParser');
 var WeatherImage = require('./WeatherImage');
@@ -125,9 +130,11 @@ class GlidingWeatherList extends Component {
     sectionHeader(rowData, sectionID) {
 
         return (
-            <View style={pickerStyle.sectionHeader}>
+            <LazyloadView host="listExample">
+              <View style={pickerStyle.sectionHeader}>
                 <Text style={styles.sectionHeaderText}>{sectionID}</Text>
-            </View>
+              </View>
+            </LazyloadView>
         )
     }
 
@@ -147,6 +154,8 @@ class GlidingWeatherList extends Component {
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(rowData.time, rowData.cloud, rowData.rain, rowData.snowYn+"" );
 
         return (
+
+            <LazyloadView host="listExample">
             <View key={rowKey} style={pickerStyle.row}>
                 <View style={styles.normalMenus}>
                     <Text style={styles.rowListText}>{rowData.time}h</Text>
@@ -185,6 +194,7 @@ class GlidingWeatherList extends Component {
                     <Text style={{color: 'black',textAlign: 'center',fontSize: 10,}}>{'(max '+rowData.windGust+')'}</Text>
                 </View>
             </View>
+            </LazyloadView>
         );
     }
 
@@ -403,16 +413,18 @@ class GlidingWeatherList extends Component {
 
                     </Image>
 
-
-                    <ListView
+                    <LazyloadListView
                         style={styles.container}
-                        initialListSize={10}
-                        pageSize={10}
-                        automaticallyAdjustContentInsets={false}
+                       // contentContainerStyle={styles.content}
+                        name="listExample"
                         dataSource={this.state.dataSource}
                         renderSectionHeader={this.sectionHeader}
                         renderRow={this.renderRow}
-                    />
+                        scrollRenderAheadDistance={200}
+                        renderDistance={100}
+                        pageSize={1}
+                        initialListSize={10}/>
+
 
                 </ScrollView>
 
