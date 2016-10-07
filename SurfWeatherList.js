@@ -264,24 +264,32 @@ class SurfWeatherList extends Component {
         };
     }
 
-    onScrolling(event) {
 
+    onScrolling(event) {
         var currentOffset = event.nativeEvent.contentOffset.y;
         var direction = currentOffset > bfcurrentOffset ? 'down' : 'up';
-        var addOpacityNum ;
 
         bfcurrentOffset = currentOffset;
 
-        if (currentOffset <= 0) this.setState({menuOpacity : 0, borderAlpha:0});
+        if (currentOffset <= 0){
+            this.setState({menuOpacity : 0, borderAlpha:0});
+        }
         else if (currentOffset >= 125) {
 
-            if(this.state.menuOpacity > 1) addOpacityNum =0 ;
-            else addOpacityNum=0.2;
-
-            this.setState({
-                menuOpacity: this.state.menuOpacity + addOpacityNum
-                , borderAlpha: 0.3
-            });
+            if(this.state.menuOpacity > 1)
+            {
+                this.setState({
+                    menuOpacity: 1
+                    , borderAlpha: 0.3
+                });
+            }
+            else if(this.state.menuOpacity == 1) ;
+            else {
+                this.setState({
+                    menuOpacity: this.state.menuOpacity + 0.2
+                    , borderAlpha: 0.3
+                });
+            }
 
         }
         else{
