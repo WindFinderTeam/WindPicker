@@ -36,6 +36,7 @@ class LocalList extends Component{
     setCamVisible(visible) {
 
         this.setState({camVisible: visible});
+        console.log("changed !!!!!!! this.state.camVisible :" + this.state.camVisible + " camUri  : " + camUri);
         // off camLOadedOpa
         this.setState({camLoadedOpa:0 });
 
@@ -46,10 +47,12 @@ class LocalList extends Component{
             this.setState({camLoadedOpa:1 });
         }
 
+        console.log("ccamLoadedOpa: visible OK OK :" + this.state.camLoadedOpa);
     }
 
     setModalVisible(visible) {
         this.setState({modalVisible: visible});
+        console.log("changed !!! this.state.modalVisible :" + this.state.modalVisible);
     }
 
     setRgba(alpha) {
@@ -73,7 +76,10 @@ class LocalList extends Component{
 
     _onPressWebcam(webcam) {
 
-        var i;
+        for(var i in webcam){
+            console.log("::::::::::::::::::::: i : " + webcam[i]);
+        }
+
         switch (i) {
             case '0':
                 webCamView = (
@@ -131,6 +137,7 @@ class LocalList extends Component{
         };
 
         this.setCamVisible(true);
+        console.log("webcamClicked cam is : " + webcamClicked , " state :" + this.state.camVisible + " camUri : " + camUri);
     }
 
     constructor(prop){
@@ -207,12 +214,17 @@ class LocalList extends Component{
                 providerVar[i] = rowData.webcam[i]["provider"];
 
             }
+            console.log("webcam data ezxists: " + webcamVar[i] + ", " + providerVar[i] + ", " + i);
+
             webcamShow = true;
         }
 
 
-        if( typeof rowData.shop == "undefined") shopShow = false;
-        else shopShow = true;
+        if( typeof rowData.shop == "undefined"){
+            shopShow = false;
+        } else {
+            shopShow = true;
+        }
 
         return (
             <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>
