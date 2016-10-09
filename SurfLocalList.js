@@ -73,7 +73,7 @@ class LocalList extends Component{
 
     _onPressWebcam(webcam) {
 
-
+        var i;
         switch (i) {
             case '0':
                 webCamView = (
@@ -207,16 +207,12 @@ class LocalList extends Component{
                 providerVar[i] = rowData.webcam[i]["provider"];
 
             }
-
             webcamShow = true;
         }
 
 
-        if( typeof rowData.shop == "undefined"){
-            shopShow = false;
-        } else {
-            shopShow = true;
-        }
+        if( typeof rowData.shop == "undefined") shopShow = false;
+        else shopShow = true;
 
         return (
             <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>
