@@ -36,10 +36,10 @@ var WeatherImage  = require('./WeatherImage');
 var GlidingMenu   = require('./GlidingMenu');
 
 var offset = 0;           // before scroll position for Action Button
-var API_URL;
 var rowKey = 0;           // Listview`s row keys
 var bfcurrentOffset = 0;  // before scroll position for MenuBar
 
+var API_URL;
 var mainBoard=true;
 var headerView;
 var mainBoardView;
@@ -57,33 +57,35 @@ class GlidingWeatherList extends Component {
     constructor(props) {
         super(props);
 
-        API_URL = this.props.rowData.weatherURL; // 날씨URL 가져오기
-        this.onScrollEnd = this.onScrollEnd.bind(this);
-        this.onScrolling = this.onScrolling.bind(this);
-        this.fetchData   = this.fetchData.bind(this);
-        this.setSpinnerVisible   = this.setSpinnerVisible.bind(this);
+        API_URL                = this.props.rowData.weatherURL; // 날씨URL 가져오기
 
-        var getSectionData = (dataBlob, sectionID) => {return dataBlob[sectionID];};
-        var getRowData     = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
+        this.onScrollEnd       = this.onScrollEnd.bind(this);
+        this.onScrolling       = this.onScrolling.bind(this);
+        this.fetchData         = this.fetchData.bind(this);
+        this.setSpinnerVisible = this.setSpinnerVisible.bind(this);
+
+        var getSectionData     = (dataBlob, sectionID)        => {return dataBlob[sectionID];              };
+        var getRowData         = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
 
         district =  this.props.rowData.district;
         this.state = {
 
             dataSource: new ListView.DataSource(
-                {
+             {
                     getSectionData          : getSectionData,
                     getRowData              : getRowData,
-                    rowHasChanged: (row1, row2) => row1 !== row2,
-                    sectionHeaderHasChanged: (s1, s2) => s1 !== s2
-                })
-            ,topAlpha: 0
-            ,borderAlpha:0
-            ,sunrise:"00:00"
-            ,sunset:"00:00"
-            ,updateTime:"00:00"
-            ,loadOK: false
-            ,spinnerVisible: true
-            ,menuOpacity: 0
+                    rowHasChanged           : (row1, row2) => row1 !== row2,
+                    sectionHeaderHasChanged : (s1, s2)     => s1   !== s2
+             })
+            ,topAlpha      :0
+            ,borderAlpha   :0
+            ,menuOpacity   :0
+            ,sunrise       :"00:00"
+            ,sunset        :"00:00"
+            ,updateTime    :"00:00"
+            ,loadOK        :false
+            ,spinnerVisible:true
+            ,networkState  :true
         };
         this.fetchData();
     }
@@ -92,7 +94,7 @@ class GlidingWeatherList extends Component {
         headerView =(
             <Image
                 source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
-                style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
+                style ={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
 
                 <View style={{flex:1,flexDirection:'column'}}>
                     {/*----------------------------------- Main Board-----------------------------------*/}
@@ -132,27 +134,36 @@ class GlidingWeatherList extends Component {
                 </View>
             </Image>
         );
-      mainBoard = true;
+        mainBoard = true;
     }
 
 
     fetchData() {
+
         fetch(API_URL)
             .then((response) => response.json())
             .then((responseJSON) => {
                 var {dataBlob,sectionIDs, rowIDs,sunInfo} = GlidingParser.getGlidingWeather(responseJSON);  // Data Parsing
 
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
-                    sunrise:sunInfo[0],
-                    sunset:sunInfo[1],
-                    updateTime:sunInfo[2],
-                    loadOK:true
+                    dataSource  :this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
+                    sunrise     :sunInfo[0],
+                    sunset      :sunInfo[1],
+                    updateTime  :sunInfo[2],
+                    loadOK      :true,
+                    networkState:true
                 });
                 this.setSpinnerVisible(false);
 
             })
-            .catch((error) => {console.warn(error);});
+            .catch((error) => {
+                console.warn(error);
+                this.setState({
+                    spinnerVisible:false,
+                    networkState  :false
+                });
+
+            });
     }
 
     // set the Floating Circle-Button Color
@@ -218,7 +229,8 @@ class GlidingWeatherList extends Component {
             mainBoard = false;
         }
         else headerView = (<Text></Text>);
-            return(
+
+        return(
             <View>
                 {headerView}
                 <View style={pickerStyle.headerViewStyle}>
@@ -228,8 +240,8 @@ class GlidingWeatherList extends Component {
                         </View>
                     </LazyloadView>
                 </View>
-             </View>
-            );
+            </View>
+        );
     }
 
     // Draw List's Rows
@@ -246,43 +258,37 @@ class GlidingWeatherList extends Component {
 
         return (
             <View style={pickerStyle.rowViewStyle}>
-            <LazyloadView host="listExample">
-                <View key={rowKey} style={pickerStyle.row}>
-                    <View style={pickerStyle.menusView}>
-                        <Text style={pickerStyle.rowListText}>{rowData.time}h</Text>
-                    </View>
+                <LazyloadView host="listExample">
+                    <View key={rowKey} style={pickerStyle.row}>
+                        <View style={pickerStyle.menusView}>
+                            <Text style={pickerStyle.rowListText}>{rowData.time}h</Text>
+                        </View>
 
-                    <View style={[pickerStyle.menusView, {flexDirection:'column'}]}>
-                        <View>{weatherImg}</View>
-                        <View>{precipitationImg}</View>
-                    </View>
-                    <View style={pickerStyle.menusView}>
-                        <View style={{  justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor, width:30}}>
-                            <Text style={pickerStyle.rowListText}>{temperature} ℃</Text>
+                        <View style={[pickerStyle.menusView, {flexDirection:'column'}]}>
+                            <View>{weatherImg}</View>
+                            <View>{precipitationImg}</View>
+                        </View>
+                        <View style={pickerStyle.menusView}>
+                            <View style={{  justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor, width:30}}>
+                                <Text style={pickerStyle.rowListText}>{temperature} ℃</Text>
+                            </View>
+                        </View>
+                        <View style={pickerStyle.menusView}>
+                            <Text style={pickerStyle.rowListText}>{rowData.rain}</Text><Text style={{fontSize:10}}>mm</Text>
+                        </View>
+                        <View style={pickerStyle.menusView}>
+                            <Text style={pickerStyle.rowListText}>{rowData.cloud}%</Text>
+                        </View>
+                        <View style={pickerStyle.menusView}>
+                            <Image source={require('./image/weatherIcon/windArrow.png')} style={{width:23, height:23}}/>
+                        </View>
+                        <View style={{flex:1,justifyContent:'center',alignItems: 'center',flexDirection: 'column',}}>
+                            <Text style={{color: 'black',textAlign: 'center',fontSize: 13,}}>{rowData.windSpeed+' kts'}</Text>
+                            <Text style={{color: 'black',textAlign: 'center',fontSize: 10,}}>{'max '+rowData.windGust}</Text>
                         </View>
                     </View>
-                    <View style={pickerStyle.menusView}>
-                        <Text style={pickerStyle.rowListText}>{rowData.rain}</Text><Text style={{fontSize:10}}>mm</Text>
-                    </View>
-                    <View style={pickerStyle.menusView}>
-                        <Text style={pickerStyle.rowListText}>{rowData.cloud}%</Text>
-                    </View>
-                    <View style={pickerStyle.menusView}>
-                        <Ionicons name="ios-send" style={{
-                        fontSize:20,
-                        color: '#9c0010',
-                        marginLeft:3,
-                        paddingTop:0,
-                        transform:[{rotate: windDir}],
-                    }}/>
-                    </View>
-                    <View style={{flex:1,justifyContent:'center',alignItems: 'center',flexDirection: 'column',}}>
-                        <Text style={{color: 'black',textAlign: 'center',fontSize: 13,}}>{rowData.windSpeed+' kts'}</Text>
-                        <Text style={{color: 'black',textAlign: 'center',fontSize: 10,}}>{'max '+rowData.windGust}</Text>
-                    </View>
-                </View>
-            </LazyloadView>
-        </View>
+                </LazyloadView>
+            </View>
         );
     }
 
@@ -294,7 +300,7 @@ class GlidingWeatherList extends Component {
 
         switch (direction) {
             case 'down'  : this.setState({topAlpha: 0,}); break;
-            case 'up' : this.setState({topAlpha: 0.8,}); break;
+            case 'up'    : this.setState({topAlpha: 0.8,}); break;
         };
     }
 
@@ -318,17 +324,26 @@ class GlidingWeatherList extends Component {
         }
     }
 
+    refreshListView(){
+
+        this.setState({
+            spinnerVisible:true,
+            networkState  :true
+        });
+        this.fetchData();
+    }
+
     setSpinnerVisible(visible){    this.setState({spinnerVisible : visible});    }
 
     render() {
-        if(this.state.spinnerVisible==true)  mainBoardView = headerView;
-        else                                 mainBoardView = (<View></View>);
+            var myView;
 
-        return (
-            <View  style={{flex:1}}>
-                <View style={{flex: 1}}>
-                    {mainBoardView}
+            if(this.state.networkState == true)
+            {
+                if(this.state.spinnerVisible==true)  mainBoardView = headerView;
+                else                                 mainBoardView = (<View></View>);
 
+                myView =(
                     <LazyloadListView
                         style={pickerStyle.container}
                         // contentContainerStyle={styles.content}
@@ -347,62 +362,87 @@ class GlidingWeatherList extends Component {
                         onScrollEndDrag={this.onScrollEnd}
                         onMomentumScrollEnd={this.onScrollEnd}
                     />
-                </View>
+                );
+            }
+            else{ // OFFLINE VIEW
+                mainBoardView = headerView;
+                myView =( <View style={pickerStyle.offlineView}>
+                            <TouchableOpacity onPress={()=>this.refreshListView()}>
+                                <Ionicons name="md-refresh-circle"
+                                          style={{
+                                            fontSize:50,
+                                            color: '#9c0010',
+                                            marginBottom:10,
+                                            transform:[{rotate: '136 deg'}],
+                                          }}
+                                />
+                            </TouchableOpacity>
+                            <Text>네트워크 상태를 확인하세요</Text>
+                          </View>);
+            }
 
-                <ActionButton
-                    buttonColor={this.setRgba()}
-                    type={'tab'}
-                    position={'right'}
-                    offsetY={35}
-                    onPress={() => this.refs.ScrollView.scrollTo({x: 0, y: 0})}
-                    icon={<Ionicons name="md-arrow-round-up" style={{
+            return (
+                <View  style={{flex:1}}>
+                    <View style={{flex: 1}}>
+                        {mainBoardView}
+
+                        {myView}
+                    </View>
+
+                    <ActionButton
+                        buttonColor={this.setRgba()}
+                        type={'tab'}
+                        position={'right'}
+                        offsetY={35}
+                        onPress={() => this.refs.ScrollView.scrollTo({x: 0, y: 0})}
+                        icon={<Ionicons name="md-arrow-round-up" style={{
                         fontSize: 20,
                         height: 22,
                         color: 'white',
                         opacity: this.state.topAlpha
                     }}/>}
-                />
-                <Spinner
-                    style={pickerStyle.spinner} isVisible={this.state.spinnerVisible} size={SPINNER_SIZE} type={"Bounce"}
-                    color={"#94000F"}
-                />
-                {/* ------------------------------- Navigator Background ------------------------------------*/}
-                <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
-                    <Image
-                        source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
-                        style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,
+                    />
+                    <Spinner
+                        style={pickerStyle.spinner} isVisible={this.state.spinnerVisible} size={SPINNER_SIZE} type={"Bounce"}
+                        color={"#94000F"}
+                    />
+                    {/* ------------------------------- Navigator Background ------------------------------------*/}
+                    <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
+                        <Image
+                            source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
+                            style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,
                             opacity:this.state.menuOpacity
                         }}/>
-                </View>
-                {/* ------------------------------- Navigator ------------------------------------*/}
-                <View style={pickerStyle.navigator}>
-                    <View style={{ marginLeft:10}}>
-                        <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
-                            <View style={{width:40}}>
-                                <Ionicons name="ios-arrow-back" size={30} color="#94000F"/>
-                            </View>
-                        </TouchableOpacity>
                     </View>
-                    <View style={{flex:2}}>
-                        <Text style={{color: "white", fontSize: 20, textAlign:'center', opacity:this.state.menuOpacity}}>{this.props.rowData.district}</Text>
+                    {/* ------------------------------- Navigator ------------------------------------*/}
+                    <View style={pickerStyle.navigator}>
+                        <View style={{ marginLeft:10}}>
+                            <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
+                                <View style={{width:40}}>
+                                    <Ionicons name="ios-arrow-back" size={30} color="#94000F"/>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{flex:2}}>
+                            <Text style={{color: "white", fontSize: 20, textAlign:'center', opacity:this.state.menuOpacity}}>{this.props.rowData.district}</Text>
+                        </View>
+                        <View style={pickerStyle.heartView}>
+                            <TouchableOpacity>
+                                <Ionicons name="md-heart" size={30} color="#94000F"/>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <View style={pickerStyle.heartView}>
-                        <TouchableOpacity>
-                            <Ionicons name="md-heart" size={30} color="#94000F"/>
-                        </TouchableOpacity>
-                    </View>
-                </View>
 
-                {/* ------------------------------- Navigator MENU ------------------------------------*/}
-                <View style={{
+                    {/* ------------------------------- Navigator MENU ------------------------------------*/}
+                    <View style={{
                     position:'absolute', top:NAVI_HEIGHT,
                     width:SCREEN_WIDTH,
                     height:MENU_HEIGHT,
                     zIndex:1000,   opacity:this.state.menuOpacity}} >
-                     <GlidingMenu/>
+                        <GlidingMenu/>
+                    </View>
                 </View>
-            </View>
-        );
+            );
     }
 
 }

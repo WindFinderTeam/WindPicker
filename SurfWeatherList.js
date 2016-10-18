@@ -268,13 +268,7 @@ class SurfWeatherList extends Component {
                 </View>
                 {/* 바람 */}
                 <View>
-                    <Ionicons name="ios-send" style={{
-                        fontSize:20,
-                        color: '#9c0010',
-                        marginLeft:3,
-                        paddingTop:0,
-                        transform:[{rotate: windDir}],
-                    }}/>
+                    <Image source={require('./image/weatherIcon/windArrow.png')} style={{width:23, height:23}}/>
                 </View>
                 <View style={[pickerStyle.menusView, {flexDirection:'column'}]}>
                     <View>
@@ -286,13 +280,7 @@ class SurfWeatherList extends Component {
                 </View>
                 {/* 파도 */}
                 <View>
-                    <Ionicons name="ios-send-outline" style={{
-                        fontSize:20,
-                        color: '#9c0010',
-                        marginLeft:3,
-                        paddingTop:0,
-                        transform:[{rotate: waveDir}],
-                    }}/>
+                    <Image source={require('./image/weatherIcon/swellArrow.png')} style={{width:15, height:15}}/>
                 </View>
 
                 <View style={[pickerStyle.menusView, {flexDirection:'column'}]}>

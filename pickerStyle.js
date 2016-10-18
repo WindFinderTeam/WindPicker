@@ -117,6 +117,14 @@ const pickerStyle = StyleSheet.create({
         height:NAVI_HEIGHT ,
         zIndex:1000,
     },
+    offlineView :{
+        flex:1,
+        flexDirection: 'column',
+        justifyContent:'center',
+        alignItems:'center',
+        paddingBottom:70,
+        backgroundColor: '#E7E7E7',
+    }
 });
 
 module.exports = pickerStyle;
