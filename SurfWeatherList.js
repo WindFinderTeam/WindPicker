@@ -29,10 +29,12 @@ import {
     LazyloadView
 } from 'react-native-lazyload';
 
-var SurfParser   = require('./SurfParser')  ;
-var pickerStyle  = require('./pickerStyle') ;
-var WeatherImage = require('./WeatherImage');
-var SurfMenu     = require('./SurfMenu')    ;
+var SurfParser    = require('./SurfParser')  ;
+var pickerStyle   = require('./pickerStyle') ;
+var WeatherImage  = require('./WeatherImage');
+var SurfMenu      = require('./SurfMenu')    ;
+var DirectionImage= require('./DirectionImage');
+
 
 var rowKey = 0;           // Listview`s row keys
 var offset = 0;           // before scroll position for Action Button
@@ -75,14 +77,15 @@ class SurfWeatherList extends Component {
                     rowHasChanged: (row1, row2) => row1 !== row2,
                     sectionHeaderHasChanged: (s1, s2) => s1 !== s2
                 })
-            ,topAlpha: 0
-            ,borderAlpha:0
-            ,sunrise:"00:00"
-            ,sunset:"00:00"
-            ,updateTime:"00:00"
-            ,loadOK: false
-            ,spinnerVisible: true
-            ,menuOpacity: 0
+            ,topAlpha      :0
+            ,borderAlpha   :0
+            ,menuOpacity   :0
+            ,sunrise       :"00:00"
+            ,sunset        :"00:00"
+            ,updateTime    :"00:00"
+            ,loadOK        :false
+            ,spinnerVisible:true
+            ,networkState  :true
         };
         this.fetchData();
     }
@@ -134,13 +137,21 @@ class SurfWeatherList extends Component {
             var {dataBlob,sectionIDs, rowIDs,sunInfo} = SurfParser.getSurfWeather(responseData);  //data parsing
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
-                sunrise:sunInfo[0],
-                sunset:sunInfo[1],
-                updateTime:sunInfo[2],
-                loadOK:true
+                sunrise     :sunInfo[0],
+                sunset      :sunInfo[1],
+                updateTime  :sunInfo[2],
+                loadOK      :true,
+                networkState:true
             });
             this.setSpinnerVisible(false);
-        }).catch((error) => {console.warn(error);});
+        })
+            .catch((error) => {
+                console.warn(error);
+                this.setState({
+                    spinnerVisible:false,
+                    networkState  :false
+                });
+            });
     }
 
     // set the Floating Circle-Button Color
@@ -165,12 +176,12 @@ class SurfWeatherList extends Component {
                     <View style={{flex:1,flexDirection:'column'}}>
                         {/*----------------------------------- Main Board-----------------------------------*/}
                         <View style={{
-                                flex:1,
-                                marginTop: 50,
-                                width:SCREEN_WIDTH,
+                                flex          :1,
+                                marginTop     :50,
+                                width         :SCREEN_WIDTH,
+                                alignItems    :'center',
                                 justifyContent:'center',
-                                alignItems:'center'}
-                    }>
+                            }}>
                             {/* ------------------------------- Navigator ------------------------------------*/}
                             <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
                             <Text style={ pickerStyle.headerDistrictText }>
@@ -241,7 +252,8 @@ class SurfWeatherList extends Component {
         }
 
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(time, cloud, precipation, snowrain);
-
+        var windArrowSrc  =  DirectionImage.getWindDirectionImage(rowData.windDir);
+        var swellArrowSrc =  DirectionImage.getSwellDirectionImage(rowData.windDir);
         return (
         <View style={pickerStyle.rowViewStyle}>
           <LazyloadView host="listExample">
@@ -268,7 +280,7 @@ class SurfWeatherList extends Component {
                 </View>
                 {/* 바람 */}
                 <View>
-                    <Image source={require('./image/weatherIcon/windArrow.png')} style={{width:23, height:23}}/>
+                    <Image source={require('./image/weatherIcon/windArrow0.png')} style={{width:23, height:23}}/>
                 </View>
                 <View style={[pickerStyle.menusView, {flexDirection:'column'}]}>
                     <View>
@@ -280,7 +292,7 @@ class SurfWeatherList extends Component {
                 </View>
                 {/* 파도 */}
                 <View>
-                    <Image source={require('./image/weatherIcon/swellArrow.png')} style={{width:15, height:15}}/>
+                    <Image source={require('./image/weatherIcon/swellArrow0.png')} style={{width:15, height:15}}/>
                 </View>
 
                 <View style={[pickerStyle.menusView, {flexDirection:'column'}]}>
@@ -339,40 +351,71 @@ class SurfWeatherList extends Component {
         }
     }
 
+
+    refreshListView(){
+
+        this.setState({
+            spinnerVisible:true,
+            networkState  :true
+        });
+        this.fetchData();
+    }
+
     setSpinnerVisible(visible){this.setState({spinnerVisible : visible});}
 
     render() {
+        var myView;
 
-        if(this.state.spinnerVisible==true)  mainBoardView = headerView;
-        else                                 mainBoardView = (<View></View>);
+        if(this.state.networkState == true)
+        {
+            if(this.state.spinnerVisible==true)  mainBoardView = headerView;
+            else                                 mainBoardView = (<View></View>);
 
+            myView =(
+                <LazyloadListView
+                    style={pickerStyle.container}
+                    // contentContainerStyle={styles.content}
+                    name="listExample"
+                    dataSource={this.state.dataSource}
+                    renderSectionHeader={this.sectionHeader.bind(this)}
+                    renderRow={this.renderRow}
+                    scrollRenderAheadDistance={200}
+                    renderDistance={100}
+                    pageSize={1}
+                    initialListSize={5}
+
+                    ref="ScrollView"
+                    onScroll={this.onScrolling}
+                    scrollEnabled={this.state.loadOK}
+                    onScrollEndDrag={this.onScrollEnd}
+                    onMomentumScrollEnd={this.onScrollEnd}
+                />
+            );
+        }
+        else{ // OFFLINE VIEW
+            mainBoardView = headerView;
+            myView =( <View style={pickerStyle.offlineView}>
+                <TouchableOpacity onPress={()=>this.refreshListView()}>
+                    <Ionicons name="md-refresh-circle"
+                              style={{
+                                            fontSize:50,
+                                            color: '#9c0010',
+                                            marginBottom:10,
+                                            transform:[{rotate: '136 deg'}],
+                                          }}
+                    />
+                </TouchableOpacity>
+                <Text>네트워크 상태를 확인하세요</Text>
+            </View>);
+        }
 
         return (
             <View  style={{flex:1}}>
                 <View style={{flex: 1}}>
                     {mainBoardView}
 
-                    <LazyloadListView
-                        style={pickerStyle.container}
-                        // contentContainerStyle={styles.content}
-                        name="listExample"
-                        dataSource={this.state.dataSource}
-                        renderSectionHeader={this.sectionHeader.bind(this)}
-                        renderRow={this.renderRow}
-                        scrollRenderAheadDistance={200}
-                        renderDistance={100}
-                        pageSize={1}
-                        initialListSize={5}
-
-                        ref="ScrollView"
-                        onScroll={this.onScrolling}
-                        scrollEnabled={this.state.loadOK}
-                        onScrollEndDrag={this.onScrollEnd}
-                        onMomentumScrollEnd={this.onScrollEnd}
-                    />
-
+                    {myView}
                 </View>
-
 
                 <ActionButton
                     buttonColor={this.setRgba()}
@@ -392,7 +435,7 @@ class SurfWeatherList extends Component {
                     color={"#94000F"}
                 />
                 {/* ------------------------------- Navigator Background ------------------------------------*/}
-                <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:1.5, borderColor:this.setBorderRgba()}}>
+                <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
                     <Image
                         source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
                         style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,
@@ -410,7 +453,6 @@ class SurfWeatherList extends Component {
                     </View>
                     <View style={{flex:2}}>
                         <Text style={{color: "white", fontSize: 20, textAlign:'center', opacity:this.state.menuOpacity}}>{this.props.rowData.district}</Text>
-
                     </View>
                     <View style={pickerStyle.heartView}>
                         <TouchableOpacity>
@@ -421,13 +463,10 @@ class SurfWeatherList extends Component {
 
                 {/* ------------------------------- Navigator MENU ------------------------------------*/}
                 <View style={{
-                    position:'absolute',
-                    top:NAVI_HEIGHT,
-                    zIndex:1000,
+                    position:'absolute', top:NAVI_HEIGHT,
                     width:SCREEN_WIDTH,
                     height:MENU_HEIGHT,
-                    opacity:this.state.menuOpacity}}
-                >
+                    zIndex:1000,   opacity:this.state.menuOpacity}} >
                     <SurfMenu/>
                 </View>
             </View>

@@ -33,6 +33,7 @@ import {
 var pickerStyle   = require('./pickerStyle');
 var GlidingParser = require('./GlidingParser');
 var WeatherImage  = require('./WeatherImage');
+var DirectionImage= require('./DirectionImage');
 var GlidingMenu   = require('./GlidingMenu');
 
 var offset = 0;           // before scroll position for Action Button
@@ -162,7 +163,6 @@ class GlidingWeatherList extends Component {
                     spinnerVisible:false,
                     networkState  :false
                 });
-
             });
     }
 
@@ -190,11 +190,11 @@ class GlidingWeatherList extends Component {
 
                         {/*----------------------------------- Main Board-----------------------------------*/}
                         <View style={{
-                                flex:1,
-                                marginTop: 50,
-                                width:SCREEN_WIDTH,
+                                flex          :1,
+                                marginTop     :50,
+                                width         :SCREEN_WIDTH,
+                                alignItems    :'center',
                                 justifyContent:'center',
-                                alignItems:'center',
                             }}>
                             {/* ------------------------------- Navigator ------------------------------------*/}
 
@@ -255,7 +255,7 @@ class GlidingWeatherList extends Component {
         var tempColor = color[temperature+20];
 
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(rowData.time, rowData.cloud, rowData.rain, rowData.snowYn+"" );
-
+        var windArrowSrc =  DirectionImage.getWindDirectionImage(rowData.windDir);
         return (
             <View style={pickerStyle.rowViewStyle}>
                 <LazyloadView host="listExample">
@@ -265,7 +265,7 @@ class GlidingWeatherList extends Component {
                         </View>
 
                         <View style={[pickerStyle.menusView, {flexDirection:'column'}]}>
-                            <View>{weatherImg}</View>
+                            <View>{weatherImg}      </View>
                             <View>{precipitationImg}</View>
                         </View>
                         <View style={pickerStyle.menusView}>
@@ -280,7 +280,7 @@ class GlidingWeatherList extends Component {
                             <Text style={pickerStyle.rowListText}>{rowData.cloud}%</Text>
                         </View>
                         <View style={pickerStyle.menusView}>
-                            <Image source={require('./image/weatherIcon/windArrow.png')} style={{width:23, height:23}}/>
+                            {windArrowSrc}
                         </View>
                         <View style={{flex:1,justifyContent:'center',alignItems: 'center',flexDirection: 'column',}}>
                             <Text style={{color: 'black',textAlign: 'center',fontSize: 13,}}>{rowData.windSpeed+' kts'}</Text>
