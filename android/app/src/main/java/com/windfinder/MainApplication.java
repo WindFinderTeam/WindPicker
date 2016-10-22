@@ -10,6 +10,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
+import io.xogus.reactnative.versioncheck.RNVersionCheckPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage()
           , new VectorIconsPackage()
           , new RNSpinkitPackage()
+          , new RNVersionCheckPackage()
       );
     }
   };
