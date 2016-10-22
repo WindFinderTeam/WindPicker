@@ -87,38 +87,38 @@ class  WindFinder extends Component {
         return (
 
             <DrawerLayoutAndroid
-                drawerWidth={200}
-                drawerPosition={DrawerLayoutAndroid.positions.Left}
-                renderNavigationView={() => navigationView}
-                drawerLockMode ='locked-closed'
-                ref={'drawer'}>
+                drawerWidth          = {200}
+                drawerPosition       = {DrawerLayoutAndroid.positions.Left}
+                renderNavigationView = {() => navigationView}
+                drawerLockMode       = 'locked-closed'
+                ref                  = {'drawer'}>
 
                 <Ionicons.ToolbarAndroid
-                    //navIconName={require('./image/app_logo.png')}
-                    //logo={require('./image/app_logo.png')}
+                    // navIconName={require('./image/app_logo.png')}
+                    // logo={require('./image/app_logo.png')}
                     // onIconClicked={() => this.refs['drawer'].openDrawer()}
-                    style={styles.toolbar}
-                    iconColor="#94000F"
-                    titleColor="#94000F"
+                    style      = {styles.toolbar}
+                    iconColor  = "#94000F"
+                    titleColor = "#94000F"
                     //title= {this.state.school}
                     actions={[
                         { title: 'Settings', iconName: 'md-settings',iconColor:'gray', iconSize: 30, show: 'always' }
                     ]}
-                    overflowIconName="md-more"
-                    onActionSelected={(position) => this.onActionSelected(position)}
+                    overflowIconName = "md-more"
+                    onActionSelected = {(position) => this.onActionSelected(position)}
                 />
                 <View style={{position:'absolute', left:5,top:10}}>
                     <Image
-                        source={require('./image/app_logo.png')}
-                        resizeMode="stretch"
-                        style={{height:30,width:130}}
+                        source     = {require('./image/app_logo.png')}
+                        resizeMode = "stretch"
+                        style      = {{height:30,width:130}}
                     />
                 </View>
-                <ScrollableTabView tabBarUnderlineStyle={{backgroundColor:"#FFFFFF"}}
-                                   tabBarActiveTextColor="#FFFFFF"
-                                   tabBarInactiveTextColor="#BDBDBD"
-                                   tabBarBackgroundColor="#9c0010"
-                                   ref={'scrollView'}>
+                <ScrollableTabView tabBarUnderlineStyle    = {{backgroundColor:"#FFFFFF"}}
+                                   tabBarActiveTextColor   = "#FFFFFF"
+                                   tabBarInactiveTextColor = "#BDBDBD"
+                                   tabBarBackgroundColor   = "#9c0010"
+                                   ref                     = {'scrollView'}>
                     <ScrollView tabLabel="날씨상황" style={styles.tabView}>
                         {localList}
                     </ScrollView>
@@ -127,17 +127,16 @@ class  WindFinder extends Component {
                     </ScrollView>
 
                     {/* <ScrollView tabLabel="샾랭킹" style={styles.tabView}>
-
                         <ShopPage/>
-                    </ScrollView>*/}
+                        </ScrollView>*/}
                 </ScrollableTabView>
 
                 <Modal
-                    offset={this.state.offset}
-                    open={this.state.open}
-                    modalDidOpen={() => console.log('modal did open')}
-                    modalDidClose={() => this.setState({open: false})}
-                    style={{alignItems: 'center'}}>
+                    offset        = {this.state.offset}
+                    open          = {this.state.open}
+                    modalDidOpen  = {() => console.log('modal did open')}
+                    modalDidClose = {() => this.setState({open: false})}
+                    style         = {{alignItems: 'center'}}>
                     <View>
                         <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F'}}>모드선택</Text>
                         <TouchableOpacity
@@ -145,39 +144,32 @@ class  WindFinder extends Component {
                             onPress={() => {
                                 this.setState({viewMode:'surf',open: false});
                                 this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
-                            }
-                            }>
+                                }}>
                             <Text>서 핑</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={{margin: 5}}
-                            onPress={() => {
+                            style   = {{margin: 5}}
+                            onPress = {() => {
                                 this.setState({viewMode:'gliding',open: false});
                                 this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
-
-                            }
-                            }>
+                                }}>
                             <Text>페러글라이딩</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={{margin: 5}}
-                            onPress={() => this.setState({open: false})}>
+                            style   = {{margin: 5}}
+                            onPress = {() => this.setState({open: false})}>
                             <Text>Close</Text>
                         </TouchableOpacity>
-
                     </View>
                 </Modal>
                 <Toast
-                    ref="toast"
-                    style={{backgroundColor:'#222222'}}
-                    position='bottom'
-                />
+                    ref      = "toast"
+                    style    = {{backgroundColor:'#222222'}}
+                    position = 'bottom'/>
             </DrawerLayoutAndroid>
         );
     }
 }
-
-
 
 
 const styles = StyleSheet.create({
