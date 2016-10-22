@@ -102,10 +102,10 @@ class SurfWeatherList extends Component {
         headerView =
             (
                 <Image
-                    source={{uri: 'http://kingofwallpapers.co/blur-image/blur-image-011.jpg'}}
+                    source={{uri: 'http://www.goodwp.com/large/201105//18593.jpg'}}
                     style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
 
-                    <View style={{flex:1,flexDirection:'column',backgroundColor:'#ABC890'}}>
+                    <View style={{flex:1,flexDirection:'column'}}>
                         {/*----------------------------------- Main Board-----------------------------------*/}
                         <View style={{
                                 flex:1,
@@ -425,7 +425,7 @@ class SurfWeatherList extends Component {
                 {/* ------------------------------- Navigator Background ------------------------------------*/}
                 <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
                     <Image
-                        source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
+                        source={{uri: 'http://www.goodwp.com/large/201105//18593.jpg'}}
                         style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,
                             opacity:this.state.menuOpacity
                         }}/>
