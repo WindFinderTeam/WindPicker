@@ -24,6 +24,7 @@ import Spinner            from 'react-native-spinkit';
 import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ActionButton       from 'react-native-action-button';
 
+
 import {
     LazyloadListView,
     LazyloadView
@@ -53,6 +54,9 @@ var color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab
     ,'#fea90e','#fa9e0f','#fd8d0d','#f9800b','#f96b09','#f35805','#f34a05','#f33a04','#f12a01','#ee1b00'
     ,'#ed0b00','#eb0300'];
 
+const fetch = require('react-native-cancelable-fetch');
+
+
 class SurfWeatherList extends Component {
 
     constructor(props) {
@@ -62,6 +66,7 @@ class SurfWeatherList extends Component {
         this.onScrollEnd = this.onScrollEnd.bind(this);
         this.onScrolling = this.onScrolling.bind(this);
         this.fetchData   = this.fetchData.bind(this);
+        this.startCountDown = this.startCountDown.bind(this);
         this.setSpinnerVisible   = this.setSpinnerVisible.bind(this);
 
         var getSectionData = (dataBlob, sectionID) => {return dataBlob[sectionID];};
@@ -131,9 +136,21 @@ class SurfWeatherList extends Component {
         mainBoard = true;
     }
 
+   startCountDown(){
 
-    fetchData() {
-        fetch(API_URL).then((responseData) => {
+       console.log("#### TIMER OVER ####");
+
+       this.setState({
+           spinnerVisible:false,
+           networkState  :false
+       });
+       fetch.abort(this);
+   }
+   fetchData() {
+
+       var setTimeoudtID = setTimeout(this.startCountDown, 7000);
+
+        fetch(API_URL,null,this).then((responseData) => {
             var {dataBlob,sectionIDs, rowIDs,sunInfo} = SurfParser.getSurfWeather(responseData);  //data parsing
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
@@ -144,6 +161,7 @@ class SurfWeatherList extends Component {
                 networkState:true
             });
             this.setSpinnerVisible(false);
+            clearTimeout(setTimeoudtID);
         })
             .catch((error) => {
                 console.warn(error);
@@ -227,11 +245,8 @@ class SurfWeatherList extends Component {
         var windDir = rowData.winddirection + 136;
         windDir = windDir + " deg";
 
-        var waveDir = rowData.wavedirection + 136;
-        waveDir = waveDir + " deg";
-
         var temperature =  Math.round(rowData.temperature);
-        var tempColor = color[temperature+20];
+        var tempColor   = color[temperature+20];
 
         var cloud = rowData.cloud, precipation = rowData.rainprecipation, time = rowData.time, snowrain = rowData.snowrain;
         var tidedirections;
@@ -321,33 +336,32 @@ class SurfWeatherList extends Component {
 
     onScrollEnd(event) {
 
-        var currentOffset = event.nativeEvent.contentOffset.y;
-        var direction = currentOffset > offset ? 'down' : 'up';
-        offset = currentOffset;
+        var currentOffset = event.nativeEvent.contentOffset.y     ;
+        var direction     = currentOffset > offset ? 'down' : 'up';
+        offset            = currentOffset;
 
         switch (direction) {
-            case 'down'  :this.setState({topAlpha: 0,});break;
-            case 'up' :this.setState({topAlpha: 0.8,});break;
+            case 'down' :this.setState({topAlpha: 0,});  break;
+            case 'up'   :this.setState({topAlpha: 0.8,});break;
         };
     }
 
 
     onScrolling(event) {
         var currentOffset = event.nativeEvent.contentOffset.y;
-        var direction = currentOffset > bfcurrentOffset ? 'down' : 'up';
+        var direction     = currentOffset > bfcurrentOffset ? 'down' : 'up';
 
         bfcurrentOffset = currentOffset;
 
         if (currentOffset <= 0)this.setState({menuOpacity : 0, borderAlpha:0});
         else if (currentOffset >= 125) {
-
             if(this.state.menuOpacity > 1)this.setState({menuOpacity: 1, borderAlpha: 0.3});
             else if(this.state.menuOpacity == 1) ;
             else this.setState({menuOpacity: this.state.menuOpacity + 0.2, borderAlpha: 0.3});
         }
         else{
             if (direction == 'down') this.setState({menuOpacity: this.state.menuOpacity + 0.025});
-            else this.setState({menuOpacity: this.state.menuOpacity - 0.025, borderAlpha:0});
+            else                     this.setState({menuOpacity: this.state.menuOpacity - 0.025, borderAlpha:0});
         }
     }
 
@@ -397,12 +411,12 @@ class SurfWeatherList extends Component {
             myView =( <View style={pickerStyle.offlineView}>
                 <TouchableOpacity onPress={()=>this.refreshListView()}>
                     <Ionicons name="md-refresh-circle"
-                              style={{
-                                            fontSize:50,
-                                            color: '#9c0010',
-                                            marginBottom:10,
-                                            transform:[{rotate: '136 deg'}],
-                                          }}
+                          style={{
+                                   fontSize:50,
+                                   color: '#9c0010',
+                                   marginBottom:10,
+                                   transform:[{rotate: '136 deg'}],
+                          }}
                     />
                 </TouchableOpacity>
                 <Text>네트워크 상태를 확인하세요</Text>

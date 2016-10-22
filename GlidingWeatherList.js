@@ -15,7 +15,7 @@ import {
     ToastAndroid,
     Modal,
     Image,
-    Dimensions
+    Dimensions,
 } from 'react-native';
 
 
@@ -63,6 +63,7 @@ class GlidingWeatherList extends Component {
         this.onScrollEnd       = this.onScrollEnd.bind(this);
         this.onScrolling       = this.onScrolling.bind(this);
         this.fetchData         = this.fetchData.bind(this);
+        this.startCountDown    = this.startCountDown.bind(this);
         this.setSpinnerVisible = this.setSpinnerVisible.bind(this);
 
         var getSectionData     = (dataBlob, sectionID)        => {return dataBlob[sectionID];              };
@@ -138,11 +139,23 @@ class GlidingWeatherList extends Component {
         mainBoard = true;
     }
 
+    startCountDown(){
+
+        console.log("#### TIMER OVER ####");
+
+        this.setState({
+            spinnerVisible:false,
+            networkState  :false
+        });
+        fetch.abort(this);
+    }
 
     fetchData() {
 
+        var setTimeoudtID = setTimeout(this.startCountDown, 7000);
+
         fetch(API_URL)
-            .then((response) => response.json())
+            .then((response)     => response.json())
             .then((responseJSON) => {
                 var {dataBlob,sectionIDs, rowIDs,sunInfo} = GlidingParser.getGlidingWeather(responseJSON);  // Data Parsing
 
@@ -155,7 +168,7 @@ class GlidingWeatherList extends Component {
                     networkState:true
                 });
                 this.setSpinnerVisible(false);
-
+                clearTimeout(setTimeoudtID);
             })
             .catch((error) => {
                 console.warn(error);
@@ -254,9 +267,8 @@ class GlidingWeatherList extends Component {
         var temperature =  Math.round(rowData.temperature);
         var tempColor = color[temperature+20];
 
-
-
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(rowData.time, rowData.cloud, rowData.rain, rowData.snowYn+"" );
+
         var windArrowSrc =  DirectionImage.getWindDirectionImage(rowData.windDir);
         return (
             <View style={pickerStyle.rowViewStyle}>
@@ -267,7 +279,7 @@ class GlidingWeatherList extends Component {
                         </View>
 
                         <View style={[pickerStyle.menusView, {flexDirection:'column'}]}>
-                            <View>{weatherImg}      </View>
+                            <View>{weatherImg}</View>
                             <View>{precipitationImg}</View>
                         </View>
                         <View style={pickerStyle.menusView}>
