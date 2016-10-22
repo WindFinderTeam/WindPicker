@@ -63,18 +63,19 @@ class SurfWeatherList extends Component {
         super(props);
 
         API_URL = this.props.rowData.weatherURL; // 날씨URL 가져오기
-        this.onScrollEnd = this.onScrollEnd.bind(this);
-        this.onScrolling = this.onScrolling.bind(this);
-        this.fetchData   = this.fetchData.bind(this);
-        this.startCountDown = this.startCountDown.bind(this);
-        this.setSpinnerVisible   = this.setSpinnerVisible.bind(this);
 
-        var getSectionData = (dataBlob, sectionID) => {return dataBlob[sectionID];};
+        this.onScrollEnd       = this.onScrollEnd.bind(this)      ;
+        this.onScrolling       = this.onScrolling.bind(this)      ;
+        this.fetchData         = this.fetchData.bind(this)        ;
+        this.startCountDown    = this.startCountDown.bind(this)   ;
+        this.setSpinnerVisible = this.setSpinnerVisible.bind(this);
+        this.setHeaderView     = this.setHeaderView.bind(this)    ;
+
+        var getSectionData = (dataBlob, sectionID)        => {return dataBlob[sectionID];};
         var getRowData     = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
 
         district =  this.props.rowData.district;
         this.state = {
-
             dataSource: new ListView.DataSource(
                 {
                     getSectionData          : getSectionData,
@@ -95,16 +96,18 @@ class SurfWeatherList extends Component {
         this.fetchData();
     }
 
-    componentWillMount()
-    {
-        headerView =(
-            <Image
-                source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
-                style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
 
-                <View style={{flex:1,flexDirection:'column'}}>
-                    {/*----------------------------------- Main Board-----------------------------------*/}
-                    <View style={{
+    setHeaderView(){
+
+        headerView =
+            (
+                <Image
+                    source={{uri: 'http://kingofwallpapers.co/blur-image/blur-image-011.jpg'}}
+                    style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
+
+                    <View style={{flex:1,flexDirection:'column',backgroundColor:'#ABC890'}}>
+                        {/*----------------------------------- Main Board-----------------------------------*/}
+                        <View style={{
                                 flex:1,
                                 marginTop: 50,
                                 width:SCREEN_WIDTH,
@@ -112,27 +115,32 @@ class SurfWeatherList extends Component {
                                 alignItems:'center'}
                     }>
 
-                        {/* ------------------------------- Navigator ------------------------------------*/}
-                        <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
-                        <Text style={ pickerStyle.headerDistrictText }>
-                            {district}
-                        </Text>
-                        <View style={{flexDirection:'row',flex:1,marginTop:5}}>
-                            <View style={pickerStyle.sunInfo }>
-                                <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
+                            {/* ------------------------------- Navigator ------------------------------------*/}
+                            <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
+                            <Text style={ pickerStyle.headerDistrictText }>
+                                {district}
+                            </Text>
+                            <View style={{flexDirection:'row',flex:1,marginTop:5}}>
+                                <View style={pickerStyle.sunInfo }>
+                                    <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
+                                </View>
+                                <View style={pickerStyle.sunInfo }>
+                                    <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
+                                </View>
                             </View>
-                            <View style={pickerStyle.sunInfo }>
-                                <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
-                            </View>
+
                         </View>
 
+                        {/*-------------------------- BOTTOM MENU ---------------------------------*/}
+                        <View style={{width:SCREEN_WIDTH,height:MENU_HEIGHT,}}><SurfMenu/></View>
                     </View>
+                </Image>
+            );
+    }
 
-                    {/*-------------------------- BOTTOM MENU ---------------------------------*/}
-                    <View style={{width:SCREEN_WIDTH,height:MENU_HEIGHT,}}><SurfMenu/></View>
-                </View>
-            </Image>
-        );
+    componentWillMount() // before rendering
+    {
+        this.setHeaderView();
         mainBoard = true;
     }
 
@@ -186,41 +194,7 @@ class SurfWeatherList extends Component {
     // Draw List's Headers
     sectionHeader(rowData, sectionID) {
         if(mainBoard === true) {
-            headerView = (
-                <Image
-                    source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
-                    style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
-
-                    <View style={{flex:1,flexDirection:'column'}}>
-                        {/*----------------------------------- Main Board-----------------------------------*/}
-                        <View style={{
-                                flex          :1,
-                                marginTop     :50,
-                                width         :SCREEN_WIDTH,
-                                alignItems    :'center',
-                                justifyContent:'center',
-                            }}>
-                            {/* ------------------------------- Navigator ------------------------------------*/}
-                            <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
-                            <Text style={ pickerStyle.headerDistrictText }>
-                                {district}
-                            </Text>
-                            <View style={{flexDirection:'row',flex:1,marginTop:5}}>
-                                <View style={pickerStyle.sunInfo }>
-                                    <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
-                                </View>
-                                <View style={pickerStyle.sunInfo }>
-                                    <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
-                                </View>
-                            </View>
-
-                        </View>
-
-                        {/*-------------------------- BOTTOM MENU ---------------------------------*/}
-                        <View style={{width:SCREEN_WIDTH,height:MENU_HEIGHT,}}><SurfMenu/></View>
-                    </View>
-                </Image>
-            );
+            this.setHeaderView();
             mainBoard = false;
         }
         else headerView = (<Text></Text>);

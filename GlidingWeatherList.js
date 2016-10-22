@@ -65,6 +65,7 @@ class GlidingWeatherList extends Component {
         this.fetchData         = this.fetchData.bind(this);
         this.startCountDown    = this.startCountDown.bind(this);
         this.setSpinnerVisible = this.setSpinnerVisible.bind(this);
+        this.setHeaderView     = this.setHeaderView.bind(this)    ;
 
         var getSectionData     = (dataBlob, sectionID)        => {return dataBlob[sectionID];              };
         var getRowData         = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
@@ -92,50 +93,50 @@ class GlidingWeatherList extends Component {
         this.fetchData();
     }
 
-    componentWillMount(){
-        headerView =(
-            <Image
-                source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
-                style ={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
+    setHeaderView(){
 
-                <View style={{flex:1,flexDirection:'column'}}>
-                    {/*----------------------------------- Main Board-----------------------------------*/}
-                    <View style={{
+        headerView =
+            (
+                <Image
+                    source={{uri: 'http://kingofwallpapers.co/blur-image/blur-image-011.jpg'}}
+                    style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
+
+                    <View style={{flex:1,flexDirection:'column',backgroundColor:'#ABC890'}}>
+                        {/*----------------------------------- Main Board-----------------------------------*/}
+                        <View style={{
                                 flex:1,
                                 marginTop: 50,
                                 width:SCREEN_WIDTH,
                                 justifyContent:'center',
-                                alignItems:'center',
-                            }}>
-                        {/* ------------------------------- Navigator ------------------------------------*/}
-                        <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
-                        <Text style={ pickerStyle.headerDistrictText }>
-                            {district}
-                        </Text>
-                        <View style={{flexDirection:'row'}}>
-                            <Text style={{color: '#9c0010'}}>활공방향 </Text>
-                            <Ionicons name="ios-send" style={{
-                                        fontSize:20,
-                                        color: '#9c0010',
-                                        marginLeft:3,
-                                        paddingTop:0,
-                                        transform:[{rotate: '136 deg'}],
-                                    }}/>
-                        </View>
-                        <View style={{flexDirection:'row',flex:1,marginTop:2}}>
-                            <View style={pickerStyle.sunInfo}>
-                                <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
+                                alignItems:'center'}
+                    }>
+
+                            {/* ------------------------------- Navigator ------------------------------------*/}
+                            <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
+                            <Text style={ pickerStyle.headerDistrictText }>
+                                {district}
+                            </Text>
+                            <View style={{flexDirection:'row',flex:1,marginTop:5}}>
+                                <View style={pickerStyle.sunInfo }>
+                                    <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
+                                </View>
+                                <View style={pickerStyle.sunInfo }>
+                                    <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
+                                </View>
                             </View>
-                            <View style={pickerStyle.sunInfo}>
-                                <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
-                            </View>
+
                         </View>
+
+                        {/*-------------------------- BOTTOM MENU ---------------------------------*/}
+                        <View style={{width:SCREEN_WIDTH,height:MENU_HEIGHT,}}><GlidingMenu/></View>
                     </View>
-                    {/*-------------------------- Gliding MENU ---------------------------------*/}
-                    <View style={{width:SCREEN_WIDTH,height:MENU_HEIGHT,}}><GlidingMenu/></View>
-                </View>
-            </Image>
-        );
+                </Image>
+            );
+    }
+
+    componentWillMount() // before rendering
+    {
+        this.setHeaderView();
         mainBoard = true;
     }
 
@@ -194,51 +195,7 @@ class GlidingWeatherList extends Component {
     sectionHeader(rowData, sectionID) {
 
         if(mainBoard === true) {
-            headerView =(
-                <Image
-                    source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
-                    style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
-
-                    <View style={{flex:1,flexDirection:'column'}}>
-
-                        {/*----------------------------------- Main Board-----------------------------------*/}
-                        <View style={{
-                                flex          :1,
-                                marginTop     :50,
-                                width         :SCREEN_WIDTH,
-                                alignItems    :'center',
-                                justifyContent:'center',
-                            }}>
-                            {/* ------------------------------- Navigator ------------------------------------*/}
-
-                            <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
-                            <Text style={ pickerStyle.headerDistrictText }>
-                                {district}
-                            </Text>
-                            <View style={{flexDirection:'row'}}>
-                                <Text style={{color: '#9c0010'}}>활공방향 </Text>
-                                <Ionicons name="ios-send" style={{
-                                        fontSize:20,
-                                        color: '#9c0010',
-                                        marginLeft:3,
-                                        paddingTop:0,
-                                        transform:[{rotate: '136 deg'}],
-                                    }}/>
-                            </View>
-                            <View style={{flexDirection:'row',flex:1,marginTop:2}}>
-                                <View style={pickerStyle.sunInfo}>
-                                    <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
-                                </View>
-                                <View style={pickerStyle.sunInfo}>
-                                    <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
-                                </View>
-                            </View>
-                        </View>
-                        {/*-------------------------- Gliding MENU ---------------------------------*/}
-                        <View style={{width:SCREEN_WIDTH,height:MENU_HEIGHT,}}><GlidingMenu/></View>
-                    </View>
-                </Image>
-            );
+            this.setHeaderView();
             mainBoard = false;
         }
         else headerView = (<Text></Text>);
