@@ -15,7 +15,7 @@ function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
     var time = p_time, cloudQuantity = p_cloudQuantity, precipation = p_precipation, snowrain = p_snowrain;
     var snowrainImage, precipitationImg;
 
-    // console.log("WeatherImage in ok : time :" +  time + " ,cloudQuantity : " + cloudQuantity + ", precipation : " + precipation + ", snowrain:"+snowrain);
+     console.log("WeatherImage in ok : time :" +  time + " ,cloudQuantity : " + cloudQuantity + ", precipation : " + precipation + ", snowrain:"+snowrain);
 
     // 구름이미지생성
     switch (time) {

@@ -254,6 +254,8 @@ class GlidingWeatherList extends Component {
         var temperature =  Math.round(rowData.temperature);
         var tempColor = color[temperature+20];
 
+
+
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(rowData.time, rowData.cloud, rowData.rain, rowData.snowYn+"" );
         var windArrowSrc =  DirectionImage.getWindDirectionImage(rowData.windDir);
         return (
@@ -307,7 +309,7 @@ class GlidingWeatherList extends Component {
     onScrolling(event) {
 
         var currentOffset = event.nativeEvent.contentOffset.y;
-        var direction = currentOffset > bfcurrentOffset ? 'down' : 'up';
+        var direction   = currentOffset > bfcurrentOffset ? 'down' : 'up';
 
         bfcurrentOffset = currentOffset;
 
