@@ -23,9 +23,16 @@ class  WindFinder extends Component {
 
     constructor(prop){
         super(prop);
+
+        this.state = {
+            loadingYn  : true
+            ,open: false
+        };
+
+        this.checkVersion();
     }
 
-    render() {
+    checkVersion(){
 
         console.log(VersionCheck.getPackageName());        // com.reactnative.app
         console.log(VersionCheck.getCurrentBuildNumber()); // 10
@@ -39,6 +46,7 @@ class  WindFinder extends Component {
         VersionCheck.needUpdate()
             .then((res) => {
                 console.log(res.isNeeded);    // true
+                this.setState({open: true});
             });
 
         VersionCheck.needUpdate(2)
@@ -46,10 +54,47 @@ class  WindFinder extends Component {
                 console.log(res.isNeeded);    // false; because first two fields of current and the lastest versions are the same as "0.1".
             });
 
+    }
 
+    render() {
+
+        var mainView;
+        if(this.state.loadingYn == true)
+        {
+            mainView = (<View style={styles.loadingView}>
+
+                <Text style={styles.logoText}> WINDPICKER </Text>
+
+                <Modal
+                    offset={this.state.offset}
+                    open={this.state.open}
+                    modalDidOpen={() => console.log('modal did open')}
+                    modalDidClose={() => this.setState({open: false})}
+                    style={{alignItems: 'center'}}>
+                    <View>
+                        <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F'}}>업데이트 알림</Text>
+                        <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',}}>
+                            <TouchableOpacity
+                                style={{margin: 15}}
+                                onPress={() => this.setState({open: false})}>
+                                <Text>업데이트</Text>
+                            </TouchableOpacity>
+                            <View><Text> | </Text></View>
+                            <TouchableOpacity
+                                style={{margin: 15}}
+                                onPress={() => this.setState({open: false,loadingYn:false})}>
+                                <Text>다음에</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+
+            </View>);
+        }
+        else mainView = (<AndroidFirstView/>);
         return (
+            mainView  // LoadingView or AndroidFirstView
 
-            <AndroidFirstView/>
         );
     }
 }
@@ -57,24 +102,16 @@ class  WindFinder extends Component {
 
 const styles = StyleSheet.create({
 
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
+    logoText:{
+        fontSize: 20, marginBottom: 10, color:'#FFFF'
     },
-    drawer: {
-        backgroundColor: '#FFFFFF',
-        flex: 1,
-    },
-    toolbar: {
-        height: 56,
-        backgroundColor: '#FFFFFF'
-    },
-    tabView: {
-        flex: 1,
-        padding: 0,
-        backgroundColor: 'rgba(0,0,0,0.01)',
-    },
+
+    loadingView:{
+        flex:1
+        ,backgroundColor: '#94000F'
+        ,justifyContent:'center'
+        ,alignItems:'center'
+    }
 
 
 });

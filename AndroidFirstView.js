@@ -21,8 +21,6 @@ import Toast, { DURATION } from 'react-native-easy-toast';
 // https://www.npmjs.com/package/react-native-simple-modal
 import Modal from 'react-native-simple-modal';
 
-import VersionCheck from 'react-native-version-check';
-
 
 //https://github.com/oblador/react-native-vector-icons
 import Ionicons     from 'react-native-vector-icons/Ionicons';
@@ -73,24 +71,6 @@ class  AndroidFirstView extends Component {
 
     render() {
 
-        console.log(VersionCheck.getPackageName());        // com.reactnative.app
-        console.log(VersionCheck.getCurrentBuildNumber()); // 10
-        console.log(VersionCheck.getCurrentVersion());     // 0.1.1
-
-        VersionCheck.getLatestVersion()
-            .then((latestVersion) => {
-                console.log(latestVersion);    // 0.1.2
-            });
-
-        VersionCheck.needUpdate()
-            .then((res) => {
-                console.log(res.isNeeded);    // true
-            });
-
-        VersionCheck.needUpdate(2)
-            .then((res) => {
-                console.log(res.isNeeded);    // false; because first two fields of current and the lastest versions are the same as "0.1".
-            });
 
         var navigationView =
             (

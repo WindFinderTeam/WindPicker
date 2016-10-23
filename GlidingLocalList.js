@@ -21,7 +21,6 @@ import GlidingWeatherList from './GlidingWeatherList';
 var glidingLocalData = require('./jsData/GlidingLocalData.json');
 
 var selectedRowData ;
-var selectedHeaderData ;
 
 
 class LocalList extends Component{
