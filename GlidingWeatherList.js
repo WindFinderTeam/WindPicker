@@ -226,7 +226,7 @@ class GlidingWeatherList extends Component {
 
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(rowData.time, rowData.cloud, rowData.rain, rowData.snowYn+"" );
 
-        var windArrowSrc =  DirectionImage.getWindDirectionImage(rowData.windDir);
+        var windArrowSrc =  DirectionImage.getWindDirectionImage(0);
         return (
             <View style={pickerStyle.rowViewStyle}>
                 <LazyloadView host="listExample">

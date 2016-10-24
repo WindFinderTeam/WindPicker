@@ -241,8 +241,8 @@ class SurfWeatherList extends Component {
         }
 
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(time, cloud, precipation, snowrain);
-        var windArrowSrc  =  DirectionImage.getWindDirectionImage(rowData.windDir);
-        var swellArrowSrc =  DirectionImage.getSwellDirectionImage(rowData.windDir);
+        var windArrowSrc  =  DirectionImage.getWindDirectionImage(0);
+        var swellArrowSrc =  DirectionImage.getSwellDirectionImage(0);
         return (
         <View style={pickerStyle.rowViewStyle}>
           <LazyloadView host="listExample">

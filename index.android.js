@@ -24,29 +24,46 @@ class  WindFinder extends Component {
     constructor(prop){
         super(prop);
 
+        this.startCountDown = this.startCountDown.bind(this);
+
         this.state = {
-            loadingYn  : true
-            ,open: false
+            loadingYn : true,
+            open      : false
         };
 
         this.checkVersion();
     }
 
+    startCountDown(){
+
+        this.setState({loadingYn: false});
+
+    }
+
     checkVersion(){
 
-        console.log(VersionCheck.getPackageName());        // com.reactnative.app
-        console.log(VersionCheck.getCurrentBuildNumber()); // 10
-        console.log(VersionCheck.getCurrentVersion());     // 0.1.1
+
+         console.log(VersionCheck.getPackageName());// com.reactnative.app
+         console.log(VersionCheck.getCurrentBuildNumber());// 10
+         console.log(VersionCheck.getCurrentVersion());// 0.1.1
+
 
         VersionCheck.getLatestVersion()
             .then((latestVersion) => {
                 console.log(latestVersion);    // 0.1.2
-            });
+            })
+            .catch((error) => {
+            console.warn(error);
+            setTimeout(this.startCountDown, 3000);
+            return ;
+
+        });
 
         VersionCheck.needUpdate()
             .then((res) => {
                 console.log(res.isNeeded);    // true
-                this.setState({open: true});
+                if(res.isNeeded == true) this.setState({open: true});
+                else setTimeout(this.startCountDown, 3000);
             });
 
         VersionCheck.needUpdate(2)
@@ -63,27 +80,21 @@ class  WindFinder extends Component {
         {
             mainView = (<View style={styles.loadingView}>
 
-                <Text style={styles.logoText}> WINDPICKER </Text>
+                <Text style={styles.logoText}> 윈드피커 </Text>
 
                 <Modal
-                    offset={this.state.offset}
-                    open={this.state.open}
-                    modalDidOpen={() => console.log('modal did open')}
-                    modalDidClose={() => this.setState({open: false})}
-                    style={{alignItems: 'center'}}>
+                    offset        = {this.state.offset}
+                    open          = {this.state.open}
+                    modalDidOpen  = {() => console.log('modal did open')}
+                    modalDidClose = {() => this.setState({open: false,loadingYn:false})}
+                    style         = {{alignItems: 'center'}}>
                     <View>
-                        <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F'}}>업데이트 알림</Text>
-                        <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',}}>
+                        <Text style = {{fontSize: 20, marginBottom: 10, color:'#94000F'}}>업데이트 알림</Text>
+                        <View style = {{flexDirection:'row',justifyContent:'center',alignItems:'center',}}>
                             <TouchableOpacity
-                                style={{margin: 15}}
-                                onPress={() => this.setState({open: false})}>
-                                <Text>업데이트</Text>
-                            </TouchableOpacity>
-                            <View><Text> | </Text></View>
-                            <TouchableOpacity
-                                style={{margin: 15}}
-                                onPress={() => this.setState({open: false,loadingYn:false})}>
-                                <Text>다음에</Text>
+                                style   = {{margin: 15}}
+                                onPress = {() => this.setState({open: false})}>
+                                <Text>업데이트 시작</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -103,7 +114,12 @@ class  WindFinder extends Component {
 const styles = StyleSheet.create({
 
     logoText:{
-        fontSize: 20, marginBottom: 10, color:'#FFFF'
+        fontSize    : 20,
+        marginBottom: 10,
+        color       :'#FFFF',
+        fontFamily  :'BMJUA',
+        fontStyle   :'italic',
+        fontWeight  :'bold'
     },
 
     loadingView:{
