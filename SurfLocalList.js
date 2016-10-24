@@ -36,7 +36,7 @@ class LocalList extends Component{
     setCamVisible(visible) {
 
         this.setState({camVisible: visible});
-       // console.log("changed !!!!!!! this.state.camVisible :" + this.state.camVisible + " camUri  : " + camUri);
+        // console.log("changed !!!!!!! this.state.camVisible :" + this.state.camVisible + " camUri  : " + camUri);
         // off camLOadedOpa
         this.setState({camLoadedOpa:0 });
 
@@ -77,7 +77,7 @@ class LocalList extends Component{
     _onPressWebcam(webcam) {
 
         for(var i in webcam){
-          //  console.log("::::::::::::::::::::: i : " + webcam[i]);
+            //  console.log("::::::::::::::::::::: i : " + webcam[i]);
         }
 
         switch (i) {
@@ -137,7 +137,7 @@ class LocalList extends Component{
         };
 
         this.setCamVisible(true);
-       // console.log("webcamClicked cam is : " + webcamClicked , " state :" + this.state.camVisible + " camUri : " + camUri);
+        // console.log("webcamClicked cam is : " + webcamClicked , " state :" + this.state.camVisible + " camUri : " + camUri);
     }
 
     constructor(prop){
@@ -204,7 +204,7 @@ class LocalList extends Component{
     renderRow(rowData) {
 
 
-        var webcamVar = [], providerVar = [], webcamShow = false, shopShow = false;
+        var webcamVar = [], providerVar = [], webcamShow = false, shopShow = false, webcamShowJudge;
 
         if(typeof rowData.webcam == "undefined"){
             webcamShow = false;
@@ -214,9 +214,19 @@ class LocalList extends Component{
                 providerVar[i] = rowData.webcam[i]["provider"];
 
             }
-          //  console.log("webcam data ezxists: " + webcamVar[i] + ", " + providerVar[i] + ", " + i);
+            //  console.log("webcam data ezxists: " + webcamVar[i] + ", " + providerVar[i] + ", " + i);
 
             webcamShow = true;
+        }
+
+        if (webcamShow == true) {
+            webcamShowJudge = (
+                <TouchableOpacity onPress={()=>{if(webcamShow==true){this._onPressWebcam(webcamVar)}}}>
+                    <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
+                </TouchableOpacity>
+            );
+        } else {
+            webcamShowJudge = (<Text></Text>);
         }
 
 
@@ -239,9 +249,7 @@ class LocalList extends Component{
                     <View style={styles.listViewrowCam}>
                         {/* cam icon showing control */}
                         <View style={[styles.iconBorder, {opacity:webcamShow==false?0:1}]}>
-                            <TouchableOpacity onPress={()=>{this._onPressWebcam(webcamVar)}}>
-                                <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
-                            </TouchableOpacity>
+                            {webcamShowJudge}
                         </View>
 
                         {/* shop icon showing control */}
