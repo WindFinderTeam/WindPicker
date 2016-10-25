@@ -13,7 +13,7 @@ import {
 function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
                                                                                     //1 : snow 2 : rain 3 :rainsnow
     var time = p_time, cloudQuantity = p_cloudQuantity, precipation = p_precipation, snowrain = p_snowrain;
-    var snowrainImage, precipitationImg;
+    var  precipitationImg, weatherImg;
 
      console.log("WeatherImage in ok : time :" +  time + " ,cloudQuantity : " + cloudQuantity + ", precipation : " + precipation + ", snowrain:"+snowrain);
 
@@ -65,7 +65,7 @@ function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
             break;
     };
 
-
+    var snowrainImage;
     // 눈비이미지생성
     switch(snowrain){
 
