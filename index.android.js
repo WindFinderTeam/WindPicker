@@ -92,7 +92,7 @@ class  WindFinder extends Component {
                         <Text style = {{fontSize: 20, marginBottom: 10, color:'#94000F'}}>업데이트 알림</Text>
                         <View style = {{flexDirection:'row',justifyContent:'center',alignItems:'center',}}>
                             <TouchableOpacity
-                                style   = {{margin: 15}}
+                                style   = {{margin: 15,flex:1,justifyContent:'center',alignItems:'center' }}
                                 onPress = {() => this.setState({open: false})}>
                                 <Text>업데이트 시작</Text>
                             </TouchableOpacity>

@@ -23,6 +23,7 @@ import {
 import Spinner            from 'react-native-spinkit';
 import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ActionButton       from 'react-native-action-button';
+import LinearGradient     from 'react-native-linear-gradient';
 
 
 import {
@@ -240,9 +241,16 @@ class SurfWeatherList extends Component {
             tidedirections = (<Text></Text>);
         }
 
+
+
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(time, cloud, precipation, snowrain);
         var windArrowSrc  =  DirectionImage.getWindDirectionImage(0);
         var swellArrowSrc =  DirectionImage.getSwellDirectionImage(0);
+
+        var windSpeedWidth = (SCREEN_WIDTH * rowData.wind) / 25 ;
+        var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.gust) / 25 ) - windSpeedWidth;
+
+
         return (
         <View style={pickerStyle.rowViewStyle}>
           <LazyloadView host="listExample">
@@ -303,6 +311,21 @@ class SurfWeatherList extends Component {
                 </View>
 
             </View>
+
+              <View style={{width: SCREEN_WIDTH, height:4, flexDirection: 'row'}}>
+                  <LinearGradient
+                      start={[0.0, 1.0]} end={[1.0, 1.0]}
+                      locations={[0,0.5,1.0]}
+                      colors={['#2524FF', '#5AAEFF', '#FFFFFF']}
+                      style={{width: windSpeedWidth }}/>
+
+                  <LinearGradient
+                      start={[0.0, 1.0]} end={[1.0, 1.0]}
+                      locations={[0,0.5,1.0]}
+                      colors={['#FF7E7E', '#FFA2A2', '#FFFFFF']}
+                      style={{width: windMaxSpeedWidth }}/>
+              </View>
+
           </LazyloadView>
         </View>
         );

@@ -140,7 +140,7 @@ class  AndroidFirstView extends Component {
                     <View>
                         <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F'}}>모드선택</Text>
                         <TouchableOpacity
-                            style={{margin: 5}}
+                            style={{margin: 10,flex:1,justifyContent:'center',alignItems:'center' }}
                             onPress={() => {
                                 this.setState({viewMode:'surf',open: false});
                                 this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
@@ -148,18 +148,14 @@ class  AndroidFirstView extends Component {
                             <Text>서 핑</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style   = {{margin: 5}}
+                            style   = {{margin: 10, flex:1,justifyContent:'center',alignItems:'center' }}
                             onPress = {() => {
                                 this.setState({viewMode:'gliding',open: false});
                                 this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
                                 }}>
                             <Text>페러글라이딩</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            style   = {{margin: 5}}
-                            onPress = {() => this.setState({open: false})}>
-                            <Text>Close</Text>
-                        </TouchableOpacity>
+
                     </View>
                 </Modal>
                 <Toast

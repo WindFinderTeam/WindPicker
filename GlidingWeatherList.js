@@ -25,6 +25,8 @@ import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import ActionButton       from 'react-native-action-button';
 
+import LinearGradient from 'react-native-linear-gradient';
+
 import {
     LazyloadListView,
     LazyloadView
@@ -218,15 +220,16 @@ class GlidingWeatherList extends Component {
     renderRow(rowData, sectionID, rowID) {
 
         rowKey++;
-        var windDir = rowData.windDir + 136;
-        windDir = windDir + " deg";
+
+        var windSpeedWidth = (SCREEN_WIDTH * rowData.windSpeed) / 25 ;
+        var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.windGust) / 25 ) - windSpeedWidth;
 
         var temperature =  Math.round(rowData.temperature);
         var tempColor = color[temperature+20];
 
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(rowData.time, rowData.cloud, rowData.rain, rowData.snowYn+"" );
 
-        var windArrowSrc =  DirectionImage.getWindDirectionImage(0);
+        var windArrowSrc =  DirectionImage.getWindDirectionImage(0); //rowData.windDir
         return (
             <View style={pickerStyle.rowViewStyle}>
                 <LazyloadView host="listExample">
@@ -258,6 +261,21 @@ class GlidingWeatherList extends Component {
                             <Text style={{color: 'black',textAlign: 'center',fontSize: 10,}}>{'max '+rowData.windGust}</Text>
                         </View>
                     </View>
+
+                    <View style={{width: SCREEN_WIDTH, height:4, flexDirection: 'row'}}>
+                        <LinearGradient
+                            start={[0.0, 1.0]} end={[1.0, 1.0]}
+                            locations={[0,0.5,1.0]}
+                            colors={['#2524FF', '#5AAEFF', '#FFFFFF']}
+                            style={{width: windSpeedWidth }}/>
+
+                        <LinearGradient
+                            start={[0.0, 1.0]} end={[1.0, 1.0]}
+                            locations={[0,0.5,1.0]}
+                            colors={['#FF7E7E', '#FFA2A2', '#FFFFFF']}
+                            style={{width: windMaxSpeedWidth }}/>
+                    </View>
+
                 </LazyloadView>
             </View>
         );
