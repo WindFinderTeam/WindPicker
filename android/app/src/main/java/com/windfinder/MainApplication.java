@@ -11,6 +11,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import io.xogus.reactnative.versioncheck.RNVersionCheckPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
           , new VectorIconsPackage()
           , new RNSpinkitPackage()
           , new RNVersionCheckPackage()
+          , new LinearGradientPackage()
       );
     }
   };
