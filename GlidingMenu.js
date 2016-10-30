@@ -18,7 +18,7 @@ class GlidingMenu extends Component {
 
     render() {
         return (
-            <View style={{flexDirection:'row',}}>
+            <View style={{flexDirection:'row'}}>
                 <View style={pickerStyle.menusView}>
                     <Text style={pickerStyle.menuText}>시간</Text>
                 </View>

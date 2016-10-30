@@ -382,7 +382,7 @@ function  getWindDirectionImage(degree) {
 
 
         default    :
-            windArrow = (<Image source={require('./image/weatherIcon/windArrow0.png')} style={{width:23, height:23}}/>);
+            windArrow = (<View style={{width:0, height:0}}></View>);
 
             break;
     };
@@ -766,11 +766,9 @@ function  getSwellDirectionImage(degree) {
 
 
         default    :
-            swellArrow = (<Image source={require('./image/weatherIcon/swellArrow0.png')} style={{width:23, height:23}}/>);
-
+            swellArrow = (<View style={{width:0, height:0}}></View>);
             break;
     };
-
 
     return swellArrow;
 

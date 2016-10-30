@@ -118,7 +118,10 @@ class GlidingWeatherList extends Component {
                             <Text style={ pickerStyle.headerDistrictText }>
                                 {district}
                             </Text>
-                            <View style={{flexDirection:'row',flex:1,marginTop:5}}>
+                            <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center',marginTop:1}}>
+                                <Image source={require('./image/weatherIcon/windArrow0.png')} style={{width:25, height:25}}/>
+                            </View>
+                            <View style={{flexDirection:'row',marginTop:2}}>
                                 <View style={pickerStyle.sunInfo }>
                                     <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
                                 </View>
@@ -130,7 +133,7 @@ class GlidingWeatherList extends Component {
                         </View>
 
                         {/*-------------------------- BOTTOM MENU ---------------------------------*/}
-                        <View style={{width:SCREEN_WIDTH,height:MENU_HEIGHT,}}><GlidingMenu/></View>
+                        <View style={{width:SCREEN_WIDTH}}><GlidingMenu/></View>
                     </View>
                 </Image>
             );
