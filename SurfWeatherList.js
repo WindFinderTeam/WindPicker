@@ -172,7 +172,7 @@ class SurfWeatherList extends Component {
             this.setSpinnerVisible(false);
             clearTimeout(setTimeoudtID);
         })
-            .catch((error) => {
+            .catch((error) => { // if network state is unstable
                 console.warn(error);
                 this.setState({
                     spinnerVisible:false,
@@ -247,8 +247,8 @@ class SurfWeatherList extends Component {
         var windArrowSrc  =  DirectionImage.getWindDirectionImage(0);
         var swellArrowSrc =  DirectionImage.getSwellDirectionImage(0);
 
-        var windSpeedWidth = (SCREEN_WIDTH * rowData.wind) / 25 ;
-        var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.gust) / 25 ) - windSpeedWidth;
+        var windSpeedWidth    = (SCREEN_WIDTH * rowData.wind) / 60 ;
+        var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.gust) / 60 ) - windSpeedWidth;
 
 
         return (

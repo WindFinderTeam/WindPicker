@@ -43,33 +43,31 @@ class  WindFinder extends Component {
     checkVersion(){
 
 
-         console.log(VersionCheck.getPackageName());// com.reactnative.app
-         console.log(VersionCheck.getCurrentBuildNumber());// 10
-         console.log(VersionCheck.getCurrentVersion());// 0.1.1
+         console.log(VersionCheck.getPackageName());//get current my package name  ex) com.windfinder
+         console.log(VersionCheck.getCurrentBuildNumber());// 1.0
 
 
-        VersionCheck.getLatestVersion()
+        VersionCheck.getLatestVersion() // from market
             .then((latestVersion) => {
                 console.log(latestVersion);    // 0.1.2
             })
-            .catch((error) => {
+            .catch((error) => { // if network state is unstable
             console.warn(error);
-            setTimeout(this.startCountDown, 3000);
+            setTimeout(this.startCountDown, 3000); // go to first AndroidFirstView page after 3s
             return ;
 
         });
 
         VersionCheck.needUpdate()
             .then((res) => {
+                console.log("# currentVersion : "+res.currentVersion);    // false; because first two fields of current and the lastest versions are the same as "0.1".
+                console.log("# latestVersion : "+res.latestVersion);
                 console.log(res.isNeeded);    // true
-                if(res.isNeeded == true) this.setState({open: true});
-                else setTimeout(this.startCountDown, 3000);
+
+                if(res.isNeeded == true) this.setState({open: true});// if update is required
+                else                     setTimeout(this.startCountDown, 3000);
             });
 
-        VersionCheck.needUpdate(2)
-            .then((res) => {
-                console.log(res.isNeeded);    // false; because first two fields of current and the lastest versions are the same as "0.1".
-            });
 
     }
 
