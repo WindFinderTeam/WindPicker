@@ -120,6 +120,9 @@ class GlidingWeatherList extends Component {
                             </Text>
                             <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center',marginTop:1}}>
                                 <Image source={require('./image/weatherIcon/windArrow0.png')} style={{width:25, height:25}}/>
+                                <Image source={require('./image/weatherIcon/windArrow0.png')} style={{width:25, height:25}}/>
+                                <Image source={require('./image/weatherIcon/windArrow0.png')} style={{width:25, height:25}}/>
+                                {DirectionImage.getWindDirectionImage(600)}
                             </View>
                             <View style={{flexDirection:'row',marginTop:2}}>
                                 <View style={pickerStyle.sunInfo }>
@@ -224,8 +227,8 @@ class GlidingWeatherList extends Component {
 
         rowKey++;
 
-        var windSpeedWidth = (SCREEN_WIDTH * rowData.windSpeed) / 25 ;
-        var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.windGust) / 25 ) - windSpeedWidth;
+        var windSpeedWidth = (SCREEN_WIDTH * rowData.windSpeed) / 60 ;
+        var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.windGust) / 60 ) - windSpeedWidth;
 
         var temperature =  Math.round(rowData.temperature);
         var tempColor = color[temperature+20];
