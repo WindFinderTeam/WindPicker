@@ -59,7 +59,7 @@
     ,{"province":"강원도", "district":"춘천시 대룡산 이륙장"    , "direction":"180 225 270 315" , "weatherURL":"https://www.windguru.cz/int/jsonapi.php?client=wgapp&app_version=1.1.10&id_spot=183446&id_model=3&no_wave=1&q=wforecast&username=&password=%20HTTP/1.1"}
     ,{"province":"강원도", "district":"평창군 대관령 이륙장"    , "direction":"90 135"          , "weatherURL":"https://www.windguru.cz/int/jsonapi.php?client=wgapp&app_version=1.1.10&id_spot=306183&id_model=3&no_wave=1&q=wforecast&username=&password=%20HTTP/1.1"}
     ,{"province":"강원도", "district":"평창군 장암산 이륙장"    , "direction":"270"             ,"weatherURL":"https://www.windguru.cz/int/jsonapi.php?client=wgapp&app_version=1.1.10&id_spot=124417&id_model=3&no_wave=1&q=wforecast&username=&password=%20HTTP/1.1"}
-    ,{"province":"강원도", "district":"홍천군 남산 이륙장"    , "direction":"315 135"          , "weatherURL":"https://www.windguru.cz/int/jsonapi.php?client=wgapp&app_version=1.1.10&id_spot=440187&id_model=3&no_wave=1&q=wforecast&username=&password=%20HTTP/1.1"}
+    ,{"province":"강원도", "district":"홍천군 남산 이륙장"     , "direction":"315 135"          , "weatherURL":"https://www.windguru.cz/int/jsonapi.php?client=wgapp&app_version=1.1.10&id_spot=440187&id_model=3&no_wave=1&q=wforecast&username=&password=%20HTTP/1.1"}
 
 
     ,{"province":"경상북도", "district":"경주시 국당 이륙장"    , "direction":"292.5"           , "weatherURL":"https://www.windguru.cz/int/jsonapi.php?client=wgapp&app_version=1.1.10&id_spot=177690&id_model=3&no_wave=1&q=wforecast&username=&password=%20HTTP/1.1"}

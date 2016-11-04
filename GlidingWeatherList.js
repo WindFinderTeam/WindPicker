@@ -97,13 +97,15 @@ class GlidingWeatherList extends Component {
 
     setHeaderView(){
 
+        var direction =  this.props.rowData.direction.split(' ');
+
         headerView =
             (
                 <Image
-                    source={{uri: 'http://kingofwallpapers.co/blur-image/blur-image-011.jpg'}}
+                    source={{uri: 'http://www.matcl.com/files/attach/images/2791205/936/827/002/8dba79cd63040a482d3c0727f712d4c6.jpg'}}
                     style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
 
-                    <View style={{flex:1,flexDirection:'column',backgroundColor:'#ABC890'}}>
+                    <View style={{flex:1,flexDirection:'column'}}>
                         {/*----------------------------------- Main Board-----------------------------------*/}
                         <View style={{
                                 flex:1,
@@ -119,10 +121,11 @@ class GlidingWeatherList extends Component {
                                 {district}
                             </Text>
                             <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center',marginTop:1}}>
-                                <Image source={require('./image/weatherIcon/windArrow0.png')} style={{width:25, height:25}}/>
-                                <Image source={require('./image/weatherIcon/windArrow0.png')} style={{width:25, height:25}}/>
-                                <Image source={require('./image/weatherIcon/windArrow0.png')} style={{width:25, height:25}}/>
-                                {DirectionImage.getWindDirectionImage(600)}
+                                <Text style={{color:'#FFF'}}>활공방향 </Text>
+                                {DirectionImage.getWindDirectionImage(parseInt(direction[0]))}
+                                {DirectionImage.getWindDirectionImage(parseInt(direction[1]))}
+                                {DirectionImage.getWindDirectionImage(parseInt(direction[2]))}
+                                {DirectionImage.getWindDirectionImage(parseInt(direction[3]))}
                             </View>
                             <View style={{flexDirection:'row',marginTop:2}}>
                                 <View style={pickerStyle.sunInfo }>
@@ -235,7 +238,7 @@ class GlidingWeatherList extends Component {
 
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(rowData.time, rowData.cloud, rowData.rain, rowData.snowYn+"" );
 
-        var windArrowSrc =  DirectionImage.getWindDirectionImage(0); //rowData.windDir
+        var windArrowSrc =  DirectionImage.getWindDirectionImage(rowData.windDir); //
         return (
             <View style={pickerStyle.rowViewStyle}>
                 <LazyloadView host="listExample">
@@ -404,10 +407,11 @@ class GlidingWeatherList extends Component {
                     {/* ------------------------------- Navigator Background ------------------------------------*/}
                     <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
                         <Image
-                            source={{uri: 'http://kingofwallpapers.com/blur-image/blur-image-011.jpg'}}
-                            style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,
+                            source={{uri: 'http://www.matcl.com/files/attach/images/2791205/936/827/002/8dba79cd63040a482d3c0727f712d4c6.jpg'}}
+                            style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,backgroundColor:'#ABC890',
                             opacity:this.state.menuOpacity
                         }}/>
+
                     </View>
                     {/* ------------------------------- Navigator ------------------------------------*/}
                     <View style={pickerStyle.navigator}>
