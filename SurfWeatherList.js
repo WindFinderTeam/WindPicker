@@ -47,6 +47,7 @@ var mainBoard=true;
 var headerView;
 var mainBoardView;
 var district ;
+var weatherBackImg;
 var color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
     ,'#130ccb','#0e0cd2','#100edd','#0c0de4','#0f18e3','#0d20de','#0c32d5','#0e40d5','#104bcd','#1257cc'
     ,'#0d65c6','#0f74bc','#1b7abe','#308ac6','#4a97cf','#5ba1d2','#70afd8','#84bae0','#95c2df','#add4e5'
@@ -75,6 +76,7 @@ class SurfWeatherList extends Component {
         var getSectionData = (dataBlob, sectionID)        => {return dataBlob[sectionID];};
         var getRowData     = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
 
+
         district =  this.props.rowData.district;
         this.state = {
             dataSource: new ListView.DataSource(
@@ -100,10 +102,11 @@ class SurfWeatherList extends Component {
 
     setHeaderView(){
 
+
         headerView =
             (
                 <Image
-                    source={{uri: 'http://www.goodwp.com/large/201105//18593.jpg'}}
+                    source={weatherBackImg}
                     style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
 
                     <View style={{flex:1,flexDirection:'column'}}>
@@ -150,6 +153,7 @@ class SurfWeatherList extends Component {
     {
         this.setHeaderView();
         mainBoard = true;
+
     }
 
    startCountDown(){
@@ -164,6 +168,7 @@ class SurfWeatherList extends Component {
    }
    fetchData() {
 
+       weatherBackImg = WeatherImage.getBackgroundImage();
        var setTimeoudtID = setTimeout(this.startCountDown, 7000);
 
         fetch(API_URL,null,this).then((responseData) => {
@@ -251,8 +256,9 @@ class SurfWeatherList extends Component {
 
 
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(time, cloud, precipation, snowrain);
-        var windArrowSrc  =  DirectionImage.getWindDirectionImage(0);
-        var swellArrowSrc =  DirectionImage.getSwellDirectionImage(0);
+
+        var windArrowSrc  =  DirectionImage.getWindDirectionImage(parseInt(rowData.winddirection));
+        var swellArrowSrc =  DirectionImage.getSwellDirectionImage(parseInt(rowData.wavedirection));
 
         var windSpeedWidth    = (SCREEN_WIDTH * rowData.wind) / 60 ;
         var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.gust) / 60 ) - windSpeedWidth;
@@ -284,7 +290,7 @@ class SurfWeatherList extends Component {
                 </View>
                 {/* 바람 */}
                 <View>
-                    <Image source={require('./image/weatherIcon/windArrow0.png')} style={{width:23, height:23}}/>
+                    {windArrowSrc}
                 </View>
                 <View style={[pickerStyle.menusView, {flexDirection:'column'}]}>
                     <View>
@@ -296,7 +302,7 @@ class SurfWeatherList extends Component {
                 </View>
                 {/* 파도 */}
                 <View>
-                    <Image source={require('./image/weatherIcon/swellArrow0.png')} style={{width:15, height:15}}/>
+                    {swellArrowSrc}
                 </View>
 
                 <View style={[pickerStyle.menusView, {flexDirection:'column'}]}>
@@ -455,7 +461,7 @@ class SurfWeatherList extends Component {
                 {/* ------------------------------- Navigator Background ------------------------------------*/}
                 <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
                     <Image
-                        source={{uri: 'http://www.goodwp.com/large/201105//18593.jpg'}}
+                        source={weatherBackImg}
                         style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,
                             opacity:this.state.menuOpacity
                         }}/>

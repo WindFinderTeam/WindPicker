@@ -73,8 +73,6 @@ class GlidingWeatherList extends Component {
         var getSectionData     = (dataBlob, sectionID)        => {return dataBlob[sectionID];              };
         var getRowData         = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
 
-        weatherBackImg = WeatherImage.getBackgroundImage();
-
         district =  this.props.rowData.district;
         this.state = {
 
@@ -152,6 +150,7 @@ class GlidingWeatherList extends Component {
     {
         this.setHeaderView();
         mainBoard = true;
+
     }
 
     startCountDown(){
@@ -166,7 +165,7 @@ class GlidingWeatherList extends Component {
     }
 
     fetchData() {
-
+        weatherBackImg = WeatherImage.getBackgroundImage();
         var setTimeoudtID = setTimeout(this.startCountDown, 7000);
 
         fetch(API_URL)
@@ -411,7 +410,7 @@ class GlidingWeatherList extends Component {
                     <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
                         <Image
                             source={weatherBackImg}
-                            style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,backgroundColor:'#ABC890',
+                            style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,
                             opacity:this.state.menuOpacity
                         }}/>
 

@@ -16,7 +16,7 @@ function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
     var time = p_time, cloudQuantity = p_cloudQuantity, precipation = p_precipation, snowrain = p_snowrain;
     var  precipitationImg, weatherImg;
 
-     console.log("WeatherImage in ok : time :" +  time + " ,cloudQuantity : " + cloudQuantity + ", precipation : " + precipation + ", snowrain:"+snowrain);
+     //console.log("WeatherImage in ok : time :" +  time + " ,cloudQuantity : " + cloudQuantity + ", precipation : " + precipation + ", snowrain:"+snowrain);
 
     // 구름이미지생성
     switch (time) {
@@ -105,10 +105,10 @@ function getBackgroundImage(){
     var backgroundImg;
     switch(num){
 
-        case 0 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windpicker/back0.jpg'}); break;
-        case 1 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windpicker/back1.jpg'}); break;
-        case 2 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windpicker/back2.jpg'}); break;
-        case 3 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windpicker/back3.jpg'}); break;
+        case 0 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back1.jpg'}); break;
+        case 1 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back2.jpg'}); break;
+        case 2 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back3.jpg'}); break;
+        case 3 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back4.jpg'}); break;
     }
 
     return backgroundImg;
