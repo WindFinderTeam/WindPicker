@@ -46,6 +46,7 @@ var API_URL;
 var mainBoard=true;
 var headerView;
 var mainBoardView;
+var weatherBackImg;
 var district ;
 var color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
     ,'#130ccb','#0e0cd2','#100edd','#0c0de4','#0f18e3','#0d20de','#0c32d5','#0e40d5','#104bcd','#1257cc'
@@ -71,6 +72,8 @@ class GlidingWeatherList extends Component {
 
         var getSectionData     = (dataBlob, sectionID)        => {return dataBlob[sectionID];              };
         var getRowData         = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
+
+        weatherBackImg = WeatherImage.getBackgroundImage();
 
         district =  this.props.rowData.district;
         this.state = {
@@ -102,7 +105,7 @@ class GlidingWeatherList extends Component {
         headerView =
             (
                 <Image
-                    source={{uri: 'http://www.matcl.com/files/attach/images/2791205/936/827/002/8dba79cd63040a482d3c0727f712d4c6.jpg'}}
+                    source={weatherBackImg}
                     style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
 
                     <View style={{flex:1,flexDirection:'column'}}>
@@ -407,7 +410,7 @@ class GlidingWeatherList extends Component {
                     {/* ------------------------------- Navigator Background ------------------------------------*/}
                     <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
                         <Image
-                            source={{uri: 'http://www.matcl.com/files/attach/images/2791205/936/827/002/8dba79cd63040a482d3c0727f712d4c6.jpg'}}
+                            source={weatherBackImg}
                             style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,backgroundColor:'#ABC890',
                             opacity:this.state.menuOpacity
                         }}/>

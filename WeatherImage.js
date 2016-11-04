@@ -2,6 +2,7 @@
  * Created by seonae on 16. 10. 3.
  */
 exports.getWatherImage = getWatherImage;
+exports.getBackgroundImage = getBackgroundImage;
 
 import  React, {Component} from 'react';
 import {
@@ -91,4 +92,24 @@ function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
 
     return {weatherImg,  precipitationImg};
 
+}
+
+
+function getBackgroundImage(){
+
+    var from = 0;
+    var to   = 3;
+
+    var num = Math.floor( (Math.random() * (to - from + 1)) + from );
+
+    var backgroundImg;
+    switch(num){
+
+        case 0 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windpicker/back0.jpg'}); break;
+        case 1 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windpicker/back1.jpg'}); break;
+        case 2 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windpicker/back2.jpg'}); break;
+        case 3 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windpicker/back3.jpg'}); break;
+    }
+
+    return backgroundImg;
 }
