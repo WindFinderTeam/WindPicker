@@ -124,7 +124,39 @@ const pickerStyle = StyleSheet.create({
         alignItems:'center',
         paddingBottom:70,
         backgroundColor: '#E7E7E7',
-    }
+    },
+    listViewrow: {
+        flex:1,
+        flexDirection:'row',
+        height:40
+    },
+    listViewrowDistrict: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 20,
+        backgroundColor: '#F6F6F6',
+        borderBottomWidth: 1,
+        borderBottomColor: '#e9e9e9',
+        alignItems: 'center',
+        flex:1
+    },
+    listViewrowCam: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems :'center',
+        backgroundColor: '#F6F6F6',
+        borderBottomWidth: 1,
+        borderBottomColor: '#e9e9e9',
+        flex:1
+    },
+    iconBorder:{
+        borderRadius:100,
+        width:30,height:30,
+        borderWidth: 1,
+        borderColor: '#94000F',
+        alignItems: 'center',
+        justifyContent:'center'
+    },
 });
 
 module.exports = pickerStyle;

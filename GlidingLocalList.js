@@ -19,6 +19,7 @@ import {
 import GlidingWeatherList from './GlidingWeatherList';
 
 var glidingLocalData = require('./jsData/GlidingLocalData.json');
+var pickerStyle   = require('./pickerStyle') ;
 
 var selectedRowData ;
 
@@ -95,13 +96,40 @@ class LocalList extends Component{
 
 
     renderRow(rowData) {
+
+        var shopShow = false;
+
+        if( typeof rowData.shop == "undefined"){
+            shopShow = false;
+        } else {
+            shopShow = true;
+        }
+
         return (
-            <TouchableOpacity
-                onPress={() => { this._onPressButton(rowData)}}>
-                <View style={styles.listViewrow}>
-                    <Text style={styles.text}>{rowData.district}</Text>
+            <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>
+                {/* row style */}
+                <View style={pickerStyle.listViewrow}>
+                    {/* distict */}
+                    <View style={pickerStyle.listViewrowDistrict}>
+                        <Text style={styles.text}>{rowData.district}</Text>
+                    </View>
+
+                    {/* icons */}
+                    <View style={pickerStyle.listViewrowCam}>
+
+                    {/* shop icon showing control */}
+                        <TouchableOpacity>
+                            <View style={[pickerStyle.iconBorder, {opacity:shopShow==false?0:1}]}>
+                                <Image source={require('./image/surfShop.png')}
+                                       style={{opacity:shopShow==false?0:1, width:24, height:24}}/>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </TouchableOpacity>
+
+
+
         )
     }
 
