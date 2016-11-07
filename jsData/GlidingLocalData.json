@@ -1,7 +1,7 @@
 {
     "category":"gliding",
     "local":[
-     {"province":"경기도", "district":"광명시 서독산 이륙장" , "direction":"270"                 , "weatherURL":"https://www.windguru.cz/int/jsonapi.php?client=wgapp&app_version=1.1.10&id_spot=135114&id_model=3&no_wave=1&q=wforecast&username=&password=%20HTTP/1.1"}
+        {"province":"경기도", "district":"광명시 서독산 이륙장" , "direction":"270"                 , "weatherURL":"https://www.windguru.cz/int/jsonapi.php?client=wgapp&app_version=1.1.10&id_spot=135114&id_model=3&no_wave=1&q=wforecast&username=&password=%20HTTP/1.1"}
     ,{"province":"경기도", "district":"광주시 매산리 이륙장" , "direction":"225"                , "weatherURL":"https://www.windguru.cz/int/jsonapi.php?client=wgapp&app_version=1.1.10&id_spot=306067&id_model=3&no_wave=1&q=wforecast&username=&password=%20HTTP/1.1"}
     ,{"province":"경기도", "district":"광주시 불탄산 이륙장" , "direction":"270"                , "weatherURL":"https://www.windguru.cz/int/jsonapi.php?client=wgapp&app_version=1.1.10&id_spot=124528&id_model=3&no_wave=1&q=wforecast&username=&password=%20HTTP/1.1"}
     ,{"province":"경기도", "district":"남양주 패러연습장"    , "direction":"0 90 180 270"       , "weatherURL":"https://www.windguru.cz/int/jsonapi.php?client=wgapp&app_version=1.1.10&id_spot=270688&id_model=3&no_wave=1&q=wforecast&username=&password=%20HTTP/1.1"}

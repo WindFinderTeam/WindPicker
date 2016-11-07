@@ -116,8 +116,10 @@ class LocalList extends Component{
 
                     {/* icons */}
                     <View style={pickerStyle.listViewrowCam}>
+                        {/* space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠 */}
+                        <Text>        </Text>
 
-                    {/* shop icon showing control */}
+                        {/* shop icon showing control */}
                         <TouchableOpacity>
                             <View style={[pickerStyle.iconBorder, {opacity:shopShow==false?0:1}]}>
                                 <Image source={require('./image/surfShop.png')}

@@ -229,7 +229,8 @@ class LocalList extends Component{
                 </TouchableOpacity>
             );
         } else {
-            webcamShowJudge = (<Text></Text>);
+            //space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠
+            webcamShowJudge = (<Text>        </Text>);
         }
 
 
