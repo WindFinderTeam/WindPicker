@@ -18,8 +18,9 @@ import {
 
 import GlidingWeatherList from './GlidingWeatherList';
 
+
 var glidingLocalData = require('./jsData/GlidingLocalData.json');
-var pickerStyle   = require('./pickerStyle') ;
+var pickerStyle      = require('./pickerStyle') ;
 
 var selectedRowData ;
 
@@ -34,7 +35,6 @@ class LocalList extends Component{
 
 
     _onPressButton(rowData){
-        //ToastAndroid.show('This is '+ rowData.lastName, ToastAndroid.SHORT);
         selectedRowData = rowData;
         this.setModalVisible(true);
     }
@@ -44,18 +44,18 @@ class LocalList extends Component{
 
         //---------------- Binding to Custom Func ----------------
         this.setModalVisible = this.setModalVisible.bind(this);
-        this.renderRow = this.renderRow.bind(this);
+        this.renderRow       = this.renderRow.bind(this);
         //---------------------------------------------------------
 
         this.ds = new ListView.DataSource({
             sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
-            rowHasChanged: (r1, r2) => r1 !== r2
+            rowHasChanged          : (r1, r2) => r1 !== r2
         });
 
         var {data, sectionIds} = this.renderListViewData(glidingLocalData);
         this.state = {
-            dataSource          : this.ds.cloneWithRowsAndSections(data, sectionIds)
-            ,modalVisible        : false
+             dataSource      : this.ds.cloneWithRowsAndSections(data, sectionIds)
+            ,modalVisible    : false
 
         };
     }
@@ -120,7 +120,7 @@ class LocalList extends Component{
                         <Text>        </Text>
 
                         {/* shop icon showing control */}
-                        <TouchableOpacity>
+                        <TouchableOpacity  onPress = {() => this.props.setShopModalVisible(true , rowData.shop)}>
                             <View style={[pickerStyle.iconBorder, {opacity:shopShow==false?0:1}]}>
                                 <Image source={require('./image/surfShop.png')}
                                        style={{opacity:shopShow==false?0:1, width:24, height:24}}/>

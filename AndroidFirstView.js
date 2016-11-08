@@ -5,6 +5,7 @@ import {
     ScrollView,
     Text,
     Image,
+    ListView,
     ToolbarAndroid,
     DrawerLayoutAndroid,
     TouchableOpacity,
@@ -37,17 +38,23 @@ import FavoriteList      from './FavoriteList';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import MenuList from './MenuList';
 
+
+var ds;
+
 class  AndroidFirstView extends Component {
 
-
-    //renderTabBar={() => <CustomTabbar />}
+        //renderTabBar={() => <CustomTabbar />}
 
     constructor(prop){
         super(prop);
 
         this.setConfigModalVisible = this.setConfigModalVisible.bind(this);
+        this.setShopModalVisible = this.setShopModalVisible.bind(this);
         this.openDrawer            = this.openDrawer.bind(this);
-        this.state = {school : 'Wind Finder2', open: false, viewMode:'surf',loadingYn:true};
+        this.renderRow             = this.renderRow.bind(this);
+
+        ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); // shop ListView Data
+        this.state = {school : 'Wind Finder2', open: false, viewMode:'surf',loadingYn:true ,shopModalVisible: false, dataSource: ds.cloneWithRows(['row 1', 'row 2'])};
 
     }
 
@@ -59,13 +66,25 @@ class  AndroidFirstView extends Component {
         this.setState({open: visible});
     }
 
+    setShopModalVisible(visible,shopRows) {
+
+        console.log("#################");
+        console.log(shopRows);
+        this.setState({shopModalVisible: visible,  dataSource: ds.cloneWithRows(shopRows)});
+
+    }
+
 
     onActionSelected(position) {
 
         if (position === 0) { // index of 'Settings'
-            //ToastAndroid.show('Setting Cliked', ToastAndroid.SHORT);
             this.setConfigModalVisible(true);
         }
+    }
+
+
+    renderRow(rowData) {
+      return (<View><Text>{rowData.name}</Text></View>);
     }
 
 
@@ -82,7 +101,7 @@ class  AndroidFirstView extends Component {
 
         var localList ;
         if(this.state.viewMode =='surf') localList =  (<SurfLocalList/>)   ;
-        else                             localList =  (<GlidingLocalList/>);
+        else                             localList =  (<GlidingLocalList setShopModalVisible={this.setShopModalVisible}/>);
 
         return (
 
@@ -162,6 +181,18 @@ class  AndroidFirstView extends Component {
                     ref      = "toast"
                     style    = {{backgroundColor:'#222222'}}
                     position = 'bottom'/>
+
+                <Modal
+                    open          = {this.state.shopModalVisible}
+                    modalDidOpen  = {() => console.log('modal did open')}
+                    modalDidClose = {() => this.setState({shopModalVisible: false})}
+                    style         = {{alignItems: 'center'}}>
+                        <ListView
+                            dataSource={this.state.dataSource}
+                            renderRow={this.renderRow}
+                        />
+                </Modal>
+
             </DrawerLayoutAndroid>
         );
     }
