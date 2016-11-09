@@ -155,7 +155,7 @@ class  AndroidFirstView extends Component {
                     modalDidClose = {() => this.setState({open: false})}
                     style         = {{flex:1,borderRadius: 2}}>
                     {/* <View style={{flex:1, backgroundColor:'#FFDED7'}}> */}
-                    <Text style={{fontSize: 25, marginBottom: 10, color:'#94000F'}}>모드선택</Text>
+                    <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F'}}>모드선택</Text>
 
                     <View style={{margin:0,flex:1, backgroundColor:'#9c0010'}}>
                         <View style={{flex:2, backgroundColor:this.state.viewMode =='surf'?'#9c0010':'#F5F5F5'}}>
