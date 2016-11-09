@@ -234,7 +234,8 @@ class SurfWeatherList extends Component {
 
         var temperature =  Math.round(rowData.temperature);
         var tempColor   = color[temperature+20];
-
+        var tempFontColor = '#FFFFFF';
+        if(temperature >= 10 && temperature <= 20 ) tempFontColor = 'black';
         var cloud = rowData.cloud, precipation = rowData.rainprecipation, time = rowData.time, snowrain = rowData.snowrain;
         var tidedirections;
 
@@ -285,7 +286,7 @@ class SurfWeatherList extends Component {
                 {/* 기온 */}
                 <View style={pickerStyle.menusView}>
                     <View style={{justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor, width:30}}>
-                        <Text style={pickerStyle.rowListText}>{rowData.temperature} ℃</Text>
+                        <Text style={[pickerStyle.rowListText,{color:tempFontColor}]}>{temperature} ℃</Text>
                     </View>
                 </View>
                 {/* 바람 */}
