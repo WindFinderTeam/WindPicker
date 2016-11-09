@@ -98,7 +98,7 @@ class  AndroidFirstView extends Component {
             );
 
         var localList ;
-        if(this.state.viewMode =='surf') localList =  (<SurfLocalList/>)   ;
+        if(this.state.viewMode =='surf') localList =  (<SurfLocalList setShopModalVisible={this.setShopModalVisible}/>);
         else                             localList =  (<GlidingLocalList setShopModalVisible={this.setShopModalVisible}/>);
 
         return (
@@ -153,27 +153,33 @@ class  AndroidFirstView extends Component {
                     open          = {this.state.open}
                     modalDidOpen  = {() => console.log('modal did open')}
                     modalDidClose = {() => this.setState({open: false})}
-                    style         = {{alignItems: 'center'}}>
-                    <View>
-                        <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F'}}>모드선택</Text>
-                        <TouchableOpacity
-                            style={{margin: 10,flex:1,justifyContent:'center',alignItems:'center' }}
-                            onPress={() => {
-                                this.setState({viewMode:'surf',open: false});
-                                this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
-                                }}>
-                            <Text>서 핑</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style   = {{margin: 10, flex:1,justifyContent:'center',alignItems:'center' }}
-                            onPress = {() => {
-                                this.setState({viewMode:'gliding',open: false});
-                                this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
-                                }}>
-                            <Text>페러글라이딩</Text>
-                        </TouchableOpacity>
+                    style         = {{flex:1,borderRadius: 2}}>
+                    {/* <View style={{flex:1, backgroundColor:'#FFDED7'}}> */}
+                    <Text style={{fontSize: 25, marginBottom: 10, color:'#94000F'}}>모드선택</Text>
 
+                    <View style={{margin:0,flex:1, backgroundColor:'#9c0010'}}>
+                        <View style={{flex:2, backgroundColor:this.state.viewMode =='surf'?'#9c0010':'#F5F5F5'}}>
+                            <TouchableOpacity
+                                style={{margin: 5,flex:1,justifyContent:'center',alignItems:'flex-start' }}
+                                onPress={() => {
+                                    this.setState({viewMode:'surf',open: false});
+                                    this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
+                                }}>
+                                <Text style={{color:this.state.viewMode =='surf'?'white':'#9c0010', fontSize: 15}}>서                  핑    <Ionicons name="md-checkbox-outline" size={22} color={this.state.viewMode =='surf'?'rgba(245,245,245,1)':'rgba(245,245,245,0)'}/></Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{flex:2, backgroundColor:this.state.viewMode =='gliding'?'#9c0010':'#F5F5F5'}}>
+                            <TouchableOpacity
+                                style   = {{margin: 5, flex:1,justifyContent:'center',alignItems:'flex-start' }}
+                                onPress = {() => {
+                                    this.setState({viewMode:'gliding',open: false});
+                                    this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
+                                }}>
+                                <Text style={{color:this.state.viewMode =='gliding'?'white':'#9c0010',fontSize: 15}}>페 러 글 라 이 딩    <Ionicons name="md-checkbox-outline" size={22} color={this.state.viewMode =='gliding'?'rgba(245,245,245,1)':'rgba(245,245,245,0)'}/></Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
+                    {/* </View> */}
                 </Modal>
                 <Toast
                     ref      = "toast"

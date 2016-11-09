@@ -255,7 +255,7 @@ class LocalList extends Component{
                         {webcamShowJudge}
 
                         {/* shop icon showing control */}
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
                             <View style={[pickerStyle.iconBorder, {opacity:shopShow==false?0:1}]}>
                                 <Image source={require('./image/surfShop.png')}
                                        style={{opacity:shopShow==false?0:1, width:24, height:24}}/>
