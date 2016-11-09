@@ -68,8 +68,6 @@ class  AndroidFirstView extends Component {
 
     setShopModalVisible(visible,shopRows) {
 
-        console.log("#################");
-        console.log(shopRows);
         this.setState({shopModalVisible: visible,  dataSource: ds.cloneWithRows(shopRows)});
 
     }
