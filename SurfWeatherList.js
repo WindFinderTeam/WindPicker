@@ -207,8 +207,6 @@ class SurfWeatherList extends Component {
     // Draw List's Headers
     sectionHeader(rowData, sectionID) {
 
-        console.log("############");
-        console.log(mainBoard);
         if(mainBoard === true) {
             this.setHeaderView();
             mainBoard = false;

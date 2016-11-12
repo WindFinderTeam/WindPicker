@@ -82,7 +82,7 @@ class  AndroidFirstView extends Component {
 
 
     renderRow(rowData) {
-      return (<View><Text>{rowData.name}</Text></View>);
+      return (<View style={{height: 30,}}><Text>{rowData.name}</Text></View>);
     }
 
 
@@ -154,7 +154,7 @@ class  AndroidFirstView extends Component {
                     modalDidOpen  = {() => console.log('modal did open')}
                     modalDidClose = {() => this.setState({open: false})}
                     style         = {{flex:1,borderRadius: 2}}>
-                    {/* <View style={{flex:1, backgroundColor:'#FFDED7'}}> */}
+
                     <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F'}}>모드선택</Text>
 
                     <View style={{margin:0,flex:1, backgroundColor:'#9c0010'}}>
@@ -166,14 +166,14 @@ class  AndroidFirstView extends Component {
                                     this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
                                 }}>
-                                <Text style={{color:this.state.viewMode =='surf'?'white':'#9c0010', fontSize: 15}}>서                  핑    <Ionicons name="md-checkbox-outline" size={22} color={this.state.viewMode =='surf'?'rgba(245,245,245,1)':'rgba(245,245,245,0)'}/></Text>
+                                <Text style={{color:this.state.viewMode =='surf'?'white':'#9c0010', fontSize: 15}}>서                   핑    <Ionicons name="md-checkbox-outline" size={22} color={this.state.viewMode =='surf'?'rgba(245,245,245,1)':'rgba(245,245,245,0)'}/></Text>
                             </TouchableOpacity>
                         </View>
                         <View style={{flex:2, backgroundColor:this.state.viewMode =='gliding'?'#9c0010':'#F5F5F5'}}>
                             <TouchableOpacity
                                 style   = {{margin: 5, flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress = {() => {
-                                    this.setState({viewMode:'gliding',open: false});
+                                    this.setState({viewMode:'gliding',open: false}) ;
                                     this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
                                 }}>
@@ -193,9 +193,10 @@ class  AndroidFirstView extends Component {
                     modalDidOpen  = {() => console.log('modal did open')}
                     modalDidClose = {() => this.setState({shopModalVisible: false})}
                     style         = {{alignItems: 'center'}}>
+                    <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F',marginBottom:15}}>주변샾</Text>
                         <ListView
                             dataSource={this.state.dataSource}
-                            renderRow={this.renderRow}
+                            renderRow ={this.renderRow}
                         />
                 </Modal>
 
