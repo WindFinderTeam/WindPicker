@@ -12,6 +12,7 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import io.xogus.reactnative.versioncheck.RNVersionCheckPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
           , new RNSpinkitPackage()
           , new RNVersionCheckPackage()
           , new LinearGradientPackage()
+          , new GoogleAnalyticsBridgePackage()
       );
     }
   };
