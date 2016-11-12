@@ -49,7 +49,7 @@ class  AndroidFirstView extends Component {
         super(prop);
 
         this.setConfigModalVisible = this.setConfigModalVisible.bind(this);
-        this.setShopModalVisible = this.setShopModalVisible.bind(this);
+        this.setShopModalVisible   = this.setShopModalVisible.bind(this);
         this.openDrawer            = this.openDrawer.bind(this);
         this.renderRow             = this.renderRow.bind(this);
 
@@ -136,7 +136,7 @@ class  AndroidFirstView extends Component {
                                    tabBarInactiveTextColor = "#BDBDBD"
                                    tabBarBackgroundColor   = "#9c0010"
                                    ref                     = {'scrollView'}>
-                    <ScrollView tabLabel="날씨상황" style={styles.tabView}>
+                    <ScrollView tabLabel="날씨상황"  style={styles.tabView} ref="LocalScrollView">
                         {localList}
                     </ScrollView>
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
@@ -163,6 +163,7 @@ class  AndroidFirstView extends Component {
                                 style={{margin: 5,flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress={() => {
                                     this.setState({viewMode:'surf',open: false});
+                                    this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
                                 }}>
                                 <Text style={{color:this.state.viewMode =='surf'?'white':'#9c0010', fontSize: 15}}>서                  핑    <Ionicons name="md-checkbox-outline" size={22} color={this.state.viewMode =='surf'?'rgba(245,245,245,1)':'rgba(245,245,245,0)'}/></Text>
@@ -173,6 +174,7 @@ class  AndroidFirstView extends Component {
                                 style   = {{margin: 5, flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress = {() => {
                                     this.setState({viewMode:'gliding',open: false});
+                                    this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
                                 }}>
                                 <Text style={{color:this.state.viewMode =='gliding'?'white':'#9c0010',fontSize: 15}}>페 러 글 라 이 딩    <Ionicons name="md-checkbox-outline" size={22} color={this.state.viewMode =='gliding'?'rgba(245,245,245,1)':'rgba(245,245,245,0)'}/></Text>

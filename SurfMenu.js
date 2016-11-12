@@ -31,14 +31,12 @@ class SurfMenu extends Component {
                 <View style={pickerStyle.menusView}>
                     <Text style={pickerStyle.menuText}>강수량</Text>
                 </View>
-                <View style={pickerStyle.menusView}>
-                    <Text style={pickerStyle.menuText}>구름</Text>
-                </View>
+
                 <View style={pickerStyle.menusView}>
                     <Text style={pickerStyle.menuText}>바람</Text>
                 </View>
                 <View style={pickerStyle.menusView}>
-                    <Text style={pickerStyle.menuText}>속도</Text>
+                    <Text style={pickerStyle.menuText}>파도</Text>
                 </View>
                 <View style={pickerStyle.menusView}>
                     <Text style={pickerStyle.menuText}>조수</Text>

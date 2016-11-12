@@ -156,7 +156,6 @@ class GlidingWeatherList extends Component {
     startCountDown(){
 
         console.log("#### TIMER OVER ####");
-
         this.setState({
             spinnerVisible:false,
             networkState  :false
@@ -165,7 +164,7 @@ class GlidingWeatherList extends Component {
     }
 
     fetchData() {
-        weatherBackImg = WeatherImage.getBackgroundImage();
+        weatherBackImg    = WeatherImage.getBackgroundImage()    ;
         var setTimeoudtID = setTimeout(this.startCountDown, 7000);
 
         fetch(API_URL)
@@ -212,7 +211,7 @@ class GlidingWeatherList extends Component {
             this.setHeaderView();
             mainBoard = false;
         }
-        else headerView = (<Text></Text>);
+        else headerView = (<View style={{width:0,height:0}}></View>);
 
         return(
             <View>
@@ -248,12 +247,12 @@ class GlidingWeatherList extends Component {
                 <LazyloadView host="listExample">
                     <View key={rowKey} style={pickerStyle.row}>
                         <View style={pickerStyle.menusView}>
-                            <Text style={pickerStyle.rowListText}>{rowData.time}h</Text>
+                            <Text style={pickerStyle.rowListText}>{rowData.time}H</Text>
                         </View>
 
                         <View style={[pickerStyle.menusView, {flexDirection:'column'}]}>
-                            <View>{weatherImg}</View>
-                            <View>{precipitationImg}</View>
+                            {weatherImg}
+                            {precipitationImg}
                         </View>
                         <View style={pickerStyle.menusView}>
                             <View style={{  justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor, width:30}}>
@@ -279,13 +278,13 @@ class GlidingWeatherList extends Component {
                         <LinearGradient
                             start={[0.0, 1.0]} end={[1.0, 1.0]}
                             locations={[0,0.5,1.0]}
-                            colors={['#2524FF', '#5AAEFF', '#FFFFFF']}
+                            colors={['#90E4FF', '#B4FFFF', '#FFFFFF']}
                             style={{width: windSpeedWidth }}/>
 
                         <LinearGradient
                             start={[0.0, 1.0]} end={[1.0, 1.0]}
                             locations={[0,0.5,1.0]}
-                            colors={['#FF7E7E', '#FFA2A2', '#FFFFFF']}
+                            colors={['#FF9090', '#FFB4B4', '#FFFFFF']}
                             style={{width: windMaxSpeedWidth }}/>
                     </View>
 
@@ -309,7 +308,7 @@ class GlidingWeatherList extends Component {
     onScrolling(event) {
 
         var currentOffset = event.nativeEvent.contentOffset.y;
-        var direction   = currentOffset > bfcurrentOffset ? 'down' : 'up';
+        var direction     = currentOffset > bfcurrentOffset ? 'down' : 'up';
 
         bfcurrentOffset = currentOffset;
 
