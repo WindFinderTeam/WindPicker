@@ -37,7 +37,6 @@ var WeatherImage  = require('./WeatherImage');
 var SurfMenu      = require('./SurfMenu')    ;
 var DirectionImage= require('./DirectionImage');
 
-
 var rowKey = 0;           // Listview`s row keys
 var offset = 0;           // before scroll position for Action Button
 var API_URL;
@@ -95,6 +94,7 @@ class SurfWeatherList extends Component {
             ,loadOK        :false
             ,spinnerVisible:true
             ,networkState  :true
+            ,tideYN        :"N"
         };
         this.fetchData();
     }
@@ -143,7 +143,7 @@ class SurfWeatherList extends Component {
                         </View>
 
                         {/*-------------------------- BOTTOM MENU ---------------------------------*/}
-                        <View style={{width:SCREEN_WIDTH}}><SurfMenu/></View>
+                        <View style={{width:SCREEN_WIDTH}}><SurfMenu tideYN={this.state.tideYN}/></View>
                     </View>
                 </Image>
             );
@@ -171,17 +171,20 @@ class SurfWeatherList extends Component {
        var setTimeoudtID = setTimeout(this.startCountDown, 7000);
 
         fetch(API_URL,null,this).then((responseData) => {
-            var {dataBlob,sectionIDs, rowIDs,sunInfo} = SurfParser.getSurfWeather(responseData);  //data parsing
+            var {dataBlob,sectionIDs, rowIDs,sunInfo,tideYN} = SurfParser.getSurfWeather(responseData);  //data parsing
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
                 sunrise     :sunInfo[0],
                 sunset      :sunInfo[1],
                 updateTime  :sunInfo[2],
                 loadOK      :true,
-                networkState:true
+                networkState:true,
+                tideYN      :tideYN
             });
             this.setSpinnerVisible(false);
+
             clearTimeout(setTimeoudtID);
+
         })
             .catch((error) => { // if network state is unstable
                 console.warn(error);
@@ -217,9 +220,9 @@ class SurfWeatherList extends Component {
             {headerView}
             <View style={pickerStyle.headerViewStyle}>
                 <LazyloadView host="listExample">
-                <View style={pickerStyle.sectionHeader}>
-                    <Text style={pickerStyle.sectionHeaderText}>{sectionID}</Text>
-                </View>
+                    <View style={pickerStyle.sectionHeader}>
+                        <Text style={pickerStyle.sectionHeaderText}>{sectionID}</Text>
+                    </View>
                 </LazyloadView>
             </View>
          </View>
@@ -251,7 +254,11 @@ class SurfWeatherList extends Component {
                 case 'low' :tidedirections = (<Image source={require('./image/weatherIcon/cloud2.png')} style={{width:15, height:15}}/>);
                     break;
             }
-        } else  tidedirections = (<Text></Text>);
+            // tide 값 유무를 tidedirections으로 판단
+        } else  {
+            tidedirections = (<Text></Text>);
+            // tide 값 유무를 tidedirections으로 판단
+        }
 
 
 
@@ -265,7 +272,6 @@ class SurfWeatherList extends Component {
 
         var windSpeedWidth    = (SCREEN_WIDTH * rowData.wind) / 60 ;
         var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.gust) / 60 ) - windSpeedWidth;
-
 
         return (
         <View style={pickerStyle.rowViewStyle}>
@@ -312,7 +318,7 @@ class SurfWeatherList extends Component {
                   </View>
 
                   {/* 조수 */}
-                  <View style={pickerStyle.menusView}>
+                  <View style={rowData.tidedirections=="" ? {width:0, height:0} : pickerStyle.menusView}>
                       <View style={{flexDirection:'column'}}>
                           <View>{tidedirections}</View>
                           <Text style={[pickerStyle.rowListText, {fontSize:11}]}>{rowData.tideheight}m {rowData.tidefreq}</Text>
@@ -487,7 +493,7 @@ class SurfWeatherList extends Component {
                     width:SCREEN_WIDTH,
                     height:MENU_HEIGHT,
                     zIndex:1000,   opacity:this.state.menuOpacity}} >
-                    <SurfMenu/>
+                    <SurfMenu tideYN={this.state.tideYN}/>
                 </View>
             </View>
         );

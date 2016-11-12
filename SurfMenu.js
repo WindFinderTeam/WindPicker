@@ -15,8 +15,9 @@ class SurfMenu extends Component {
         super(props);
     }
 
-
     render() {
+        console.log("in SurfMenu");
+        console.log(this.props.tideYN);
         return (
             <View style={{flexDirection:'row',}}>
                 <View style={pickerStyle.menusView}>
@@ -38,7 +39,7 @@ class SurfMenu extends Component {
                 <View style={pickerStyle.menusView}>
                     <Text style={pickerStyle.menuText}>파도</Text>
                 </View>
-                <View style={pickerStyle.menusView}>
+                <View style={this.props.tideYN=="N"? {width:0, height:0} : pickerStyle.menusView}>
                     <Text style={pickerStyle.menuText}>조수</Text>
                 </View>
             </View>

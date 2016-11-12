@@ -148,6 +148,7 @@ function getSurfWeather (responseData){
             var tideFreq, tideHeight, tidedirections;
             var waveheight, wavefreq, wavedirection;
             var snowrain;
+            var tideYN = "N";
 
             if(typeof parsing_snowrain[j].childNodes[1] == "undefined"){
                 snowrain = "";
@@ -163,7 +164,7 @@ function getSurfWeather (responseData){
             }
 
             if(typeof parsing_rowData_tides[j] == "undefined"){
-                tidedirections = "", tideFreq = "", tideHeight = "" ;
+                tidedirections = "", tideFreq = "", tideHeight = "";
             } else  {
 
                 if(typeof parsing_rowData_tideHeight[j] == "undefined"){
@@ -192,6 +193,8 @@ function getSurfWeather (responseData){
                     } else {
                         tidedirections = "";
                     }
+
+                    tideYN = "Y" ;
 
                 }
             }
@@ -262,7 +265,6 @@ function getSurfWeather (responseData){
 
         count = count + 8;
     }
-
-    testTime2 = new Date();
-    return {dataBlob,sectionIDs, rowIDs,sunInfo};
+    console.log("parser >>> " + tideYN);
+    return {dataBlob,sectionIDs, rowIDs,sunInfo,tideYN};
 }
