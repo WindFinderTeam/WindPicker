@@ -245,19 +245,17 @@ class SurfWeatherList extends Component {
 
         if(rowData.tidedirections != ""){
             switch(rowData.tidedirections) {
-                case 'down' :tidedirections = (<Image source={require('./image/weatherIcon/cloud1.png')} style={{width:15, height:15}}/>);
+                case 'down' :tidedirections = (<Image source={require('./image/weatherIcon/cloud1.png')} style={{width:15, height:17}}/>);
                     break;
-                case 'up' :tidedirections = (<Image source={require('./image/arrow.png')} style={{width:15, height:15}}/>);
+                case 'up' :tidedirections = (<Image source={require('./image/arrow.png')} style={{width:15, height:17}}/>);
                     break;
-                case 'high' :tidedirections = (<Image source={require('./image/weatherIcon/snow.png')} style={{width:15, height:15}}/>);
+                case 'high' :tidedirections = (<Image source={require('./image/weatherIcon/snow.png')} style={{width:15, height:17}}/>);
                     break;
-                case 'low' :tidedirections = (<Image source={require('./image/weatherIcon/cloud2.png')} style={{width:15, height:15}}/>);
+                case 'low' :tidedirections = (<Image source={require('./image/weatherIcon/cloud2.png')} style={{width:15, height:17}}/>);
                     break;
             }
-            // tide 값 유무를 tidedirections으로 판단
         } else  {
             tidedirections = (<Text></Text>);
-            // tide 값 유무를 tidedirections으로 판단
         }
 
 
@@ -296,7 +294,7 @@ class SurfWeatherList extends Component {
 
                 {/* 강수량 */}
                 <View style={pickerStyle.menusView}>
-                    <Text style={pickerStyle.rowListText}>{precipation}</Text><Text style={{fontSize:10}}>mm</Text>
+                    <Text style={pickerStyle.rowListText}>{precipation}</Text><Text style={[pickerStyle.rowListText, {fontSize:10}]}> mm</Text>
                 </View>
 
                   {/* 바람 */}
@@ -312,15 +310,15 @@ class SurfWeatherList extends Component {
                   <View style={pickerStyle.menusView}>
                       {swellArrowSrc}
                       <View style={{flexDirection:'column',marginLeft:1}}>
-                          <Text style={pickerStyle.rowListText}>{rowData.waveheight}m</Text>
+                          <Text style={pickerStyle.rowListText}>{rowData.waveheight} m</Text>
                           <Text style={[pickerStyle.rowListText, {fontSize:11}]}>{rowData.wavefrequency}s</Text>
                       </View>
                   </View>
 
                   {/* 조수 */}
-                  <View style={rowData.tidedirections=="" ? {width:0, height:0} : pickerStyle.menusView}>
-                      <View style={{flexDirection:'column'}}>
-                          <View>{tidedirections}</View>
+                  <View style={rowData.tidedirections=="" ? {width:0, height:0} : [{flexDirection:'column'},pickerStyle.menusView]}>
+                      <View style={{flex:1,flexDirection:'column'}}>
+                          <View style={{flexDirection:'row',justifyContent:'center' }}>{tidedirections}</View>
                           <Text style={[pickerStyle.rowListText, {fontSize:11}]}>{rowData.tideheight}m {rowData.tidefreq}</Text>
                       </View>
                   </View>
