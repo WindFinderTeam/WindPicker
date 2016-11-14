@@ -19,13 +19,19 @@ import {
 import Realm               from 'realm';
 import Accordion           from 'react-native-collapsible/Accordion';
 
+
 import WeatherList         from './SurfWeatherList';
+
+var surfLocalData = require('./jsData/SurfLocalData.json');
 
 var selectedRowData;
 var ds;
 var local_key;
 var favoriteGlidingList=[];
 var favoriteSurfingList=[];
+
+var tempObject=[];
+
 class FavoriteList extends Component {
 
     constructor(props) {
@@ -73,11 +79,20 @@ class FavoriteList extends Component {
         this.setState({modalVisible: visible});
     }
 
-    _onPressButton(rowData, headerData) {
+    _onPressButton(rowData) {
+
         console.log("====favoriteList== _onPressButton");
+
         console.log(rowData);
-        console.log(Object(headerData));
-        selectedRowData = rowData;
+        for (var i in tempObject) {
+            if(rowData == tempObject[i].name){
+                console.log("stop!");
+                selectedRowData = surfLocalData.local[tempObject[i].index];
+                console.log(tempObject[i].index +"," + tempObject[i].name + "," + selectedRowData.district);
+                break;
+            }
+        }
+        // selectedRowData = rowData;
         this.setModalVisible(!this.state.modalVisible);
     }
 
@@ -118,6 +133,13 @@ class FavoriteList extends Component {
                 favoriteSurfingList.push(AllFavorite_surfing[i].name);
                 console.log(favoriteSurfingList[i]);
             }
+
+            for (var i in AllFavorite_surfing) {
+                tempObject.push({"index":AllFavorite_surfing[i].index, "name":AllFavorite_surfing[i].name});
+                console.log("--------tempObject--------")
+                console.log(tempObject[i].index);
+                console.log(tempObject[i].name);
+            }
         }
         });
 
@@ -125,9 +147,9 @@ class FavoriteList extends Component {
 
     _renderHeader(section, key) {
         // key !!!
-        this.state.dataSource_local[0].content = ds.cloneWithRows(favoriteSurfingList);
-        local_key = key;
 
+        local_key = key;
+        console.log("====== _renderHeader ======");
 
         return (
             <View style={styles.sectionHeader}>
@@ -138,6 +160,8 @@ class FavoriteList extends Component {
 
 
     _renderRow(section) {
+        this.state.dataSource_local[0].content = ds.cloneWithRows(favoriteSurfingList);
+
         return (
             <ListView
                 dataSource={section.content}
@@ -156,6 +180,8 @@ class FavoriteList extends Component {
     }
 
     render() {
+
+
         return (
             <View>
                 <Modal
@@ -170,7 +196,6 @@ class FavoriteList extends Component {
                         modalVisible={this.setModalVisible}
                         rowData={selectedRowData}
                     />
-
                 </Modal>
 
                 <Accordion

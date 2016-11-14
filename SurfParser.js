@@ -250,6 +250,6 @@ function getSurfWeather (responseData){
 
         count = count + 8;
     }
-    console.log("parser >>> " + tideYN);
+
     return {dataBlob,sectionIDs, rowIDs,sunInfo,tideYN};
 }
