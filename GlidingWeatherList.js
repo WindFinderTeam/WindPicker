@@ -260,7 +260,7 @@ class GlidingWeatherList extends Component {
                             </View>
                         </View>
                         <View style={pickerStyle.menusView}>
-                            <Text style={pickerStyle.rowListText}>{rowData.rain}</Text><Text style={{fontSize:10}}>mm</Text>
+                            <Text style={pickerStyle.rowListText}>{rowData.rain}</Text><Text style={[pickerStyle.rowListText, {fontSize:10}]}> mm</Text>
                         </View>
                         <View style={pickerStyle.menusView}>
                             <Text style={pickerStyle.rowListText}>{rowData.cloud}%</Text>

@@ -1,6 +1,7 @@
 'use strict';
 
 import  React, {Component} from 'react';
+
 import {
     Image,
     ListView,
@@ -15,12 +16,22 @@ import {
     ToastAndroid
 } from 'react-native';
 
-import Accordion from 'react-native-collapsible/Accordion';
-import WeatherList from './SurfWeatherList';
+import Realm               from 'realm';
+import Accordion           from 'react-native-collapsible/Accordion';
+
+
+import WeatherList         from './SurfWeatherList';
+
+var surfLocalData = require('./jsData/SurfLocalData.json');
 
 var selectedRowData;
-var collapsedTF = true;
 var ds;
+var local_key;
+var favoriteGlidingList=[];
+var favoriteSurfingList=[];
+
+var tempObject=[];
+
 class FavoriteList extends Component {
 
     constructor(props) {
@@ -29,7 +40,6 @@ class FavoriteList extends Component {
         this._renderRow = this._renderRow.bind(this);
         this._renderHeader = this._renderHeader.bind(this);
         this.setModalVisible = this.setModalVisible.bind(this);
-        this._onPressButtonHeader = this._onPressButtonHeader.bind(this);
         this._onPressButton = this._onPressButton.bind(this);
 
         ds = new ListView.DataSource(
@@ -43,14 +53,10 @@ class FavoriteList extends Component {
             dataSource_local: [{
                 title: <Image source={require('./image/surfing.jpg')} style={styles.container}>
                     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                        <Text style={styles.sectionHeaderText}>서 핑</Text>
+                        <Text style={styles.sectionHeaderText}>서                      핑</Text>
                     </View>
                 </Image>,
-                content: ds.cloneWithRows(
-                    [
-                        'aa', 'ss'
-
-                    ])
+                content: ds.cloneWithRows(favoriteSurfingList)
             },
                 {
                     title: <Image source={require('./image/paragliding.jpg')} style={styles.container}>
@@ -60,13 +66,12 @@ class FavoriteList extends Component {
                     </Image>,
                     content: ds.cloneWithRows(
                         [
-                            'aafff', 'ggss'
+                            '이천시 원적산 이륙장', '강릉시 괘방산 이륙장', '춘천시 대룡산 이륙장', '고성군 깃대봉 이륙장'
                         ])
                 }]
 
             , modalVisible: false
             , isCollapsed: false
-
         };
     }
 
@@ -74,21 +79,78 @@ class FavoriteList extends Component {
         this.setState({modalVisible: visible});
     }
 
+    _onPressButton(rowData) {
 
-    _onPressButton(rowData, headerData) {
+        console.log("====favoriteList== _onPressButton");
 
-        selectedRowData = rowData;
+        console.log(rowData);
+        for (var i in tempObject) {
+            if(rowData == tempObject[i].name){
+                console.log("stop!");
+                selectedRowData = surfLocalData.local[tempObject[i].index];
+                console.log(tempObject[i].index +"," + tempObject[i].name + "," + selectedRowData.district);
+                break;
+            }
+        }
+        // selectedRowData = rowData;
         this.setModalVisible(!this.state.modalVisible);
     }
 
-    _onPressButtonHeader() {
-        this.setState({isCollapsed: !this.state.isCollapsed});
-        collapsedTF = this.state.isCollapsed;
+    componentWillMount() // before rendering
+    {
 
+        //surfing
+        console.log("surfing");
+        const FavoritSurfingeSchema = {
+            name: 'FavoriteSurfing',
+            primaryKey: 'index',
+            properties: {
+                index: {type: 'string'},
+                name : {type: 'string'}
+            }
+        };
+        //gliding
+        console.log("gliding");
+        const FavoriteGlidingSchema = {
+            name: 'FavoriteGliding',
+            primaryKey: 'index',
+            properties: {
+                index: {type: 'string'},
+                name : {type: 'string'}
+            }
+        };
+
+        let realm = new Realm({schema: [FavoritSurfingeSchema, FavoriteGlidingSchema]});
+        // ROAD all favorite surfing data
+        realm.write(() => {
+
+        let AllFavorite_surfing = realm.objects('FavoriteSurfing');
+        // let AllFavorite_glding = realm.objects(FavoriteGliding);
+
+        if (Object.keys(AllFavorite_surfing) == "") {}
+        else {
+            for (var i in AllFavorite_surfing) {
+                favoriteSurfingList.push(AllFavorite_surfing[i].name);
+                console.log(favoriteSurfingList[i]);
+            }
+
+            for (var i in AllFavorite_surfing) {
+                tempObject.push({"index":AllFavorite_surfing[i].index, "name":AllFavorite_surfing[i].name});
+                console.log("--------tempObject--------")
+                console.log(tempObject[i].index);
+                console.log(tempObject[i].name);
+            }
+        }
+        });
 
     }
 
-    _renderHeader(section) {
+    _renderHeader(section, key) {
+        // key !!!
+
+        local_key = key;
+        console.log("====== _renderHeader ======");
+
         return (
             <View style={styles.sectionHeader}>
                 {section.title}
@@ -98,7 +160,7 @@ class FavoriteList extends Component {
 
 
     _renderRow(section) {
-
+        this.state.dataSource_local[0].content = ds.cloneWithRows(favoriteSurfingList);
 
         return (
             <ListView
@@ -118,6 +180,8 @@ class FavoriteList extends Component {
     }
 
     render() {
+
+
         return (
             <View>
                 <Modal
@@ -132,7 +196,6 @@ class FavoriteList extends Component {
                         modalVisible={this.setModalVisible}
                         rowData={selectedRowData}
                     />
-
                 </Modal>
 
                 <Accordion

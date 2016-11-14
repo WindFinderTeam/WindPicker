@@ -16,8 +16,6 @@ class SurfMenu extends Component {
     }
 
     render() {
-        console.log("in SurfMenu");
-        console.log(this.props.tideYN);
         return (
             <View style={{flexDirection:'row',}}>
                 <View style={pickerStyle.menusView}>

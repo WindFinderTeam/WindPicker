@@ -158,7 +158,7 @@ class  AndroidFirstView extends Component {
                     <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F'}}>모드선택</Text>
 
                     <View style={{margin:0,flex:1, backgroundColor:'#9c0010'}}>
-                        <View style={{flex:2, backgroundColor:this.state.viewMode =='surf'?'#9c0010':'#F5F5F5'}}>
+                        <View style={{flex:2, backgroundColor:this.state.viewMode =='surf'?'#d4d4d4':'#F5F5F5'}}>
                             <TouchableOpacity
                                 style={{margin: 5,flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress={() => {
@@ -166,10 +166,10 @@ class  AndroidFirstView extends Component {
                                     this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
                                 }}>
-                                <Text style={{color:this.state.viewMode =='surf'?'white':'#9c0010', fontSize: 15}}>서                   핑    <Ionicons name="md-checkbox-outline" size={22} color={this.state.viewMode =='surf'?'rgba(245,245,245,1)':'rgba(245,245,245,0)'}/></Text>
+                                <Text style={{color:this.state.viewMode =='surf'?'#727272':'#727272', fontSize: 15}}>서                   핑    <Ionicons name="md-checkbox-outline" size={22} color={this.state.viewMode =='surf'?'rgba(114,114,114,1)':'rgba(114,114,114,0)'}/></Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{flex:2, backgroundColor:this.state.viewMode =='gliding'?'#9c0010':'#F5F5F5'}}>
+                        <View style={{flex:2, backgroundColor:this.state.viewMode =='gliding'?'#d4d4d4':'#F5F5F5'}}>
                             <TouchableOpacity
                                 style   = {{margin: 5, flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress = {() => {
@@ -177,7 +177,7 @@ class  AndroidFirstView extends Component {
                                     this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
                                 }}>
-                                <Text style={{color:this.state.viewMode =='gliding'?'white':'#9c0010',fontSize: 15}}>페 러 글 라 이 딩    <Ionicons name="md-checkbox-outline" size={22} color={this.state.viewMode =='gliding'?'rgba(245,245,245,1)':'rgba(245,245,245,0)'}/></Text>
+                                <Text style={{color:this.state.viewMode =='gliding'?'#727272':'#727272',fontSize: 15}}>패 러 글 라 이 딩    <Ionicons name="md-checkbox-outline" size={22} color={this.state.viewMode =='gliding'?'rgba(114,114,114,1)':'rgba(114,114,114,0)'}/></Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -193,7 +193,9 @@ class  AndroidFirstView extends Component {
                     modalDidOpen  = {() => console.log('modal did open')}
                     modalDidClose = {() => this.setState({shopModalVisible: false})}
                     style         = {{alignItems: 'center'}}>
-                    <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F',marginBottom:15}}>주변샾</Text>
+                    <Text style={{fontSize: 20, marginBottom: 15, color:'#94000F'}}>주변샾</Text>
+                    <View style={{backgroundColor:'#94000F', height:0.2}}>
+                        </View>
                         <ListView
                             dataSource={this.state.dataSource}
                             renderRow ={this.renderRow}

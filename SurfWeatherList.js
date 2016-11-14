@@ -24,18 +24,23 @@ import Spinner            from 'react-native-spinkit';
 import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ActionButton       from 'react-native-action-button';
 import LinearGradient     from 'react-native-linear-gradient';
-
+import Realm              from 'realm';
 
 import {
     LazyloadListView,
     LazyloadView
 } from 'react-native-lazyload';
 
+import Toast, { DURATION } from 'react-native-easy-toast';
+
+
+
 var SurfParser    = require('./SurfParser')  ;
 var pickerStyle   = require('./pickerStyle') ;
 var WeatherImage  = require('./WeatherImage');
 var SurfMenu      = require('./SurfMenu')    ;
 var DirectionImage= require('./DirectionImage');
+
 
 var rowKey = 0;           // Listview`s row keys
 var offset = 0;           // before scroll position for Action Button
@@ -71,6 +76,8 @@ class SurfWeatherList extends Component {
         this.startCountDown    = this.startCountDown.bind(this)   ;
         this.setSpinnerVisible = this.setSpinnerVisible.bind(this);
         this.setHeaderView     = this.setHeaderView.bind(this)    ;
+        this.controlFavorite   = this.controlFavorite.bind(this)       ;
+        this.setHeartOnOff     = this.setHeartOnOff.bind(this)         ;
 
         var getSectionData = (dataBlob, sectionID)        => {return dataBlob[sectionID];};
         var getRowData     = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
@@ -95,6 +102,7 @@ class SurfWeatherList extends Component {
             ,spinnerVisible:true
             ,networkState  :true
             ,tideYN        :"N"
+            ,heartOnOff    :false
         };
         this.fetchData();
     }
@@ -152,6 +160,7 @@ class SurfWeatherList extends Component {
     componentWillMount() // before rendering
     {
         this.setHeaderView();
+        this.readRealm();
         mainBoard = true;
     }
 
@@ -165,6 +174,42 @@ class SurfWeatherList extends Component {
        });
        fetch.abort(this);
    }
+
+   readRealm() {
+       console.log("read result before ");
+       console.log(this.state.heartOnOff);
+
+       const FavoriteSurfingSchema = {
+           name: 'FavoriteSurfing',
+           primaryKey: 'index',
+           properties: {
+               index: {type: 'string'},
+               name : {type: 'string'}
+           }
+       };
+
+       let realm = new Realm({schema: [FavoriteSurfingSchema]});
+
+       realm.write(() => {
+
+           let theme = "FavoriteSurfing", var_index = this.props.rowData.index;
+
+           let specificFavorite = realm.objects(theme).filtered('index = ' + '"' + var_index + '"');
+
+           console.log(specificFavorite);
+
+           if(Object.keys(specificFavorite) == ""){
+               //not exists.
+           } else {
+               //exists.
+               console.log("read. exists. index " + var_index);
+               this.setHeartOnOff();
+           }
+       });
+       console.log("read result after ");
+       console.log(this.state.heartOnOff);
+   }
+
    fetchData() {
 
        weatherBackImg    = WeatherImage.getBackgroundImage();
@@ -207,6 +252,82 @@ class SurfWeatherList extends Component {
         return `"rgba(255,255,255,` + `${myAlpha})"`;
     }
 
+
+    setHeartOnOff(){
+        console.log("setHeartOnOff in");
+        console.log(this.state.heartOnOff);
+
+        if(this.state.heartOnOff == true){
+            this.setState({
+                heartOnOff : false
+            });
+        } else {
+            this.setState({
+                heartOnOff : true
+            });
+        }
+
+        console.log("setHeartOnOff out");
+        console.log(this.state.heartOnOff);
+    }
+
+    controlFavorite(){
+        console.log("xxx control Favorite in");
+
+        const FavoriteSurfingSchema = {
+            name: 'FavoriteSurfing',
+            primaryKey: 'index',
+            properties: {
+                index: {type: 'string'},
+                name : {type: 'string'}
+            }
+        };
+
+        let realm = new Realm({schema: [FavoriteSurfingSchema]});
+
+        realm.write(() => {
+
+            /* --------before display  Favorite Lists---------- */
+            let AllFavorite_surfing = realm.objects('FavoriteSurfing');
+            console.log(AllFavorite_surfing);
+
+            /* --------before display  Favorite Lists---------- */
+
+            let theme = "FavoriteSurfing", var_index = this.props.rowData.index;
+
+            let specificFavorite = realm.objects(theme).filtered('index = ' + '"' + var_index + '"');
+
+            console.log(specificFavorite);
+
+            if(Object.keys(specificFavorite) == ""){
+
+                //not exists. need to insert
+                console.log("need to insert");
+                realm.create('FavoriteSurfing', {
+                    index:var_index,
+                    name :this.props.rowData.district
+                });
+
+            } else {
+
+                //exists. need to delete
+                console.log("need to delete");
+                realm.delete(specificFavorite); // Deletes all books
+
+            }
+
+            /* --------after display  Favorite Lists---------- */
+
+            let AllFavorite_surfing_after = realm.objects('FavoriteSurfing');
+            console.log(AllFavorite_surfing_after);
+            console.log("======================");
+            console.log(Object.keys(AllFavorite_surfing_after).length);
+            /* --------after display  Favorite Lists---------- */
+
+        });
+        // this.setState({heartOnOff: !this.state.heartOnOff});
+    }
+
     // Draw List's Headers
     sectionHeader(rowData, sectionID) {
 
@@ -245,19 +366,17 @@ class SurfWeatherList extends Component {
 
         if(rowData.tidedirections != ""){
             switch(rowData.tidedirections) {
-                case 'down' :tidedirections = (<Image source={require('./image/weatherIcon/cloud1.png')} style={{width:15, height:15}}/>);
+                case 'down' :tidedirections = (<Image source={require('./image/weatherIcon/cloud1.png')} style={{width:15, height:17}}/>);
                     break;
-                case 'up' :tidedirections = (<Image source={require('./image/arrow.png')} style={{width:15, height:15}}/>);
+                case 'up' :tidedirections = (<Image source={require('./image/arrow.png')} style={{width:15, height:17}}/>);
                     break;
-                case 'high' :tidedirections = (<Image source={require('./image/weatherIcon/snow.png')} style={{width:15, height:15}}/>);
+                case 'high' :tidedirections = (<Image source={require('./image/weatherIcon/snow.png')} style={{width:15, height:17}}/>);
                     break;
-                case 'low' :tidedirections = (<Image source={require('./image/weatherIcon/cloud2.png')} style={{width:15, height:15}}/>);
+                case 'low' :tidedirections = (<Image source={require('./image/weatherIcon/cloud2.png')} style={{width:15, height:17}}/>);
                     break;
             }
-            // tide 값 유무를 tidedirections으로 판단
         } else  {
             tidedirections = (<Text></Text>);
-            // tide 값 유무를 tidedirections으로 판단
         }
 
 
@@ -296,7 +415,7 @@ class SurfWeatherList extends Component {
 
                 {/* 강수량 */}
                 <View style={pickerStyle.menusView}>
-                    <Text style={pickerStyle.rowListText}>{precipation}</Text><Text style={{fontSize:10}}>mm</Text>
+                    <Text style={pickerStyle.rowListText}>{precipation}</Text><Text style={[pickerStyle.rowListText, {fontSize:10}]}> mm</Text>
                 </View>
 
                   {/* 바람 */}
@@ -312,15 +431,15 @@ class SurfWeatherList extends Component {
                   <View style={pickerStyle.menusView}>
                       {swellArrowSrc}
                       <View style={{flexDirection:'column',marginLeft:1}}>
-                          <Text style={pickerStyle.rowListText}>{rowData.waveheight}m</Text>
+                          <Text style={pickerStyle.rowListText}>{rowData.waveheight} m</Text>
                           <Text style={[pickerStyle.rowListText, {fontSize:11}]}>{rowData.wavefrequency}s</Text>
                       </View>
                   </View>
 
                   {/* 조수 */}
-                  <View style={rowData.tidedirections=="" ? {width:0, height:0} : pickerStyle.menusView}>
-                      <View style={{flexDirection:'column'}}>
-                          <View>{tidedirections}</View>
+                  <View style={rowData.tidedirections=="" ? {width:0, height:0} : [{flexDirection:'column'},pickerStyle.menusView]}>
+                      <View style={{flex:1,flexDirection:'column'}}>
+                          <View style={{flexDirection:'row',justifyContent:'center' }}>{tidedirections}</View>
                           <Text style={[pickerStyle.rowListText, {fontSize:11}]}>{rowData.tideheight}m {rowData.tidefreq}</Text>
                       </View>
                   </View>
@@ -390,6 +509,7 @@ class SurfWeatherList extends Component {
     setSpinnerVisible(visible){this.setState({spinnerVisible : visible});}
 
     render() {
+
         var myView;
 
         if(this.state.networkState == true)
@@ -436,7 +556,10 @@ class SurfWeatherList extends Component {
         }
 
         return (
+
             <View  style={{flex:1}}>
+
+
                 <View style={{flex: 1}}>
                     {mainBoardView}
 
@@ -481,8 +604,11 @@ class SurfWeatherList extends Component {
                         <Text style={{color: "white", fontSize: 20, textAlign:'center', opacity:this.state.menuOpacity}}>{this.props.rowData.district}</Text>
                     </View>
                     <View style={pickerStyle.heartView}>
-                        <TouchableOpacity>
-                            <Ionicons name="md-heart" size={30} color="#94000F"/>
+                        <TouchableOpacity onPress={()=>{
+                            this.controlFavorite();
+                            this.setHeartOnOff();
+                        }}>
+                            <Ionicons name="md-heart" size={30} color={this.state.heartOnOff==true?"#94000F":"#C0C0C0"}/>
                         </TouchableOpacity>
                     </View>
                 </View>

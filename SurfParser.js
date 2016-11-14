@@ -144,7 +144,7 @@ function getSurfWeather (responseData){
             var temperature = /\d+/.exec(temp_pressure[0]), pressure = /\d+/.exec(temp_pressure[1]);
             var wind = /\d+/.exec(speed_gust[0]), gust = /\d+/.exec(speed_gust[1]);
             var winddirectionarrow = /\d+/.exec(parsing_rawData_directionarrow_wind[j].removeWhitespace().rawText);
-            var time, ampm;
+            var time;
             var tideFreq, tideHeight, tidedirections;
             var waveheight, wavefreq, wavedirection;
             var snowrain;
@@ -193,9 +193,7 @@ function getSurfWeather (responseData){
                     } else {
                         tidedirections = "";
                     }
-
                     tideYN = "Y" ;
-
                 }
             }
 
@@ -220,22 +218,9 @@ function getSurfWeather (responseData){
 
             time = parsing_rowData_time[j].removeWhitespace().rawText.replace(/h/, "");
 
-            switch (time) {
-                case '00'  :  ampm = "am"; break;
-                case '03'  :  ampm = "am"; break;
-                case '06'  :  ampm = "am"; break;
-                case '09'  :  ampm = "am"; break;
-                case '12'  :  ampm = "pm"; break;
-                case '15'  :  ampm = "pm"; break;
-                case '18'  :  ampm = "pm"; break;
-                case '21'  :  ampm = "pm"; break;
-                default    :  ampm = ""; break;
-            };
-
             var rowJson = {
                 "key" : "rowID" + j,
                 "time" : time,
-                "ampm" : ampm,
 
                 "cloud" : parsing_rawData_cover[j].removeWhitespace().rawText.replace(/%/, ""),
                 "snowrain" : snowrain,
@@ -265,6 +250,6 @@ function getSurfWeather (responseData){
 
         count = count + 8;
     }
-    console.log("parser >>> " + tideYN);
+
     return {dataBlob,sectionIDs, rowIDs,sunInfo,tideYN};
 }
