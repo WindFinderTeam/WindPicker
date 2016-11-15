@@ -96,54 +96,55 @@ class FavoriteList extends Component {
         this.setModalVisible(!this.state.modalVisible);
     }
 
-    componentWillMount() // before rendering
-    {
-
-        //surfing
-        console.log("surfing");
-        const FavoritSurfingeSchema = {
-            name: 'FavoriteSurfing',
-            primaryKey: 'index',
-            properties: {
-                index: {type: 'string'},
-                name : {type: 'string'}
-            }
-        };
-        //gliding
-        console.log("gliding");
-        const FavoriteGlidingSchema = {
-            name: 'FavoriteGliding',
-            primaryKey: 'index',
-            properties: {
-                index: {type: 'string'},
-                name : {type: 'string'}
-            }
-        };
-
-        let realm = new Realm({schema: [FavoritSurfingeSchema, FavoriteGlidingSchema]});
-        // ROAD all favorite surfing data
-        realm.write(() => {
-
-        let AllFavorite_surfing = realm.objects('FavoriteSurfing');
-        // let AllFavorite_glding = realm.objects(FavoriteGliding);
-
-        if (Object.keys(AllFavorite_surfing) == "") {}
-        else {
-            for (var i in AllFavorite_surfing) {
-                favoriteSurfingList.push(AllFavorite_surfing[i].name);
-                console.log(favoriteSurfingList[i]);
-            }
-
-            for (var i in AllFavorite_surfing) {
-                tempObject.push({"index":AllFavorite_surfing[i].index, "name":AllFavorite_surfing[i].name});
-                console.log("--------tempObject--------")
-                console.log(tempObject[i].index);
-                console.log(tempObject[i].name);
-            }
-        }
-        });
-
-    }
+    // componentWillMount() // before rendering
+    // {
+    //
+    //     //surfing
+    //     console.log("surfing");
+    //     const FavoritSurfingeSchema = {
+    //         name: 'FavoriteSurfing',
+    //         primaryKey: 'index',
+    //         properties: {
+    //             index: {type: 'string'},
+    //             name : {type: 'string'}
+    //         }
+    //     };
+    //     //gliding
+    //     console.log("gliding");
+    //     const FavoriteGlidingSchema = {
+    //         name: 'FavoriteGliding',
+    //         primaryKey: 'index',
+    //         properties: {
+    //             index: {type: 'string'},
+    //             name : {type: 'string'}
+    //         }
+    //     };
+    //
+    //     let realm = new Realm({schema: [FavoritSurfingeSchema, FavoriteGlidingSchema]});
+    //     // ROAD all favorite surfing data
+    //     realm.write(() => {
+    //
+    //     let AllFavorite_surfing = realm.objects('FavoriteSurfing');
+    //     // let AllFavorite_glding = realm.objects(FavoriteGliding);
+    //
+    //     if (Object.keys(AllFavorite_surfing) == "") {}
+    //     else {
+    //         favoriteSurfingList = [];
+    //         for (var i in AllFavorite_surfing) {
+    //             favoriteSurfingList.push(AllFavorite_surfing[i].name);
+    //             console.log(favoriteSurfingList[i]);
+    //         }
+    //
+    //         for (var i in AllFavorite_surfing) {
+    //             tempObject.push({"index":AllFavorite_surfing[i].index, "name":AllFavorite_surfing[i].name});
+    //             console.log("--------tempObject--------")
+    //             console.log(tempObject[i].index);
+    //             console.log(tempObject[i].name);
+    //         }
+    //     }
+    //     });
+    //
+    // }
 
 
     realmRead(){
@@ -177,6 +178,7 @@ class FavoriteList extends Component {
 
             if (Object.keys(AllFavorite_surfing) == "") {}
             else {
+                favoriteSurfingList = [];
                 for (var i in AllFavorite_surfing) {
                     favoriteSurfingList.push(AllFavorite_surfing[i].name);
                     console.log(favoriteSurfingList[i]);
