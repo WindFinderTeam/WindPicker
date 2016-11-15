@@ -152,7 +152,7 @@ class LocalList extends Component{
                         {/* shop icon showing control */}
                         <TouchableOpacity  onPress = {() => this.props.setShopModalVisible(true , rowData.shop)}>
                             <View style={[pickerStyle.iconBorder, {opacity:shopShow==false?0:1}]}>
-                                <Image source={require('./image/surfShop.png')}
+                                <Image source={require('./image/glidingShop.png')}
                                        style={{opacity:shopShow==false?0:1, width:24, height:24}}/>
                             </View>
                         </TouchableOpacity>

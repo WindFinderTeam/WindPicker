@@ -145,11 +145,62 @@ class FavoriteList extends Component {
 
     }
 
+
+    realmRead(){
+        //surfing
+        console.log("surfing");
+        const FavoritSurfingeSchema = {
+            name: 'FavoriteSurfing',
+            primaryKey: 'index',
+            properties: {
+                index: {type: 'string'},
+                name : {type: 'string'}
+            }
+        };
+        //gliding
+        console.log("gliding");
+        const FavoriteGlidingSchema = {
+            name: 'FavoriteGliding',
+            primaryKey: 'index',
+            properties: {
+                index: {type: 'string'},
+                name : {type: 'string'}
+            }
+        };
+
+        let realm = new Realm({schema: [FavoritSurfingeSchema, FavoriteGlidingSchema]});
+        // ROAD all favorite surfing data
+        realm.write(() => {
+
+            let AllFavorite_surfing = realm.objects('FavoriteSurfing');
+            // let AllFavorite_glding = realm.objects(FavoriteGliding);
+
+            if (Object.keys(AllFavorite_surfing) == "") {}
+            else {
+                for (var i in AllFavorite_surfing) {
+                    favoriteSurfingList.push(AllFavorite_surfing[i].name);
+                    console.log(favoriteSurfingList[i]);
+                }
+
+                for (var i in AllFavorite_surfing) {
+                    tempObject.push({"index":AllFavorite_surfing[i].index, "name":AllFavorite_surfing[i].name});
+                    console.log("--------tempObject--------")
+                    console.log(tempObject[i].index);
+                    console.log(tempObject[i].name);
+                }
+            }
+        });
+    }
+
     _renderHeader(section, key) {
         // key !!!
 
         local_key = key;
         console.log("====== _renderHeader ======");
+
+        this.realmRead();
+
+        this.state.dataSource_local[0].content = ds.cloneWithRows(favoriteSurfingList);
 
         return (
             <View style={styles.sectionHeader}>
@@ -160,7 +211,6 @@ class FavoriteList extends Component {
 
 
     _renderRow(section) {
-        this.state.dataSource_local[0].content = ds.cloneWithRows(favoriteSurfingList);
 
         return (
             <ListView
