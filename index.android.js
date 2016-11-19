@@ -25,12 +25,12 @@ class  WindFinder extends Component {
         super(prop);
 
         this.startCountDown = this.startCountDown.bind(this);
-
+        this.loadProcess  = this.loadProcess.bind(this);
         this.state = {
             loadingYn : true,
             open      : false
         };
-
+        setTimeout(this.loadProcess, 1000);
     }
 
     startCountDown(){
@@ -72,7 +72,6 @@ class  WindFinder extends Component {
 
     render() {
 
-        setTimeout(this.loadProcess, 100);
 
         var mainView;
 
