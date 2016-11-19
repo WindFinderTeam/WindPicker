@@ -31,7 +31,6 @@ class  WindFinder extends Component {
             open      : false
         };
 
-        this.checkVersion();
     }
 
     startCountDown(){
@@ -40,7 +39,7 @@ class  WindFinder extends Component {
 
     }
 
-    checkVersion(){
+    loadProcess(){
 
 
          console.log(VersionCheck.getPackageName());//get current my package name  ex) com.windfinder
@@ -73,7 +72,10 @@ class  WindFinder extends Component {
 
     render() {
 
+        setTimeout(this.loadProcess, 100);
+
         var mainView;
+
         if(this.state.loadingYn == true)
         {
             mainView = (<View style={styles.loadingView}>
