@@ -17,7 +17,7 @@ import Modal               from 'react-native-simple-modal';
 import VersionCheck        from 'react-native-version-check';
 import AndroidFirstView    from './AndroidFirstView';
 
-
+import { realmInstance } from "./RealmHndler.js";
 
 class  WindFinder extends Component {
 
@@ -45,6 +45,13 @@ class  WindFinder extends Component {
          console.log(VersionCheck.getPackageName());//get current my package name  ex) com.windfinder
          console.log(VersionCheck.getCurrentBuildNumber());// 1.0
 
+        realmInstance.write(() => {
+
+            let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
+            console.log("write in in in ");
+            console.log(AllFavorite_surfing);
+
+        });
 
         VersionCheck.getLatestVersion() // from market
             .then((latestVersion) => {

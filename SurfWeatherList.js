@@ -24,7 +24,6 @@ import Spinner            from 'react-native-spinkit';
 import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ActionButton       from 'react-native-action-button';
 import LinearGradient     from 'react-native-linear-gradient';
-import Realm              from 'realm';
 
 import {
     LazyloadListView,
@@ -41,6 +40,7 @@ var WeatherImage  = require('./WeatherImage');
 var SurfMenu      = require('./SurfMenu')    ;
 var DirectionImage= require('./DirectionImage');
 
+import { realmInstance } from "./RealmHndler.js";
 
 var rowKey = 0;           // Listview`s row keys
 var offset = 0;           // before scroll position for Action Button
@@ -177,24 +177,12 @@ class SurfWeatherList extends Component {
 
    readRealm() {
        console.log("read result before ");
-       console.log(this.state.heartOnOff);
 
-       const FavoriteSurfingSchema = {
-           name: 'FavoriteSurfing',
-           primaryKey: 'index',
-           properties: {
-               index: {type: 'string'},
-               name : {type: 'string'}
-           }
-       };
-
-       let realm = new Realm({schema: [FavoriteSurfingSchema]});
-
-       realm.write(() => {
+       realmInstance.write(() => {
 
            let theme = "FavoriteSurfing", var_index = this.props.rowData.index;
 
-           let specificFavorite = realm.objects(theme).filtered('index = ' + '"' + var_index + '"');
+           let specificFavorite = realmInstance.objects(theme).filtered('index = ' + '"' + var_index + '"');
 
            console.log(specificFavorite);
 
@@ -207,7 +195,6 @@ class SurfWeatherList extends Component {
            }
        });
        console.log("read result after ");
-       console.log(this.state.heartOnOff);
    }
 
    fetchData() {
@@ -274,28 +261,17 @@ class SurfWeatherList extends Component {
     controlFavorite(){
         console.log("xxx control Favorite in");
 
-        const FavoriteSurfingSchema = {
-            name: 'FavoriteSurfing',
-            primaryKey: 'index',
-            properties: {
-                index: {type: 'string'},
-                name : {type: 'string'}
-            }
-        };
-
-        let realm = new Realm({schema: [FavoriteSurfingSchema]});
-
-        realm.write(() => {
+        realmInstance.write(() => {
 
             /* --------before display  Favorite Lists---------- */
-            let AllFavorite_surfing = realm.objects('FavoriteSurfing');
+            let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
             console.log(AllFavorite_surfing);
 
             /* --------before display  Favorite Lists---------- */
 
             let theme = "FavoriteSurfing", var_index = this.props.rowData.index;
 
-            let specificFavorite = realm.objects(theme).filtered('index = ' + '"' + var_index + '"');
+            let specificFavorite = realmInstance.objects(theme).filtered('index = ' + '"' + var_index + '"');
 
             console.log(specificFavorite);
 
@@ -303,7 +279,7 @@ class SurfWeatherList extends Component {
 
                 //not exists. need to insert
                 console.log("need to insert");
-                realm.create('FavoriteSurfing', {
+                realmInstance.create('FavoriteSurfing', {
                     index:var_index,
                     name :this.props.rowData.district
                 });
@@ -312,13 +288,13 @@ class SurfWeatherList extends Component {
 
                 //exists. need to delete
                 console.log("need to delete");
-                realm.delete(specificFavorite); // Deletes all books
+                realmInstance.delete(specificFavorite); // Deletes all books
 
             }
 
             /* --------after display  Favorite Lists---------- */
 
-            let AllFavorite_surfing_after = realm.objects('FavoriteSurfing');
+            let AllFavorite_surfing_after = realmInstance.objects('FavoriteSurfing');
             console.log(AllFavorite_surfing_after);
             console.log("======================");
             console.log(Object.keys(AllFavorite_surfing_after).length);
