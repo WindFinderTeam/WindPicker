@@ -19,16 +19,17 @@ import {
 import Accordion           from 'react-native-collapsible/Accordion';
 import WeatherList         from './SurfWeatherList';
 
-import { realmInstance }   from "./RealmHndler.js";
+import {realmInstance}   from "./RealmHndler.js";
 
 var surfLocalData = require('./jsData/SurfLocalData.json');
 
 var selectedRowData;
-var ds;
-var favoriteGlidingList=[];
-var favoriteSurfingList=[];
-
-var tempObject=[];
+var ds1;
+var ds2;
+var favoriteGlidingList = [];
+var favoriteSurfingList = [];
+var readRealmFlag = true;
+var tempObject = [];
 
 class FavoriteList extends Component {
 
@@ -40,36 +41,47 @@ class FavoriteList extends Component {
         this.setModalVisible = this.setModalVisible.bind(this);
         this._onPressButton = this._onPressButton.bind(this);
 
-        ds = new ListView.DataSource(
+        this.realmRead = this.realmRead.bind(this);
+        this._InnerDataRenderRow = this._InnerDataRenderRow.bind(this);
+
+
+        ds1 = new ListView.DataSource(
             {
                 rowHasChanged: (r1, r2) => r1 !== r2,
-            sectionHeaderHasChanged: (r1, r2) => r1 !== r2
-    }
-    );
+            }
+        );
+
+
+        ds2 = new ListView.DataSource(
+            {
+                rowHasChanged: (r1, r2) => r1 !== r2,
+            }
+        );
 
 
         this.state = {
-            dataSource_local: [
+             modalVisible: false
+            , isCollapsed: false
+
+            , dataSource: [
                 {
                     title: <Image source={require('./image/surfing.jpg')} style={styles.container}>
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-    <Text style={styles.sectionHeaderText}>서                      핑</Text>
-        </View>
-        </Image>,
-            content: ds.cloneWithRows(favoriteSurfingList)
-    },
-        {
-            title: <Image source={require('./image/paragliding.jpg')} style={styles.container}>
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text style={styles.sectionHeaderText}>패 러 글 라 이 딩</Text>
-        </View>
-        </Image>,
-            content: ds.cloneWithRows(favoriteGlidingList)
-        }]
+                        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                            <Text style={styles.sectionHeaderText}>서 핑</Text>
+                        </View>
+                    </Image>,
+                    innerDataSource: ds1.cloneWithRows(favoriteSurfingList)
+                },
+                {
+                    title: <Image source={require('./image/paragliding.jpg')} style={styles.container}>
+                        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                            <Text style={styles.sectionHeaderText}>패 러 글 라 이 딩</Text>
+                        </View>
+                    </Image>,
+                    innerDataSource: ds2.cloneWithRows(favoriteGlidingList)
+                }]
+        };
 
-    , modalVisible: false
-            , isCollapsed: false
-    };
     }
 
     setModalVisible(visible) {
@@ -78,14 +90,12 @@ class FavoriteList extends Component {
 
     _onPressButton(rowData) {
 
-        console.log("====favoriteList== _onPressButton");
 
-        console.log(rowData);
         for (var i in tempObject) {
-            if(rowData == tempObject[i].name){
+            if (rowData == tempObject[i].name) {
                 console.log("stop!");
                 selectedRowData = surfLocalData.local[tempObject[i].index];
-                console.log(tempObject[i].index +"," + tempObject[i].name + "," + selectedRowData.district);
+                console.log(tempObject[i].index + "," + tempObject[i].name + "," + selectedRowData.district);
                 break;
             }
         }
@@ -94,92 +104,81 @@ class FavoriteList extends Component {
     }
 
 
-    realmRead(){
+    realmRead() {
 
 
         console.log("realmRead in ");
         // READ all favorite surfing, gliding data
         realmInstance.write(() => {
 
-            /* surfing looping */
             let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
-        // let AllFavorite_glding = realm.objects(FavoriteGliding);
+            let AllFavorite_glding  = realmInstance.objects('FavoriteGliding');
 
-        if (Object.keys(AllFavorite_surfing) == "") {
-            console.log(Object.keys(AllFavorite_surfing));
             favoriteSurfingList = [];
-        }
-        else {
-            console.log(Object.keys(AllFavorite_surfing));
-            favoriteSurfingList = [];
-            for (var i in AllFavorite_surfing) {
-                favoriteSurfingList.push(AllFavorite_surfing[i].name);
-            }
-            //for display
-            for (var i in favoriteSurfingList) {
-                tempObject.push({"index":AllFavorite_surfing[i].index, "name":AllFavorite_surfing[i].name});
-                console.log("--------tempObject for surfing--------");
-                console.log(favoriteSurfingList[i]);
-            }
-        }
-
-        /* surfing looping */
-        let AllFavorite_glding = realmInstance.objects('FavoriteGliding');
-
-        if (Object.keys(AllFavorite_glding) == "") {}
-        else {
             favoriteGlidingList = [];
-            for (var i in AllFavorite_glding) {
-                favoriteGlidingList.push(AllFavorite_glding[i].name);
-            }
-            //for display
-            for (var i in favoriteGlidingList) {
-                tempObject.push({"index":AllFavorite_glding[i].index, "name":AllFavorite_glding[i].name});
-                console.log("--------favoriteGlidingList for gliding--------");
-                console.log(favoriteGlidingList[i]);
-            }
-        }
 
-    });
-        console.log(this.state.dataSource_local[0].content);
+            favoriteSurfingList.push("tempData");
+            favoriteGlidingList.push("tempData");
+
+            for (var i in AllFavorite_surfing)
+            {
+                favoriteSurfingList.push(AllFavorite_surfing[i].name);
+                tempObject.push({"index": AllFavorite_surfing[i].index, "name": AllFavorite_surfing[i].name});
+            }
+
+            for (var i in AllFavorite_glding)
+            {
+                favoriteGlidingList.push(AllFavorite_glding[i].name);
+                tempObject.push({"index": AllFavorite_glding[i].index, "name": AllFavorite_glding[i].name});
+            }
+
+            this.state.dataSource[0].innerDataSource = ds1.cloneWithRows(favoriteSurfingList);
+            this.state.dataSource[1].innerDataSource = ds2.cloneWithRows(favoriteGlidingList);
+
+            console.log(favoriteSurfingList);
+            readRealmFlag =false;
+        });
     }
 
     _renderHeader(section, key) {
 
-        console.log("====== _renderHeader ======");
-
-
         return (
             <View style={styles.sectionHeader}>
-        {section.title}
-    </View>
-    )
+                {section.title}
+            </View>
+        )
     }
 
+    _InnerDataRenderRow(rowData){
+        console.log("xxx");
+
+        if(rowData==="tempData")
+        {
+            return (<View style={{height:1, backgroundColor:'transparent'}}></View>);
+        }
+        console.log(rowData);
+        return (
+            <TouchableOpacity onPress={() => {
+                this._onPressButton(rowData)
+            }}>
+                <View style={styles.listViewrow}>
+                    <Text style={styles.listViewrowText}>{rowData}</Text>
+                </View>
+            </TouchableOpacity>
+        )
+    }
 
     _renderRow(section) {
 
         this.realmRead();
 
-        this.state.dataSource_local[0].content = ds.cloneWithRows(favoriteSurfingList);
-        this.state.dataSource_local[1].content = ds.cloneWithRows(favoriteGlidingList);
-
         return (
             <ListView
-        enableEmptySections={true}
-        dataSource={section.content}
-        renderRow={(rowData, rowID) => (
-        <TouchableOpacity onPress={() => {
-            this._onPressButton(rowData)
-        }}>
-    <View style={styles.listViewrow}>
-    <Text style={styles.listViewrowText}>{rowData}</Text>
-        </View>
-        </TouchableOpacity>
-    )
-    }
-    />
-    );
+                enableEmptySections={true}
+                dataSource={section.innerDataSource}
+                renderRow={(rowData) => this._InnerDataRenderRow(rowData)}
+            />
+        );
     }
 
     render() {
@@ -187,35 +186,30 @@ class FavoriteList extends Component {
 
         return (
             <View>
-            <Modal
-        animationType={"slide"}
-        transparent={false}
-        visible={this.state.modalVisible}
-        onRequestClose={() => {
-            this.setModalVisible(false)
-        }}>
+                <Modal
+                    animationType={"slide"}
+                    transparent={false}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(false)
+                    }}>
 
-    <WeatherList
-        modalVisible={this.setModalVisible}
-        rowData={selectedRowData}
-            />
-            </Modal>
+                    <WeatherList
+                        modalVisible={this.setModalVisible}
+                        rowData={selectedRowData}
+                    />
+                </Modal>
 
-            <Accordion
-        sections={this.state.dataSource_local}
-        renderHeader={this._renderHeader}
-        renderContent={this._renderRow}
-        onChange={()=>{
-            this.realmRead();
-            this.state.dataSource_local[0].content = ds.cloneWithRows(favoriteSurfingList);
-            this.state.dataSource_local[1].content = ds.cloneWithRows(favoriteGlidingList);
-        }}
-        initiallyActiveSection={0}
-            />
+                <Accordion
+                    sections={this.state.dataSource}
+                    renderHeader={this._renderHeader}
+                    renderContent={this._renderRow}
+                    initiallyActiveSection={0}
+                />
             </View>
 
 
-    )
+        )
     }
 
 

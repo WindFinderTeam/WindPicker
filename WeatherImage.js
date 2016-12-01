@@ -98,7 +98,7 @@ function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
 function getBackgroundImage(){
 
     var from = 0;
-    var to   = 3;
+    var to   = 6;
 
     var num = Math.floor( (Math.random() * (to - from + 1)) + from );
 
@@ -109,6 +109,10 @@ function getBackgroundImage(){
         case 1 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back2.jpg'}); break;
         case 2 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back3.jpg'}); break;
         case 3 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back4.jpg'}); break;
+        case 4 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back5.jpg'}); break;
+        case 5 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back6.jpg'}); break;
+        case 6 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back7.jpg'}); break;
+
     }
 
     return backgroundImg;
