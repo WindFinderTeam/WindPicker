@@ -17,11 +17,13 @@ import {
 } from 'react-native';
 
 import Accordion           from 'react-native-collapsible/Accordion';
-import WeatherList         from './SurfWeatherList';
+import SurfWeatherList         from './SurfWeatherList';
+import GlidWeatherList         from './GlidingWeatherList';
 
 import {realmInstance}   from "./RealmHndler.js";
 
 var surfLocalData = require('./jsData/SurfLocalData.json');
+var glidfLocalData = require('./jsData/GlidingLocalData.json');
 
 var selectedRowData;
 var ds1;
@@ -38,7 +40,9 @@ class FavoriteList extends Component {
 
         this._renderRow = this._renderRow.bind(this);
         this._renderHeader = this._renderHeader.bind(this);
-        this.setModalVisible = this.setModalVisible.bind(this);
+        this.setSurfModalVisible = this.setSurfModalVisible.bind(this);
+        this.setGlidModalVisible = this.setGlidModalVisible.bind(this);
+
         this._onPressButton = this._onPressButton.bind(this);
 
         this.realmRead = this.realmRead.bind(this);
@@ -60,12 +64,13 @@ class FavoriteList extends Component {
 
 
         this.state = {
-             modalVisible: false
+             surfModalVisible: false
+            ,glidModalVisible: false
             , isCollapsed: false
 
             , dataSource: [
                 {
-                    title: <Image source={require('./image/surfing.jpg')} style={styles.container}>
+                    title: <Image source={require('./image/fav_surfing.png')} style={styles.container}>
                         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                             <Text style={styles.sectionHeaderText}>서 핑</Text>
                         </View>
@@ -73,7 +78,7 @@ class FavoriteList extends Component {
                     innerDataSource: ds1.cloneWithRows(favoriteSurfingList)
                 },
                 {
-                    title: <Image source={require('./image/paragliding.jpg')} style={styles.container}>
+                    title: <Image source={require('./image/fav_paragliding.png')} style={styles.container}>
                         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                             <Text style={styles.sectionHeaderText}>패 러 글 라 이 딩</Text>
                         </View>
@@ -84,28 +89,38 @@ class FavoriteList extends Component {
 
     }
 
-    setModalVisible(visible) {
-        this.setState({modalVisible: visible});
+    setSurfModalVisible(visible) {
+        this.setState({surfModalVisible: visible});
+    }
+
+    setGlidModalVisible(visible) {
+        this.setState({glidModalVisible: visible});
     }
 
     _onPressButton(rowData) {
 
-
         for (var i in tempObject) {
             if (rowData == tempObject[i].name) {
-                console.log("stop!");
-                selectedRowData = surfLocalData.local[tempObject[i].index];
-                console.log(tempObject[i].index + "," + tempObject[i].name + "," + selectedRowData.district);
+                if(tempObject[i].theme == "surfing"){
+                    selectedRowData = surfLocalData.local[tempObject[i].index];
+                    console.log("surfing" + tempObject[i].index + "," + tempObject[i].name + "," + selectedRowData.district);
+                    this.setSurfModalVisible(!this.state.surfModalVisible);
+                } else if(tempObject[i].theme == "gliding"){
+                    selectedRowData = glidfLocalData.local[tempObject[i].index];
+                    console.log("gliding" + tempObject[i].index + "," + tempObject[i].name + "," + selectedRowData.district);
+                    this.setGlidModalVisible(!this.state.glidModalVisible);
+                }
+
                 break;
             }
+
         }
         // selectedRowData = rowData;
-        this.setModalVisible(!this.state.modalVisible);
+
     }
 
 
     realmRead() {
-
 
         console.log("realmRead in ");
         // READ all favorite surfing, gliding data
@@ -116,6 +131,7 @@ class FavoriteList extends Component {
 
             favoriteSurfingList = [];
             favoriteGlidingList = [];
+            tempObject          = [];
 
             favoriteSurfingList.push("tempData");
             favoriteGlidingList.push("tempData");
@@ -123,19 +139,18 @@ class FavoriteList extends Component {
             for (var i in AllFavorite_surfing)
             {
                 favoriteSurfingList.push(AllFavorite_surfing[i].name);
-                tempObject.push({"index": AllFavorite_surfing[i].index, "name": AllFavorite_surfing[i].name});
+                tempObject.push({"theme":"surfing", "index":AllFavorite_surfing[i].index, "name":AllFavorite_surfing[i].name});
             }
 
             for (var i in AllFavorite_glding)
             {
                 favoriteGlidingList.push(AllFavorite_glding[i].name);
-                tempObject.push({"index": AllFavorite_glding[i].index, "name": AllFavorite_glding[i].name});
+                tempObject.push({"theme":"gliding","index": AllFavorite_glding[i].index, "name": AllFavorite_glding[i].name});
             }
 
             this.state.dataSource[0].innerDataSource = ds1.cloneWithRows(favoriteSurfingList);
             this.state.dataSource[1].innerDataSource = ds2.cloneWithRows(favoriteGlidingList);
 
-            console.log(favoriteSurfingList);
             readRealmFlag =false;
         });
     }
@@ -150,12 +165,11 @@ class FavoriteList extends Component {
     }
 
     _InnerDataRenderRow(rowData){
-        console.log("xxx");
 
         if(rowData==="tempData")
-        {
             return (<View style={{height:1, backgroundColor:'transparent'}}></View>);
-        }
+
+
         console.log(rowData);
         return (
             <TouchableOpacity onPress={() => {
@@ -189,13 +203,27 @@ class FavoriteList extends Component {
                 <Modal
                     animationType={"slide"}
                     transparent={false}
-                    visible={this.state.modalVisible}
+                    visible={this.state.surfModalVisible}
                     onRequestClose={() => {
                         this.setModalVisible(false)
                     }}>
 
-                    <WeatherList
-                        modalVisible={this.setModalVisible}
+                    <SurfWeatherList
+                        modalVisible={this.setSurfModalVisible}
+                        rowData={selectedRowData}
+                    />
+                </Modal>
+
+                <Modal
+                    animationType={"slide"}
+                    transparent={false}
+                    visible={this.state.glidModalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(false)
+                    }}>
+
+                    <GlidWeatherList
+                        modalVisible={this.setGlidModalVisible}
                         rowData={selectedRowData}
                     />
                 </Modal>

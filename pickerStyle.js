@@ -70,10 +70,12 @@ const pickerStyle = StyleSheet.create({
         width:40,height:40,
         borderWidth: 1,
         marginRight:10,
-        borderColor: '#FFF',
+        borderColor: 'white',
+        backgroundColor: 'white',
         alignItems: 'center',
         justifyContent:'center'
     },
+
     headerDistrictText: {
         color: 'white',
         fontSize: 30,

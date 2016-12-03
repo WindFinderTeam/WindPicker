@@ -281,7 +281,9 @@ class SurfWeatherList extends Component {
                 console.log("need to insert");
                 realmInstance.create('FavoriteSurfing', {
                     index:var_index,
-                    name :this.props.rowData.district
+                    name :this.props.rowData.district,
+                    webcam : this.props.rowData.webcam,
+                    shop : this.props.rowData.shop
                 });
 
             } else {
