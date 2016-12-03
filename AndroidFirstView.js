@@ -54,7 +54,7 @@ class  AndroidFirstView extends Component {
         this.renderRow             = this.renderRow.bind(this);
 
         ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); // shop ListView Data
-        this.state = {school : 'Wind Finder2', open: false, viewMode:'surf',loadingYn:true ,shopModalVisible: false, dataSource: ds.cloneWithRows(['row 1', 'row 2'])};
+        this.state = { open: false, viewMode:'surf',loadingYn:true ,shopModalVisible: false, dataSource: ds.cloneWithRows(['row 1', 'row 2'])};
 
     }
 
@@ -117,7 +117,7 @@ class  AndroidFirstView extends Component {
                     style      = {styles.toolbar}
                     iconColor  = "#94000F"
                     titleColor = "#94000F"
-                    //title= {this.state.school}
+                    //title= {this.state.appname}
                     actions={[
                         { title: 'Settings', iconName: 'md-settings',iconColor:'gray', iconSize: 30, show: 'always' }
                     ]}
@@ -149,7 +149,7 @@ class  AndroidFirstView extends Component {
                 </ScrollableTabView>
 
                 <Modal
-                    offset        = {this.state.offset}
+                    //offset        = {this.state.offset}
                     open          = {this.state.open}
                     modalDidOpen  = {() => console.log('modal did open')}
                     modalDidClose = {() => this.setState({open: false})}
