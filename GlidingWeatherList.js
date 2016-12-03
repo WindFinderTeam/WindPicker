@@ -38,6 +38,8 @@ var WeatherImage  = require('./WeatherImage');
 var DirectionImage= require('./DirectionImage');
 var GlidingMenu   = require('./GlidingMenu');
 
+import { realmInstance } from "./RealmHndler.js";
+
 var offset = 0;           // before scroll position for Action Button
 var rowKey = 0;           // Listview`s row keys
 var bfcurrentOffset = 0;  // before scroll position for MenuBar
@@ -69,6 +71,8 @@ class GlidingWeatherList extends Component {
         this.startCountDown    = this.startCountDown.bind(this);
         this.setSpinnerVisible = this.setSpinnerVisible.bind(this);
         this.setHeaderView     = this.setHeaderView.bind(this)    ;
+        this.controlFavorite   = this.controlFavorite.bind(this)       ;
+        this.setHeartOnOff     = this.setHeartOnOff.bind(this)         ;
 
         var getSectionData     = (dataBlob, sectionID)        => {return dataBlob[sectionID];              };
         var getRowData         = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
@@ -92,6 +96,7 @@ class GlidingWeatherList extends Component {
             ,loadOK        :false
             ,spinnerVisible:true
             ,networkState  :true
+            ,heartOnOff    :false
         };
         this.fetchData();
     }
@@ -149,9 +154,12 @@ class GlidingWeatherList extends Component {
     componentWillMount() // before rendering
     {
         this.setHeaderView();
+        this.readRealm();
         mainBoard = true;
 
     }
+
+
 
     startCountDown(){
 
@@ -161,6 +169,89 @@ class GlidingWeatherList extends Component {
             networkState  :false
         });
         fetch.abort(this);
+    }
+
+    controlFavorite(){
+
+        realmInstance.write(() => {
+
+            /* --------before display  Favorite Lists---------- */
+            let AllFavorite_gliding = realmInstance.objects('FavoriteGliding');
+            console.log(AllFavorite_gliding);
+
+            /* --------before display  Favorite Lists---------- */
+
+            let theme = "FavoriteGliding", var_index = this.props.rowData.index;
+
+            let specificFavorite = realmInstance.objects(theme).filtered('index = ' + '"' + var_index + '"');
+
+            console.log(specificFavorite);
+
+            if(Object.keys(specificFavorite) == ""){
+
+                //not exists. need to insert
+                console.log("need to insert");
+                realmInstance.create('FavoriteGliding', {
+                    index:var_index,
+                    name :this.props.rowData.district
+                });
+
+            } else {
+
+                //exists. need to delete
+                console.log("need to delete");
+                realmInstance.delete(specificFavorite); // Deletes all books
+
+            }
+
+            /* --------after display  Favorite Lists---------- */
+
+            let AllFavorite_gliding_after = realmInstance.objects('FavoriteGliding');
+            console.log(AllFavorite_gliding_after);
+            console.log("======================");
+            console.log(Object.keys(AllFavorite_gliding_after).length);
+            /* --------after display  Favorite Lists---------- */
+
+        });
+        // this.setState({heartOnOff: !this.state.heartOnOff});
+    }
+
+    setHeartOnOff(){
+        console.log("setHeartOnOff in");
+
+        if(this.state.heartOnOff == true){
+            this.setState({
+                heartOnOff : false
+            });
+        } else {
+            this.setState({
+                heartOnOff : true
+            });
+        }
+
+        console.log("setHeartOnOff out");
+    }
+
+    readRealm() {
+        console.log("read result before ");
+
+        realmInstance.write(() => {
+
+            let theme = "FavoriteGliding", var_index = this.props.rowData.index;
+
+            let specificFavorite = realmInstance.objects(theme).filtered('index = ' + '"' + var_index + '"');
+
+            console.log(specificFavorite);
+
+            if(Object.keys(specificFavorite) == ""){
+                //not exists.
+            } else {
+                //exists.
+                console.log("read. exists. index " + var_index);
+                this.setHeartOnOff();
+            }
+        });
+        console.log("read result after ");
     }
 
     fetchData() {
@@ -429,8 +520,11 @@ class GlidingWeatherList extends Component {
                             <Text style={{color: "white", fontSize: 20, textAlign:'center', opacity:this.state.menuOpacity}}>{this.props.rowData.district}</Text>
                         </View>
                         <View style={pickerStyle.heartView}>
-                            <TouchableOpacity>
-                                <Ionicons name="md-heart" size={30} color="#94000F"/>
+                            <TouchableOpacity onPress={()=> {
+                                this.controlFavorite();
+                                this.setHeartOnOff();
+                            }}>
+                                <Ionicons name="md-heart" size={30}  color={this.state.heartOnOff==true?"#94000F":"#C0C0C0"}/>
                             </TouchableOpacity>
                         </View>
                     </View>
