@@ -23,41 +23,15 @@ function getGlidingWeather (responseJSON){
 
     // Wind info
     var responseJSON = responseJSON.fcst['3'];
+    var update_last = responseJSON.update_last.split(' ');
+    var upYyyymmdd  = update_last[0].split('-');
+    var upHms       = update_last[1].split(':');
 
-    var update_last = new Date(responseJSON.update_last);
-    var update_last = update_last.toString().split(' ');
+    var upMonth = upYyyymmdd[1] ;
+    var upDate  = upYyyymmdd[2] ;
+    var upTime  = upHms[0] + ":" + upHms[1];
 
-    var upDay   = update_last[0] ;
-    var upMonth = update_last[1] ;
-    var upDate  = update_last[2] ;
-    var upTime  = update_last[4].substring(0,5);
-
-    switch (upDay) {
-        case 'Sun':  upDay = ", 일"; break;
-        case 'Mon':  upDay = ", 월"; break;
-        case 'Tue':  upDay = ", 화"; break;
-        case 'Wed':  upDay = ", 수"; break;
-        case 'Thu':  upDay = ", 목"; break;
-        case 'Fri':  upDay = ", 금"; break;
-        case 'Sat':  upDay = ", 토"; break;
-    };
-
-    switch (upMonth) {
-        case 'Jan':  upMonth = "01."; break;
-        case 'Feb':  upMonth = "02."; break;
-        case 'Mar':  upMonth = "03."; break;
-        case 'Apr':  upMonth = "04."; break;
-        case 'May':  upMonth = "05."; break;
-        case 'Jun':  upMonth = "06."; break;
-        case 'Jul':  upMonth = "07."; break;
-        case 'Aug':  upMonth = "08."; break;
-        case 'Sep':  upMonth = "09."; break;
-        case 'Oct':  upMonth = "10."; break;
-        case 'Nov':  upMonth = "11."; break;
-        case 'Dec':  upMonth = "12."; break;
-    };
-
-    update_last = upMonth + upDate +  upDay + " "+upTime;
+    update_last = upMonth + "월" + upDate + "일" + " " + upTime;
     sunInfo.push(update_last) ;
     var totalRow = responseJSON.hr_h.length;
 
