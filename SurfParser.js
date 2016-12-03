@@ -59,7 +59,7 @@ function getSurfWeather (responseData){
      --------------------------------------------*/
     var dayoftheweek_kor, month_kor, today,
         currentTime = new Date();
-    var year = String(currentTime).split(' ');
+    // var year = String(currentTime).split(' ');
 
     //i : 1day, j : 3h/1day
     for(i =0; i<parsing_sectionData.length; i++){
@@ -113,7 +113,8 @@ function getSurfWeather (responseData){
 
             lastUpdateArr = parsing_lastUpdate.removeWhitespace().rawText ;
             localStatsArr = parsing_localstats.removeWhitespace().rawText;
-            lastUpdate = year[3] + "년 " + month_kor + " " + day + "일 " + lastUpdateArr.substr(12,5);
+            // lastUpdate = year[3] + "년 " + month_kor + " " + day + "일 " + lastUpdateArr.substr(12,5);
+            lastUpdate = month_kor + " " + day + "일 " + lastUpdateArr.substr(12,5);
             sunRise = localStatsArr.substr(0,4);
             sunSet = localStatsArr.substr(4,5);
 
@@ -123,15 +124,6 @@ function getSurfWeather (responseData){
 
         }
 
-        lastUpdateArr = parsing_lastUpdate.removeWhitespace().rawText ;
-        localStatsArr = parsing_localstats.removeWhitespace().rawText;
-        lastUpdate = year[3] + "년 " + month_kor + " " + day + "일 " + lastUpdateArr.substr(12,5);
-        sunRise = localStatsArr.substr(0,4);
-        sunSet = localStatsArr.substr(4,5);
-
-        sunInfo.push(sunRise);
-        sunInfo.push(sunSet);
-        sunInfo.push(lastUpdate);
 
         /* ------------------------------------
          configure daily data
