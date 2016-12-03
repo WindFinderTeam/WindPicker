@@ -54,7 +54,7 @@ class  AndroidFirstView extends Component {
         this.renderRow             = this.renderRow.bind(this);
 
         ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); // shop ListView Data
-        this.state = { open: false, viewMode:'surf',loadingYn:true ,shopModalVisible: false, dataSource: ds.cloneWithRows(['row 1', 'row 2'])};
+        this.state = {school : 'Wind Finder2', open: false, viewMode:'surf',loadingYn:true ,shopModalVisible: false, dataSource: ds.cloneWithRows(['row 1', 'row 2'])};
 
     }
 
@@ -117,7 +117,7 @@ class  AndroidFirstView extends Component {
                     style      = {styles.toolbar}
                     iconColor  = "#94000F"
                     titleColor = "#94000F"
-                    //title= {this.state.appname}
+                    //title= {this.state.school}
                     actions={[
                         { title: 'Settings', iconName: 'md-settings',iconColor:'gray', iconSize: 30, show: 'always' }
                     ]}
@@ -149,7 +149,7 @@ class  AndroidFirstView extends Component {
                 </ScrollableTabView>
 
                 <Modal
-                    //offset        = {this.state.offset}
+                    offset        = {this.state.offset}
                     open          = {this.state.open}
                     modalDidOpen  = {() => console.log('modal did open')}
                     modalDidClose = {() => this.setState({open: false})}
@@ -166,7 +166,7 @@ class  AndroidFirstView extends Component {
                                     this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
                                 }}>
-                                <Text style={{color:this.state.viewMode =='surf'?'#727272':'#727272', fontSize: 15}}>서                   핑    <Ionicons name="md-checkbox-outline" size={22} color={this.state.viewMode =='surf'?'rgba(114,114,114,1)':'rgba(114,114,114,0)'}/></Text>
+                                <Text style={{color:this.state.viewMode =='surf'?'#727272':'#727272', fontSize: 15}}>서                   핑    </Text>
                             </TouchableOpacity>
                         </View>
                         <View style={{flex:2, backgroundColor:this.state.viewMode =='gliding'?'#d4d4d4':'#F5F5F5'}}>
@@ -177,7 +177,7 @@ class  AndroidFirstView extends Component {
                                     this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
                                 }}>
-                                <Text style={{color:this.state.viewMode =='gliding'?'#727272':'#727272',fontSize: 15}}>패 러 글 라 이 딩    <Ionicons name="md-checkbox-outline" size={22} color={this.state.viewMode =='gliding'?'rgba(114,114,114,1)':'rgba(114,114,114,0)'}/></Text>
+                                <Text style={{color:this.state.viewMode =='gliding'?'#727272':'#727272',fontSize: 15}}>패 러 글 라 이 딩    </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
