@@ -34,7 +34,6 @@ var ds2;
 var favoriteGlidingList = [];
 var favoriteSurfingList = [];
 var readRealmFlag = true;
-var tempObject = [];
 
 class FavoriteList extends Component {
 
@@ -127,21 +126,20 @@ class FavoriteList extends Component {
 
             favoriteSurfingList = [];
             favoriteGlidingList = [];
-            tempObject          = [];
 
             favoriteSurfingList.push({"theme":"surfing", "index":'9999', "name":'tempData'});
             favoriteGlidingList.push({"theme":"gliding", "index":'9999', "name":'tempData'});
 
             for (var i in AllFavorite_surfing)
             {
-                favoriteSurfingList.push({"theme":"surfing", "index":AllFavorite_surfing[i].index, "name":AllFavorite_surfing[i].name, "webcam":AllFavorite_surfing[i].webcam, "shop":AllFavorite_surfing[i].shop});
-                tempObject.push({"theme":"surfing", "index":AllFavorite_surfing[i].index, "name":AllFavorite_surfing[i].name});
+                favoriteSurfingList.push({"theme":"surfing", "index":AllFavorite_surfing[i].index,
+                    "name":AllFavorite_surfing[i].name, "webcam":AllFavorite_surfing[i].webcam, "shop":AllFavorite_surfing[i].shop});
             }
 
             for (var i in AllFavorite_glding)
             {
-                favoriteGlidingList.push({"theme":"gliding","index": AllFavorite_glding[i].index, "name": AllFavorite_glding[i].name,  "webcam":AllFavorite_glding[i].webcam, "shop":AllFavorite_glding[i].shop});
-                tempObject.push({"theme":"gliding","index": AllFavorite_glding[i].index, "name": AllFavorite_glding[i].name});
+                favoriteGlidingList.push({"theme":"gliding","index": AllFavorite_glding[i].index,
+                    "name": AllFavorite_glding[i].name,  "webcam":AllFavorite_glding[i].webcam, "shop":AllFavorite_glding[i].shop});
             }
 
             this.state.dataSource[0].innerDataSource = ds1.cloneWithRows(favoriteSurfingList);
@@ -170,12 +168,12 @@ class FavoriteList extends Component {
         console.log("--------------------------");
 
         /* shoIconImg judge */
-        if(rowData.theme === 'surfing')      shopIconImg = (require('./image/surfShop.png'));
-        else if(rowData.theme === 'gliding') shopIconImg = (require('./image/glidingShop.png'));
+        if      (rowData.theme === 'surfing') shopIconImg = (require('./image/surfShop.png'));
+        else if(rowData.theme === 'gliding')  shopIconImg = (require('./image/glidingShop.png'));
 
         /* judge shop showing */
-        if(Object.keys(rowData.shop) == "") shopShow = false;
-        else shopShow = true;
+        if(Object.keys(rowData.shop) == "")   shopShow = false;
+        else                                  shopShow = true;
 
         /* judge webcam showing */
         if (Object.keys(rowData.webcam) == "") {
@@ -185,7 +183,7 @@ class FavoriteList extends Component {
         } else {
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=>{
-                    this._onPressWebcam(webcamVar)}}>
+                    this.props.setWebCamModalVisible(true, rowData.webcam)}}>
                     <View style={[pickerStyle.iconBorder, {opacity:1}]}>
                         <Ionicons name="ios-videocam" style={{color:"rgba(156,0,16,1)", fontSize:25}}/>
                     </View>

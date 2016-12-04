@@ -10,9 +10,10 @@ import {
     DrawerLayoutAndroid,
     TouchableOpacity,
     View,
+    WebView,
+    Modal,
+    Dimensions,
 } from 'react-native';
-
-
 
 //import CustomTabbar from './CustomTabbar';
 
@@ -20,8 +21,9 @@ import {
 import Toast, { DURATION } from 'react-native-easy-toast';
 
 // https://www.npmjs.com/package/react-native-simple-modal
-import Modal from 'react-native-simple-modal';
+import SimpleModal from 'react-native-simple-modal';
 
+import Carousel        from 'react-native-carousel';
 
 //https://github.com/oblador/react-native-vector-icons
 import Ionicons     from 'react-native-vector-icons/Ionicons';
@@ -33,13 +35,14 @@ import GlidingLocalList  from './GlidingLocalList';
 import SurfLocalList     from './SurfLocalList';
 import FavoriteList      from './FavoriteList';
 
-
 // https://github.com/skv-headless/react-native-scrollable-tab-view
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import MenuList from './MenuList';
 
-
 var ds;
+var webCamView, webCamViewIndicator ;
+
+var pickerStyle   = require('./pickerStyle');
 
 class  AndroidFirstView extends Component {
 
@@ -50,11 +53,12 @@ class  AndroidFirstView extends Component {
 
         this.setConfigModalVisible = this.setConfigModalVisible.bind(this);
         this.setShopModalVisible   = this.setShopModalVisible.bind(this);
+        this.setWebCamModalVisible   = this.setWebCamModalVisible.bind(this);
         this.openDrawer            = this.openDrawer.bind(this);
         this.renderRow             = this.renderRow.bind(this);
 
         ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); // shop ListView Data
-        this.state = {school : 'Wind Finder2', open: false, viewMode:'surf',loadingYn:true ,shopModalVisible: false, dataSource: ds.cloneWithRows(['row 1', 'row 2'])};
+        this.state = {school : 'Wind Finder2', open: false, viewMode:'surf',loadingYn:true ,shopModalVisible: false, webCamModalVisible: false, camLoadedOpa : 0, dataSource: ds.cloneWithRows(['row 1', 'row 2'])};
 
     }
 
@@ -67,9 +71,72 @@ class  AndroidFirstView extends Component {
     }
 
     setShopModalVisible(visible,shopRows) {
-
         this.setState({shopModalVisible: visible,  dataSource: ds.cloneWithRows(shopRows)});
+    }
 
+
+    setWebCamModalVisible(visible, webcam) {
+
+        {/* count i */}
+        for(var i in webcam){}
+
+        switch (i) {
+            case '0':
+                webCamView = (
+                    <View key="view1" style={{flex:1}}>
+                        <WebView
+                            modalVisible={this.setCamVisible}
+                            onLoad={()=>{this.setState({camLoadedOpa:1})}}
+                            style={pickerStyle.webView}
+                            automaticallyAdjustContentInsets={true}
+                            source={{uri: webcam[0].camUrl}}
+                            javaScriptEnabled={true}
+                            startInLoadingState={true}
+                            scalesPageToFit={true}
+                        />
+                    </View>
+                );
+
+                webCamViewIndicator = (
+                    <Text style={{fontSize:50, color:"#94000F", textAlign:'center'}}>•</Text>
+                );
+                break;
+            case '1':
+                webCamView = (
+                    <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-68}>
+                        <View key="view1" style={{flex:1}}>
+                            <WebView
+                                modalVisible={this.setCamVisible}
+                                onLoad={()=>{this.setState({camLoadedOpa:1})}}
+                                style={pickerStyle.webView}
+                                automaticallyAdjustContentInsets={true}
+                                source={{uri: webcam[0].camUrl}}
+                                javaScriptEnabled={true}
+                                startInLoadingState={true}
+                                scalesPageToFit={true}
+                            />
+                        </View>
+                        <View key="view2" style={{flex:1}}>
+                            <WebView
+                                modalVisible={this.setCamVisible}
+                                onLoad={()=>{this.setState({camLoadedOpa:1})}}
+                                style={pickerStyle.webView}
+                                automaticallyAdjustContentInsets={true}
+                                source={{uri: webcam[1].camUrl}}
+                                javaScriptEnabled={true}
+                                startInLoadingState={true}
+                                scalesPageToFit={true}
+                            />
+                        </View>
+                    </Carousel>
+                );
+
+                webCamViewIndicator = null;
+                break;
+            default: break;
+        };
+
+        this.setState({webCamModalVisible: visible});
     }
 
 
@@ -98,7 +165,8 @@ class  AndroidFirstView extends Component {
             );
 
         var localList ;
-        if(this.state.viewMode =='surf') localList =  (<SurfLocalList setShopModalVisible={this.setShopModalVisible}/>);
+        if(this.state.viewMode =='surf') localList =  (<SurfLocalList setShopModalVisible={this.setShopModalVisible}
+                                                                      setWebCamModalVisible={this.setWebCamModalVisible}/>);
         else                             localList =  (<GlidingLocalList setShopModalVisible={this.setShopModalVisible}/>);
 
         return (
@@ -140,7 +208,8 @@ class  AndroidFirstView extends Component {
                         {localList}
                     </ScrollView>
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
-                        <FavoriteList setShopModalVisible={this.setShopModalVisible}/>
+                        <FavoriteList setShopModalVisible={this.setShopModalVisible}
+                                      setWebCamModalVisible={this.setWebCamModalVisible}/>
                     </ScrollView>
 
                     {/* <ScrollView tabLabel="샾랭킹" style={styles.tabView}>
@@ -148,7 +217,8 @@ class  AndroidFirstView extends Component {
                         </ScrollView>*/}
                 </ScrollableTabView>
 
-                <Modal
+                {/* mode selection Modal */}
+                <SimpleModal
                     offset        = {this.state.offset}
                     open          = {this.state.open}
                     modalDidOpen  = {() => console.log('modal did open')}
@@ -181,14 +251,34 @@ class  AndroidFirstView extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    {/* </View> */}
+                </SimpleModal>
+
+                {/* webCam Modal */}
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={this.state.webCamModalVisible}
+                    onRequestClose={() => {this.setState({webCamModalVisible: false});this.setState({camLoadedOpa:0 });}}>
+                    <View style={pickerStyle.modalContainer}>
+                        <View style={[pickerStyle.closeIcon, {opacity:this.state.camLoadedOpa}]}>
+                            <TouchableOpacity onPress={()=>{this.setState({webCamModalVisible: false})}}>
+                                <Ionicons name="md-close" size={35} color={'white'}/>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{height:SCREEN_HEIGHT/2}}>
+                            {webCamView}
+                        </View>
+                        <View style={pickerStyle.circleIcon}>{webCamViewIndicator}</View>
+                    </View>
                 </Modal>
+
                 <Toast
                     ref      = "toast"
                     style    = {{backgroundColor:'#222222'}}
                     position = 'bottom'/>
 
-                <Modal
+                {/* shopList Modal */}
+                <SimpleModal
                     open          = {this.state.shopModalVisible}
                     modalDidOpen  = {() => console.log('modal did open')}
                     modalDidClose = {() => this.setState({shopModalVisible: false})}
@@ -198,13 +288,14 @@ class  AndroidFirstView extends Component {
                             dataSource={this.state.dataSource}
                             renderRow ={this.renderRow}
                         />
-                </Modal>
+                </SimpleModal>
 
             </DrawerLayoutAndroid>
         );
     }
 }
 
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
 

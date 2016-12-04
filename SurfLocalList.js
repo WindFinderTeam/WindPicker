@@ -20,7 +20,6 @@ import {
 
 import SurfWeatherList from './SurfWeatherList';
 import Ionicons        from 'react-native-vector-icons/Ionicons';
-import Carousel        from 'react-native-carousel';
 
 import {
     GoogleAnalyticsTracker,
@@ -35,28 +34,7 @@ var pickerStyle   = require('./pickerStyle') ;
 var surfLocalData = require('./jsData/SurfLocalData.json');
 var selectedRowData ;
 
-var webCamView, webCamViewIndicator ;
-
-
 class LocalList extends Component{
-
-
-    setCamVisible(visible) {
-
-        this.setState({camVisible: visible});
-        // console.log("changed !!!!!!! this.state.camVisible :" + this.state.camVisible + " camUri  : " + camUri);
-        // off camLOadedOpa
-        this.setState({camLoadedOpa:0 });
-
-    }
-
-    setCamLoadedOK(visible) {
-        if(visible == '1'){
-            this.setState({camLoadedOpa:1 });
-        }
-
-        //console.log("ccamLoadedOpa: visible OK OK :" + this.state.camLoadedOpa);
-    }
 
     setModalVisible(visible) {
         this.setState({modalVisible: visible});
@@ -64,11 +42,6 @@ class LocalList extends Component{
     }
 
     setRgba(alpha) {
-        var myAlpha = alpha;
-        return `"rgba(156,0,16,` + `${myAlpha})"`;
-    }
-
-    setRgba_shop(alpha) {
         var myAlpha = alpha;
         return `"rgba(156,0,16,` + `${myAlpha})"`;
     }
@@ -82,80 +55,13 @@ class LocalList extends Component{
 
 
 
-    _onPressWebcam(webcam) {
-
-        for(var i in webcam){
-            //  console.log("::::::::::::::::::::: i : " + webcam[i]);
-        }
-
-        switch (i) {
-            case '0':
-                webCamView = (
-                    <View key="view1" style={{flex:1}}>
-                        <WebView
-                            modalVisible={this.setCamVisible}
-                            onLoad={()=>{this.setCamLoadedOK("1")}}
-                            style={styles.webView}
-                            automaticallyAdjustContentInsets={true}
-                            source={{uri: webcam[0]}}
-                            javaScriptEnabled={true}
-                            startInLoadingState={true}
-                            scalesPageToFit={true}
-                        />
-                    </View>
-                );
-
-                webCamViewIndicator = (
-                    <Text style={{fontSize:50, color:"#94000F", textAlign:'center'}}>•</Text>
-                );
-                break;
-            case '1':
-                webCamView = (
-                    <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-68}>
-                        <View key="view1" style={{flex:1}}>
-                            <WebView
-                                modalVisible={this.setCamVisible}
-                                onLoad={()=>{this.setCamLoadedOK("1")}}
-                                style={styles.webView}
-                                automaticallyAdjustContentInsets={true}
-                                source={{uri: webcam[0]}}
-                                javaScriptEnabled={true}
-                                startInLoadingState={true}
-                                scalesPageToFit={true}
-                            />
-                        </View>
-                        <View key="view2" style={{flex:1}}>
-                            <WebView
-                                modalVisible={this.setCamVisible}
-                                onLoad={()=>{this.setCamLoadedOK("1")}}
-                                style={styles.webView}
-                                automaticallyAdjustContentInsets={true}
-                                source={{uri: webcam[1]}}
-                                javaScriptEnabled={true}
-                                startInLoadingState={true}
-                                scalesPageToFit={true}
-                            />
-                        </View>
-                    </Carousel>
-                );
-
-                webCamViewIndicator = null;
-                break;
-            default: break;
-        };
-
-        this.setCamVisible(true);
-        // console.log("webcamClicked cam is : " + webcamClicked , " state :" + this.state.camVisible + " camUri : " + camUri);
-    }
 
     constructor(prop){
         super(prop);
 
         //---------------- Binding to Custom Func ----------------
         this.setModalVisible = this.setModalVisible.bind(this);
-        this.setCamVisible = this.setCamVisible.bind(this);
         this.renderRow = this.renderRow.bind(this);
-        this.setCamLoadedOK = this.setCamLoadedOK.bind(this)
         //---------------------------------------------------------
 
         this.ds = new ListView.DataSource({
@@ -167,8 +73,6 @@ class LocalList extends Component{
         this.state = {
             dataSource          : this.ds.cloneWithRowsAndSections(data, sectionIds)
             ,modalVisible        : false
-            ,camVisible          : false
-            ,camLoadedOpa         : 0
 
         };
     }
@@ -230,29 +134,19 @@ class LocalList extends Component{
         );
     }
 
-
-
     renderRow(rowData) {
 
+        var webcamShow = false, shopShow = false, webcamShowJudge;
 
-        var webcamVar = [], providerVar = [], webcamShow = false, shopShow = false, webcamShowJudge;
+        if(typeof rowData.webcam == "undefined")    webcamShow = false;
+        else                                        webcamShow = true;
 
-        if(typeof rowData.webcam == "undefined"){
-            webcamShow = false;
-        } else {
-            for(var i in rowData.webcam){
-                webcamVar[i] = rowData.webcam[i]["camUrl"];
-                providerVar[i] = rowData.webcam[i]["provider"];
-
-            }
-            //  console.log("webcam data ezxists: " + webcamVar[i] + ", " + providerVar[i] + ", " + i);
-
-            webcamShow = true;
-        }
+        if( typeof rowData.shop == "undefined") shopShow = false;
+        else                                    shopShow = true;
 
         if (webcamShow == true) {
             webcamShowJudge = (
-                <TouchableOpacity onPress={()=>{if(webcamShow==true){this._onPressWebcam(webcamVar)}}}>
+                <TouchableOpacity onPress={()=>{if(webcamShow==true){this.props.setWebCamModalVisible(true, rowData.webcam)}}}>
                     <View style={[pickerStyle.iconBorder, {opacity:webcamShow==false?0:1}]}>
                         <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
                     </View>
@@ -261,13 +155,6 @@ class LocalList extends Component{
         } else {
             //space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠
             webcamShowJudge = (<Text>        </Text>);
-        }
-
-
-        if( typeof rowData.shop == "undefined"){
-            shopShow = false;
-        } else {
-            shopShow = true;
         }
 
         return (
@@ -319,23 +206,7 @@ class LocalList extends Component{
                     renderRow={this.renderRow}
                 />
 
-                <Modal
-                    animationType={"fade"}
-                    transparent={true}
-                    visible={this.state.camVisible}
-                    onRequestClose={() => {this.setCamVisible(false)}}>
-                    <View style={styles.modalContainer}>
-                        <View style={[styles.closeIcon, {opacity:this.state.camLoadedOpa}]}>
-                            <TouchableOpacity onPress={()=>{this.setCamVisible(false)}}>
-                                <Ionicons name="md-close" size={35} color={'white'}/>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{height:SCREEN_HEIGHT/2}}>
-                            {webCamView}
-                        </View>
-                        <View style={styles.circleIcon}>{webCamViewIndicator}</View>
-                    </View>
-                </Modal>
+
             </View>
         );
     }
@@ -351,31 +222,13 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#F5FCFF',
     },
-    circleIcon : {
-        width : SCREEN_WIDTH,
-        alignItems : 'center',
-        position:'absolute'
-    },
 
-    modalContainer:{
-        justifyContent: 'center',
-        backgroundColor:'rgba(0, 0, 0, 0.8)',
-        flex:1
 
-    },
     innerContainer:{
         backgroundColor:'rgba(0, 0, 0, 0.5)',
         height:SCREEN_HEIGHT/2,
     },
-    webView: {
-        flex:1,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor:'white',
-        width:SCREEN_WIDTH,
-        height:SCREEN_HEIGHT/2
-    },
+
     sectionHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -401,11 +254,7 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         marginLeft: SCREEN_WIDTH-45
     },
-    closeIcon:{
-        right: 10,
-        top:5,
-        position:'absolute'
-    },
+
 
 });
 

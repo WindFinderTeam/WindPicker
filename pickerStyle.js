@@ -51,6 +51,16 @@ const pickerStyle = StyleSheet.create({
         fontSize: 15,
     },
 
+    webView: {
+        flex:1,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor:'white',
+        width:SCREEN_WIDTH,
+        height:SCREEN_HEIGHT/2
+    },
+
     rowListText:{
         color: 'black',
         textAlign: 'center',
@@ -62,6 +72,26 @@ const pickerStyle = StyleSheet.create({
         fontWeight: "100",
         color: 'black',
     },
+
+    modalContainer:{
+        justifyContent: 'center',
+        backgroundColor:'rgba(0, 0, 0, 0.8)',
+        flex:1
+
+    },
+
+    closeIcon:{
+        right: 10,
+        top:5,
+        position:'absolute'
+    },
+
+    circleIcon : {
+        width : SCREEN_WIDTH,
+        alignItems : 'center',
+        position:'absolute'
+    },
+
 
     headerViewStyle:{
         height: 25,
