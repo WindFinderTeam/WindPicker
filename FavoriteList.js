@@ -16,14 +16,17 @@ import {
     ToastAndroid
 } from 'react-native';
 
-import Accordion           from 'react-native-collapsible/Accordion';
-import SurfWeatherList         from './SurfWeatherList';
-import GlidWeatherList         from './GlidingWeatherList';
+import Accordion            from 'react-native-collapsible/Accordion';
+import SurfWeatherList      from './SurfWeatherList';
+import GlidWeatherList      from './GlidingWeatherList';
+import Ionicons             from 'react-native-vector-icons/Ionicons';
 
-import {realmInstance}   from "./RealmHndler.js";
+import {realmInstance}      from "./RealmHndler.js";
 
 var surfLocalData = require('./jsData/SurfLocalData.json');
 var glidfLocalData = require('./jsData/GlidingLocalData.json');
+
+var pickerStyle   = require('./pickerStyle') ;
 
 var selectedRowData;
 var ds1;
@@ -98,25 +101,18 @@ class FavoriteList extends Component {
     }
 
     _onPressButton(rowData) {
+        console.log(rowData.theme);
+        console.log(rowData.index);
 
-        for (var i in tempObject) {
-            if (rowData == tempObject[i].name) {
-                if(tempObject[i].theme == "surfing"){
-                    selectedRowData = surfLocalData.local[tempObject[i].index];
-                    console.log("surfing" + tempObject[i].index + "," + tempObject[i].name + "," + selectedRowData.district);
-                    this.setSurfModalVisible(!this.state.surfModalVisible);
-                } else if(tempObject[i].theme == "gliding"){
-                    selectedRowData = glidfLocalData.local[tempObject[i].index];
-                    console.log("gliding" + tempObject[i].index + "," + tempObject[i].name + "," + selectedRowData.district);
-                    this.setGlidModalVisible(!this.state.glidModalVisible);
-                }
-
-                break;
-            }
-
+        if(rowData.theme === 'surfing' ) {
+            selectedRowData = surfLocalData.local[rowData.index];
+            this.setSurfModalVisible(!this.state.surfModalVisible);
         }
-        // selectedRowData = rowData;
 
+        else if(rowData.theme === 'gliding'){
+            selectedRowData = glidfLocalData.local[rowData.index];
+            this.setGlidModalVisible(!this.state.glidModalVisible);
+        }
     }
 
 
@@ -133,18 +129,18 @@ class FavoriteList extends Component {
             favoriteGlidingList = [];
             tempObject          = [];
 
-            favoriteSurfingList.push("tempData");
-            favoriteGlidingList.push("tempData");
+            favoriteSurfingList.push({"theme":"surfing", "index":'9999', "name":'tempData'});
+            favoriteGlidingList.push({"theme":"gliding", "index":'9999', "name":'tempData'});
 
             for (var i in AllFavorite_surfing)
             {
-                favoriteSurfingList.push(AllFavorite_surfing[i].name);
+                favoriteSurfingList.push({"theme":"surfing", "index":AllFavorite_surfing[i].index, "name":AllFavorite_surfing[i].name, "webcam":AllFavorite_surfing[i].webcam, "shop":AllFavorite_surfing[i].shop});
                 tempObject.push({"theme":"surfing", "index":AllFavorite_surfing[i].index, "name":AllFavorite_surfing[i].name});
             }
 
             for (var i in AllFavorite_glding)
             {
-                favoriteGlidingList.push(AllFavorite_glding[i].name);
+                favoriteGlidingList.push({"theme":"gliding","index": AllFavorite_glding[i].index, "name": AllFavorite_glding[i].name,  "webcam":AllFavorite_glding[i].webcam, "shop":AllFavorite_glding[i].shop});
                 tempObject.push({"theme":"gliding","index": AllFavorite_glding[i].index, "name": AllFavorite_glding[i].name});
             }
 
@@ -166,17 +162,61 @@ class FavoriteList extends Component {
 
     _InnerDataRenderRow(rowData){
 
-        if(rowData==="tempData")
+        if(rowData.name==="tempData")
             return (<View style={{height:1, backgroundColor:'transparent'}}></View>);
 
+        var shopShow = false, webcamShowJudge, shopIconImg;
 
-        console.log(rowData);
+        console.log("--------------------------");
+
+        /* shoIconImg judge */
+        if(rowData.theme === 'surfing')      shopIconImg = (require('./image/surfShop.png'));
+        else if(rowData.theme === 'gliding') shopIconImg = (require('./image/glidingShop.png'));
+
+        /* judge shop showing */
+        if(Object.keys(rowData.shop) == "") shopShow = false;
+        else shopShow = true;
+
+        /* judge webcam showing */
+        if (Object.keys(rowData.webcam) == "") {
+            //space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠
+            webcamShowJudge = (<Text>        </Text>);
+
+        } else {
+            webcamShowJudge = (
+                <TouchableOpacity onPress={()=>{
+                    this._onPressWebcam(webcamVar)}}>
+                    <View style={[pickerStyle.iconBorder, {opacity:1}]}>
+                        <Ionicons name="ios-videocam" style={{color:"rgba(156,0,16,1)", fontSize:25}}/>
+                    </View>
+                </TouchableOpacity>
+            );
+        }
+
+
         return (
             <TouchableOpacity onPress={() => {
                 this._onPressButton(rowData)
             }}>
-                <View style={styles.listViewrow}>
-                    <Text style={styles.listViewrowText}>{rowData}</Text>
+                <View style={pickerStyle.listViewrow}>
+                    <View style={pickerStyle.listViewrowDistrict}>
+                        <Text style={pickerStyle.localListrowText}>{rowData.name}</Text>
+                    </View>
+
+                    {/* icons */}
+                    <View style={pickerStyle.listViewrowCam}>
+                        {/* cam icon showing control */}
+                        {webcamShowJudge}
+
+                        {/* shop icon showing control */}
+                        <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
+                            <View style={[pickerStyle.iconBorder, {opacity:shopShow==false?0:1}]}>
+                                <Image source={shopIconImg}
+                                       style={{opacity:shopShow==false?0:1, width:24, height:24}}/>
+                            </View>
+                        </TouchableOpacity>
+
+                    </View>
                 </View>
             </TouchableOpacity>
         )
@@ -196,7 +236,6 @@ class FavoriteList extends Component {
     }
 
     render() {
-
 
         return (
             <View>

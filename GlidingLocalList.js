@@ -141,7 +141,7 @@ class LocalList extends Component{
                 <View style={pickerStyle.listViewrow}>
                     {/* distict */}
                     <View style={pickerStyle.listViewrowDistrict}>
-                        <Text style={styles.text}>{rowData.district}</Text>
+                        <Text style={pickerStyle.localListrowText}>{rowData.district}</Text>
                     </View>
 
                     {/* icons */}
@@ -211,11 +211,7 @@ var styles = StyleSheet.create({
         height:40,
         alignItems: 'center',
     },
-    text: {
-        fontSize: 15,
-        fontWeight: "100",
-        color: 'black',
-    },
+
     sectionHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',

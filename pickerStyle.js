@@ -56,6 +56,13 @@ const pickerStyle = StyleSheet.create({
         textAlign: 'center',
         fontSize: 13,
     },
+
+    localListrowText: {
+        fontSize: 15,
+        fontWeight: "100",
+        color: 'black',
+    },
+
     headerViewStyle:{
         height: 25,
         width: SCREEN_WIDTH,

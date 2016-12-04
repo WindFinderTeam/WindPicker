@@ -276,7 +276,7 @@ class LocalList extends Component{
                 <View style={pickerStyle.listViewrow}>
                     {/* distict */}
                     <View style={pickerStyle.listViewrowDistrict}>
-                        <Text style={styles.text}>{rowData.district}</Text>
+                        <Text style={pickerStyle.localListrowText}>{rowData.district}</Text>
                     </View>
 
                     {/* icons */}
@@ -356,11 +356,7 @@ var styles = StyleSheet.create({
         alignItems : 'center',
         position:'absolute'
     },
-    text: {
-        fontSize: 15,
-        fontWeight: "100",
-        color: 'black',
-    },
+
     modalContainer:{
         justifyContent: 'center',
         backgroundColor:'rgba(0, 0, 0, 0.8)',

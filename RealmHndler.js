@@ -10,25 +10,44 @@ import {
 } from 'react-native';
 import Realm               from 'realm';
 
+    const WebcamSchema = {
+        name: 'Webcam',
+        properties: {
+            camUrl: {type: 'string'},
+            provider : {type: 'string'},
+        }
+    };
 
+    const ShopSchema = {
+        name: 'Shop',
+        properties: {
+            name: {type: 'string'},
+        }
+    };
+
+    //surfing schema
     const FavoriteSurfingSchema = {
         name: 'FavoriteSurfing',
         primaryKey: 'index',
         properties: {
             index: {type: 'string'},
-            name : {type: 'string'}
+            name : {type: 'string'},
+            webcam : {type: 'list', objectType: 'Webcam'},
+            shop : {type: 'list', objectType: 'Shop'},
         }
     };
 
-//gliding schema
+    //gliding schema
     const FavoriteGlidingSchema = {
         name: 'FavoriteGliding',
         primaryKey: 'index',
         properties: {
             index: {type: 'string'},
-            name : {type: 'string'}
+            name : {type: 'string'},
+            webcam : {type: 'list', objectType: 'Webcam'},
+            shop : {type: 'list', objectType: 'Shop'},
         }
     };
 
-    export let realmInstance = new Realm({schema: [FavoriteSurfingSchema, FavoriteGlidingSchema]});
+    export let realmInstance = new Realm({schema: [WebcamSchema, ShopSchema, FavoriteSurfingSchema, FavoriteGlidingSchema]});
 

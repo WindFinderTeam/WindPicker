@@ -259,7 +259,8 @@ class SurfWeatherList extends Component {
     }
 
     controlFavorite(){
-        console.log("xxx control Favorite in");
+        console.log("control in in ");
+        console.log(this.props.rowData.webcam);
 
         realmInstance.write(() => {
 
@@ -280,10 +281,10 @@ class SurfWeatherList extends Component {
                 //not exists. need to insert
                 console.log("need to insert");
                 realmInstance.create('FavoriteSurfing', {
-                    index:var_index,
-                    name :this.props.rowData.district,
+                    index  : var_index,
+                    name   : this.props.rowData.district,
                     webcam : this.props.rowData.webcam,
-                    shop : this.props.rowData.shop
+                    shop   : this.props.rowData.shop
                 });
 
             } else {
@@ -300,6 +301,8 @@ class SurfWeatherList extends Component {
             console.log(AllFavorite_surfing_after);
             console.log("======================");
             console.log(Object.keys(AllFavorite_surfing_after).length);
+            console.log(AllFavorite_surfing_after);
+
             /* --------after display  Favorite Lists---------- */
 
         });

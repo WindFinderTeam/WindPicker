@@ -140,7 +140,7 @@ class  AndroidFirstView extends Component {
                         {localList}
                     </ScrollView>
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
-                        <FavoriteList/>
+                        <FavoriteList setShopModalVisible={this.setShopModalVisible}/>
                     </ScrollView>
 
                     {/* <ScrollView tabLabel="샾랭킹" style={styles.tabView}>
@@ -194,8 +194,6 @@ class  AndroidFirstView extends Component {
                     modalDidClose = {() => this.setState({shopModalVisible: false})}
                     style         = {{alignItems: 'center'}}>
                     <Text style={{fontSize: 20, marginBottom: 15, color:'#94000F'}}>주변샾</Text>
-                    <View style={{backgroundColor:'#94000F', height:0.2}}>
-                        </View>
                         <ListView
                             dataSource={this.state.dataSource}
                             renderRow ={this.renderRow}
