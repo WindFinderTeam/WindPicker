@@ -269,7 +269,6 @@ class FavoriteList extends Component {
                     sections={this.state.dataSource}
                     renderHeader={this._renderHeader}
                     renderContent={this._renderRow}
-                    initiallyActiveSection={0}
                 />
             </View>
 

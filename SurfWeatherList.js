@@ -347,13 +347,13 @@ class SurfWeatherList extends Component {
 
         if(rowData.tidedirections != ""){
             switch(rowData.tidedirections) {
-                case 'down' :tidedirections = (<Image source={require('./image/weatherIcon/cloud1.png')} style={{width:15, height:17}}/>);
+                case 'down' :tidedirections = (<Image source={require('./image/weatherIcon/down.png')} style={{width:15, height:17}}/>);
                     break;
-                case 'up' :tidedirections = (<Image source={require('./image/arrow.png')} style={{width:15, height:17}}/>);
+                case 'up' :tidedirections = (<Image source={require('./image/weatherIcon/up.png')} style={{width:15, height:17}}/>);
                     break;
-                case 'high' :tidedirections = (<Image source={require('./image/weatherIcon/snow.png')} style={{width:15, height:17}}/>);
+                case 'high' :tidedirections = (<Image source={require('./image/weatherIcon/high.png')} style={{width:15, height:17}}/>);
                     break;
-                case 'low' :tidedirections = (<Image source={require('./image/weatherIcon/cloud2.png')} style={{width:15, height:17}}/>);
+                case 'low' :tidedirections = (<Image source={require('./image/weatherIcon/low.png')} style={{width:15, height:17}}/>);
                     break;
             }
         } else  {
