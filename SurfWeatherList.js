@@ -176,7 +176,6 @@ class SurfWeatherList extends Component {
    }
 
    readRealm() {
-       console.log("read result before ");
 
        realmInstance.write(() => {
 
@@ -190,11 +189,9 @@ class SurfWeatherList extends Component {
                //not exists.
            } else {
                //exists.
-               console.log("read. exists. index " + var_index);
                this.setHeartOnOff();
            }
        });
-       console.log("read result after ");
    }
 
    fetchData() {
@@ -241,7 +238,6 @@ class SurfWeatherList extends Component {
 
 
     setHeartOnOff(){
-        console.log("setHeartOnOff in");
         console.log(this.state.heartOnOff);
 
         if(this.state.heartOnOff == true){
@@ -254,19 +250,15 @@ class SurfWeatherList extends Component {
             });
         }
 
-        console.log("setHeartOnOff out");
         console.log(this.state.heartOnOff);
     }
 
     controlFavorite(){
-        console.log("control in in ");
-        console.log(this.props.rowData.webcam);
 
         realmInstance.write(() => {
 
             /* --------before display  Favorite Lists---------- */
             let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
-            console.log(AllFavorite_surfing);
 
             /* --------before display  Favorite Lists---------- */
 
@@ -274,7 +266,6 @@ class SurfWeatherList extends Component {
 
             let specificFavorite = realmInstance.objects(theme).filtered('index = ' + '"' + var_index + '"');
 
-            console.log(specificFavorite);
 
             if(Object.keys(specificFavorite) == ""){
 

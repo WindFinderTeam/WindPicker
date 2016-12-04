@@ -100,8 +100,6 @@ class FavoriteList extends Component {
     }
 
     _onPressButton(rowData) {
-        console.log(rowData.theme);
-        console.log(rowData.index);
 
         if(rowData.theme === 'surfing' ) {
             selectedRowData = surfLocalData.local[rowData.index];
@@ -117,7 +115,6 @@ class FavoriteList extends Component {
 
     realmRead() {
 
-        console.log("realmRead in ");
         // READ all favorite surfing, gliding data
         realmInstance.write(() => {
 
@@ -165,8 +162,6 @@ class FavoriteList extends Component {
 
         var shopShow = false, webcamShowJudge, shopIconImg;
 
-        console.log("--------------------------");
-
         /* shoIconImg judge */
         if      (rowData.theme === 'surfing') shopIconImg = (require('./image/surfShop.png'));
         else if(rowData.theme === 'gliding')  shopIconImg = (require('./image/glidingShop.png'));
@@ -190,7 +185,6 @@ class FavoriteList extends Component {
                 </TouchableOpacity>
             );
         }
-
 
         return (
             <TouchableOpacity onPress={() => {
