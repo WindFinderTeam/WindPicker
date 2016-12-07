@@ -112,6 +112,24 @@ function getBackgroundImage(){
         case 4 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back5.jpg'}); break;
         case 5 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back6.jpg'}); break;
         case 6 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back7.jpg'}); break;
+        case 7 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back8.jpg'}); break;
+        case 8 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back9.jpg'}); break;
+        case 9 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back9.jpg'}); break;
+        case 10 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back10.jpg'}); break;
+        case 11 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back11.jpg'}); break;
+        case 12 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back12.jpg'}); break;
+        case 13 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back13.jpg'}); break;
+        case 14 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back14.jpg'}); break;
+        case 15 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back15.jpg'}); break;
+        case 16 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back16.jpg'}); break;
+        case 17 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back17.jpg'}); break;
+        case 18 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back18.jpg'}); break;
+        case 19 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back19.jpg'}); break;
+        case 20 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back20.jpg'}); break;
+        case 21 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back21.jpg'}); break;
+        case 22 : backgroundImg = ({uri: 'http://mercicandle.cafe24.com/web/windPicker/back22.jpg'}); break;
+
+
 
     }
 
