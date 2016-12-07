@@ -98,7 +98,7 @@ function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
 function getBackgroundImage(){
 
     var from = 0;
-    var to   = 6;
+    var to   = 22;
 
     var num = Math.floor( (Math.random() * (to - from + 1)) + from );
 
