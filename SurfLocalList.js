@@ -20,6 +20,7 @@ import {
 
 import SurfWeatherList from './SurfWeatherList';
 import Ionicons        from 'react-native-vector-icons/Ionicons';
+import { realmInstance } from "./RealmHndler.js";
 
 import {
     GoogleAnalyticsTracker,
@@ -75,6 +76,9 @@ class LocalList extends Component{
             ,modalVisible        : false
 
         };
+
+        this.controlModeRealm();
+
     }
 
 
@@ -134,6 +138,34 @@ class LocalList extends Component{
         );
     }
 
+    controlModeRealm(){
+
+        realmInstance.write(() => {
+
+            let lastModeChk = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
+
+            console.log("before mode is >> " + lastModeChk[0].mode);
+
+            if(Object.keys(lastModeChk) == ""){
+                //generate an row
+                realmInstance.create('ModeLastStay', {
+                    index   : 'lastmode',
+                    mode    : 'S'
+                });
+
+            } else {
+                //Already exists. update mode to 'S'
+                realmInstance.create('ModeLastStay', {
+                    index: 'lastmode', mode: 'S'}, true);
+
+                lastModeChk = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
+            }
+
+
+            console.log("after mode is >> " + lastModeChk[0].mode);
+        });
+    }
+
     renderRow(rowData) {
 
         var webcamShow = false, shopShow = false, webcamShowJudge;
@@ -156,6 +188,7 @@ class LocalList extends Component{
             //space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠
             webcamShowJudge = (<Text>        </Text>);
         }
+
 
         return (
             <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>

@@ -24,6 +24,8 @@ import {
     GoogleAnalyticsSettings
 } from 'react-native-google-analytics-bridge';
 
+import { realmInstance } from "./RealmHndler.js";
+
 var tracker1 = new GoogleAnalyticsTracker('UA-87305241-1');
 
 var glidingLocalData = require('./jsData/GlidingLocalData.json');
@@ -66,6 +68,9 @@ class LocalList extends Component{
             ,modalVisible    : false
 
         };
+
+        this.controlModeRealm();
+
     }
 
 
@@ -113,6 +118,32 @@ class LocalList extends Component{
         }
 
         return {data, sectionIds};
+    }
+
+    controlModeRealm(){
+
+        realmInstance.write(() => {
+
+            let lastModeChk = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
+
+            console.log("before mode is >> " + lastModeChk[0].mode);
+
+            if(Object.keys(lastModeChk) == ""){
+                //generate an row
+                realmInstance.create('ModeLastStay', {
+                    index   : 'lastmode',
+                    mode    : 'G'
+                });
+
+            } else {
+                //Already exists. update mode to 'S'
+                realmInstance.create('ModeLastStay', {
+                    index: 'lastmode', mode: 'G'}, true);
+
+                lastModeChk = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
+            }
+            console.log("after mode is >> " + lastModeChk[0].mode);
+        });
     }
 
     renderSectionHeader(data, sectionId) {

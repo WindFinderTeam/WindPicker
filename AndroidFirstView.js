@@ -39,6 +39,8 @@ import FavoriteList      from './FavoriteList';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import MenuList from './MenuList';
 
+import { realmInstance } from "./RealmHndler.js";
+
 var ds;
 var webCamView, webCamViewIndicator ;
 
@@ -57,8 +59,18 @@ class  AndroidFirstView extends Component {
         this.openDrawer            = this.openDrawer.bind(this);
         this.renderRow             = this.renderRow.bind(this);
 
-        ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); // shop ListView Data
-        this.state = {school : 'Wind Finder2', open: false, viewMode:'surf',loadingYn:true ,shopModalVisible: false, webCamModalVisible: false, camLoadedOpa : 0, dataSource: ds.cloneWithRows(['row 1', 'row 2'])};
+        ds = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 !== r2
+        }); // shop ListView Data
+        this.state = {
+            school              : 'Wind Finder2',
+            open                : false,
+            viewMode            : this.props.mode,
+            loadingYn           :true ,
+            shopModalVisible    : false,
+            webCamModalVisible  : false,
+            camLoadedOpa        : 0,
+            dataSource          : ds.cloneWithRows(['row 1', 'row 2'])};
 
     }
 
@@ -139,7 +151,6 @@ class  AndroidFirstView extends Component {
         this.setState({webCamModalVisible: visible});
     }
 
-
     onActionSelected(position) {
 
         if (position === 0) { // index of 'Settings'
@@ -149,12 +160,12 @@ class  AndroidFirstView extends Component {
 
 
     renderRow(rowData) {
-      return (<View style={{height: 30,}}><Text>{rowData.name}</Text></View>);
+
+        return (<View style={{height: 30,}}><Text>{rowData.name}</Text></View>);
     }
 
 
     render() {
-
 
         var navigationView =
             (

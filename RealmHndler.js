@@ -49,5 +49,15 @@ import Realm               from 'realm';
         }
     };
 
-    export let realmInstance = new Realm({schema: [WebcamSchema, ShopSchema, FavoriteSurfingSchema, FavoriteGlidingSchema]});
+    //whichModeLastStay schema
+    const ModeLastStaySchema = {
+        name: 'ModeLastStay',
+        primaryKey: 'index',
+        properties: {
+            index : {type: 'string'},
+            mode  : {type: 'string', default: '0'},
+        }
+    };
+
+    export let realmInstance = new Realm({schema: [WebcamSchema, ShopSchema, FavoriteSurfingSchema, FavoriteGlidingSchema, ModeLastStaySchema]});
 
