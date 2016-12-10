@@ -9,18 +9,18 @@ import {
     DrawerLayoutAndroid,
     TouchableOpacity,
     View,
+    Dimensions,
 } from 'react-native';
 
 
-import Toast, { DURATION } from 'react-native-easy-toast';
 import Modal               from 'react-native-simple-modal';
 import VersionCheck        from 'react-native-version-check';
 import AndroidFirstView    from './AndroidFirstView';
 
 import { realmInstance } from "./RealmHndler.js";
 
-var mode ="";
-var lastModeWas ;
+var nowMode = "";
+var lastMode ;
 
 class  WindFinder extends Component {
 
@@ -48,77 +48,59 @@ class  WindFinder extends Component {
          //realmInstance.write(() => {
          //    let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
          //});
-
-
+        
         VersionCheck.getLatestVersion() // from market
             .then((latestVersion) => {
                 console.log(latestVersion);    // 0.1.2
             })
             .catch((error) => { // if network state is unstable
-            console.warn(error);
-            setTimeout(this.startCountDown, 2000); // go to first AndroidFirstView page after 3s
-            return ;
+                console.warn(error);
+                this.getLastModeFromRealm();
+                setTimeout(this.startCountDown, 2000); // go to first AndroidFirstView page after 3s
+                return ;
 
         });
 
         VersionCheck.needUpdate()
             .then((res) => {
 
+                this.getLastModeFromRealm();
+                console.log("lastMode >> " + lastMode);
+
                 /* if update is required */
-                if(!res.isNeeded == true)
-                // if(res.isNeeded == true) /********************** IMPORTANT !! CHANGE !!!! *****************/
-                    this.setState({updateInfoModal: true,chooseModeModal:false});
+                if(!res.isNeeded == true)    this.setState({updateInfoModal: true,chooseModeModal:false});
                 /* the last version. update is not required */
                 else {
-                    this.modecontrolrealm();
-                    if (lastModeWas == '0') {
-                    // if (typeof lastModeWas == "undefined") {
-                        console.log("lastModeWas >> " + lastModeWas);
-                        this.setState({chooseModeModal: true});
-                    } else {
-                        setTimeout(this.startCountDown, 1000); // Jump to AndroidFirstView
-
-                    }
+                    if (lastMode == '')     this.setState({chooseModeModal: true});
+                    else                    setTimeout(this.startCountDown, 1000); // Jump to AndroidFirstView
                 }
             });
     }
 
-    modecontrolrealm(){
+    getLastModeFromRealm(){
 
         realmInstance.write(() => {
 
 
-            let lastModeChk = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
-
-            console.log("xxxx>>" + lastModeChk[0].index + ",,  " + lastModeChk[0].mode);
+            let lastModeRealm = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
 
             // when it visits at first
-            if(Object.keys(lastModeChk) == "" ){
+            if(Object.keys(lastModeRealm) == "" ){
 
                 realmInstance.create('ModeLastStay', {
                     index: 'lastmode',
-                    mode:'0'
+                    mode:''
                 });
 
-                lastModeChk = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
-
-                // default mode is surfing
-                mode = "gliding";
-                lastModeWas = lastModeChk[0].mode;
-
-                console.log("xxxxxxxxxxxxxx : " + lastModeWas);
+                // default nowMode is surfing
+                lastMode = lastModeRealm[0].mode;
 
             } else {
 
-                lastModeChk = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
+                lastMode = lastModeRealm[0].mode;
 
-                lastModeWas = lastModeChk[0].mode;
-
-                console.log(lastModeWas);
-
-                if     (lastModeWas == 'G')      mode = "gliding";
-                else if(lastModeWas == 'S')      mode = "surf";
-                else                             mode = "surf";
+                if     (lastMode == 'G')      nowMode = "gliding";
+                else if(lastMode == 'S')      nowMode = "surf";
             }
         });
     }
@@ -128,20 +110,18 @@ class  WindFinder extends Component {
 
         var mainView;
 
-        // this.modecontrolrealm();
-
         if(this.state.loadingYn == true)
         {
             mainView = (<View style={styles.loadingView}>
-
+                <Image source={require('./image/loadingLogo.png')}
+                       style={{width:100 , height:100 }}/>
                 <Text style={styles.logoText}> 윈드피커 </Text>
-
                 <Modal
                     open          = {this.state.updateInfoModal}
                     modalDidOpen  = {() => console.log('update modal did open')}
                     modalDidClose = {() => {
-                                            {/*mode="surf";*/}
-                                            this.setState({updateInfoModal: false,loadingYn:false, chooseModeModal: true});
+                                            {/*nowMode="surf";*/}
+                                            this.setState({updateInfoModal: false,loadingYn:false});
                                             }
                                     }
                     style         = {{alignItems: 'center'}}>
@@ -161,7 +141,7 @@ class  WindFinder extends Component {
 
                 <Modal
                     open          = {this.state.chooseModeModal}
-                    modalDidOpen  = {() => console.log('mode choice modal did open')}
+                    modalDidOpen  = {() => console.log('nowMode choice modal did open')}
                     modalDidClose = {() => this.setState({chooseModeModal: false,loadingYn:false})}
                     style         = {{flex:1,borderRadius: 2}}>
 
@@ -172,7 +152,7 @@ class  WindFinder extends Component {
                             <TouchableOpacity
                                 style={{margin: 5,flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress={() => {
-                                    mode="surf";
+                                    nowMode="surf";
                                     this.setState({chooseModeModal: false}) ;
                                     setTimeout(this.startCountDown, 2000); // Jump to AndroidFirstView
                                 }}>
@@ -183,7 +163,7 @@ class  WindFinder extends Component {
                             <TouchableOpacity
                                 style   = {{margin: 5, flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress = {() => {
-                                    mode="gliding";
+                                    nowMode="gliding";
                                     this.setState({chooseModeModal: false}) ;
                                     setTimeout(this.startCountDown, 2000); // Jump to AndroidFirstView
                                 }}>
@@ -197,7 +177,7 @@ class  WindFinder extends Component {
         }
 
         else {
-            mainView = (<AndroidFirstView mode = {mode}/>);
+            mainView = (<AndroidFirstView mode = {nowMode}/>);
         }
 
         return (
@@ -206,6 +186,8 @@ class  WindFinder extends Component {
     }
 }
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
 

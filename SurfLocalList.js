@@ -144,23 +144,9 @@ class LocalList extends Component{
 
             let lastModeChk = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
 
-            console.log("before mode is >> " + lastModeChk[0].mode);
-
-            if(Object.keys(lastModeChk) == ""){
-                //generate an row
-                realmInstance.create('ModeLastStay', {
-                    index   : 'lastmode',
-                    mode    : 'S'
-                });
-
-            } else {
-                //Already exists. update mode to 'S'
-                realmInstance.create('ModeLastStay', {
-                    index: 'lastmode', mode: 'S'}, true);
-
-                lastModeChk = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
-            }
-
+            //Already exists. update mode to 'S'
+            realmInstance.create('ModeLastStay', {
+                index: 'lastmode', mode: 'S'}, true);
 
             console.log("after mode is >> " + lastModeChk[0].mode);
         });
@@ -173,8 +159,8 @@ class LocalList extends Component{
         if(typeof rowData.webcam == "undefined")    webcamShow = false;
         else                                        webcamShow = true;
 
-        if( typeof rowData.shop == "undefined") shopShow = false;
-        else                                    shopShow = true;
+        if( typeof rowData.shop == "undefined")     shopShow = false;
+        else                                        shopShow = true;
 
         if (webcamShow == true) {
             webcamShowJudge = (
@@ -186,9 +172,9 @@ class LocalList extends Component{
             );
         } else {
             //space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠
-            webcamShowJudge = (<Text>        </Text>);
-        }
+            webcamShowJudge = (<View style={pickerStyle.spaceIcon}/>);
 
+        }
 
         return (
             <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>
@@ -200,7 +186,7 @@ class LocalList extends Component{
                     </View>
 
                     {/* icons */}
-                    <View style={pickerStyle.listViewrowCam}>
+                    <View style={pickerStyle.listViewrowCamShop}>
                         {/* cam icon showing control */}
                         {webcamShowJudge}
 
@@ -238,8 +224,6 @@ class LocalList extends Component{
                     renderSectionHeader={this.renderSectionHeader}
                     renderRow={this.renderRow}
                 />
-
-
             </View>
         );
     }

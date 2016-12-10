@@ -42,8 +42,6 @@ class LocalList extends Component{
         this.setState({modalVisible: visible});
     }
 
-
-
     _onPressButton(rowData){
         selectedRowData = rowData;
         this.setModalVisible(true);
@@ -69,7 +67,7 @@ class LocalList extends Component{
 
         };
 
-        this.controlModeRealm();
+        this.setModeRealm();
 
     }
 
@@ -120,28 +118,16 @@ class LocalList extends Component{
         return {data, sectionIds};
     }
 
-    controlModeRealm(){
+    setModeRealm(){
 
         realmInstance.write(() => {
 
             let lastModeChk = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
 
-            console.log("before mode is >> " + lastModeChk[0].mode);
+            //Already exists. update mode to 'G'
+            realmInstance.create('ModeLastStay', {
+            index: 'lastmode', mode: 'G'}, true);
 
-            if(Object.keys(lastModeChk) == ""){
-                //generate an row
-                realmInstance.create('ModeLastStay', {
-                    index   : 'lastmode',
-                    mode    : 'G'
-                });
-
-            } else {
-                //Already exists. update mode to 'S'
-                realmInstance.create('ModeLastStay', {
-                    index: 'lastmode', mode: 'G'}, true);
-
-                lastModeChk = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
-            }
             console.log("after mode is >> " + lastModeChk[0].mode);
         });
     }
@@ -176,9 +162,9 @@ class LocalList extends Component{
                     </View>
 
                     {/* icons */}
-                    <View style={pickerStyle.listViewrowCam}>
+                    <View style={pickerStyle.listViewrowCamShop}>
                         {/* space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠 */}
-                        <Text>        </Text>
+                        <View style={pickerStyle.spaceIcon}/>
 
                         {/* shop icon showing control */}
                         <TouchableOpacity  onPress = {() => this.props.setShopModalVisible(true , rowData.shop)}>
@@ -190,9 +176,6 @@ class LocalList extends Component{
                     </View>
                 </View>
             </TouchableOpacity>
-
-
-
         )
     }
 

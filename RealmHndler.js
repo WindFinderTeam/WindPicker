@@ -55,7 +55,7 @@ import Realm               from 'realm';
         primaryKey: 'index',
         properties: {
             index : {type: 'string'},
-            mode  : {type: 'string', default: '0'},
+            mode  : {type: 'string'},
         }
     };
 

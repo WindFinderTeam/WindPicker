@@ -1,4 +1,7 @@
-import  React, {Component} from 'react';
+import  React, {
+    Component
+} from 'react';
+
 import {
     AppRegistry,
     StyleSheet,
@@ -27,28 +30,21 @@ import Carousel        from 'react-native-carousel';
 
 //https://github.com/oblador/react-native-vector-icons
 import Ionicons     from 'react-native-vector-icons/Ionicons';
-import FontAwesome  from 'react-native-vector-icons/FontAwesome';
 
-
-import ShopPage          from './ShopPage';
+// import ShopPage          from './ShopPage';
 import GlidingLocalList  from './GlidingLocalList';
 import SurfLocalList     from './SurfLocalList';
 import FavoriteList      from './FavoriteList';
 
 // https://github.com/skv-headless/react-native-scrollable-tab-view
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
-import MenuList from './MenuList';
-
-import { realmInstance } from "./RealmHndler.js";
+// import MenuList from './MenuList';
 
 var ds;
 var webCamView, webCamViewIndicator ;
-
 var pickerStyle   = require('./pickerStyle');
 
 class  AndroidFirstView extends Component {
-
-        //renderTabBar={() => <CustomTabbar />}
 
     constructor(prop){
         super(prop);
@@ -63,8 +59,7 @@ class  AndroidFirstView extends Component {
             rowHasChanged: (r1, r2) => r1 !== r2
         }); // shop ListView Data
         this.state = {
-            school              : 'Wind Finder2',
-            open                : false,
+            configModalOpen                : false,
             viewMode            : this.props.mode,
             loadingYn           :true ,
             shopModalVisible    : false,
@@ -79,7 +74,7 @@ class  AndroidFirstView extends Component {
     }
 
     setConfigModalVisible(visible) {
-        this.setState({open: visible});
+        this.setState({configModalOpen: visible});
     }
 
     setShopModalVisible(visible,shopRows) {
@@ -176,8 +171,8 @@ class  AndroidFirstView extends Component {
             );
 
         var localList ;
-        if(this.state.viewMode =='surf') localList =  (<SurfLocalList setShopModalVisible={this.setShopModalVisible}
-                                                                      setWebCamModalVisible={this.setWebCamModalVisible}/>);
+        if(this.state.viewMode =='surf') localList =  (<SurfLocalList setShopModalVisible   ={this.setShopModalVisible}
+                                                                      setWebCamModalVisible ={this.setWebCamModalVisible}/>);
         else                             localList =  (<GlidingLocalList setShopModalVisible={this.setShopModalVisible}/>);
 
         return (
@@ -228,12 +223,12 @@ class  AndroidFirstView extends Component {
                         </ScrollView>*/}
                 </ScrollableTabView>
 
-                {/* mode selection Modal */}
+                {/* configMode selection Modal */}
                 <SimpleModal
                     offset        = {this.state.offset}
-                    open          = {this.state.open}
+                    open          = {this.state.configModalOpen}
                     modalDidOpen  = {() => console.log('modal did open')}
-                    modalDidClose = {() => this.setState({open: false})}
+                    modalDidClose = {() => this.setState({configModalOpen: false})}
                     style         = {{flex:1,borderRadius: 2}}>
 
                     <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F'}}>모드선택</Text>
@@ -243,7 +238,7 @@ class  AndroidFirstView extends Component {
                             <TouchableOpacity
                                 style={{margin: 5,flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress={() => {
-                                    this.setState({viewMode:'surf',open: false});
+                                    this.setState({viewMode:'surf',configModalOpen: false});
                                     this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
                                 }}>
@@ -254,7 +249,7 @@ class  AndroidFirstView extends Component {
                             <TouchableOpacity
                                 style   = {{margin: 5, flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress = {() => {
-                                    this.setState({viewMode:'gliding',open: false}) ;
+                                    this.setState({viewMode:'gliding',configModalOpen: false}) ;
                                     this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
                                 }}>

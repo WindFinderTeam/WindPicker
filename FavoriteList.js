@@ -44,7 +44,6 @@ class FavoriteList extends Component {
         this._renderHeader = this._renderHeader.bind(this);
         this.setSurfModalVisible = this.setSurfModalVisible.bind(this);
         this.setGlidModalVisible = this.setGlidModalVisible.bind(this);
-
         this._onPressButton = this._onPressButton.bind(this);
 
         this.realmRead = this.realmRead.bind(this);
@@ -157,6 +156,7 @@ class FavoriteList extends Component {
 
     _InnerDataRenderRow(rowData){
 
+
         if(rowData.name==="tempData")
             return (<View style={{height:1, backgroundColor:'transparent'}}></View>);
 
@@ -173,8 +173,7 @@ class FavoriteList extends Component {
         /* judge webcam showing */
         if (Object.keys(rowData.webcam) == "") {
             //space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠
-            webcamShowJudge = (<Text>        </Text>);
-
+            webcamShowJudge = (<View style={pickerStyle.spaceIcon}/>);
         } else {
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=>{
@@ -196,7 +195,7 @@ class FavoriteList extends Component {
                     </View>
 
                     {/* icons */}
-                    <View style={pickerStyle.listViewrowCam}>
+                    <View style={pickerStyle.listViewrowCamShop}>
                         {/* cam icon showing control */}
                         {webcamShowJudge}
 
@@ -228,6 +227,7 @@ class FavoriteList extends Component {
     }
 
     render() {
+        this.refs.ScrollView.scrollTo({x: 0, y: 0});
 
         return (
             <View>
@@ -236,7 +236,7 @@ class FavoriteList extends Component {
                     transparent={false}
                     visible={this.state.surfModalVisible}
                     onRequestClose={() => {
-                        this.setModalVisible(false)
+                        this.setSurfModalVisible(false)
                     }}>
 
                     <SurfWeatherList
@@ -250,7 +250,7 @@ class FavoriteList extends Component {
                     transparent={false}
                     visible={this.state.glidModalVisible}
                     onRequestClose={() => {
-                        this.setModalVisible(false)
+                        this.setGlidModalVisible(false)
                     }}>
 
                     <GlidWeatherList

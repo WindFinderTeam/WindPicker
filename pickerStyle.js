@@ -179,7 +179,7 @@ const pickerStyle = StyleSheet.create({
         alignItems: 'center',
         flex:1
     },
-    listViewrowCam: {
+    listViewrowCamShop: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems :'center',
@@ -195,6 +195,9 @@ const pickerStyle = StyleSheet.create({
         borderColor: '#94000F',
         alignItems: 'center',
         justifyContent:'center'
+    },
+    spaceIcon:{
+        width:30
     },
 });
 

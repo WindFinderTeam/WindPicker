@@ -239,9 +239,9 @@ class GlidingWeatherList extends Component {
 
         realmInstance.write(() => {
 
-            let theme = "FavoriteGliding", var_index = this.props.rowData.index;
+            let mode = "FavoriteGliding", var_index = this.props.rowData.index;
 
-            let specificFavorite = realmInstance.objects(theme).filtered('index = ' + '"' + var_index + '"');
+            let specificFavorite = realmInstance.objects(mode).filtered('index = ' + '"' + var_index + '"');
 
             console.log(specificFavorite);
 

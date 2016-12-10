@@ -29,7 +29,7 @@
   ,{"index":"24", "province":"강원도", "district":"화진포 해수욕장",   "direction" : "90 270",  "weatherURL":"https://www.windfinder.com/forecast/geojin","matching":"80", "location":"강원도 거진읍 화포리"}
 
   ,{"index":"25", "province":"충청남도", "district":"꽃지 해수욕장",  "direction" : "270 90",  "weatherURL":"https://www.windfinder.com/forecast/anmyeondo", "matching":"80","location":"태안군 안면읍"}
-  ,{"index":"26", "province":"충청남도", "district":"만리포 해수욕장", "direction" : "270 90", "webcam":[{"camUrl":"http://cctvlive.kr/wsb.htm?no=5", "provider":"MLP서프"}], "shop":[{"name":"MLP서프","phone":"010-8948-9605","homepage":"http://blog.naver.com/lee0119628","address":""}], "weatherURL":"https://www.windfinder.com/forecast/mallipo", "location":"", "matching":"100"}
+  ,{"index":"26", "province":"충청남도", "district":"만리포 해수욕장", "direction" : "270 90", "webcam":[{"camUrl":"http://cctvlive.kr/wsb.htm?no=5", "provider":"MLP서프"}], "shop":[{"name":"MLP서프","phone":"010-8948-9605","homepage":"http://blog.naver.com/lee0119628","address":""}], "weatherURL":"https://www.windfinder.com/forecast/anmyeondo", "location":"", "matching":"80"}
 
   ,{"index":"27", "province":"경상남도", "district":"광안리 해수욕장",  "direction" : "315 135",   "weatherURL":"https://www.windfinder.com/forecast/gwang_an_beach", "matching":"100","shop":[{"name":"광안리서핑학교(kaisurf)","phone":"010-8661-9437","homepage":"http://kaisurf.co.kr","address":"133 Gwanganhaebyeon-ro, Suyeong-gu, Busan, South Korea"}]}
   ,{"index":"28", "province":"경상남도", "district":"나사리 해수욕장",  "direction" : "315 135", "weatherURL":"https://www.windfinder.com/forecast/nasari", "matching":"100"}
