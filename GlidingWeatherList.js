@@ -517,7 +517,7 @@ class GlidingWeatherList extends Component {
                         <View style={{ marginLeft:10}}>
                             <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
                                 <View style={{width:40}}>
-                                    <Ionicons name="ios-arrow-back" size={50} color="#94000F"/>
+                                    <Ionicons name="ios-arrow-back" size={40} color="#94000F"/>
                                 </View>
                             </TouchableOpacity>
                         </View>

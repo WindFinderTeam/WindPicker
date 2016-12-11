@@ -198,11 +198,11 @@ class  AndroidFirstView extends Component {
                     overflowIconName = "md-more"
                     onActionSelected = {(position) => this.onActionSelected(position)}
                 />
-                <View style={{position:'absolute', left:5,top:10}}>
+                <View style={{position:'absolute', left:8, top:14}}>
                     <Image
                         source     = {require('./image/app_logo.png')}
                         resizeMode = "stretch"
-                        style      = {{height:30,width:130}}
+                        style      = {{height:30,width:30}}
                     />
                 </View>
                 <ScrollableTabView tabBarUnderlineStyle    = {{backgroundColor:"#FFFFFF"}}
