@@ -44,6 +44,11 @@ const pickerStyle = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
     },
+    menusViewTideYes:{
+        justifyContent:'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
 
     menuText: {
         color: '#FFFFFF',
@@ -91,8 +96,6 @@ const pickerStyle = StyleSheet.create({
         alignItems : 'center',
         position:'absolute'
     },
-
-
     headerViewStyle:{
         height: 25,
         width: SCREEN_WIDTH,

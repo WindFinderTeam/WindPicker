@@ -9,7 +9,6 @@ import {
     DrawerLayoutAndroid,
     TouchableOpacity,
     View,
-    Dimensions,
 } from 'react-native';
 
 
@@ -48,7 +47,7 @@ class  WindFinder extends Component {
          //realmInstance.write(() => {
          //    let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
          //});
-        
+
         VersionCheck.getLatestVersion() // from market
             .then((latestVersion) => {
                 console.log(latestVersion);    // 0.1.2
@@ -185,9 +184,6 @@ class  WindFinder extends Component {
         );
     }
 }
-
-const SCREEN_WIDTH = Dimensions.get('window').width;
-const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
 

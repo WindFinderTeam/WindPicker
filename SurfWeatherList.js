@@ -33,7 +33,6 @@ import {
 import Toast, { DURATION } from 'react-native-easy-toast';
 
 
-
 var SurfParser    = require('./SurfParser')  ;
 var pickerStyle   = require('./pickerStyle') ;
 var WeatherImage  = require('./WeatherImage');
@@ -400,7 +399,7 @@ class SurfWeatherList extends Component {
                   </View>
 
                   {/* 파도 */}
-                  <View style={pickerStyle.menusView}>
+                  <View style={[pickerStyle.menusView, rowData.tidedirections =="" ? {}:{flex:1.5}]}>
                       {swellArrowSrc}
                       <View style={{flexDirection:'column',marginLeft:1}}>
                           <Text style={pickerStyle.rowListText}>{rowData.waveheight} m</Text>
@@ -409,9 +408,9 @@ class SurfWeatherList extends Component {
                   </View>
 
                   {/* 조수 */}
-                  <View style={rowData.tidedirections=="" ? {width:0, height:0} : [{flexDirection:'column'},pickerStyle.menusView]}>
+                  <View style={rowData.tidedirections=="" ? {width:0, height:0} : [{flexDirection:'column', height:50},pickerStyle.menusView]}>
                       <View style={{flex:1,flexDirection:'column'}}>
-                          <View style={{flexDirection:'row',justifyContent:'center' }}>{tidedirections}</View>
+                          <View style={{flexDirection:'row',justifyContent:'center'}}>{tidedirections}</View>
                           <Text style={[pickerStyle.rowListText, {fontSize:11}]}>{rowData.tideheight}m {rowData.tidefreq}</Text>
                       </View>
                   </View>
@@ -501,6 +500,11 @@ class SurfWeatherList extends Component {
                     renderDistance={100}
                     pageSize={1}
                     initialListSize={5}
+                    // dont need to declare, only for warning fixing (below)
+                    stickyHeaderIndices={[0]}
+                    onEndReachedThreshold={1000}
+                    renderScrollComponent={ _=>{}}
+
 
                     ref="ScrollView"
                     onScroll={this.onScrolling}
@@ -568,7 +572,7 @@ class SurfWeatherList extends Component {
                     <View style={{ marginLeft:10}}>
                         <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
                             <View style={{width:40}}>
-                                <Ionicons name="ios-arrow-back" size={30} color="#94000F"/>
+                                <Ionicons name="ios-arrow-back" size={50} color="#94000F"/>
                             </View>
                         </TouchableOpacity>
                     </View>

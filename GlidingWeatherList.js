@@ -168,7 +168,7 @@ class GlidingWeatherList extends Component {
             spinnerVisible:false,
             networkState  :false
         });
-        fetch.abort(this);
+        // fetch.abort(this);
     }
 
     controlFavorite(){
@@ -449,6 +449,9 @@ class GlidingWeatherList extends Component {
                         renderDistance={100}
                         pageSize={1}
                         initialListSize={5}
+                        stickyHeaderIndices={[0]}
+                        onEndReachedThreshold={1000}
+                        renderScrollComponent={ _=>{}}
 
                         ref="ScrollView"
                         onScroll={this.onScrolling}
@@ -514,7 +517,7 @@ class GlidingWeatherList extends Component {
                         <View style={{ marginLeft:10}}>
                             <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
                                 <View style={{width:40}}>
-                                    <Ionicons name="ios-arrow-back" size={30} color="#94000F"/>
+                                    <Ionicons name="ios-arrow-back" size={50} color="#94000F"/>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -550,7 +553,5 @@ const PARALLAX_HEADER_HEIGHT = 200;
 const SPINNER_SIZE = 80;
 const NAVI_HEIGHT = 60;
 const MENU_HEIGHT = 30;
-
-
 
 module.exports = GlidingWeatherList;

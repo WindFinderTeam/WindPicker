@@ -20,10 +20,11 @@ import Accordion            from 'react-native-collapsible/Accordion';
 import SurfWeatherList      from './SurfWeatherList';
 import GlidWeatherList      from './GlidingWeatherList';
 import Ionicons             from 'react-native-vector-icons/Ionicons';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 import {realmInstance}      from "./RealmHndler.js";
 
-var surfLocalData = require('./jsData/SurfLocalData.json');
+var surfLocalData  = require('./jsData/SurfLocalData.json');
 var glidfLocalData = require('./jsData/GlidingLocalData.json');
 
 var pickerStyle   = require('./pickerStyle') ;
@@ -40,51 +41,39 @@ class FavoriteList extends Component {
     constructor(props) {
         super(props);
 
-        this._renderRow = this._renderRow.bind(this);
-        this._renderHeader = this._renderHeader.bind(this);
+        this._renderRow          = this._renderRow.bind(this)         ;
+        this._renderHeader       = this._renderHeader.bind(this)      ;
         this.setSurfModalVisible = this.setSurfModalVisible.bind(this);
         this.setGlidModalVisible = this.setGlidModalVisible.bind(this);
-        this._onPressButton = this._onPressButton.bind(this);
-
-        this.realmRead = this.realmRead.bind(this);
+        this._onPressButton      = this._onPressButton.bind(this)     ;
+        this.realmRead           = this.realmRead.bind(this)          ;
         this._InnerDataRenderRow = this._InnerDataRenderRow.bind(this);
 
 
-        ds1 = new ListView.DataSource(
-            {
-                rowHasChanged: (r1, r2) => r1 !== r2,
-            }
-        );
-
-
-        ds2 = new ListView.DataSource(
-            {
-                rowHasChanged: (r1, r2) => r1 !== r2,
-            }
-        );
+        ds1 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2,});
+        ds2 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2,});
 
 
         this.state = {
              surfModalVisible: false
             ,glidModalVisible: false
-            , isCollapsed: false
-
-            , dataSource: [
+            ,isCollapsed     : false
+            ,dataSource: [
                 {
                     title: <Image source={require('./image/fav_surfing.png')} style={styles.container}>
                         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                             <Text style={styles.sectionHeaderText}>서 핑</Text>
                         </View>
-                    </Image>,
-                    innerDataSource: ds1.cloneWithRows(favoriteSurfingList)
+                    </Image>
+                    ,innerDataSource: ds1.cloneWithRows(favoriteSurfingList)
                 },
                 {
                     title: <Image source={require('./image/fav_paragliding.png')} style={styles.container}>
                         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                             <Text style={styles.sectionHeaderText}>패 러 글 라 이 딩</Text>
                         </View>
-                    </Image>,
-                    innerDataSource: ds2.cloneWithRows(favoriteGlidingList)
+                    </Image>
+                    ,innerDataSource: ds2.cloneWithRows(favoriteGlidingList)
                 }]
         };
 
@@ -163,18 +152,16 @@ class FavoriteList extends Component {
         var shopShow = false, webcamShowJudge, shopIconImg;
 
         /* shoIconImg judge */
-        if      (rowData.theme === 'surfing') shopIconImg = (require('./image/surfShop.png'));
-        else if(rowData.theme === 'gliding')  shopIconImg = (require('./image/glidingShop.png'));
+        if     (rowData.theme === 'surfing') shopIconImg = (require('./image/surfShop.png'));
+        else if(rowData.theme === 'gliding') shopIconImg = (require('./image/glidingShop.png'));
 
         /* judge shop showing */
-        if(Object.keys(rowData.shop) == "")   shopShow = false;
-        else                                  shopShow = true;
+        if(Object.keys(rowData.shop) == "")  shopShow = false;
+        else                                 shopShow = true;
 
         /* judge webcam showing */
-        if (Object.keys(rowData.webcam) == "") {
-            //space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠
-            webcamShowJudge = (<View style={pickerStyle.spaceIcon}/>);
-        } else {
+        if (Object.keys(rowData.webcam) == "") {webcamShowJudge = (<View style={pickerStyle.spaceIcon}/>);}
+        else {
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=>{
                     this.props.setWebCamModalVisible(true, rowData.webcam)}}>
@@ -186,7 +173,9 @@ class FavoriteList extends Component {
         }
 
         return (
-            <TouchableOpacity onPress={() => {
+            // <TouchableOpacity onPress={() => {
+            <TouchableHighlight onPress={() => {
+
                 this._onPressButton(rowData)
             }}>
                 <View style={pickerStyle.listViewrow}>
@@ -209,7 +198,7 @@ class FavoriteList extends Component {
 
                     </View>
                 </View>
-            </TouchableOpacity>
+            </TouchableHighlight>
         )
     }
 
@@ -218,16 +207,31 @@ class FavoriteList extends Component {
         this.realmRead();
 
         return (
-            <ListView
+
+        <View style={styles.container2}>
+
+            <SwipeListView
                 enableEmptySections={true}
                 dataSource={section.innerDataSource}
                 renderRow={(rowData) => this._InnerDataRenderRow(rowData)}
+                renderHiddenRow={ (data, secId, rowId, rowMap) => (
+                    <View style={styles.rowBack}>
+                        <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(secId, rowId, rowMap) }>
+                            <Text style={styles.backTextWhite}>Delete</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+                disableRightSwipe={true}
+                rightOpenValue={-75}
             />
+
+
+        </View>
+
         );
     }
 
     render() {
-        this.refs.ScrollView.scrollTo({x: 0, y: 0});
 
         return (
             <View>
@@ -314,8 +318,34 @@ var styles = StyleSheet.create({
         marginLeft: (WINDOW_WIDTH - 20) / 2,
         marginBottom: 0,
         opacity: 0
-
-    }
+    },
+    backRightBtnRight: {
+        backgroundColor: 'red',
+        right: 0
+    },
+    backRightBtn: {
+        alignItems: 'center',
+        bottom: 0,
+        justifyContent: 'center',
+        position: 'absolute',
+        top: 0,
+        width: 75
+    },
+    backTextWhite: {
+        color: '#FFF'
+    },
+    rowBack: {
+        alignItems: 'center',
+        backgroundColor: '#DDD',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 15,
+    },
+    container2: {
+        backgroundColor: 'white',
+        flex: 1
+    },
 });
 
 module.exports = FavoriteList;

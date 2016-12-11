@@ -34,7 +34,7 @@ class SurfMenu extends Component {
                 <View style={pickerStyle.menusView}>
                     <Text style={pickerStyle.menuText}>바람</Text>
                 </View>
-                <View style={pickerStyle.menusView}>
+                <View style={[pickerStyle.menusView, this.props.tideYN=="N"? {}:{flex:1.5}]}>
                     <Text style={pickerStyle.menuText}>파도</Text>
                 </View>
                 <View style={this.props.tideYN=="N"? {width:0, height:0} : pickerStyle.menusView}>
