@@ -54,14 +54,16 @@ class  AndroidFirstView extends Component {
         this.setWebCamModalVisible   = this.setWebCamModalVisible.bind(this);
         this.openDrawer            = this.openDrawer.bind(this);
         this.renderRow             = this.renderRow.bind(this);
+        this.setTabLock            = this.setTabLock.bind(this);
 
         ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         }); // shop ListView Data
         this.state = {
-            configModalOpen                : false,
+            configModalOpen     : false,
             viewMode            : this.props.mode,
-            loadingYn           :true ,
+            loadingYn           : true,
+            tabLock             : false,
             shopModalVisible    : false,
             webCamModalVisible  : false,
             camLoadedOpa        : 0,
@@ -73,6 +75,10 @@ class  AndroidFirstView extends Component {
         this.refs['DRAWER'].openDrawer()
     }
 
+    setTabLock(lock) {
+        console.log(lock);
+        this.setState({tabLock: lock});
+    }
     setConfigModalVisible(visible) {
         this.setState({configModalOpen: visible});
     }
@@ -209,13 +215,17 @@ class  AndroidFirstView extends Component {
                                    tabBarActiveTextColor   = "#FFFFFF"
                                    tabBarInactiveTextColor = "#BDBDBD"
                                    tabBarBackgroundColor   = "#9c0010"
-                                   ref                     = {'scrollView'}>
+                                   ref                     = {'scrollView'}
+                                   locked                  = {this.state.tabLock}
+                >
                     <ScrollView tabLabel="날씨상황"  style={styles.tabView} ref="LocalScrollView">
                         {localList}
                     </ScrollView>
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
                         <FavoriteList setShopModalVisible={this.setShopModalVisible}
-                                      setWebCamModalVisible={this.setWebCamModalVisible}/>
+                                      setWebCamModalVisible={this.setWebCamModalVisible}
+                                      setTabLock = {this.setTabLock}
+                        />
                     </ScrollView>
 
                     {/* <ScrollView tabLabel="샾랭킹" style={styles.tabView}>

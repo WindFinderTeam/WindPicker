@@ -13,7 +13,8 @@ import {
     View,
     Dimensions,
     Modal,
-    ToastAndroid
+    ToastAndroid,
+    PanResponder
 } from 'react-native';
 
 import Accordion            from 'react-native-collapsible/Accordion';
@@ -24,10 +25,10 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 
 import {realmInstance}      from "./RealmHndler.js";
 
-var surfLocalData  = require('./jsData/SurfLocalData.json');
+var surfLocalData = require('./jsData/SurfLocalData.json');
 var glidfLocalData = require('./jsData/GlidingLocalData.json');
 
-var pickerStyle   = require('./pickerStyle') ;
+var pickerStyle = require('./pickerStyle');
 
 var selectedRowData;
 var ds1;
@@ -35,37 +36,37 @@ var ds2;
 var favoriteGlidingList = [];
 var favoriteSurfingList = [];
 var readRealmFlag = true;
-
+var lock = false;
+var rowOpened = false;
 class FavoriteList extends Component {
 
     constructor(props) {
         super(props);
 
-        this._renderRow          = this._renderRow.bind(this)         ;
-        this._renderHeader       = this._renderHeader.bind(this)      ;
+        this._renderRow = this._renderRow.bind(this);
+        this._renderHeader = this._renderHeader.bind(this);
         this.setSurfModalVisible = this.setSurfModalVisible.bind(this);
         this.setGlidModalVisible = this.setGlidModalVisible.bind(this);
-        this._onPressButton      = this._onPressButton.bind(this)     ;
-        this.realmRead           = this.realmRead.bind(this)          ;
+        this._onPressButton = this._onPressButton.bind(this);
+        this.realmRead = this.realmRead.bind(this);
         this._InnerDataRenderRow = this._InnerDataRenderRow.bind(this);
-
 
         ds1 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2,});
         ds2 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2,});
 
 
         this.state = {
-             surfModalVisible: false
-            ,glidModalVisible: false
-            ,isCollapsed     : false
-            ,dataSource: [
+            surfModalVisible: false
+            , glidModalVisible: false
+            , isCollapsed: false
+            , dataSource: [
                 {
                     title: <Image source={require('./image/fav_surfing.png')} style={styles.container}>
                         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                             <Text style={styles.sectionHeaderText}>서 핑</Text>
                         </View>
                     </Image>
-                    ,innerDataSource: ds1.cloneWithRows(favoriteSurfingList)
+                    , innerDataSource: ds1.cloneWithRows(favoriteSurfingList)
                 },
                 {
                     title: <Image source={require('./image/fav_paragliding.png')} style={styles.container}>
@@ -73,9 +74,31 @@ class FavoriteList extends Component {
                             <Text style={styles.sectionHeaderText}>패 러 글 라 이 딩</Text>
                         </View>
                     </Image>
-                    ,innerDataSource: ds2.cloneWithRows(favoriteGlidingList)
+                    , innerDataSource: ds2.cloneWithRows(favoriteGlidingList)
                 }]
         };
+    }
+
+
+    handleOnMoveShouldSetPanResponder(e, gs) {
+        if (!lock && gs.vx < 0) {
+            this.props.setTabLock(true);
+            lock = true;
+        }
+        return false;
+    }
+    handlePanResponderMove(e, gs) {}
+    handlePanResponderEnd(e, gs) {}
+
+
+    componentWillMount() {
+        this._panResponder2 = PanResponder.create({
+            onMoveShouldSetPanResponder: (e, gs) => this.handleOnMoveShouldSetPanResponder(e, gs),
+            onPanResponderMove         : (e, gs) => this.handlePanResponderMove(e, gs),
+            onPanResponderRelease      : (e, gs) => this.handlePanResponderEnd(e, gs),
+            onPanResponderTerminate    : (e, gs) => this.handlePanResponderEnd(e, gs),
+            onPanResponderGrant        : (e, gs) => false,
+        });
 
     }
 
@@ -89,12 +112,12 @@ class FavoriteList extends Component {
 
     _onPressButton(rowData) {
 
-        if(rowData.theme === 'surfing' ) {
+        if (rowData.theme === 'surfing') {
             selectedRowData = surfLocalData.local[rowData.index];
             this.setSurfModalVisible(!this.state.surfModalVisible);
         }
 
-        else if(rowData.theme === 'gliding'){
+        else if (rowData.theme === 'gliding') {
             selectedRowData = glidfLocalData.local[rowData.index];
             this.setGlidModalVisible(!this.state.glidModalVisible);
         }
@@ -112,25 +135,33 @@ class FavoriteList extends Component {
             favoriteSurfingList = [];
             favoriteGlidingList = [];
 
-            favoriteSurfingList.push({"theme":"surfing", "index":'9999', "name":'tempData'});
-            favoriteGlidingList.push({"theme":"gliding", "index":'9999', "name":'tempData'});
+            favoriteSurfingList.push({"theme": "surfing", "index": '9999', "name": 'tempData'});
+            favoriteGlidingList.push({"theme": "gliding", "index": '9999', "name": 'tempData'});
 
-            for (var i in AllFavorite_surfing)
-            {
-                favoriteSurfingList.push({"theme":"surfing", "index":AllFavorite_surfing[i].index,
-                    "name":AllFavorite_surfing[i].name, "webcam":AllFavorite_surfing[i].webcam, "shop":AllFavorite_surfing[i].shop});
+            for (var i in AllFavorite_surfing) {
+                favoriteSurfingList.push({
+                    "theme": "surfing",
+                    "index": AllFavorite_surfing[i].index,
+                    "name": AllFavorite_surfing[i].name,
+                    "webcam": AllFavorite_surfing[i].webcam,
+                    "shop": AllFavorite_surfing[i].shop
+                });
             }
 
-            for (var i in AllFavorite_glding)
-            {
-                favoriteGlidingList.push({"theme":"gliding","index": AllFavorite_glding[i].index,
-                    "name": AllFavorite_glding[i].name,  "webcam":AllFavorite_glding[i].webcam, "shop":AllFavorite_glding[i].shop});
+            for (var i in AllFavorite_glding) {
+                favoriteGlidingList.push({
+                    "theme": "gliding",
+                    "index": AllFavorite_glding[i].index,
+                    "name": AllFavorite_glding[i].name,
+                    "webcam": AllFavorite_glding[i].webcam,
+                    "shop": AllFavorite_glding[i].shop
+                });
             }
 
             this.state.dataSource[0].innerDataSource = ds1.cloneWithRows(favoriteSurfingList);
             this.state.dataSource[1].innerDataSource = ds2.cloneWithRows(favoriteGlidingList);
 
-            readRealmFlag =false;
+            readRealmFlag = false;
         });
     }
 
@@ -143,24 +174,26 @@ class FavoriteList extends Component {
         )
     }
 
-    _InnerDataRenderRow(rowData){
+    _InnerDataRenderRow(rowData) {
 
 
-        if(rowData.name==="tempData")
-            return (<View style={{height:1, backgroundColor:'transparent'}}></View>);
+        if (rowData.name === "tempData")
+            return (<View style={{height:1, backgroundColor:'#DDD'}}></View>);
 
         var shopShow = false, webcamShowJudge, shopIconImg;
 
         /* shoIconImg judge */
-        if     (rowData.theme === 'surfing') shopIconImg = (require('./image/surfShop.png'));
-        else if(rowData.theme === 'gliding') shopIconImg = (require('./image/glidingShop.png'));
+        if (rowData.theme === 'surfing') shopIconImg = (require('./image/surfShop.png'));
+        else if (rowData.theme === 'gliding') shopIconImg = (require('./image/glidingShop.png'));
 
         /* judge shop showing */
-        if(Object.keys(rowData.shop) == "")  shopShow = false;
+        if (Object.keys(rowData.shop) == "")  shopShow = false;
         else                                 shopShow = true;
 
         /* judge webcam showing */
-        if (Object.keys(rowData.webcam) == "") {webcamShowJudge = (<View style={pickerStyle.spaceIcon}/>);}
+        if (Object.keys(rowData.webcam) == "") {
+            webcamShowJudge = (<View style={pickerStyle.spaceIcon}/>);
+        }
         else {
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=>{
@@ -189,7 +222,7 @@ class FavoriteList extends Component {
                         {webcamShowJudge}
 
                         {/* shop icon showing control */}
-                        <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
+                        <TouchableOpacity onPress={() => this.props.setShopModalVisible(true, rowData.shop)}>
                             <View style={[pickerStyle.iconBorder, {opacity:shopShow==false?0:1}]}>
                                 <Image source={shopIconImg}
                                        style={{opacity:shopShow==false?0:1, width:24, height:24}}/>
@@ -202,31 +235,43 @@ class FavoriteList extends Component {
         )
     }
 
+    releaseTabLock(){
+       console.log("RELEASED!!!");
+//      this.props.setTabLock(false);
+        if(rowOpened) {
+            this.props.setTabLock(false);
+            rowOpened = false;
+        }
+    }
+
+
+
     _renderRow(section) {
 
         this.realmRead();
 
         return (
 
-        <View style={styles.container2}>
+            <View {...this._panResponder2.panHandlers}>
 
-            <SwipeListView
-                enableEmptySections={true}
-                dataSource={section.innerDataSource}
-                renderRow={(rowData) => this._InnerDataRenderRow(rowData)}
-                renderHiddenRow={ (data, secId, rowId, rowMap) => (
+                <SwipeListView
+                    enableEmptySections={true}
+                    dataSource={section.innerDataSource}
+                    renderRow={(rowData) => this._InnerDataRenderRow(rowData)}
+                    renderHiddenRow={ (data, secId, rowId, rowMap) => (
                     <View style={styles.rowBack}>
                         <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(secId, rowId, rowMap) }>
                             <Text style={styles.backTextWhite}>Delete</Text>
                         </TouchableOpacity>
                     </View>
                 )}
-                disableRightSwipe={true}
-                rightOpenValue={-75}
-            />
+                    disableRightSwipe={true}
+                    rightOpenValue={-75}
+                    onRowClose={()=>this.releaseTabLock()}
+                    onRowOpen ={()=>{rowOpened=true; lock = false;}}
+                />
 
-
-        </View>
+            </View>
 
         );
     }
@@ -342,10 +387,7 @@ var styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingLeft: 15,
     },
-    container2: {
-        backgroundColor: 'white',
-        flex: 1
-    },
+
 });
 
 module.exports = FavoriteList;
