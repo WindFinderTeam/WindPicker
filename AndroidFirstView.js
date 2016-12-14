@@ -76,7 +76,6 @@ class  AndroidFirstView extends Component {
     }
 
     setTabLock(lock) {
-        console.log(lock);
         this.setState({tabLock: lock});
     }
     setConfigModalVisible(visible) {

@@ -31,13 +31,17 @@ var glidfLocalData = require('./jsData/GlidingLocalData.json');
 var pickerStyle = require('./pickerStyle');
 
 var selectedRowData;
-var ds1;
-var ds2;
+var ds1, ds2;
 var favoriteGlidingList = [];
 var favoriteSurfingList = [];
 var readRealmFlag = true;
-var lock = false;
-var rowOpened = false;
+
+var rowOpened     = false;
+var tabLock       = false;
+var closeManual   = false;
+
+var openRowId,closeRowId ;
+
 class FavoriteList extends Component {
 
     constructor(props) {
@@ -56,9 +60,9 @@ class FavoriteList extends Component {
 
 
         this.state = {
-            surfModalVisible: false
+            surfModalVisible  : false
             , glidModalVisible: false
-            , isCollapsed: false
+            , isCollapsed     : false
             , dataSource: [
                 {
                     title: <Image source={require('./image/fav_surfing.png')} style={styles.container}>
@@ -79,17 +83,70 @@ class FavoriteList extends Component {
         };
     }
 
-
     handleOnMoveShouldSetPanResponder(e, gs) {
-        if (!lock && gs.vx < 0) {
+
+        console.log("[[[handleOnMoveShouldSetPanResponder]]]");
+
+        // when tab Unlocked & trying to open manually
+        if(!tabLock && gs.vx < 0) {
+            console.log("RELASE LOCK");
             this.props.setTabLock(true);
-            lock = true;
+            tabLock = true             ;
         }
+        // when tab Locked & trying to Close manually
+        if(tabLock && gs.vx > 0) closeManual = true;
+
+        console.log("closeManual :" + closeManual);
+        console.log("tabLock   :"   + tabLock);
+        console.log("rowOpened :"   + rowOpened);
         return false;
     }
-    handlePanResponderMove(e, gs) {}
-    handlePanResponderEnd(e, gs) {}
 
+    releaseTabLock(section,touchedRow){
+
+        console.log("[[[just CLOSED]]]");
+        console.log("CloseRowID : " + touchedRow);
+        closeRowId = touchedRow;
+        if(openRowId == closeRowId)
+        {
+            if(rowOpened && closeManual) {  // a row state just Closed Manually
+                console.log("RELASE LOCK");
+                this.props.setTabLock(false);
+                rowOpened   = false;
+                closeManual = false;
+                tabLock     = false;
+            }
+            else {   // when failed Close Manually
+
+                if(rowOpened) {
+                    this.props.setTabLock(true);
+                    tabLock = true;
+                }
+                else {
+                    this.props.setTabLock(false);
+                    tabLock = false;
+                }
+            }
+
+        }
+
+        console.log("closeManual :" +closeManual);
+        console.log("tabLock :" +tabLock);
+        console.log("rowOpened :" + rowOpened);
+    }
+    tabLock(section,touchedRow){
+
+        openRowId = touchedRow;
+        console.log("[[[onRowOpen]]]");
+        console.log("OpenRowID : " + touchedRow);
+        rowOpened=true;  closeManual = false;   tabLock   = true;
+        console.log("closeManual :" +closeManual);
+        console.log("tabLock :" +tabLock);
+        console.log("rowOpened :" + rowOpened);
+    }
+
+    handlePanResponderMove(e, gs) {}
+    handlePanResponderEnd (e, gs) {}
 
     componentWillMount() {
         this._panResponder2 = PanResponder.create({
@@ -142,19 +199,19 @@ class FavoriteList extends Component {
                 favoriteSurfingList.push({
                     "theme": "surfing",
                     "index": AllFavorite_surfing[i].index,
-                    "name": AllFavorite_surfing[i].name,
+                    "name" : AllFavorite_surfing[i].name,
                     "webcam": AllFavorite_surfing[i].webcam,
-                    "shop": AllFavorite_surfing[i].shop
+                    "shop" : AllFavorite_surfing[i].shop
                 });
             }
 
             for (var i in AllFavorite_glding) {
                 favoriteGlidingList.push({
-                    "theme": "gliding",
-                    "index": AllFavorite_glding[i].index,
-                    "name": AllFavorite_glding[i].name,
+                    "theme" : "gliding",
+                    "index" : AllFavorite_glding[i].index,
+                    "name"  : AllFavorite_glding[i].name,
                     "webcam": AllFavorite_glding[i].webcam,
-                    "shop": AllFavorite_glding[i].shop
+                    "shop"  : AllFavorite_glding[i].shop
                 });
             }
 
@@ -183,12 +240,12 @@ class FavoriteList extends Component {
         var shopShow = false, webcamShowJudge, shopIconImg;
 
         /* shoIconImg judge */
-        if (rowData.theme === 'surfing') shopIconImg = (require('./image/surfShop.png'));
+        if (rowData.theme === 'surfing')      shopIconImg = (require('./image/surfShop.png'));
         else if (rowData.theme === 'gliding') shopIconImg = (require('./image/glidingShop.png'));
 
         /* judge shop showing */
         if (Object.keys(rowData.shop) == "")  shopShow = false;
-        else                                 shopShow = true;
+        else                                  shopShow = true;
 
         /* judge webcam showing */
         if (Object.keys(rowData.webcam) == "") {
@@ -228,22 +285,11 @@ class FavoriteList extends Component {
                                        style={{opacity:shopShow==false?0:1, width:24, height:24}}/>
                             </View>
                         </TouchableOpacity>
-
                     </View>
                 </View>
             </TouchableHighlight>
         )
     }
-
-    releaseTabLock(){
-       console.log("RELEASED!!!");
-//      this.props.setTabLock(false);
-        if(rowOpened) {
-            this.props.setTabLock(false);
-            rowOpened = false;
-        }
-    }
-
 
 
     _renderRow(section) {
@@ -255,24 +301,22 @@ class FavoriteList extends Component {
             <View {...this._panResponder2.panHandlers}>
 
                 <SwipeListView
-                    enableEmptySections={true}
-                    dataSource={section.innerDataSource}
-                    renderRow={(rowData) => this._InnerDataRenderRow(rowData)}
-                    renderHiddenRow={ (data, secId, rowId, rowMap) => (
+                    enableEmptySections = {true}
+                    dataSource          = {section.innerDataSource}
+                    renderRow           = {(rowData) => this._InnerDataRenderRow(rowData)}
+                    renderHiddenRow     = { (data, secId, rowId, rowMap) => (
                     <View style={styles.rowBack}>
                         <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(secId, rowId, rowMap) }>
                             <Text style={styles.backTextWhite}>Delete</Text>
                         </TouchableOpacity>
                     </View>
                 )}
-                    disableRightSwipe={true}
-                    rightOpenValue={-75}
-                    onRowClose={()=>this.releaseTabLock()}
-                    onRowOpen ={()=>{rowOpened=true; lock = false;}}
+                    disableRightSwipe = {true}
+                    rightOpenValue    = {-75}
+                    onRowClose        = {(section,touchedRow)=>this.releaseTabLock(section,touchedRow)}
+                    onRowOpen         = {(section,touchedRow)=>this.tabLock(section,touchedRow)}
                 />
-
             </View>
-
         );
     }
 
