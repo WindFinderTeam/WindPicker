@@ -72,6 +72,14 @@ const pickerStyle = StyleSheet.create({
         fontSize: 13,
     },
 
+    rowTemperatureView:{
+        justifyContent:'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        borderRadius:5,
+        width:30
+    },
+
     localListrowText: {
         fontSize: 15,
         fontWeight: "100",

@@ -24,39 +24,42 @@ import Spinner            from 'react-native-spinkit';
 import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import ActionButton       from 'react-native-action-button';
-
-import LinearGradient from 'react-native-linear-gradient';
+import { realmInstance }  from "./RealmHndler.js";
+import LinearGradient     from 'react-native-linear-gradient';
 
 import {
     LazyloadListView,
     LazyloadView
 } from 'react-native-lazyload';
 
-var pickerStyle   = require('./pickerStyle');
-var GlidingParser = require('./GlidingParser');
-var WeatherImage  = require('./WeatherImage');
-var DirectionImage= require('./DirectionImage');
-var GlidingMenu   = require('./GlidingMenu');
 
-import { realmInstance } from "./RealmHndler.js";
+var pickerStyle    = require('./pickerStyle');
+var GlidingParser  = require('./GlidingParser');
+var WeatherImage   = require('./WeatherImage');
+var DirectionImage = require('./DirectionImage');
+var GlidingMenu    = require('./GlidingMenu');
+const fetch        = require('react-native-cancelable-fetch');
+
 
 var offset = 0;           // before scroll position for Action Button
 var rowKey = 0;           // Listview`s row keys
 var bfcurrentOffset = 0;  // before scroll position for MenuBar
 
+var mainBoard = true;
 var API_URL;
-var mainBoard=true;
 var headerView;
 var mainBoardView;
 var weatherBackImg;
 var district ;
-var color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
+const color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
     ,'#130ccb','#0e0cd2','#100edd','#0c0de4','#0f18e3','#0d20de','#0c32d5','#0e40d5','#104bcd','#1257cc'
     ,'#0d65c6','#0f74bc','#1b7abe','#308ac6','#4a97cf','#5ba1d2','#70afd8','#84bae0','#95c2df','#add4e5'
     ,'#c3daec','#d4e9ee','#fdfdc9','#fdfab7','#fdf99e','#fbf48a','#fdf579','#fef363','#fff150','#feee36'
     ,'#feee25','#feeb12','#ffe60f','#fede11','#fed70e','#ffce10','#ffc710','#fec110','#ffb812','#fdb10d'
     ,'#fea90e','#fa9e0f','#fd8d0d','#f9800b','#f96b09','#f35805','#f34a05','#f33a04','#f12a01','#ee1b00'
     ,'#ed0b00','#eb0300'];
+
+
 
 class GlidingWeatherList extends Component {
 
@@ -98,6 +101,19 @@ class GlidingWeatherList extends Component {
             ,networkState  :true
             ,heartOnOff    :false
         };
+    }
+
+
+    componentWillMount() // before rendering
+    {
+        this.setHeaderView();
+        this.readRealm()    ;
+        mainBoard = true    ;
+        fetch.abort(this)   ;
+    }
+
+    componentDidMount()
+    {
         this.fetchData();
     }
 
@@ -150,16 +166,6 @@ class GlidingWeatherList extends Component {
                 </Image>
             );
     }
-
-    componentWillMount() // before rendering
-    {
-        this.setHeaderView();
-        this.readRealm();
-        mainBoard = true;
-
-    }
-
-
 
     startCountDown(){
 
@@ -328,10 +334,6 @@ class GlidingWeatherList extends Component {
         var windSpeedWidth    = (SCREEN_WIDTH * rowData.windSpeed) / 60 ;
         var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.windGust) / 60 ) - windSpeedWidth;
 
-        var temperature   =  Math.round(rowData.temperature);
-        var tempColor     = color[temperature+20];
-        var tempFontColor = '#FFFFFF';
-        if(temperature >= 10 && temperature <= 20 ) tempFontColor = 'black';
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(rowData.time, rowData.cloud, rowData.rain, rowData.snowYn+"" );
 
         var windArrowSrc =  DirectionImage.getWindDirectionImage(rowData.windDir); //
@@ -348,8 +350,8 @@ class GlidingWeatherList extends Component {
                             {precipitationImg}
                         </View>
                         <View style={pickerStyle.menusView}>
-                            <View style={{  justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor, width:30}}>
-                                <Text style={[pickerStyle.rowListText,{color:tempFontColor}]}>{temperature} ℃</Text>
+                            <View style={[pickerStyle.rowTemperatureView,{ backgroundColor:color[rowData.temperature+20] }]}>
+                                <Text style={[pickerStyle.rowListText,{color:(Math.round(rowData.temperature) >= 10 && Math.round(rowData.temperature) <= 20 ) ? 'black' : 'white'}]}>{rowData.temperature}℃</Text>
                             </View>
                         </View>
                         <View style={pickerStyle.menusView}>

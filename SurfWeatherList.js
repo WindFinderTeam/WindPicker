@@ -20,26 +20,28 @@ import {
 
 
 //import MyGoogleMap  from 'react-native-maps-google';
-import Spinner            from 'react-native-spinkit';
-import Ionicons           from 'react-native-vector-icons/Ionicons';
-import ActionButton       from 'react-native-action-button';
-import LinearGradient     from 'react-native-linear-gradient';
+import Spinner             from 'react-native-spinkit';
+import Ionicons            from 'react-native-vector-icons/Ionicons';
+import ActionButton        from 'react-native-action-button';
+import LinearGradient      from 'react-native-linear-gradient';
+import Toast, { DURATION } from 'react-native-easy-toast';
+import { realmInstance }   from "./RealmHndler.js";
+
 
 import {
     LazyloadListView,
     LazyloadView
 } from 'react-native-lazyload';
 
-import Toast, { DURATION } from 'react-native-easy-toast';
 
 
-var SurfParser    = require('./SurfParser')  ;
-var pickerStyle   = require('./pickerStyle') ;
-var WeatherImage  = require('./WeatherImage');
-var SurfMenu      = require('./SurfMenu')    ;
-var DirectionImage= require('./DirectionImage');
+var SurfParser     = require('./SurfParser')  ;
+var pickerStyle    = require('./pickerStyle') ;
+var WeatherImage   = require('./WeatherImage');
+var SurfMenu       = require('./SurfMenu')    ;
+var DirectionImage = require('./DirectionImage');
+const fetch        = require('react-native-cancelable-fetch');
 
-import { realmInstance } from "./RealmHndler.js";
 
 var rowKey = 0;           // Listview`s row keys
 var offset = 0;           // before scroll position for Action Button
@@ -51,7 +53,7 @@ var headerView;
 var mainBoardView;
 var district ;
 var weatherBackImg;
-var color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
+const color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
     ,'#130ccb','#0e0cd2','#100edd','#0c0de4','#0f18e3','#0d20de','#0c32d5','#0e40d5','#104bcd','#1257cc'
     ,'#0d65c6','#0f74bc','#1b7abe','#308ac6','#4a97cf','#5ba1d2','#70afd8','#84bae0','#95c2df','#add4e5'
     ,'#c3daec','#d4e9ee','#fdfdc9','#fdfab7','#fdf99e','#fbf48a','#fdf579','#fef363','#fff150','#feee36'
@@ -59,7 +61,7 @@ var color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab
     ,'#fea90e','#fa9e0f','#fd8d0d','#f9800b','#f96b09','#f35805','#f34a05','#f33a04','#f12a01','#ee1b00'
     ,'#ed0b00','#eb0300'];
 
-const fetch = require('react-native-cancelable-fetch');
+
 
 
 class SurfWeatherList extends Component {
@@ -75,8 +77,8 @@ class SurfWeatherList extends Component {
         this.startCountDown    = this.startCountDown.bind(this)   ;
         this.setSpinnerVisible = this.setSpinnerVisible.bind(this);
         this.setHeaderView     = this.setHeaderView.bind(this)    ;
-        this.controlFavorite   = this.controlFavorite.bind(this)       ;
-        this.setHeartOnOff     = this.setHeartOnOff.bind(this)         ;
+        this.controlFavorite   = this.controlFavorite.bind(this)  ;
+        this.setHeartOnOff     = this.setHeartOnOff.bind(this)    ;
 
         var getSectionData = (dataBlob, sectionID)        => {return dataBlob[sectionID];};
         var getRowData     = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
@@ -103,9 +105,19 @@ class SurfWeatherList extends Component {
             ,tideYN        :"N"
             ,heartOnOff    :false
         };
-        this.fetchData();
     }
 
+    componentWillMount() // before rendering
+    {
+        this.setHeaderView();
+        this.readRealm();
+        mainBoard = true;
+    }
+
+    componentDidMount()
+    {
+        this.fetchData();
+    }
 
     setHeaderView(){
 
@@ -156,17 +168,10 @@ class SurfWeatherList extends Component {
             );
     }
 
-    componentWillMount() // before rendering
-    {
-        this.setHeaderView();
-        this.readRealm();
-        mainBoard = true;
-    }
 
    startCountDown(){
 
        console.log("#### TIMER OVER ####");
-
        this.setState({
            spinnerVisible:false,
            networkState  :false
@@ -260,7 +265,6 @@ class SurfWeatherList extends Component {
             let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
 
             /* --------before display  Favorite Lists---------- */
-
             let theme = "FavoriteSurfing", var_index = this.props.rowData.index;
 
             let specificFavorite = realmInstance.objects(theme).filtered('index = ' + '"' + var_index + '"');
@@ -326,36 +330,27 @@ class SurfWeatherList extends Component {
 
         rowKey++;
 
-        var temperature   =  Math.round(rowData.temperature);
-        var tempColor     = color[temperature+20];
-        var tempFontColor = '#FFFFFF';
+        var cloud = rowData.cloud, precipitation = rowData.rainPrecipitation, time = rowData.time, snowrain = rowData.snowrain;
 
-        if(temperature >= 10 && temperature <= 20 ) tempFontColor = 'black';
-
-        var cloud = rowData.cloud, precipation = rowData.rainprecipation, time = rowData.time, snowrain = rowData.snowrain;
-        var tidedirections;
-
+        var tideDirection;
         if(rowData.tidedirections != ""){
             switch(rowData.tidedirections) {
-                case 'down' :tidedirections = (<Image source={require('./image/weatherIcon/down.png')} style={{width:15, height:17}}/>);
+                case 'down' :tideDirection = (<Image source={require('./image/weatherIcon/down.png')} style={{width:15, height:17}}/>);
                     break;
-                case 'up' :tidedirections = (<Image source={require('./image/weatherIcon/up.png')} style={{width:15, height:17}}/>);
+                case 'up' :tideDirection = (<Image source={require('./image/weatherIcon/up.png')} style={{width:15, height:17}}/>);
                     break;
-                case 'high' :tidedirections = (<Image source={require('./image/weatherIcon/high.png')} style={{width:15, height:17}}/>);
+                case 'high' :tideDirection = (<Image source={require('./image/weatherIcon/high.png')} style={{width:15, height:17}}/>);
                     break;
-                case 'low' :tidedirections = (<Image source={require('./image/weatherIcon/low.png')} style={{width:15, height:17}}/>);
+                case 'low' :tideDirection = (<Image source={require('./image/weatherIcon/low.png')} style={{width:15, height:17}}/>);
                     break;
             }
         } else  {
-            tidedirections = (<Text></Text>);
+            tideDirection = (<Text></Text>);
         }
 
+        var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(time, cloud, precipitation, snowrain);
 
-
-        var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(time, cloud, precipation, snowrain);
-
-        if(precipation == "" || precipation == null) precipation='0';
-
+        if(precipitation == "" || precipitation == null) precipitation='0';
 
         var windArrowSrc  =  DirectionImage.getWindDirectionImage(parseInt(rowData.winddirection));
         var swellArrowSrc =  DirectionImage.getSwellDirectionImage(parseInt(rowData.wavedirection));
@@ -379,14 +374,14 @@ class SurfWeatherList extends Component {
                 </View>
                 {/* 기온 */}
                 <View style={pickerStyle.menusView}>
-                    <View style={{justifyContent:'center',alignItems: 'center',flexDirection: 'row',borderRadius:5,backgroundColor:tempColor, width:30}}>
-                        <Text style={[pickerStyle.rowListText,{color:tempFontColor}]}>{temperature} ℃</Text>
+                    <View style={[pickerStyle.rowTemperatureView,{ backgroundColor:color[rowData.temperature+20] }]}>
+                        <Text style={[pickerStyle.rowListText,{color:(Math.round(rowData.temperature) >= 10 && Math.round(rowData.temperature) <= 20 ) ? 'black' : 'white'}]}>{rowData.temperature}℃</Text>
                     </View>
                 </View>
 
                 {/* 강수량 */}
                 <View style={pickerStyle.menusView}>
-                    <Text style={pickerStyle.rowListText}>{precipation}</Text><Text style={[pickerStyle.rowListText, {fontSize:10}]}> mm</Text>
+                    <Text style={pickerStyle.rowListText}>{precipitation}</Text><Text style={[pickerStyle.rowListText, {fontSize:10}]}> mm</Text>
                 </View>
 
                   {/* 바람 */}
@@ -410,7 +405,7 @@ class SurfWeatherList extends Component {
                   {/* 조수 */}
                   <View style={rowData.tidedirections=="" ? {width:0, height:0} : [{flexDirection:'column', height:50},pickerStyle.menusView]}>
                       <View style={{flex:1,flexDirection:'column'}}>
-                          <View style={{flexDirection:'row',justifyContent:'center'}}>{tidedirections}</View>
+                          <View style={{flexDirection:'row',justifyContent:'center'}}>{tideDirection}</View>
                           <Text style={[pickerStyle.rowListText, {fontSize:11}]}>{rowData.tideheight}m {rowData.tidefreq}</Text>
                       </View>
                   </View>

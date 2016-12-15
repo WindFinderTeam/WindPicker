@@ -37,7 +37,7 @@ var favoriteSurfingList = [];
 var readRealmFlag = true;
 
 var rowOpened     = false;
-var tabLock       = false;
+var tabLockFlag   = false;
 var closeManual   = false;
 
 var openRowId,closeRowId ;
@@ -88,25 +88,28 @@ class FavoriteList extends Component {
         console.log("[[[handleOnMoveShouldSetPanResponder]]]");
 
         // when tab Unlocked & trying to open manually
-        if(!tabLock && gs.vx < 0) {
+        if(!tabLockFlag && gs.vx < 0) {
             console.log("RELASE LOCK");
             this.props.setTabLock(true);
-            tabLock = true             ;
+            tabLockFlag = true         ;
         }
         // when tab Locked & trying to Close manually
-        if(tabLock && gs.vx > 0) closeManual = true;
+        if(tabLockFlag && gs.vx > 0) closeManual = true;
 
         console.log("closeManual :" + closeManual);
-        console.log("tabLock   :"   + tabLock);
+        console.log("tabLockFlag   :"   + tabLockFlag);
         console.log("rowOpened :"   + rowOpened);
         return false;
     }
 
-    releaseTabLock(section,touchedRow){
+    afterRowClosed(section, touchedRow){
 
-        console.log("[[[just CLOSED]]]");
-        console.log("CloseRowID : " + touchedRow);
+        console.log("[[[  Just CLOSED  ]]]");
         closeRowId = touchedRow;
+
+        console.log("CloseRowID : " + closeRowId);
+        console.log("OpenRowID  : " + openRowId);
+
         if(openRowId == closeRowId)
         {
             if(rowOpened && closeManual) {  // a row state just Closed Manually
@@ -114,34 +117,34 @@ class FavoriteList extends Component {
                 this.props.setTabLock(false);
                 rowOpened   = false;
                 closeManual = false;
-                tabLock     = false;
+                tabLockFlag     = false;
             }
             else {   // when failed Close Manually
 
                 if(rowOpened) {
                     this.props.setTabLock(true);
-                    tabLock = true;
+                    tabLockFlag = true;
                 }
                 else {
                     this.props.setTabLock(false);
-                    tabLock = false;
+                    tabLockFlag = false;
                 }
             }
-
         }
 
         console.log("closeManual :" +closeManual);
-        console.log("tabLock :" +tabLock);
+        console.log("tabLockFlag :" +tabLockFlag);
         console.log("rowOpened :" + rowOpened);
     }
-    tabLock(section,touchedRow){
+    afterRowOpend(section, touchedRow){
 
         openRowId = touchedRow;
         console.log("[[[onRowOpen]]]");
         console.log("OpenRowID : " + touchedRow);
-        rowOpened=true;  closeManual = false;   tabLock   = true;
+        this.props.setTabLock(true);
+        rowOpened=true;  closeManual = false;   tabLockFlag   = true;
         console.log("closeManual :" +closeManual);
-        console.log("tabLock :" +tabLock);
+        console.log("tabLockFlag :" +tabLockFlag);
         console.log("rowOpened :" + rowOpened);
     }
 
@@ -307,14 +310,14 @@ class FavoriteList extends Component {
                     renderHiddenRow     = { (data, secId, rowId, rowMap) => (
                     <View style={styles.rowBack}>
                         <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(secId, rowId, rowMap) }>
-                            <Text style={styles.backTextWhite}>Delete</Text>
+                            <Text style={styles.backTextWhite}>X</Text>
                         </TouchableOpacity>
                     </View>
                 )}
                     disableRightSwipe = {true}
-                    rightOpenValue    = {-75}
-                    onRowClose        = {(section,touchedRow)=>this.releaseTabLock(section,touchedRow)}
-                    onRowOpen         = {(section,touchedRow)=>this.tabLock(section,touchedRow)}
+                    rightOpenValue    = {-50}
+                    onRowClose        = {(section,touchedRow)=>this.afterRowClosed(section,touchedRow)}
+                    onRowOpen         = {(section,touchedRow)=>this.afterRowOpend(section,touchedRow)}
                 />
             </View>
         );
@@ -409,7 +412,7 @@ var styles = StyleSheet.create({
         opacity: 0
     },
     backRightBtnRight: {
-        backgroundColor: 'red',
+        backgroundColor: '#94000F',
         right: 0
     },
     backRightBtn: {
@@ -418,7 +421,7 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         position: 'absolute',
         top: 0,
-        width: 75
+        width: 50
     },
     backTextWhite: {
         color: '#FFF'

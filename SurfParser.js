@@ -213,27 +213,22 @@ function getSurfWeather (responseData){
             time = parsing_rowData_time[j].removeWhitespace().rawText.replace(/h/, "");
 
             rowJson = {
-                "key" : "rowID" + j,
-                "time" : time,
-
-                "cloud" : parsing_rawData_cover[j].removeWhitespace().rawText.replace(/%/, ""),
-                "snowrain" : snowrain,
-                "rainprecipation" : parsing_rawData_precipitation[j].removeWhitespace().rawText.replace(/mm/, ""),
-                "temperature" : temperature[0],
-                "pressure" : pressure[0],
-
-                "winddirection" : winddirectionarrow[0],
+                "key"               : "rowID" + j,
+                "time"              : time,
+                "cloud"             : parsing_rawData_cover[j].removeWhitespace().rawText.replace(/%/, ""),
+                "snowrain"          : snowrain,
+                "temperature"       : temperature[0],
+                "pressure"          : pressure[0],
+                "winddirection"     : winddirectionarrow[0],
+                "rainPrecipitation" : parsing_rawData_precipitation[j].removeWhitespace().rawText.replace(/mm/, ""),
+                "waveheight"        : waveheight,
+                "wavefrequency"     : wavefreq,
+                "wavedirection"     : wavedirection[0],
+                "tideheight"        : tideHeight,
+                "tidefreq"          : tideFreq,
+                "tidedirections"    : tidedirections,
                 "wind" : wind[0],
                 "gust" : gust[0],
-
-                "waveheight" : waveheight,
-                "wavefrequency" : wavefreq,
-                "wavedirection" : wavedirection[0],
-
-                "tideheight" : tideHeight,
-                "tidefreq" : tideFreq,
-                "tidedirections" : tidedirections,
-
             };
 
             rowIDs[i].push(rowJson.key);
