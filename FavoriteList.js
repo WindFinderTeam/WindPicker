@@ -40,23 +40,23 @@ var rowOpened     = false;
 var tabLockFlag   = false;
 var closeManual   = false;
 
-var openRowId,closeRowId ;
+var openSecionId,closeSectionId,openRowId,closeRowId ;
 
 class FavoriteList extends Component {
 
     constructor(props) {
         super(props);
 
-        this._renderRow = this._renderRow.bind(this);
-        this._renderHeader = this._renderHeader.bind(this);
+        this._renderRow          = this._renderRow.bind(this);
+        this._renderHeader       = this._renderHeader.bind(this);
         this.setSurfModalVisible = this.setSurfModalVisible.bind(this);
         this.setGlidModalVisible = this.setGlidModalVisible.bind(this);
-        this._onPressButton = this._onPressButton.bind(this);
-        this.realmRead = this.realmRead.bind(this);
+        this._onPressButton      = this._onPressButton.bind(this);
+        this.realmRead           = this.realmRead.bind(this);
         this._InnerDataRenderRow = this._InnerDataRenderRow.bind(this);
 
-        ds1 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2,});
-        ds2 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2,});
+        ds1 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        ds2 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 
         this.state = {
@@ -105,19 +105,19 @@ class FavoriteList extends Component {
     afterRowClosed(section, touchedRow){
 
         console.log("[[[  Just CLOSED  ]]]");
-        closeRowId = touchedRow;
-
+        closeSectionId = section   ;
+        closeRowId     = touchedRow;
         console.log("CloseRowID : " + closeRowId);
         console.log("OpenRowID  : " + openRowId);
 
-        if(openRowId == closeRowId)
+        if(openRowId == closeRowId && openSecionId == closeSectionId)
         {
             if(rowOpened && closeManual) {  // a row state just Closed Manually
                 console.log("RELASE LOCK");
                 this.props.setTabLock(false);
                 rowOpened   = false;
                 closeManual = false;
-                tabLockFlag     = false;
+                tabLockFlag = false;
             }
             else {   // when failed Close Manually
 
@@ -138,7 +138,8 @@ class FavoriteList extends Component {
     }
     afterRowOpend(section, touchedRow){
 
-        openRowId = touchedRow;
+        openSecionId = section;
+        openRowId    = touchedRow;
         console.log("[[[onRowOpen]]]");
         console.log("OpenRowID : " + touchedRow);
         this.props.setTabLock(true);

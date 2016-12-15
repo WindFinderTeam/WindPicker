@@ -350,7 +350,7 @@ class GlidingWeatherList extends Component {
                             {precipitationImg}
                         </View>
                         <View style={pickerStyle.menusView}>
-                            <View style={[pickerStyle.rowTemperatureView,{ backgroundColor:color[rowData.temperature+20] }]}>
+                            <View style={[pickerStyle.rowTemperatureView,{ backgroundColor:color[parseInt(rowData.temperature)+20] }]}>
                                 <Text style={[pickerStyle.rowListText,{color:(Math.round(rowData.temperature) >= 10 && Math.round(rowData.temperature) <= 20 ) ? 'black' : 'white'}]}>{rowData.temperature}℃</Text>
                             </View>
                         </View>
