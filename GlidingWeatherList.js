@@ -22,10 +22,10 @@ import {
 //import MyGoogleMap  from 'react-native-maps-google';
 import Spinner            from 'react-native-spinkit';
 import Ionicons           from 'react-native-vector-icons/Ionicons';
-import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import ActionButton       from 'react-native-action-button';
 import { realmInstance }  from "./RealmHndler.js";
 import LinearGradient     from 'react-native-linear-gradient';
+import Toast, { DURATION } from 'react-native-easy-toast';
 
 import {
     LazyloadListView,
@@ -225,19 +225,8 @@ class GlidingWeatherList extends Component {
     }
 
     setHeartOnOff(){
-        console.log("setHeartOnOff in");
-
-        if(this.state.heartOnOff == true){
-            this.setState({
-                heartOnOff : false
-            });
-        } else {
-            this.setState({
-                heartOnOff : true
-            });
-        }
-
-        console.log("setHeartOnOff out");
+        if(this.state.heartOnOff == true)   this.setState({heartOnOff : false});
+        else                                this.setState({heartOnOff : true});
     }
 
     readRealm() {
@@ -501,6 +490,10 @@ class GlidingWeatherList extends Component {
                         opacity: this.state.topAlpha
                     }}/>}
                     />
+                    <Toast
+                        ref      = "toast"
+                        style    = {{backgroundColor:'#222222'}}
+                        position = 'bottom'/>
                     <Spinner
                         style={pickerStyle.spinner} isVisible={this.state.spinnerVisible} size={SPINNER_SIZE} type={"Bounce"}
                         color={"#94000F"}
@@ -530,6 +523,7 @@ class GlidingWeatherList extends Component {
                             <TouchableOpacity onPress={()=> {
                                 this.controlFavorite();
                                 this.setHeartOnOff();
+                                this.refs.toast.show(this.state.heartOnOff==true?'즐겨찾기를 지웁니다':'즐겨찾기에 추가합니다',DURATION.LENGTH_LONG);
                             }}>
                                 <Ionicons name="md-heart" size={30}  color={this.state.heartOnOff==true?"#94000F":"#C0C0C0"}/>
                             </TouchableOpacity>

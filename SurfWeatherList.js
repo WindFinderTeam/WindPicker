@@ -27,13 +27,10 @@ import LinearGradient      from 'react-native-linear-gradient';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import { realmInstance }   from "./RealmHndler.js";
 
-
 import {
     LazyloadListView,
     LazyloadView
 } from 'react-native-lazyload';
-
-
 
 var SurfParser     = require('./SurfParser')  ;
 var pickerStyle    = require('./pickerStyle') ;
@@ -60,9 +57,6 @@ const color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0
     ,'#feee25','#feeb12','#ffe60f','#fede11','#fed70e','#ffce10','#ffc710','#fec110','#ffb812','#fdb10d'
     ,'#fea90e','#fa9e0f','#fd8d0d','#f9800b','#f96b09','#f35805','#f34a05','#f33a04','#f12a01','#ee1b00'
     ,'#ed0b00','#eb0300'];
-
-
-
 
 class SurfWeatherList extends Component {
 
@@ -240,21 +234,9 @@ class SurfWeatherList extends Component {
         return `"rgba(255,255,255,` + `${myAlpha})"`;
     }
 
-
     setHeartOnOff(){
-        console.log(this.state.heartOnOff);
-
-        if(this.state.heartOnOff == true){
-            this.setState({
-                heartOnOff : false
-            });
-        } else {
-            this.setState({
-                heartOnOff : true
-            });
-        }
-
-        console.log(this.state.heartOnOff);
+        if(this.state.heartOnOff == true)   this.setState({heartOnOff : false});
+        else                                this.setState({heartOnOff : true});
     }
 
     controlFavorite(){
@@ -550,6 +532,11 @@ class SurfWeatherList extends Component {
                         opacity: this.state.topAlpha
                     }}/>}
                 />
+                <Toast
+                    ref      = "toast"
+                    style    = {{backgroundColor:'#222222'}}
+                    position = 'bottom'/>
+
                 <Spinner
                     style={pickerStyle.spinner} isVisible={this.state.spinnerVisible} size={SPINNER_SIZE} type={"Bounce"}
                     color={"#94000F"}
@@ -578,6 +565,7 @@ class SurfWeatherList extends Component {
                         <TouchableOpacity onPress={()=>{
                             this.controlFavorite();
                             this.setHeartOnOff();
+                            this.refs.toast.show(this.state.heartOnOff==true?'즐겨찾기를 지웁니다':'즐겨찾기에 추가합니다',DURATION.LENGTH_LONG);
                         }}>
                             <Ionicons name="md-heart" size={30} color={this.state.heartOnOff==true?"#94000F":"#C0C0C0"}/>
                         </TouchableOpacity>
