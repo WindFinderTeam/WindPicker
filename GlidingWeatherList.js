@@ -22,10 +22,10 @@ import {
 //import MyGoogleMap  from 'react-native-maps-google';
 import Spinner            from 'react-native-spinkit';
 import Ionicons           from 'react-native-vector-icons/Ionicons';
+import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import ActionButton       from 'react-native-action-button';
 import { realmInstance }  from "./RealmHndler.js";
 import LinearGradient     from 'react-native-linear-gradient';
-import Toast, { DURATION } from 'react-native-easy-toast';
 
 import {
     LazyloadListView,
@@ -49,7 +49,7 @@ var mainBoard = true;
 var API_URL;
 var headerView;
 var mainBoardView;
-var weatherBackImg;
+var weatherBackImg=(require('./image/wlLoadingBg.jpg'));
 var district ;
 const color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
     ,'#130ccb','#0e0cd2','#100edd','#0c0de4','#0f18e3','#0d20de','#0c32d5','#0e40d5','#104bcd','#1257cc'
@@ -84,12 +84,12 @@ class GlidingWeatherList extends Component {
         this.state = {
 
             dataSource: new ListView.DataSource(
-             {
+                {
                     getSectionData          : getSectionData,
                     getRowData              : getRowData,
                     rowHasChanged           : (row1, row2) => row1 !== row2,
                     sectionHeaderHasChanged : (s1, s2)     => s1   !== s2
-             })
+                })
             ,topAlpha      :0
             ,borderAlpha   :0
             ,menuOpacity   :0
@@ -225,8 +225,19 @@ class GlidingWeatherList extends Component {
     }
 
     setHeartOnOff(){
-        if(this.state.heartOnOff == true)   this.setState({heartOnOff : false});
-        else                                this.setState({heartOnOff : true});
+        console.log("setHeartOnOff in");
+
+        if(this.state.heartOnOff == true){
+            this.setState({
+                heartOnOff : false
+            });
+        } else {
+            this.setState({
+                heartOnOff : true
+            });
+        }
+
+        console.log("setHeartOnOff out");
     }
 
     readRealm() {
@@ -421,125 +432,120 @@ class GlidingWeatherList extends Component {
     setSpinnerVisible(visible){    this.setState({spinnerVisible : visible});    }
 
     render() {
-            var myView;
+        var myView;
 
-            if(this.state.networkState == true)
-            {
-                if(this.state.spinnerVisible==true)  mainBoardView = headerView;
-                else                                 mainBoardView = (<View></View>);
+        if(this.state.networkState == true)
+        {
+            if(this.state.spinnerVisible==true)  mainBoardView = headerView;
+            else                                 mainBoardView = (<View></View>);
 
-                myView =(
-                    <LazyloadListView
-                        style={pickerStyle.container}
-                        // contentContainerStyle={styles.content}
-                        name="listExample"
-                        dataSource={this.state.dataSource}
-                        renderSectionHeader={this.sectionHeader.bind(this)}
-                        renderRow={this.renderRow}
-                        scrollRenderAheadDistance={200}
-                        renderDistance={100}
-                        pageSize={1}
-                        initialListSize={5}
-                        stickyHeaderIndices={[0]}
-                        onEndReachedThreshold={1000}
-                        renderScrollComponent={ _=>{}}
+            myView =(
+                <LazyloadListView
+                    style={pickerStyle.container}
+                    // contentContainerStyle={styles.content}
+                    name="listExample"
+                    dataSource={this.state.dataSource}
+                    renderSectionHeader={this.sectionHeader.bind(this)}
+                    renderRow={this.renderRow}
+                    scrollRenderAheadDistance={200}
+                    renderDistance={100}
+                    pageSize={1}
+                    initialListSize={5}
+                    stickyHeaderIndices={[0]}
+                    onEndReachedThreshold={1000}
+                    renderScrollComponent={ _=>{}}
 
-                        ref="ScrollView"
-                        onScroll={this.onScrolling}
-                        scrollEnabled={this.state.loadOK}
-                        onScrollEndDrag={this.onScrollEnd}
-                        onMomentumScrollEnd={this.onScrollEnd}
-                    />
-                );
-            }
-            else{ // OFFLINE VIEW
-                mainBoardView = headerView;
-                myView =( <View style={pickerStyle.offlineView}>
-                            <TouchableOpacity onPress={()=>this.refreshListView()}>
-                                <Ionicons name="md-refresh-circle"
-                                          style={{
+                    ref="ScrollView"
+                    onScroll={this.onScrolling}
+                    scrollEnabled={this.state.loadOK}
+                    onScrollEndDrag={this.onScrollEnd}
+                    onMomentumScrollEnd={this.onScrollEnd}
+                />
+            );
+        }
+        else{ // OFFLINE VIEW
+            mainBoardView = headerView;
+            myView =( <View style={pickerStyle.offlineView}>
+                <TouchableOpacity onPress={()=>this.refreshListView()}>
+                    <Ionicons name="md-refresh-circle"
+                              style={{
                                             fontSize:50,
                                             color: '#9c0010',
                                             marginBottom:10,
                                             transform:[{rotate: '136 deg'}],
                                           }}
-                                />
-                            </TouchableOpacity>
-                            <Text>네트워크 상태를 확인하세요</Text>
-                          </View>);
-            }
+                    />
+                </TouchableOpacity>
+                <Text>네트워크 상태를 확인하세요</Text>
+            </View>);
+        }
 
-            return (
-                <View  style={{flex:1}}>
-                    <View style={{flex: 1}}>
-                        {mainBoardView}
+        return (
+            <View  style={{flex:1}}>
+                <View style={{flex: 1}}>
+                    {mainBoardView}
 
-                        {myView}
-                    </View>
+                    {myView}
+                </View>
 
-                    <ActionButton
-                        buttonColor={this.setRgba()}
-                        type={'tab'}
-                        position={'right'}
-                        offsetY={35}
-                        onPress={() => this.refs.ScrollView.scrollTo({x: 0, y: 0})}
-                        icon={<Ionicons name="md-arrow-round-up" style={{
+                <ActionButton
+                    buttonColor={this.setRgba()}
+                    type={'tab'}
+                    position={'right'}
+                    offsetY={35}
+                    onPress={() => this.refs.ScrollView.scrollTo({x: 0, y: 0})}
+                    icon={<Ionicons name="md-arrow-round-up" style={{
                         fontSize: 20,
                         height: 22,
                         color: 'white',
                         opacity: this.state.topAlpha
                     }}/>}
-                    />
-                    <Toast
-                        ref      = "toast"
-                        style    = {{backgroundColor:'#222222'}}
-                        position = 'bottom'/>
-                    <Spinner
-                        style={pickerStyle.spinner} isVisible={this.state.spinnerVisible} size={SPINNER_SIZE} type={"Bounce"}
-                        color={"#94000F"}
-                    />
-                    {/* ------------------------------- Navigator Background ------------------------------------*/}
-                    <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
-                        <Image
-                            source={weatherBackImg}
-                            style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,
+                />
+                <Spinner
+                    style={pickerStyle.spinner} isVisible={this.state.spinnerVisible} size={SPINNER_SIZE} type={"Bounce"}
+                    color={"#94000F"}
+                />
+                {/* ------------------------------- Navigator Background ------------------------------------*/}
+                <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
+                    <Image
+                        source={weatherBackImg}
+                        style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,
                             opacity:this.state.menuOpacity
                         }}/>
 
+                </View>
+                {/* ------------------------------- Navigator ------------------------------------*/}
+                <View style={pickerStyle.navigator}>
+                    <View style={{ marginLeft:10}}>
+                        <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
+                            <View style={{width:40}}>
+                                <Ionicons name="ios-arrow-back" size={40} color="#94000F"/>
+                            </View>
+                        </TouchableOpacity>
                     </View>
-                    {/* ------------------------------- Navigator ------------------------------------*/}
-                    <View style={pickerStyle.navigator}>
-                        <View style={{ marginLeft:10}}>
-                            <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
-                                <View style={{width:40}}>
-                                    <Ionicons name="ios-arrow-back" size={40} color="#94000F"/>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{flex:2}}>
-                            <Text style={{color: "white", fontSize: 20, textAlign:'center', opacity:this.state.menuOpacity}}>{this.props.rowData.district}</Text>
-                        </View>
-                        <View style={pickerStyle.heartView}>
-                            <TouchableOpacity onPress={()=> {
+                    <View style={{flex:2}}>
+                        <Text style={{color: "white", fontSize: 20, textAlign:'center', opacity:this.state.menuOpacity}}>{this.props.rowData.district}</Text>
+                    </View>
+                    <View style={pickerStyle.heartView}>
+                        <TouchableOpacity onPress={()=> {
                                 this.controlFavorite();
                                 this.setHeartOnOff();
-                                this.refs.toast.show(this.state.heartOnOff==true?'즐겨찾기를 지웁니다':'즐겨찾기에 추가합니다',DURATION.LENGTH_LONG);
                             }}>
-                                <Ionicons name="md-heart" size={30}  color={this.state.heartOnOff==true?"#94000F":"#C0C0C0"}/>
-                            </TouchableOpacity>
-                        </View>
+                            <Ionicons name="md-heart" size={30}  color={this.state.heartOnOff==true?"#94000F":"#C0C0C0"}/>
+                        </TouchableOpacity>
                     </View>
+                </View>
 
-                    {/* ------------------------------- Navigator MENU ------------------------------------*/}
-                    <View style={{
+                {/* ------------------------------- Navigator MENU ------------------------------------*/}
+                <View style={{
                     position:'absolute', top:NAVI_HEIGHT,
                     width:SCREEN_WIDTH,
                     height:MENU_HEIGHT,
                     zIndex:1000,   opacity:this.state.menuOpacity}} >
-                        <GlidingMenu/>
-                    </View>
+                    <GlidingMenu/>
                 </View>
-            );
+            </View>
+        );
     }
 
 }

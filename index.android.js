@@ -9,6 +9,8 @@ import {
     DrawerLayoutAndroid,
     TouchableOpacity,
     View,
+    Linking,
+    BackAndroid
 } from 'react-native';
 
 
@@ -42,11 +44,11 @@ class  WindFinder extends Component {
     }
 
     loadProcess(){
-         //console.log(VersionCheck.getPackageName());//get current my package name  ex) com.windfinder
-         //console.log(VersionCheck.getCurrentBuildNumber());// 1.0
-         //realmInstance.write(() => {
-         //    let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
-         //});
+        //console.log(VersionCheck.getPackageName());//get current my package name  ex) com.windfinder
+        //console.log(VersionCheck.getCurrentBuildNumber());// 1.0
+        //realmInstance.write(() => {
+        //    let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
+        //});
 
         VersionCheck.getLatestVersion() // from market
             .then((latestVersion) => {
@@ -58,7 +60,7 @@ class  WindFinder extends Component {
                 setTimeout(this.startCountDown, 2000); // go to first AndroidFirstView page after 3s
                 return ;
 
-        });
+            });
 
         VersionCheck.needUpdate()
             .then((res) => {
@@ -67,13 +69,18 @@ class  WindFinder extends Component {
                 console.log("lastMode >> " + lastMode);
 
                 /* if update is required */
-                if(!res.isNeeded == true)    this.setState({updateInfoModal: true,chooseModeModal:false});
+                if(res.isNeeded == true)    this.setState({updateInfoModal: true,chooseModeModal:false});
                 /* the last version. update is not required */
                 else {
                     if (lastMode == '')     this.setState({chooseModeModal: true});
                     else                    setTimeout(this.startCountDown, 1000); // Jump to AndroidFirstView
                 }
             });
+    }
+
+    goToMarket(){
+        Linking.openURL("https://play.google.com/store/apps/details?id=shufflebrother.mobile.searchthelaw").catch(err => console.error('An error occurred', err));
+        BackAndroid.exitApp(); // Finish this App
     }
 
     getLastModeFromRealm(){
@@ -130,7 +137,8 @@ class  WindFinder extends Component {
                             <TouchableOpacity
                                 style   = {{margin: 15,flex:1,justifyContent:'center',alignItems:'center' }}
                                 onPress = {() => {
-                                    this.setState({updateInfoModal: false, chooseModeModal: true})
+                                    //this.setState({updateInfoModal: false, loadingYn: false});
+                                    this.goToMarket();
                                 }}>
                                 <Text>업데이트 시작</Text>
                             </TouchableOpacity>
