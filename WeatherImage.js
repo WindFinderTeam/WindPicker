@@ -1,8 +1,10 @@
 /**
  * Created by seonae on 16. 10. 3.
+ * Modified by LSJ
  */
-exports.getWatherImage = getWatherImage;
+exports.getWatherImage     = getWatherImage;
 exports.getBackgroundImage = getBackgroundImage;
+exports.getTideImage       = getTideImage;
 
 import  React, {Component} from 'react';
 import {
@@ -10,6 +12,25 @@ import {
     View,
     Image,
 } from 'react-native';
+
+console.log("WeatherImg Load");
+
+
+const clearMoon   =(<Image source={require('./image/weatherIcon/clearMoon.png')} style={{width:23, height:23}}/>);
+const moonCloud1  =(<Image source={require('./image/weatherIcon/moonCloud1.png')} style={{width:23, height:23}}/>);
+const moonCloud2  =(<Image source={require('./image/weatherIcon/moonCloud2.png')} style={{width:23, height:23}}/>);
+const cloud2      =(<Image source={require('./image/weatherIcon/cloud2.png')} style={{width:22, height:22}}/>);
+const cloud1      =(<Image source={require('./image/weatherIcon/cloud1.png')} style={{width:23, height:23}}/>);
+const clearSun    =(<Image source={require('./image/weatherIcon/clearSun.png')} style={{width:23, height:23}}/>);
+const sunCloud1   =(<Image source={require('./image/weatherIcon/sunCloud1.png')} style={{width:23, height:23}}/>);
+const sunCloud2   =(<Image source={require('./image/weatherIcon/sunCloud2.png')} style={{width:23, height:23}}/>);
+const tideDownImg =(<Image source={require('./image/weatherIcon/down.png')} style={{width:15, height:17}}/>);
+const tideUpImg   =(<Image source={require('./image/weatherIcon/up.png')} style={{width:15, height:17}}/>);
+const tideHighImg =(<Image source={require('./image/weatherIcon/high.png')} style={{width:15, height:17}}/>);
+const tideLowImg  =(<Image source={require('./image/weatherIcon/low.png')} style={{width:15, height:17}}/>);
+const raindrop    =(<Image source={require('./image/weatherIcon/raindrop.png')} style={{width:8, height:8}}/>)
+const snow        =(<Image source={require('./image/weatherIcon/snow.png')} style={{width:8, height:8}}/>)
+const rainSnow    =(<Image source={require('./image/weatherIcon/rainSnow.png')} style={{width:8, height:8}}/>)
 
 function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
                                                                                     //1 : snow 2 : rain 3 :rainsnow
@@ -25,15 +46,15 @@ function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
         case '06'  :
         case '21'  :
             if(cloudQuantity >= 0 && cloudQuantity <= 10){
-                weatherImg = (<Image source={require('./image/weatherIcon/clearMoon.png')} style={{width:23, height:23}}/>);
+                weatherImg = clearMoon;
             } else if(cloudQuantity >= 11 && cloudQuantity <= 25){
-                weatherImg = (<Image source={require('./image/weatherIcon/moonCloud1.png')} style={{width:23, height:23}}/>);
+                weatherImg = moonCloud1;
             } else if(cloudQuantity >= 26 && cloudQuantity <= 50) {
-                weatherImg = (<Image source={require('./image/weatherIcon/moonCloud2.png')} style={{width:23, height:23}}/>);
+                weatherImg = moonCloud2;
             } else if(cloudQuantity >= 51 && cloudQuantity <= 87){
-                weatherImg = (<Image source={require('./image/weatherIcon/cloud2.png')} style={{width:22, height:22}}/>);
+                weatherImg = cloud2;
             } else if((cloudQuantity >= 88 && cloudQuantity <= 100)){
-                weatherImg = (<Image source={require('./image/weatherIcon/cloud1.png')} style={{width:23, height:23}}/>);
+                weatherImg = cloud1;
             } else {
                 weatherImg = (<Text></Text>);
             }
@@ -45,15 +66,15 @@ function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
         case '15'  :
         case '18'  :
             if(cloudQuantity >= 0 && cloudQuantity <= 10){
-                weatherImg = (<Image source={require('./image/weatherIcon/clearSun.png')} style={{width:23, height:23}}/>);
+                weatherImg = clearSun;
             } else if(cloudQuantity >= 11 && cloudQuantity <= 25){
-                weatherImg = (<Image source={require('./image/weatherIcon/sunCloud1.png')} style={{width:23, height:23}}/>);
+                weatherImg = sunCloud1;
             } else if(cloudQuantity >= 26 && cloudQuantity <= 50) {
-                weatherImg = (<Image source={require('./image/weatherIcon/sunCloud2.png')} style={{width:23, height:23}}/>);
+                weatherImg = sunCloud2;
             } else if(cloudQuantity >= 51 && cloudQuantity <= 87){
-                weatherImg = (<Image source={require('./image/weatherIcon/cloud2.png')} style={{width:22, height:22}}/>);
+                weatherImg = cloud2;
             } else if((cloudQuantity >= 88 && cloudQuantity <= 100)){
-                weatherImg = (<Image source={require('./image/weatherIcon/cloud1.png')} style={{width:23, height:23}}/>);
+                weatherImg = cloud1;
             } else {
                 weatherImg = (<Text></Text>);
             }
@@ -69,31 +90,34 @@ function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
     var snowrainImage;
     // 눈비이미지생성
     switch(snowrain){
-
         //0 : rain
-        case '0' : snowrainImage = (require('./image/weatherIcon/raindrop.png')); break;
+        case '0' : snowrainImage = raindrop; break;
         //1 : snow
-        case '1' : snowrainImage = (require('./image/weatherIcon/snow.png')) ; break;
+        case '1' : snowrainImage = snow; break;
         //2 : snow+rain
-        case '2' : snowrainImage = (require('./image/weatherIcon/rainSnow.png')); break;
+        case '2' : snowrainImage = rainSnow; break;
         default  : snowrainImage = ""; break;
     }
 
     if(precipation == "" || precipation == null){
         precipitationImg = (<Text></Text>);
     } else if(precipation >= 0 && precipation <= 1){
-        precipitationImg = (<Image source={snowrainImage} style={{width:9, height:9}}/>);
+        precipitationImg = snowrainImage;
     } else if(precipation >= 2 && precipation <= 3){
-        precipitationImg = (<View style={{flexDirection:'row'}}><Image source={snowrainImage} style={{width:8, height:8}}/><Image source={snowrainImage} style={{width:8, height:8}}/></View>);
+        precipitationImg = (<View style={{flexDirection:'row'}}>{snowrainImage}{snowrainImage}</View>);
     } else if(precipation >= 4){
-        precipitationImg = (<View style={{flexDirection:'row'}}><Image source={snowrainImage} style={{width:7, height:7}}/><Image source={snowrainImage} style={{width:7, height:7}}/><Image source={snowrainImage} style={{width:7, height:7}}/></View>);
+        precipitationImg = (<View style={{flexDirection:'row'}}>{snowrainImage}{snowrainImage}{snowrainImage}</View>);
     }
 
-
     return {weatherImg,  precipitationImg};
-
 }
 
+
+function getTideImage(){
+
+
+    return {tideDownImg,tideUpImg,tideHighImg,tideLowImg};
+}
 
 function getBackgroundImage(){
 
