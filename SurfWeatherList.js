@@ -45,11 +45,17 @@ var offset = 0;           // before scroll position for Action Button
 var API_URL;
 var bfcurrentOffset = 0;  // before scroll position for MenuBar
 
-var mainBoard=true;
+
+var mainBoard = true;
 var headerView;
 var mainBoardView;
 var district ;
 var weatherBackImg=(require('./image/wlLoadingBg.jpg'));
+
+var gTideDownImg, gTideUpImg, gTideHighImg, gTideLowImg;
+
+var tideDirection = (<Text></Text>);
+var gTideFlag = false;
 
 const color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
     ,'#130ccb','#0e0cd2','#100edd','#0c0de4','#0f18e3','#0d20de','#0c32d5','#0e40d5','#104bcd','#1257cc'
@@ -153,7 +159,6 @@ class SurfWeatherList extends Component {
                                 </View>
                             </View>
 
-
                         </View>
 
                         {/*-------------------------- BOTTOM MENU ---------------------------------*/}
@@ -193,13 +198,58 @@ class SurfWeatherList extends Component {
        });
    }
 
-   fetchData() {
+    leadingZeros(n, digits) {
+    var zero = '';
+    n = n.toString();
+
+    if (n.length < digits) {
+        for (i = 0; i < digits - n.length; i++)
+            zero += '0';
+    }
+    return zero + n;
+}
+
+
+    fetchData() {
 
        weatherBackImg    = WeatherImage.getBackgroundImage();
        var setTimeoudtID = setTimeout(this.startCountDown, 7000);
 
         fetch(API_URL,null,this).then((responseData) => {
-            var {dataBlob,sectionIDs, rowIDs,sunInfo,tideYN} = SurfParser.getSurfWeather(responseData);  //data parsing
+
+                var d = new Date();
+                var s =
+                    this.leadingZeros(d.getFullYear(), 4) + '-' +
+                    this.leadingZeros(d.getMonth() + 1, 2) + '-' +
+                    this.leadingZeros(d.getDate(), 2) + ' ' +
+
+                    this.leadingZeros(d.getHours(), 2) + ':' +
+                    this.leadingZeros(d.getMinutes(), 2) + ':' +
+                    this.leadingZeros(d.getSeconds(), 2);
+
+                console.log("##### " + s);
+
+                var {dataBlob,sectionIDs, rowIDs,sunInfo,tideYN} = SurfParser.getSurfWeather(responseData);  //data parsing
+                if(tideYN == "Y") {
+                    gTideFlag = true;
+                    var {tideDownImg,tideUpImg,tideHighImg,tideLowImg} = WeatherImage.getTideImage();
+                    gTideDownImg = tideDownImg;
+                    gTideUpImg   = tideUpImg;
+                    gTideHighImg = tideHighImg;
+                    gTideLowImg  = tideLowImg;
+                }
+                var d = new Date();
+                var s =
+                    this.leadingZeros(d.getFullYear(), 4) + '-' +
+                    this.leadingZeros(d.getMonth() + 1, 2) + '-' +
+                    this.leadingZeros(d.getDate(), 2) + ' ' +
+
+                    this.leadingZeros(d.getHours(), 2) + ':' +
+                    this.leadingZeros(d.getMinutes(), 2) + ':' +
+                    this.leadingZeros(d.getSeconds(), 2);
+
+                console.log("##### " + s);
+
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
                 sunrise     :sunInfo[0],
@@ -243,9 +293,6 @@ class SurfWeatherList extends Component {
     controlFavorite(){
 
         realmInstance.write(() => {
-
-            /* --------before display  Favorite Lists---------- */
-            let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
 
             /* --------before display  Favorite Lists---------- */
             let theme = "FavoriteSurfing", var_index = this.props.rowData.index;
@@ -312,26 +359,19 @@ class SurfWeatherList extends Component {
     renderRow(rowData, sectionID, rowID) {
 
         rowKey++;
+        var precipitation = rowData.rainPrecipitation, time = rowData.time;
 
-        var cloud = rowData.cloud, precipitation = rowData.rainPrecipitation, time = rowData.time, snowrain = rowData.snowrain;
-
-        var tideDirection;
-        if(rowData.tidedirections != ""){
+        if(gTideFlag)   ;
+        else  {
             switch(rowData.tidedirections) {
-                case 'down' :tideDirection = (<Image source={require('./image/weatherIcon/down.png')} style={{width:15, height:17}}/>);
-                    break;
-                case 'up' :tideDirection = (<Image source={require('./image/weatherIcon/up.png')} style={{width:15, height:17}}/>);
-                    break;
-                case 'high' :tideDirection = (<Image source={require('./image/weatherIcon/high.png')} style={{width:15, height:17}}/>);
-                    break;
-                case 'low' :tideDirection = (<Image source={require('./image/weatherIcon/low.png')} style={{width:15, height:17}}/>);
-                    break;
+                case 'down' :tideDirection = gTideDownImg;  break;
+                case 'up'   :tideDirection = gTideUpImg  ;  break;
+                case 'high' :tideDirection = gTideHighImg;  break;
+                case 'low'  :tideDirection = gTideLowImg ;  break;
             }
-        } else  {
-            tideDirection = (<Text></Text>);
         }
 
-        var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(time, cloud, precipitation, snowrain);
+        var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(time, rowData.cloud, precipitation, rowData.snowrain);
 
         if(precipitation == "" || precipitation == null) precipitation='0';
 
