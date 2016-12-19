@@ -49,7 +49,8 @@ var mainBoard=true;
 var headerView;
 var mainBoardView;
 var district ;
-var weatherBackImg;
+var weatherBackImg=(require('./image/wlLoadingBg.jpg'));
+
 const color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
     ,'#130ccb','#0e0cd2','#100edd','#0c0de4','#0f18e3','#0d20de','#0c32d5','#0e40d5','#104bcd','#1257cc'
     ,'#0d65c6','#0f74bc','#1b7abe','#308ac6','#4a97cf','#5ba1d2','#70afd8','#84bae0','#95c2df','#add4e5'
