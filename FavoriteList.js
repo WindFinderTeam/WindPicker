@@ -34,7 +34,6 @@ var selectedRowData;
 var ds1, ds2;
 var favoriteGlidingList = [];
 var favoriteSurfingList = [];
-var readRealmFlag = true;
 
 var rowOpened     = false;
 var tabLockFlag   = false;
@@ -53,7 +52,9 @@ class FavoriteList extends Component {
         this.setGlidModalVisible = this.setGlidModalVisible.bind(this);
         this._onPressButton      = this._onPressButton.bind(this);
         this.realmRead           = this.realmRead.bind(this);
+        this.realmDelete         = this.realmDelete.bind(this);
         this._InnerDataRenderRow = this._InnerDataRenderRow.bind(this);
+
 
         ds1 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         ds2 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -222,8 +223,31 @@ class FavoriteList extends Component {
             this.state.dataSource[0].innerDataSource = ds1.cloneWithRows(favoriteSurfingList);
             this.state.dataSource[1].innerDataSource = ds2.cloneWithRows(favoriteGlidingList);
 
-            readRealmFlag = false;
         });
+    }
+
+    realmDelete(data, secId, rowId) {
+
+        console.log(rowId);
+
+        realmInstance.write(() => {
+
+            if(data.theme === "surfing") {
+                let specificFavorite = realmInstance.objects('FavoriteSurfing').filtered('index = ' + '"' + data.index + '"');
+                realmInstance.delete(specificFavorite); // Deletes the specific favorite
+                favoriteSurfingList.splice(rowId,1);
+            }
+
+            else if(data.theme === "gliding") {
+                let specificFavorite = realmInstance.objects('FavoriteGliding').filtered('index = ' + '"' + data.index + '"');
+                realmInstance.delete(specificFavorite); // Deletes the specific favorite
+                favoriteGlidingList.splice(rowId,1);
+            }
+        });
+
+        this.state.dataSource[0].innerDataSource = ds1.cloneWithRows(favoriteSurfingList);
+        this.state.dataSource[1].innerDataSource = ds2.cloneWithRows(favoriteGlidingList);
+
     }
 
     _renderHeader(section, key) {
@@ -267,7 +291,6 @@ class FavoriteList extends Component {
         }
 
         return (
-            // <TouchableOpacity onPress={() => {
             <TouchableHighlight onPress={() => {
 
                 this._onPressButton(rowData)
@@ -310,7 +333,7 @@ class FavoriteList extends Component {
                     renderRow           = {(rowData) => this._InnerDataRenderRow(rowData)}
                     renderHiddenRow     = { (data, secId, rowId, rowMap) => (
                     <View style={styles.rowBack}>
-                        <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(secId, rowId, rowMap) }>
+                        <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={() => {this.realmDelete(data,secId, rowId)}}>
                             <Text style={styles.backTextWhite}>X</Text>
                         </TouchableOpacity>
                     </View>
@@ -362,12 +385,8 @@ class FavoriteList extends Component {
                     renderContent={this._renderRow}
                 />
             </View>
-
-
         )
     }
-
-
 }
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
