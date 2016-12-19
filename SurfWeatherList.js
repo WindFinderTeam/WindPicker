@@ -234,9 +234,9 @@ class SurfWeatherList extends Component {
                     gTideFlag = true;
                     var {tideDownImg,tideUpImg,tideHighImg,tideLowImg} = WeatherImage.getTideImage();
                     gTideDownImg = tideDownImg;
-                    gTideUpImg   = tideDownImg;
-                    gTideHighImg = tideDownImg;
-                    gTideLowImg  = tideDownImg;
+                    gTideUpImg   = tideUpImg;
+                    gTideHighImg = tideHighImg;
+                    gTideLowImg  = tideLowImg;
                 }
                 var d = new Date();
                 var s =
