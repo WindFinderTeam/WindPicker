@@ -226,9 +226,7 @@ class FavoriteList extends Component {
         });
     }
 
-    realmDelete(data, secId, rowId) {
-
-        console.log(rowId);
+    realmDelete(data, secId, rowId, rowMap) {
 
         realmInstance.write(() => {
 
@@ -244,6 +242,8 @@ class FavoriteList extends Component {
                 favoriteGlidingList.splice(rowId,1);
             }
         });
+
+        rowMap[`${secId}${rowId}`].closeRow();
 
         this.state.dataSource[0].innerDataSource = ds1.cloneWithRows(favoriteSurfingList);
         this.state.dataSource[1].innerDataSource = ds2.cloneWithRows(favoriteGlidingList);
@@ -333,7 +333,7 @@ class FavoriteList extends Component {
                     renderRow           = {(rowData) => this._InnerDataRenderRow(rowData)}
                     renderHiddenRow     = { (data, secId, rowId, rowMap) => (
                     <View style={styles.rowBack}>
-                        <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={() => {this.realmDelete(data,secId, rowId)}}>
+                        <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={() => {this.realmDelete(data,secId, rowId, rowMap)}}>
                             <Text style={styles.backTextWhite}>X</Text>
                         </TouchableOpacity>
                     </View>
