@@ -56,6 +56,7 @@ var gTideDownImg, gTideUpImg, gTideHighImg, gTideLowImg;
 
 var tideDirection = (<Text></Text>);
 var gTideFlag = false;
+var bestDirection ;
 
 const color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
     ,'#130ccb','#0e0cd2','#100edd','#0c0de4','#0f18e3','#0d20de','#0c32d5','#0e40d5','#104bcd','#1257cc'
@@ -70,7 +71,8 @@ class SurfWeatherList extends Component {
     constructor(props) {
         super(props);
 
-        API_URL = this.props.rowData.weatherURL; // 날씨URL 가져오기
+        API_URL      = this.props.rowData.weatherURL; // 날씨URL 가져오기
+        bestDirection=  this.props.rowData.direction.split(' ');
 
         this.onScrollEnd       = this.onScrollEnd.bind(this)      ;
         this.onScrolling       = this.onScrolling.bind(this)      ;
@@ -105,6 +107,7 @@ class SurfWeatherList extends Component {
             ,networkState  :true
             ,tideYN        :"N"
             ,heartOnOff    :false
+
         };
     }
 
@@ -112,7 +115,7 @@ class SurfWeatherList extends Component {
     {
         this.setHeaderView();
         this.readRealm();
-        mainBoard = true;
+        mainBoard    = true;
     }
 
     componentDidMount()
@@ -121,8 +124,6 @@ class SurfWeatherList extends Component {
     }
 
     setHeaderView(){
-
-        var direction =  this.props.rowData.direction.split(' ');
 
         headerView =
             (
@@ -147,8 +148,8 @@ class SurfWeatherList extends Component {
                             </Text>
                             <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center',marginTop:1}}>
                                 <Text style={{color:'#FFF'}}>최적방향 </Text>
-                                {DirectionImage.getWindDirectionImage(parseInt(direction[0]))}
-                                {DirectionImage.getSwellDirectionImage(parseInt(direction[1]))}
+                                {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
+                                {DirectionImage.getSwellDirectionImage(parseInt(bestDirection[1]))}
                             </View>
                             <View style={{flexDirection:'row',marginTop:2}}>
                                 <View style={pickerStyle.sunInfo }>
@@ -217,18 +218,6 @@ class SurfWeatherList extends Component {
 
         fetch(API_URL,null,this).then((responseData) => {
 
-                var d = new Date();
-                var s =
-                    this.leadingZeros(d.getFullYear(), 4) + '-' +
-                    this.leadingZeros(d.getMonth() + 1, 2) + '-' +
-                    this.leadingZeros(d.getDate(), 2) + ' ' +
-
-                    this.leadingZeros(d.getHours(), 2) + ':' +
-                    this.leadingZeros(d.getMinutes(), 2) + ':' +
-                    this.leadingZeros(d.getSeconds(), 2);
-
-                console.log("##### " + s);
-
                 var {dataBlob,sectionIDs, rowIDs,sunInfo,tideYN} = SurfParser.getSurfWeather(responseData);  //data parsing
                 if(tideYN == "Y") {
                     gTideFlag = true;
@@ -238,17 +227,6 @@ class SurfWeatherList extends Component {
                     gTideHighImg = tideHighImg;
                     gTideLowImg  = tideLowImg;
                 }
-                var d = new Date();
-                var s =
-                    this.leadingZeros(d.getFullYear(), 4) + '-' +
-                    this.leadingZeros(d.getMonth() + 1, 2) + '-' +
-                    this.leadingZeros(d.getDate(), 2) + ' ' +
-
-                    this.leadingZeros(d.getHours(), 2) + ':' +
-                    this.leadingZeros(d.getMinutes(), 2) + ':' +
-                    this.leadingZeros(d.getSeconds(), 2);
-
-                console.log("##### " + s);
 
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
@@ -319,15 +297,13 @@ class SurfWeatherList extends Component {
 
             }
 
-            /* --------after display  Favorite Lists---------- */
-
+            /* --------after display  Favorite Lists----------
             let AllFavorite_surfing_after = realmInstance.objects('FavoriteSurfing');
             console.log(AllFavorite_surfing_after);
             console.log("======================");
             console.log(Object.keys(AllFavorite_surfing_after).length);
             console.log(AllFavorite_surfing_after);
-
-            /* --------after display  Favorite Lists---------- */
+            --------after display  Favorite Lists---------- */
 
         });
         // this.setState({heartOnOff: !this.state.heartOnOff});
@@ -553,7 +529,6 @@ class SurfWeatherList extends Component {
 
             <View  style={{flex:1}}>
 
-
                 <View style={{flex: 1}}>
                     {mainBoardView}
 
@@ -611,14 +586,20 @@ class SurfWeatherList extends Component {
                             <Ionicons name="md-heart" size={30} color={this.state.heartOnOff==true?"#94000F":"#C0C0C0"}/>
                         </TouchableOpacity>
                     </View>
+
                 </View>
 
                 {/* ------------------------------- Navigator MENU ------------------------------------*/}
                 <View style={{
-                    position:'absolute', top:NAVI_HEIGHT+10,
+                    position:'absolute', top:NAVI_HEIGHT-3,
                     width:SCREEN_WIDTH,
                     height:MENU_HEIGHT,
                     zIndex:1000,   opacity:this.state.menuOpacity}} >
+                    <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center',marginBottom:18}}>
+                        <Text style={{color:'#FFF'}}>최적방향  </Text>
+                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
+                        {DirectionImage.getSwellDirectionImage(parseInt(bestDirection[1]))}
+                    </View>
                     <SurfMenu tideYN={this.state.tideYN}/>
                 </View>
             </View>
@@ -630,8 +611,8 @@ const PARALLAX_HEADER_HEIGHT = 200;
 const SPINNER_SIZE = 80;
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const NAVI_HEIGHT = 60;
-const MENU_HEIGHT = 30;
+const NAVI_HEIGHT = 65;
+const MENU_HEIGHT = 60;
 
 
 module.exports = SurfWeatherList;
