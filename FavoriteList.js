@@ -248,6 +248,12 @@ class FavoriteList extends Component {
         this.state.dataSource[0].innerDataSource = ds1.cloneWithRows(favoriteSurfingList);
         this.state.dataSource[1].innerDataSource = ds2.cloneWithRows(favoriteGlidingList);
 
+        console.log("RELASE LOCK");
+        this.props.setTabLock(false);
+        rowOpened   = false;
+        closeManual = false;
+        tabLockFlag = false;
+
     }
 
     _renderHeader(section, key) {

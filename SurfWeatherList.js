@@ -615,7 +615,7 @@ class SurfWeatherList extends Component {
 
                 {/* ------------------------------- Navigator MENU ------------------------------------*/}
                 <View style={{
-                    position:'absolute', top:NAVI_HEIGHT,
+                    position:'absolute', top:NAVI_HEIGHT+10,
                     width:SCREEN_WIDTH,
                     height:MENU_HEIGHT,
                     zIndex:1000,   opacity:this.state.menuOpacity}} >
