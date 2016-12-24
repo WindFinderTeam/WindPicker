@@ -11,6 +11,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const SPINNER_SIZE = 80;
 const NAVI_HEIGHT = 60;
+const MENU_HEIGHT = 60;
 
 const pickerStyle = StyleSheet.create({
 
@@ -209,6 +210,26 @@ const pickerStyle = StyleSheet.create({
     },
     spaceIcon:{
         width:30
+    },
+
+    directionMarginBottom:{
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
+        marginBottom:18
+},
+    directionMarginTop:{
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:1
+    },
+    navigatorMenu:{
+        position:'absolute',
+        top:NAVI_HEIGHT+2,
+        width:SCREEN_WIDTH,
+        height:MENU_HEIGHT,
+        zIndex:1000
     },
 });
 

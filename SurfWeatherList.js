@@ -146,7 +146,7 @@ class SurfWeatherList extends Component {
                             <Text style={ pickerStyle.headerDistrictText }>
                                 {district}
                             </Text>
-                            <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center',marginTop:1}}>
+                            <View style={pickerStyle.directionMarginTop}>
                                 <Text style={{color:'#FFF'}}>최적방향 </Text>
                                 {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
                                 {DirectionImage.getSwellDirectionImage(parseInt(bestDirection[1]))}
@@ -199,16 +199,7 @@ class SurfWeatherList extends Component {
        });
    }
 
-    leadingZeros(n, digits) {
-    var zero = '';
-    n = n.toString();
 
-    if (n.length < digits) {
-        for (var i = 0; i < digits - n.length; i++)
-            zero += '0';
-    }
-    return zero + n;
-}
 
 
     fetchData() {
@@ -590,12 +581,8 @@ class SurfWeatherList extends Component {
                 </View>
 
                 {/* ------------------------------- Navigator MENU ------------------------------------*/}
-                <View style={{
-                    position:'absolute', top:NAVI_HEIGHT-3,
-                    width:SCREEN_WIDTH,
-                    height:MENU_HEIGHT,
-                    zIndex:1000,   opacity:this.state.menuOpacity}} >
-                    <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center',marginBottom:18}}>
+                <View style={[pickerStyle.navigatorMenu,{opacity:this.state.menuOpacity}]} >
+                    <View style={pickerStyle.directionMarginBottom}>
                         <Text style={{color:'#FFF'}}>최적방향  </Text>
                         {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
                         {DirectionImage.getSwellDirectionImage(parseInt(bestDirection[1]))}
@@ -605,7 +592,6 @@ class SurfWeatherList extends Component {
             </View>
         );
     }
-
 }
 const PARALLAX_HEADER_HEIGHT = 200;
 const SPINNER_SIZE = 80;
@@ -613,6 +599,5 @@ const SPINNER_SIZE = 80;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const NAVI_HEIGHT = 65;
 const MENU_HEIGHT = 60;
-
 
 module.exports = SurfWeatherList;

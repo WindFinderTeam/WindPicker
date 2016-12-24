@@ -180,6 +180,18 @@ class  AndroidFirstView extends Component {
                                                                       setWebCamModalVisible ={this.setWebCamModalVisible}/>);
         else                             localList =  (<GlidingLocalList setShopModalVisible={this.setShopModalVisible}/>);
 
+        var modeTitle;
+
+
+        switch (this.state.viewMode) {
+            case 'surf':
+                modeTitle = '서핑';
+                break;
+            case 'gliding':
+                modeTitle = '패러글라이딩';
+                break;
+        };
+
         return (
 
             <DrawerLayoutAndroid
@@ -203,12 +215,13 @@ class  AndroidFirstView extends Component {
                     overflowIconName = "md-more"
                     onActionSelected = {(position) => this.onActionSelected(position)}
                 />
-                <View style={{position:'absolute', left:8, top:14}}>
-                    <Image
-                        source     = {require('./image/app_logo.png')}
-                        resizeMode = "stretch"
-                        style      = {{height:30,width:30}}
-                    />
+                <View style={{position:'absolute', left:8, top:14,flexDirection:'row', alignItems:'center'}}>
+                        <Image
+                            source     = {require('./image/app_logo.png')}
+                            resizeMode = "stretch"
+                            style      = {{height:30,width:30}}
+                        />
+                        <Text style={{marginLeft:8, size:11}}>{modeTitle}</Text>
                 </View>
                 <ScrollableTabView tabBarUnderlineStyle    = {{backgroundColor:"#FFFFFF"}}
                                    tabBarActiveTextColor   = "#FFFFFF"

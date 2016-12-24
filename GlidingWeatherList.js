@@ -51,6 +51,8 @@ var headerView;
 var mainBoardView;
 var weatherBackImg=(require('./image/wlLoadingBg.jpg'));
 var district ;
+var bestDirection ;
+
 const color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
     ,'#130ccb','#0e0cd2','#100edd','#0c0de4','#0f18e3','#0d20de','#0c32d5','#0e40d5','#104bcd','#1257cc'
     ,'#0d65c6','#0f74bc','#1b7abe','#308ac6','#4a97cf','#5ba1d2','#70afd8','#84bae0','#95c2df','#add4e5'
@@ -65,6 +67,7 @@ class GlidingWeatherList extends Component {
         super(props);
 
         API_URL                = this.props.rowData.weatherURL; // 날씨URL 가져오기
+        bestDirection=  this.props.rowData.direction.split(' ');
 
         this.onScrollEnd       = this.onScrollEnd.bind(this);
         this.onScrolling       = this.onScrolling.bind(this);
@@ -117,8 +120,6 @@ class GlidingWeatherList extends Component {
 
     setHeaderView(){
 
-        var direction =  this.props.rowData.direction.split(' ');
-
         headerView =
             (
                 <Image
@@ -140,12 +141,12 @@ class GlidingWeatherList extends Component {
                             <Text style={ pickerStyle.headerDistrictText }>
                                 {district}
                             </Text>
-                            <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center',marginTop:1}}>
+                            <View style={pickerStyle.directionMarginTop}>
                                 <Text style={{color:'#FFF'}}>활공방향 </Text>
-                                {DirectionImage.getWindDirectionImage(parseInt(direction[0]))}
-                                {DirectionImage.getWindDirectionImage(parseInt(direction[1]))}
-                                {DirectionImage.getWindDirectionImage(parseInt(direction[2]))}
-                                {DirectionImage.getWindDirectionImage(parseInt(direction[3]))}
+                                {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
+                                {DirectionImage.getWindDirectionImage(parseInt(bestDirection[1]))}
+                                {DirectionImage.getWindDirectionImage(parseInt(bestDirection[2]))}
+                                {DirectionImage.getWindDirectionImage(parseInt(bestDirection[3]))}
                             </View>
                             <View style={{flexDirection:'row',marginTop:2}}>
                                 <View style={pickerStyle.sunInfo }>
@@ -531,23 +532,26 @@ class GlidingWeatherList extends Component {
                 </View>
 
                 {/* ------------------------------- Navigator MENU ------------------------------------*/}
-                <View style={{
-                    position:'absolute', top:NAVI_HEIGHT+10,
-                    width:SCREEN_WIDTH,
-                    height:MENU_HEIGHT,
-                    zIndex:1000,   opacity:this.state.menuOpacity}} >
+                <View style={[pickerStyle.navigatorMenu,{opacity:this.state.menuOpacity}]}>
+                    <View style={pickerStyle.directionMarginBottom}>
+                        <Text style={{color:'#FFF'}}>활공방향 </Text>
+                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
+                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[1]))}
+                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[2]))}
+                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[3]))}
+                    </View>
                     <GlidingMenu/>
                 </View>
             </View>
         );
     }
-
 }
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
 const PARALLAX_HEADER_HEIGHT = 200;
 const SPINNER_SIZE = 80;
-const NAVI_HEIGHT = 60;
-const MENU_HEIGHT = 30;
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const NAVI_HEIGHT = 65;
+const MENU_HEIGHT = 60;
 
 module.exports = GlidingWeatherList;
