@@ -1,7 +1,7 @@
 {
   "category":"surfing",
   "local":[
-    {"index":"0", "province":"서울특별시", "district":"한강", "weatherURL":"https://www.windfinder.com/forecast/seoul_han_river", "matching":"100","location":"서울시", "shop":[{"name":"무라사키스포츠","phone":"02-518-1869","homepage":"http://www.murasakisports.co.kr/","address":"631-31 Sinsa-dong, Gangnam-gu, Seoul, South Korea"}]}
+    {"index":"0", "province":"서울특별시", "district":"한강", "direction" : "999 999", "weatherURL":"https://www.windfinder.com/forecast/seoul_han_river", "matching":"100","location":"서울시", "shop":[{"name":"무라사키스포츠","phone":"02-518-1869","homepage":"http://www.murasakisports.co.kr/","address":"631-31 Sinsa-dong, Gangnam-gu, Seoul, South Korea"}]}
 
   ,{"index":"1", "province":"강원도", "district":"경포 해수욕장" , "direction" : "90 270",  "weatherURL":"https://www.windfinder.com/forecast/gangneung_virtual_buoy","matching":"80","location":"강릉시 안현동"}
   ,{"index":"2", "province":"강원도", "district":"교암 해수욕장" , "direction" : "90 270",  "weatherURL":"https://www.windfinder.com/forecast/sokcho","matching":"80","location":"고성군 토성면"}
