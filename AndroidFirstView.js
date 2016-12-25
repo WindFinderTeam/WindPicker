@@ -158,6 +158,16 @@ class  AndroidFirstView extends Component {
         }
     }
 
+    onChangeTab(obj){
+        console.log("onChangeTab2233");
+        console.log(obj.i);
+
+        if(obj.i == '1'){
+
+        }
+
+    }
+
 
     renderRow(rowData) {
 
@@ -221,7 +231,7 @@ class  AndroidFirstView extends Component {
                             resizeMode = "stretch"
                             style      = {{height:30,width:30}}
                         />
-                        <Text style={{marginLeft:8, size:11}}>{modeTitle}</Text>
+                        <Text style={{marginLeft:8, fontSize:15}}>{modeTitle}</Text>
                 </View>
                 <ScrollableTabView tabBarUnderlineStyle    = {{backgroundColor:"#FFFFFF"}}
                                    tabBarActiveTextColor   = "#FFFFFF"
@@ -229,6 +239,7 @@ class  AndroidFirstView extends Component {
                                    tabBarBackgroundColor   = "#9c0010"
                                    ref                     = {'scrollView'}
                                    locked                  = {this.state.tabLock}
+                                   onChangeTab             = {(obj)=>this.onChangeTab(obj)}
                 >
                     <ScrollView tabLabel="날씨상황"  style={styles.tabView} ref="LocalScrollView">
                         {localList}
