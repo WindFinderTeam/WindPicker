@@ -355,6 +355,9 @@ class FavoriteList extends Component {
 
     render() {
 
+        // whenever FavorieteList is called from AndroidFirstVIew, reload realm
+        if(this.props.realmReload == true)          this.realmRead();
+
         return (
             <View>
                 <Modal

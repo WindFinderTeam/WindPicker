@@ -231,7 +231,10 @@ const pickerStyle = StyleSheet.create({
         height: MENU_HEIGHT,
         zIndex: 1000
     },
-    bestDirection: {flexDirection: 'row', backgroundColor: 'rgba(255, 255, 255, 0.8)'}
+    bestDirection: {
+        flexDirection: 'row',
+        backgroundColor: 'rgba(255, 255, 255, 0)'
+    }
 });
 
 module.exports = pickerStyle;

@@ -67,6 +67,7 @@ class  AndroidFirstView extends Component {
             shopModalVisible    : false,
             webCamModalVisible  : false,
             camLoadedOpa        : 0,
+            realmReload         : false,
             dataSource          : ds.cloneWithRows(['row 1', 'row 2'])};
 
     }
@@ -162,9 +163,10 @@ class  AndroidFirstView extends Component {
         console.log("onChangeTab2233");
         console.log(obj.i);
 
-        if(obj.i == '1'){
+        /* obj.i : 0 날씨정보, 1 즐겨찾기 */
 
-        }
+        if(obj.i == '1')        this.setState({realmReload: true});
+        else if(obj.i == '0')   this.setState({realmReload: false});
 
     }
 
@@ -245,9 +247,10 @@ class  AndroidFirstView extends Component {
                         {localList}
                     </ScrollView>
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
-                        <FavoriteList setShopModalVisible={this.setShopModalVisible}
-                                      setWebCamModalVisible={this.setWebCamModalVisible}
-                                      setTabLock = {this.setTabLock}
+                        <FavoriteList setShopModalVisible   ={this.setShopModalVisible}
+                                      setWebCamModalVisible ={this.setWebCamModalVisible}
+                                      setTabLock            = {this.setTabLock}
+                                      realmReload           = {this.state.realmReload}
                         />
                     </ScrollView>
 

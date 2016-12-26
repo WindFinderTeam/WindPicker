@@ -472,7 +472,7 @@ class SurfWeatherList extends Component {
 
         if(this.state.networkState == true)
         {
-            if(this.state.spinnerVisible==true)  mainBoardView = headerView;
+            if(this.state.spinnerVisible == true)  mainBoardView = headerView;
             else                                 mainBoardView = (<View></View>);
 
             myView =(
