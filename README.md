@@ -1,2 +1,2 @@
-# WindFinder
-React Native WindFinder App
+# WindPicker
+React Native WindPicker App

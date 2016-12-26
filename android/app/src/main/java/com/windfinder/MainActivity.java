@@ -1,4 +1,4 @@
-package com.windfinder;
+package com.windpicker;
 
 import com.facebook.react.ReactActivity;
 import io.realm.react.RealmReactPackage;
@@ -12,6 +12,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "WindFinder";
+        return "WindPicker";
     }
 }

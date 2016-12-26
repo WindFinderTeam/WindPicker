@@ -1,4 +1,4 @@
-rootProject.name = 'WindFinder'
+rootProject.name = 'WindPicker'
 
 include ':app'
 include ':realm'

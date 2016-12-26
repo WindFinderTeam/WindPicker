@@ -23,7 +23,7 @@ import { realmInstance } from "./RealmHndler.js";
 var nowMode = "";
 var lastMode ;
 
-class  WindFinder extends Component {
+class  WindPicker extends Component {
 
     constructor(prop){
         super(prop);
@@ -44,7 +44,7 @@ class  WindFinder extends Component {
     }
 
     loadProcess(){
-        //console.log(VersionCheck.getPackageName());//get current my package name  ex) com.windfinder
+        //console.log(VersionCheck.getPackageName());//get current my package name  ex) com.windpicker
         //console.log(VersionCheck.getCurrentBuildNumber());// 1.0
         //realmInstance.write(() => {
         //    let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
@@ -213,4 +213,4 @@ const styles = StyleSheet.create({
 
 });
 
-AppRegistry.registerComponent('WindFinder', () => WindFinder);
+AppRegistry.registerComponent('WindPicker', () => WindPicker);

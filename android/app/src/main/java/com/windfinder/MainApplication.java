@@ -1,4 +1,4 @@
-package com.windfinder;
+package com.windpicker;
 
 import android.app.Application;
 import android.util.Log;

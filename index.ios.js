@@ -12,7 +12,7 @@ import {
   View
 } from 'react-native';
 
-class WindFinder extends Component {
+class WindPicker extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('WindFinder', () => WindFinder);
+AppRegistry.registerComponent('WindPicker', () => WindPicker);
