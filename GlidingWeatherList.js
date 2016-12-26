@@ -143,10 +143,12 @@ class GlidingWeatherList extends Component {
                             </Text>
                             <View style={pickerStyle.directionMarginTop}>
                                 <Text style={{color:'#FFF'}}>활공방향 </Text>
+                                <View style={pickerStyle.bestDirection}>
                                 {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
                                 {DirectionImage.getWindDirectionImage(parseInt(bestDirection[1]))}
                                 {DirectionImage.getWindDirectionImage(parseInt(bestDirection[2]))}
                                 {DirectionImage.getWindDirectionImage(parseInt(bestDirection[3]))}
+                                </View>
                             </View>
                             <View style={{flexDirection:'row',marginTop:2}}>
                                 <View style={pickerStyle.sunInfo }>
@@ -535,10 +537,12 @@ class GlidingWeatherList extends Component {
                 <View style={[pickerStyle.navigatorMenu,{opacity:this.state.menuOpacity}]}>
                     <View style={pickerStyle.directionMarginBottom}>
                         <Text style={{color:'#FFF'}}>활공방향 </Text>
+                        <View style={pickerStyle.bestDirection}>
                         {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
                         {DirectionImage.getWindDirectionImage(parseInt(bestDirection[1]))}
                         {DirectionImage.getWindDirectionImage(parseInt(bestDirection[2]))}
                         {DirectionImage.getWindDirectionImage(parseInt(bestDirection[3]))}
+                        </View>
                     </View>
                     <GlidingMenu/>
                 </View>

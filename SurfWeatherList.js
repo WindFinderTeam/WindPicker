@@ -148,8 +148,10 @@ class SurfWeatherList extends Component {
                             </Text>
                             <View style={pickerStyle.directionMarginTop}>
                                 <Text style={{color:'#FFF'}}>최적방향 </Text>
+                                <View style={pickerStyle.bestDirection}>
                                 {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
                                 {DirectionImage.getSwellDirectionImage(parseInt(bestDirection[1]))}
+                                </View>
                             </View>
                             <View style={{flexDirection:'row',marginTop:2}}>
                                 <View style={pickerStyle.sunInfo }>
@@ -584,8 +586,10 @@ class SurfWeatherList extends Component {
                 <View style={[pickerStyle.navigatorMenu,{opacity:this.state.menuOpacity}]} >
                     <View style={pickerStyle.directionMarginBottom}>
                         <Text style={{color:'#FFF'}}>최적방향  </Text>
+                        <View style={pickerStyle.bestDirection}>
                         {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
                         {DirectionImage.getSwellDirectionImage(parseInt(bestDirection[1]))}
+                         </View>
                     </View>
                     <SurfMenu tideYN={this.state.tideYN}/>
                 </View>

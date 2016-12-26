@@ -17,12 +17,12 @@ const pickerStyle = StyleSheet.create({
 
     row: {
         flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingLeft: 0,
-            borderBottomWidth: 1,
-            borderBottomColor: '#e9e9e9',
-            height: 40,
-            alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingLeft: 0,
+        borderBottomWidth: 1,
+        borderBottomColor: '#e9e9e9',
+        height: 40,
+        alignItems: 'center',
     },
     sectionHeaderText: {
         fontSize: 13,
@@ -39,14 +39,14 @@ const pickerStyle = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
     },
-    menusView:{
-        flex:1,
-        justifyContent:'center',
+    menusView: {
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
     },
-    menusViewTideYes:{
-        justifyContent:'center',
+    menusViewTideYes: {
+        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
     },
@@ -58,27 +58,27 @@ const pickerStyle = StyleSheet.create({
     },
 
     webView: {
-        flex:1,
+        flex: 1,
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor:'white',
-        width:SCREEN_WIDTH,
-        height:SCREEN_HEIGHT/2
+        backgroundColor: 'white',
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT / 2
     },
 
-    rowListText:{
+    rowListText: {
         color: 'black',
         textAlign: 'center',
         fontSize: 13,
     },
 
-    rowTemperatureView:{
-        justifyContent:'center',
+    rowTemperatureView: {
+        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        borderRadius:5,
-        width:35
+        borderRadius: 5,
+        width: 35
     },
 
     localListrowText: {
@@ -87,25 +87,25 @@ const pickerStyle = StyleSheet.create({
         color: 'black',
     },
 
-    modalContainer:{
+    modalContainer: {
         justifyContent: 'center',
-        backgroundColor:'rgba(0, 0, 0, 0.8)',
-        flex:1
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        flex: 1
 
     },
 
-    closeIcon:{
+    closeIcon: {
         right: 10,
-        top:5,
-        position:'absolute'
+        top: 5,
+        position: 'absolute'
     },
 
-    circleIcon : {
-        width : SCREEN_WIDTH,
-        alignItems : 'center',
-        position:'absolute'
+    circleIcon: {
+        width: SCREEN_WIDTH,
+        alignItems: 'center',
+        position: 'absolute'
     },
-    headerViewStyle:{
+    headerViewStyle: {
         height: 25,
         width: SCREEN_WIDTH,
     },
@@ -114,15 +114,15 @@ const pickerStyle = StyleSheet.create({
         width: SCREEN_WIDTH,
     },
 
-    heartView:{
-        borderRadius:100,
-        width:40,height:40,
+    heartView: {
+        borderRadius: 100,
+        width: 40, height: 40,
         borderWidth: 1,
-        marginRight:10,
+        marginRight: 10,
         borderColor: 'white',
         backgroundColor: 'white',
         alignItems: 'center',
-        justifyContent:'center'
+        justifyContent: 'center'
     },
 
     headerDistrictText: {
@@ -154,32 +154,32 @@ const pickerStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex:1000
+        zIndex: 1000
     },
-    navigator:{
-        flex:1,
+    navigator: {
+        flex: 1,
         flexDirection: 'row',
-        justifyContent:'center',
-        alignItems:'center',
+        justifyContent: 'center',
+        alignItems: 'center',
         position: 'absolute',
         left: 0,
         top: 0,
-        width:SCREEN_WIDTH,
-        height:NAVI_HEIGHT ,
-        zIndex:1000,
+        width: SCREEN_WIDTH,
+        height: NAVI_HEIGHT,
+        zIndex: 1000,
     },
-    offlineView :{
-        flex:1,
+    offlineView: {
+        flex: 1,
         flexDirection: 'column',
-        justifyContent:'center',
-        alignItems:'center',
-        paddingBottom:70,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingBottom: 70,
         backgroundColor: '#E7E7E7',
     },
     listViewrow: {
-        flex:1,
-        flexDirection:'row',
-        height:40
+        flex: 1,
+        flexDirection: 'row',
+        height: 40
     },
     listViewrowDistrict: {
         flexDirection: 'row',
@@ -189,48 +189,49 @@ const pickerStyle = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
         alignItems: 'center',
-        flex:1
+        flex: 1
     },
     listViewrowCamShop: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        alignItems :'center',
+        alignItems: 'center',
         backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
-        flex:1
+        flex: 1
     },
-    iconBorder:{
-        borderRadius:100,
-        width:30,height:30,
+    iconBorder: {
+        borderRadius: 100,
+        width: 30, height: 30,
         borderWidth: 1,
         borderColor: '#94000F',
         alignItems: 'center',
-        justifyContent:'center'
+        justifyContent: 'center'
     },
-    spaceIcon:{
-        width:30
+    spaceIcon: {
+        width: 30
     },
 
-    directionMarginBottom:{
-        flexDirection:'row',
-        justifyContent:'center',
-        alignItems:'center',
-        marginBottom:18
-},
-    directionMarginTop:{
-        flexDirection:'row',
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:1
+    directionMarginBottom: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 18
     },
-    navigatorMenu:{
-        position:'absolute',
-        top:NAVI_HEIGHT+2,
-        width:SCREEN_WIDTH,
-        height:MENU_HEIGHT,
-        zIndex:1000
+    directionMarginTop: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 1
     },
+    navigatorMenu: {
+        position: 'absolute',
+        top: NAVI_HEIGHT + 2,
+        width: SCREEN_WIDTH,
+        height: MENU_HEIGHT,
+        zIndex: 1000
+    },
+    bestDirection: {flexDirection: 'row', backgroundColor: 'rgba(255, 255, 255, 0.8)'}
 });
 
 module.exports = pickerStyle;
