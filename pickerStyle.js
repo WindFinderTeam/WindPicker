@@ -233,7 +233,8 @@ const pickerStyle = StyleSheet.create({
     },
     bestDirection: {
         flexDirection: 'row',
-        backgroundColor: 'rgba(255, 255, 255, 0)'
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        borderRadius: 30,
     }
 });
 
