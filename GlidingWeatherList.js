@@ -175,51 +175,49 @@ class GlidingWeatherList extends Component {
             spinnerVisible:false,
             networkState  :false
         });
-        // fetch.abort(this);
+        fetch.abort(this);
     }
 
     controlFavorite(){
 
         realmInstance.write(() => {
 
-            /* --------before display  Favorite Lists---------- */
+            /* --------before display  Favorite Lists----------
             let AllFavorite_gliding = realmInstance.objects('FavoriteGliding');
             console.log(AllFavorite_gliding);
-
-            /* --------before display  Favorite Lists---------- */
+             --------before display  Favorite Lists---------- */
 
             let theme = "FavoriteGliding", var_index = this.props.rowData.index;
 
             let specificFavorite = realmInstance.objects(theme).filtered('index = ' + '"' + var_index + '"');
 
-            console.log(specificFavorite);
+            //console.log(specificFavorite);
 
             if(Object.keys(specificFavorite) == ""){
 
                 //not exists. need to insert
-                console.log("need to insert");
+                //console.log("need to insert");
                 realmInstance.create('FavoriteGliding', {
-                    index:var_index,
-                    name :this.props.rowData.district,
+                    index  : var_index,
+                    name   : this.props.rowData.district,
                     webcam : this.props.rowData.webcam,
-                    shop : this.props.rowData.shop
+                    shop   : this.props.rowData.shop
                 });
 
             } else {
 
                 //exists. need to delete
-                console.log("need to delete");
+                //console.log("need to delete");
                 realmInstance.delete(specificFavorite); // Deletes all books
 
             }
 
-            /* --------after display  Favorite Lists---------- */
-
-            let AllFavorite_gliding_after = realmInstance.objects('FavoriteGliding');
-            console.log(AllFavorite_gliding_after);
-            console.log("======================");
-            console.log(Object.keys(AllFavorite_gliding_after).length);
-            /* --------after display  Favorite Lists---------- */
+            /* --------after display  Favorite Lists----------
+             let AllFavorite_gliding_after = realmInstance.objects('FavoriteGliding');
+             console.log(AllFavorite_gliding_after);
+             console.log("======================");
+             console.log(Object.keys(AllFavorite_gliding_after).length);
+             --------after display  Favorite Lists---------- */
 
         });
         // this.setState({heartOnOff: !this.state.heartOnOff});
@@ -233,7 +231,7 @@ class GlidingWeatherList extends Component {
     }
 
     readRealm() {
-        console.log("read result before ");
+       // console.log("read result before ");
 
         realmInstance.write(() => {
 
@@ -241,17 +239,17 @@ class GlidingWeatherList extends Component {
 
             let specificFavorite = realmInstance.objects(mode).filtered('index = ' + '"' + var_index + '"');
 
-            console.log(specificFavorite);
+           // console.log(specificFavorite);
 
             if(Object.keys(specificFavorite) == ""){
                 //not exists.
             } else {
                 //exists.
-                console.log("read. exists. index " + var_index);
+               // console.log("read. exists. index " + var_index);
                 this.setHeartOnOff();
             }
         });
-        console.log("read result after ");
+       // console.log("read result after ");
     }
 
     fetchData() {
@@ -275,7 +273,7 @@ class GlidingWeatherList extends Component {
                 clearTimeout(setTimeoudtID);
             })
             .catch((error) => {
-                console.warn(error);
+               // console.warn(error);
                 clearTimeout(setTimeoudtID);
                 this.setState({
                     spinnerVisible:false,

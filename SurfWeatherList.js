@@ -174,7 +174,7 @@ class SurfWeatherList extends Component {
 
    startCountDown(){
 
-       console.log("#### TIMER OVER ####");
+       //console.log("#### TIMER OVER ####");
        this.setState({
            spinnerVisible:false,
            networkState  :false
@@ -190,7 +190,7 @@ class SurfWeatherList extends Component {
 
            let specificFavorite = realmInstance.objects(theme).filtered('index = ' + '"' + var_index + '"');
 
-           console.log(specificFavorite);
+           //console.log(specificFavorite);
 
            if(Object.keys(specificFavorite) == ""){
                //not exists.
@@ -236,7 +236,7 @@ class SurfWeatherList extends Component {
 
         })
             .catch((error) => { // if network state is unstable
-                console.warn(error);
+               // console.warn(error);
                 clearTimeout(setTimeoudtID);
                 this.setState({
                     spinnerVisible:false,
@@ -274,7 +274,7 @@ class SurfWeatherList extends Component {
             if(Object.keys(specificFavorite) == ""){
 
                 //not exists. need to insert
-                console.log("need to insert");
+                //console.log("need to insert");
                 realmInstance.create('FavoriteSurfing', {
                     index  : var_index,
                     name   : this.props.rowData.district,
@@ -285,7 +285,7 @@ class SurfWeatherList extends Component {
             } else {
 
                 //exists. need to delete
-                console.log("need to delete");
+               // console.log("need to delete");
                 realmInstance.delete(specificFavorite); // Deletes all books
 
             }
@@ -473,31 +473,29 @@ class SurfWeatherList extends Component {
         if(this.state.networkState == true)
         {
             if(this.state.spinnerVisible == true)  mainBoardView = headerView;
-            else                                 mainBoardView = (<View></View>);
+            else                                   mainBoardView = (<View></View>);
 
             myView =(
                 <LazyloadListView
                     style={pickerStyle.container}
                     // contentContainerStyle={styles.content}
-                    name="listExample"
-                    dataSource={this.state.dataSource}
-                    renderSectionHeader={this.sectionHeader.bind(this)}
-                    renderRow={this.renderRow}
-                    scrollRenderAheadDistance={200}
-                    renderDistance={100}
-                    pageSize={1}
-                    initialListSize={5}
+                    name                      = "listExample"
+                    ref                       = "ScrollView"
+                    dataSource                = {this.state.dataSource}
+                    renderSectionHeader       = {this.sectionHeader.bind(this)}
+                    renderRow                 = {this.renderRow}
+                    scrollRenderAheadDistance = {200}
+                    renderDistance            = {100}
+                    pageSize                  = {1}
+                    initialListSize           = {5}
                     // dont need to declare, only for warning fixing (below)
-                    stickyHeaderIndices={[0]}
-                    onEndReachedThreshold={1000}
-                    renderScrollComponent={ _=>{}}
-
-
-                    ref="ScrollView"
-                    onScroll={this.onScrolling}
-                    scrollEnabled={this.state.loadOK}
-                    onScrollEndDrag={this.onScrollEnd}
-                    onMomentumScrollEnd={this.onScrollEnd}
+                    stickyHeaderIndices       = {[0]}
+                    onEndReachedThreshold     = {1000}
+                    renderScrollComponent     = { _=>{}}
+                    onScroll                  = {this.onScrolling}
+                    scrollEnabled             = {this.state.loadOK}
+                    onScrollEndDrag           = {this.onScrollEnd}
+                    onMomentumScrollEnd       = {this.onScrollEnd}
                 />
             );
         }

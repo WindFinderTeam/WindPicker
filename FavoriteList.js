@@ -97,24 +97,24 @@ class FavoriteList extends Component {
         // when tab Locked & trying to Close manually
         if(tabLockFlag && gs.vx > 0) closeManual = true;
 
-        console.log("closeManual :" + closeManual);
-        console.log("tabLockFlag   :"   + tabLockFlag);
-        console.log("rowOpened :"   + rowOpened);
+       // console.log("closeManual :" + closeManual);
+       // console.log("tabLockFlag   :"   + tabLockFlag);
+       // console.log("rowOpened :"   + rowOpened);
         return false;
     }
 
     afterRowClosed(section, touchedRow){
 
-        console.log("[[[  Just CLOSED  ]]]");
+        //console.log("[[[  Just CLOSED  ]]]");
         closeSectionId = section   ;
         closeRowId     = touchedRow;
-        console.log("CloseRowID : " + closeRowId);
-        console.log("OpenRowID  : " + openRowId);
+        //console.log("CloseRowID : " + closeRowId);
+        //console.log("OpenRowID  : " + openRowId);
 
         if(openRowId == closeRowId && openSecionId == closeSectionId)
         {
             if(rowOpened && closeManual) {  // a row state just Closed Manually
-                console.log("RELASE LOCK");
+          //      console.log("RELASE LOCK");
                 this.props.setTabLock(false);
                 rowOpened   = false;
                 closeManual = false;
@@ -133,21 +133,21 @@ class FavoriteList extends Component {
             }
         }
 
-        console.log("closeManual :" +closeManual);
-        console.log("tabLockFlag :" +tabLockFlag);
-        console.log("rowOpened :" + rowOpened);
+        //console.log("closeManual :" +closeManual);
+        //console.log("tabLockFlag :" +tabLockFlag);
+        //console.log("rowOpened :" + rowOpened);
     }
     afterRowOpend(section, touchedRow){
 
         openSecionId = section;
         openRowId    = touchedRow;
-        console.log("[[[onRowOpen]]]");
-        console.log("OpenRowID : " + touchedRow);
+        //console.log("[[[onRowOpen]]]");
+        //console.log("OpenRowID : " + touchedRow);
         this.props.setTabLock(true);
         rowOpened=true;  closeManual = false;   tabLockFlag   = true;
-        console.log("closeManual :" +closeManual);
-        console.log("tabLockFlag :" +tabLockFlag);
-        console.log("rowOpened :" + rowOpened);
+        //console.log("closeManual :" +closeManual);
+        //console.log("tabLockFlag :" +tabLockFlag);
+        //console.log("rowOpened :" + rowOpened);
     }
 
     handlePanResponderMove(e, gs) {}
@@ -248,7 +248,7 @@ class FavoriteList extends Component {
         this.state.dataSource[0].innerDataSource = ds1.cloneWithRows(favoriteSurfingList);
         this.state.dataSource[1].innerDataSource = ds2.cloneWithRows(favoriteGlidingList);
 
-        console.log("RELASE LOCK");
+        //console.log("RELASE LOCK");
         this.props.setTabLock(false);
         rowOpened   = false;
         closeManual = false;
@@ -340,7 +340,7 @@ class FavoriteList extends Component {
                     renderHiddenRow     = { (data, secId, rowId, rowMap) => (
                     <View style={styles.rowBack}>
                         <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={() => {this.realmDelete(data,secId, rowId, rowMap)}}>
-                            <Text style={styles.backTextWhite}>X</Text>
+                            <Text style={styles.backTextWhite}>삭제</Text>
                         </TouchableOpacity>
                     </View>
                 )}
