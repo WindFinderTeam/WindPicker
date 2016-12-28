@@ -24,10 +24,10 @@ const cloud1      =(<Image source={require('./image/weatherIcon/cloud1.png')}   
 const clearSun    =(<Image source={require('./image/weatherIcon/clearSun.png')}   style={{width:23, height:23}}/>);
 const sunCloud1   =(<Image source={require('./image/weatherIcon/sunCloud1.png')}  style={{width:23, height:23}}/>);
 const sunCloud2   =(<Image source={require('./image/weatherIcon/sunCloud2.png')}  style={{width:23, height:23}}/>);
-const tideDownImg =(<Image source={require('./image/weatherIcon/down.png')}       style={{width:15, height:17}}/>);
-const tideUpImg   =(<Image source={require('./image/weatherIcon/up.png')}         style={{width:15, height:17}}/>);
-const tideHighImg =(<Image source={require('./image/weatherIcon/high.png')}       style={{width:15, height:17}}/>);
-const tideLowImg  =(<Image source={require('./image/weatherIcon/low.png')}        style={{width:15, height:17}}/>);
+const tideDownImg =(<Image source={require('./image/weatherIcon/down.png')}       style={{width:20, height:20}}/>);
+const tideUpImg   =(<Image source={require('./image/weatherIcon/up.png')}         style={{width:20, height:20}}/>);
+const tideHighImg =(<Image source={require('./image/weatherIcon/high.png')}       style={{width:18, height:18}}/>);
+const tideLowImg  =(<Image source={require('./image/weatherIcon/low.png')}        style={{width:18, height:18}}/>);
 const raindrop    =(<Image source={require('./image/weatherIcon/raindrop.png')}   style={{width:8, height:8}}/>)
 const snow        =(<Image source={require('./image/weatherIcon/snow.png')}       style={{width:8, height:8}}/>)
 const rainSnow    =(<Image source={require('./image/weatherIcon/rainSnow.png')}   style={{width:8, height:8}}/>)

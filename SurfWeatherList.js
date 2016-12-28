@@ -330,13 +330,13 @@ class SurfWeatherList extends Component {
         rowKey++;
         var precipitation = rowData.rainPrecipitation, time = rowData.time;
 
-        if(gTideFlag)   ;
+        if(!gTideFlag)   ;
         else  {
             switch(rowData.tidedirections) {
-                case 'down' :tideDirection = gTideDownImg;  break;
-                case 'up'   :tideDirection = gTideUpImg  ;  break;
-                case 'high' :tideDirection = gTideHighImg;  break;
-                case 'low'  :tideDirection = gTideLowImg ;  break;
+                case 'down' :tideDirection = gTideDownImg; break;
+                case 'up'   :tideDirection = gTideUpImg  ; break;
+                case 'high' :tideDirection = gTideHighImg; break;
+                case 'low'  :tideDirection = gTideLowImg ; break;
             }
         }
 

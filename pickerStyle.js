@@ -21,7 +21,7 @@ const pickerStyle = StyleSheet.create({
         paddingLeft: 0,
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
-        height: 40,
+        height: 50,
         alignItems: 'center',
     },
     sectionHeaderText: {
@@ -110,7 +110,7 @@ const pickerStyle = StyleSheet.create({
         width: SCREEN_WIDTH,
     },
     rowViewStyle: {
-        height: 40,
+        height: 50,
         width: SCREEN_WIDTH,
     },
 
@@ -177,32 +177,30 @@ const pickerStyle = StyleSheet.create({
         backgroundColor: '#E7E7E7',
     },
     listViewrow: {
+        backgroundColor: '#F6F6F6',
         flex: 1,
         flexDirection: 'row',
-        height: 40
+        height: 50,
+        borderBottomWidth: 1,
+        borderBottomColor: '#e9e9e9',
+
     },
     listViewrowDistrict: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingLeft: 20,
-        backgroundColor: '#F6F6F6',
-        borderBottomWidth: 1,
-        borderBottomColor: '#e9e9e9',
         alignItems: 'center',
-        flex: 1
+        flex: 2
     },
     listViewrowCamShop: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: '#F6F6F6',
-        borderBottomWidth: 1,
-        borderBottomColor: '#e9e9e9',
         flex: 1
     },
     iconBorder: {
         borderRadius: 100,
-        width: 30, height: 30,
+        width: 35, height: 35,
         borderWidth: 1,
         borderColor: '#94000F',
         alignItems: 'center',

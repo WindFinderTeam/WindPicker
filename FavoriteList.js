@@ -267,7 +267,6 @@ class FavoriteList extends Component {
 
     _InnerDataRenderRow(rowData) {
 
-
         if (rowData.name === "tempData")
             return (<View style={{height:1, backgroundColor:'#DDD'}}></View>);
 
@@ -290,7 +289,7 @@ class FavoriteList extends Component {
                 <TouchableOpacity onPress={()=>{
                     this.props.setWebCamModalVisible(true, rowData.webcam)}}>
                     <View style={[pickerStyle.iconBorder, {opacity:1}]}>
-                        <Ionicons name="ios-videocam" style={{color:"rgba(156,0,16,1)", fontSize:25}}/>
+                        <Ionicons name="ios-videocam" style={{color:"rgba(156,0,16,1)", fontSize:30}}/>
                     </View>
                 </TouchableOpacity>
             );
@@ -315,10 +314,11 @@ class FavoriteList extends Component {
                         <TouchableOpacity onPress={() => this.props.setShopModalVisible(true, rowData.shop)}>
                             <View style={[pickerStyle.iconBorder, {opacity:shopShow==false?0:1}]}>
                                 <Image source={shopIconImg}
-                                       style={{opacity:shopShow==false?0:1, width:24, height:24}}/>
+                                       style={{opacity:shopShow==false?0:1, width:30, height:30}}/>
                             </View>
                         </TouchableOpacity>
                     </View>
+                    <View style={{height:50, width:5, backgroundColor:'#94000F'}}/>
                 </View>
             </TouchableHighlight>
         )
