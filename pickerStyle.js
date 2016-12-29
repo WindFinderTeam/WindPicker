@@ -180,6 +180,7 @@ const pickerStyle = StyleSheet.create({
         backgroundColor: '#F6F6F6',
         flex: 1,
         flexDirection: 'row',
+        alignItems: 'center',
         height: 50,
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
@@ -196,7 +197,8 @@ const pickerStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+
     },
     iconBorder: {
         borderRadius: 100,
