@@ -16,17 +16,9 @@ import {
     Image } from 'react-native';
 
 
-import GlidingWeatherList         from './GlidingWeatherList';
+import GlidingWeatherList from './GlidingWeatherList';
+import { realmInstance }  from "./RealmHndler.js";
 
-import {
-    GoogleAnalyticsTracker,
-    GoogleTagManager,
-    GoogleAnalyticsSettings
-} from 'react-native-google-analytics-bridge';
-
-import { realmInstance } from "./RealmHndler.js";
-
-var tracker1 = new GoogleAnalyticsTracker('UA-87305241-1');
 
 var glidingLocalData = require('./jsData/GlidingLocalData.json');
 var pickerStyle      = require('./pickerStyle') ;
@@ -71,28 +63,6 @@ class LocalList extends Component{
 
     }
 
-
-    componentWillMount() // before rendering
-    {
-        tracker1.trackScreenView('패러글라이딩');
-        tracker1.trackEvent('지역리스트뷰', '활공장 목록');
-
-        // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
-        GoogleAnalyticsSettings.setDispatchInterval(30);
-        GoogleAnalyticsSettings.setDryRun(true);
-
-        // GoogleTagManager is also static, and works only with one container. All functions here are Promises:
-      /*  GoogleTagManager.openContainerWithId("활공장")
-            .then(() => {
-                return GoogleTagManager.stringForKey("pack");
-            })
-            .then((pack) => {
-                console.log("Pack: ", pack);
-            })
-            .catch((err) => {
-                console.log(err);
-            });*/
-    }
 
     renderListViewData(glidingLocalData) {
 

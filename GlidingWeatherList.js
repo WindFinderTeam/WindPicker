@@ -32,6 +32,14 @@ import {
     LazyloadView
 } from 'react-native-lazyload';
 
+import {
+    GoogleAnalyticsTracker,
+    GoogleTagManager,
+    GoogleAnalyticsSettings
+} from 'react-native-google-analytics-bridge';
+
+var GAtracker = new GoogleAnalyticsTracker('UA-87305241-1');
+
 
 var pickerStyle    = require('./pickerStyle');
 var GlidingParser  = require('./GlidingParser');
@@ -107,6 +115,13 @@ class GlidingWeatherList extends Component {
 
     componentWillMount() // before rendering
     {
+        GAtracker.trackScreenView('패러글라이');
+        tracker.trackEvent('활공장', '활공장 선택', {label: '활공장', value: district});
+
+        // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
+        GoogleAnalyticsSettings.setDispatchInterval(30);
+        GoogleAnalyticsSettings.setDryRun(true);
+
         this.setHeaderView();
         this.readRealm()    ;
         mainBoard = true    ;

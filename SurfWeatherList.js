@@ -32,6 +32,14 @@ import {
     LazyloadView
 } from 'react-native-lazyload';
 
+import {
+    GoogleAnalyticsTracker,
+    GoogleTagManager,
+    GoogleAnalyticsSettings
+} from 'react-native-google-analytics-bridge';
+
+var GAtracker = new GoogleAnalyticsTracker('UA-87305241-1');
+
 var SurfParser     = require('./SurfParser')  ;
 var pickerStyle    = require('./pickerStyle') ;
 var WeatherImage   = require('./WeatherImage');
@@ -57,6 +65,7 @@ var gTideDownImg, gTideUpImg, gTideHighImg, gTideLowImg;
 var tideDirection = (<Text></Text>);
 var gTideFlag = false;
 var bestDirection ;
+
 
 const color = ['#240d7f','#230d89','#230f94','#1c0e99','#200ca3','#1d0ea7','#1b0ab2','#140dbd','#170cc2'
     ,'#130ccb','#0e0cd2','#100edd','#0c0de4','#0f18e3','#0d20de','#0c32d5','#0e40d5','#104bcd','#1257cc'
@@ -113,6 +122,13 @@ class SurfWeatherList extends Component {
 
     componentWillMount() // before rendering
     {
+        GAtracker.trackScreenView('서핑');
+        tracker.trackEvent('서핑스팟', '스팟선택', {label: '스팟', value: district});
+
+        // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
+        GoogleAnalyticsSettings.setDispatchInterval(30);
+        GoogleAnalyticsSettings.setDryRun(true);
+
         this.setHeaderView();
         this.readRealm();
         mainBoard    = true;
