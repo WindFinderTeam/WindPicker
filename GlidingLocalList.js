@@ -22,11 +22,7 @@ import { realmInstance }  from "./RealmHndler.js";
 
 var glidingLocalData = require('./jsData/GlidingLocalData.json');
 var pickerStyle      = require('./pickerStyle') ;
-
 var selectedRowData ;
-
-
-
 
 class LocalList extends Component{
 
@@ -56,11 +52,9 @@ class LocalList extends Component{
         this.state = {
              dataSource      : this.ds.cloneWithRowsAndSections(data, sectionIds)
             ,modalVisible    : false
-
         };
 
         this.setModeRealm();
-
     }
 
 
