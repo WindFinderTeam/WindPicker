@@ -116,7 +116,7 @@ class GlidingWeatherList extends Component {
     componentWillMount() // before rendering
     {
         GAtracker.trackScreenView('패러글라이');
-        tracker.trackEvent('활공장', '활공장 선택', {label: '활공장', value: district});
+        GAtracker.trackEvent('활공장', '활공장 선택', {label: '활공장', value: district});
 
         // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
         GoogleAnalyticsSettings.setDispatchInterval(30);

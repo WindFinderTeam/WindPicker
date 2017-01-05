@@ -123,7 +123,7 @@ class SurfWeatherList extends Component {
     componentWillMount() // before rendering
     {
         GAtracker.trackScreenView('서핑');
-        tracker.trackEvent('서핑스팟', '스팟선택', {label: '스팟', value: district});
+        GAtracker.trackEvent('서핑스팟', '스팟선택', {label: '스팟', value: district});
 
         // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
         GoogleAnalyticsSettings.setDispatchInterval(30);
