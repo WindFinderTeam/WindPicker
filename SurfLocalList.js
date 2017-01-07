@@ -151,7 +151,7 @@ class LocalList extends Component{
                 {/* row style */}
                 <View style={pickerStyle.listViewrow}>
                     {/* distict */}
-               ss     <View style={pickerStyle.listViewrowDistrict}>
+                    <View style={pickerStyle.listViewrowDistrict}>
                         <Text style={pickerStyle.localListrowText}>{rowData.district}</Text>
                     </View>
 

@@ -79,9 +79,9 @@ function getGlidingWeather (responseJSON){
             "rain"        : responseJSON.APCP[i],    // 강수량
             "cloud"       : responseJSON.TCDC[i],    // 구름
             "snowYn"      : responseJSON.PCPT[i],    // 0:비, 1:눈
-            "windSpeed"   : responseJSON.WINDSPD[i], // 바람스피드
+            "windSpeed"   : (responseJSON.WINDSPD[i]*0.514).toFixed(1), // 바람스피드
             "windDir"     : responseJSON.WINDDIR[i], // 바람방향
-            "windGust"    : responseJSON.GUST[i],    // 돌풍
+            "windGust"    : (responseJSON.GUST[i]*0.514).toFixed(1),    // 돌풍
         };
         rowIDs[j].push(rowJson.key);
         dataBlob[sectionKey + ':' + rowJson.key] = rowJson;

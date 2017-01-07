@@ -115,7 +115,7 @@ class GlidingWeatherList extends Component {
 
     componentWillMount() // before rendering
     {
-        GAtracker.trackScreenView('패러글라이');
+        GAtracker.trackScreenView('패러글라이딩');
         GAtracker.trackEvent('활공장', '활공장 선택', {name: '활공장', label: district});
 
         // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
@@ -347,7 +347,7 @@ class GlidingWeatherList extends Component {
                 <LazyloadView host="listExample">
                     <View key={rowKey} style={pickerStyle.row}>
                         <View style={pickerStyle.menusView}>
-                            <Text style={pickerStyle.rowListText}>{rowData.time}H</Text>
+                            <Text style={pickerStyle.rowListText}>{rowData.time}시</Text>
                         </View>
 
                         <View style={[pickerStyle.menusView, {flexDirection:'column'}]}>
@@ -369,8 +369,8 @@ class GlidingWeatherList extends Component {
                             {windArrowSrc}
                         </View>
                         <View style={{flex:1,justifyContent:'center',alignItems: 'center',flexDirection: 'column',}}>
-                            <Text style={{color: 'black',textAlign: 'center',fontSize: 13,}}>{rowData.windSpeed+' kts'}</Text>
-                            <Text style={{color: 'black',textAlign: 'center',fontSize: 10,}}>{'max '+rowData.windGust}</Text>
+                            <Text style={{color: 'black',textAlign: 'center',fontSize: 13,}}>{rowData.windSpeed+' m/s'}</Text>
+                            <Text style={{color: 'black',textAlign: 'center',fontSize: 10,}}>{'돌풍 '+rowData.windGust}</Text>
                         </View>
                     </View>
 

@@ -372,7 +372,7 @@ class SurfWeatherList extends Component {
                     <View key={rowKey} style={pickerStyle.row}>
 
                         {/* 시간 */}
-                        <View style={pickerStyle.menusView}><Text style={pickerStyle.rowListText}>{rowData.time}H</Text></View>
+                        <View style={pickerStyle.menusView}><Text style={pickerStyle.rowListText}>{rowData.time}시</Text></View>
 
                         {/* 날씨 */}
                         <View style={[pickerStyle.menusView,{flexDirection:'column'}]}>
@@ -392,7 +392,7 @@ class SurfWeatherList extends Component {
                         </View>
 
                         {/* 바람 */}
-                        <View style={pickerStyle.menusView}>
+                        <View style={[pickerStyle.menusView, rowData.tidedirections =="" ? {flex:1.5}:{}]}>
                             {windArrowSrc}
                             <View style={{flexDirection:'column'}}>
                                 <Text style={pickerStyle.rowListText}>{rowData.wind} m/s</Text>
@@ -401,7 +401,7 @@ class SurfWeatherList extends Component {
                         </View>
 
                         {/* 파도 */}
-                        <View style={[pickerStyle.menusView, rowData.tidedirections =="" ? {}:{flex:1.5}]}>
+                        <View style={[pickerStyle.menusView, {flex:1.5}]}>
                             {swellArrowSrc}
                             <View style={{flexDirection:'column',marginLeft:1}}>
                                 <Text style={pickerStyle.rowListText}>{rowData.waveheight} m</Text>

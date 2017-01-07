@@ -19,8 +19,8 @@ console.log("WeatherImg Load");
 const clearMoon   =(<Image source={require('./image/weatherIcon/clearMoon.png')}  style={{width:23, height:23}}/>);
 const moonCloud1  =(<Image source={require('./image/weatherIcon/moonCloud1.png')} style={{width:23, height:23}}/>);
 const moonCloud2  =(<Image source={require('./image/weatherIcon/moonCloud2.png')} style={{width:23, height:23}}/>);
-const cloud2      =(<Image source={require('./image/weatherIcon/cloud2.png')}     style={{width:22, height:22}}/>);
-const cloud1      =(<Image source={require('./image/weatherIcon/cloud1.png')}     style={{width:23, height:23}}/>);
+const cloudDouble =(<Image source={require('./image/weatherIcon/cloud2.png')}     style={{width:22, height:22}}/>);
+const cloudSingle =(<Image source={require('./image/weatherIcon/cloud1.png')}     style={{width:23, height:23}}/>);
 const clearSun    =(<Image source={require('./image/weatherIcon/clearSun.png')}   style={{width:23, height:23}}/>);
 const sunCloud1   =(<Image source={require('./image/weatherIcon/sunCloud1.png')}  style={{width:23, height:23}}/>);
 const sunCloud2   =(<Image source={require('./image/weatherIcon/sunCloud2.png')}  style={{width:23, height:23}}/>);
@@ -52,9 +52,9 @@ function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
             } else if(cloudQuantity >= 26 && cloudQuantity <= 50) {
                 weatherImg = moonCloud2;
             } else if(cloudQuantity >= 51 && cloudQuantity <= 87){
-                weatherImg = cloud2;
+                weatherImg = cloudDouble;
             } else if((cloudQuantity >= 88 && cloudQuantity <= 100)){
-                weatherImg = cloud1;
+                weatherImg = cloudSingle;
             } else {
                 weatherImg = (<Text></Text>);
             }
@@ -72,9 +72,9 @@ function  getWatherImage(p_time, p_cloudQuantity, p_precipation, p_snowrain) {
             } else if(cloudQuantity >= 26 && cloudQuantity <= 50) {
                 weatherImg = sunCloud2;
             } else if(cloudQuantity >= 51 && cloudQuantity <= 87){
-                weatherImg = cloud2;
+                weatherImg = cloudDouble;
             } else if((cloudQuantity >= 88 && cloudQuantity <= 100)){
-                weatherImg = cloud1;
+                weatherImg = cloudSingle;
             } else {
                 weatherImg = (<Text></Text>);
             }
