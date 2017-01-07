@@ -289,7 +289,7 @@ class FavoriteList extends Component {
                 <TouchableOpacity onPress={()=>{
                     this.props.setWebCamModalVisible(true, rowData.webcam)}}>
                     <View style={[pickerStyle.iconBorder, {opacity:1}]}>
-                        <Ionicons name="ios-videocam" style={{color:"rgba(156,0,16,1)", fontSize:30}}/>
+                        <Ionicons name="ios-videocam" style={{color:"rgba(156,0,16,1)", fontSize:25}}/>
                     </View>
                 </TouchableOpacity>
             );
@@ -318,7 +318,7 @@ class FavoriteList extends Component {
                             </View>
                         </TouchableOpacity>
                     </View>
-                    <View style={{height:50, width:5, backgroundColor:'#94000F'}}/>
+                    <View style={{ height:50, width:5, backgroundColor:'gray'}}></View>
                 </View>
             </TouchableHighlight>
         )

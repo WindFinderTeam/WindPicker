@@ -245,6 +245,20 @@ const pickerStyle = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         borderRadius: 30,
+    },
+    localSectionHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: 'rgba(70,70,70,1)',
+        height:30,
+        marginTop:0,
+
+    },
+    localSectionHeaderText: {
+        fontSize: 15,
+        color: 'white',
+        marginLeft: 10
     }
 });
 

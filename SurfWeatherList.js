@@ -501,9 +501,9 @@ class SurfWeatherList extends Component {
                     renderSectionHeader       = {this.sectionHeader.bind(this)}
                     renderRow                 = {this.renderRow}
                     scrollRenderAheadDistance = {200}
-                    renderDistance            = {100}
+                    renderDistance            = {200}
                     pageSize                  = {1}
-                    initialListSize           = {5}
+                    initialListSize           = {8}
                     // dont need to declare, only for warning fixing (below)
                     stickyHeaderIndices       = {[0]}
                     onEndReachedThreshold     = {1000}

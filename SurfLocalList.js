@@ -102,8 +102,8 @@ class LocalList extends Component{
     renderSectionHeader(data, sectionId) {
 
         return (
-            <View style={styles.sectionHeader}>
-                <Text style={styles.sectionHeaderText}>{sectionId}</Text>
+            <View style={pickerStyle.localSectionHeader}>
+                <Text style={pickerStyle.localSectionHeaderText}>{sectionId}</Text>
             </View>
         );
     }
@@ -136,7 +136,7 @@ class LocalList extends Component{
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=>{if(webcamShow==true){this.props.setWebCamModalVisible(true, rowData.webcam)}}}>
                     <View style={[pickerStyle.iconBorder, {opacity:webcamShow==false?0:1}]}>
-                        <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:30}}/>
+                        <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
                     </View>
                 </TouchableOpacity>
             );
@@ -215,22 +215,6 @@ var styles = StyleSheet.create({
         backgroundColor:'rgba(0, 0, 0, 0.5)',
         height:SCREEN_HEIGHT/2,
     },
-
-    sectionHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: '#d4d4d4',
-        height:30,
-        marginTop:0,
-
-    },
-    sectionHeaderText: {
-        fontSize: 15,
-        color: '#424242',
-        marginLeft: 10
-    },
-
     closeContain:{
         backgroundColor:'gray',
         borderRadius: 100,

@@ -99,8 +99,8 @@ class LocalList extends Component{
     renderSectionHeader(data, sectionId) {
 
         return (
-            <View style={styles.sectionHeader}>
-                <Text style={styles.sectionHeaderText}>{sectionId}</Text>
+            <View style={pickerStyle.localSectionHeader}>
+                <Text style={pickerStyle.localSectionHeaderText}>{sectionId}</Text>
             </View>
         );
     }
@@ -190,20 +190,7 @@ var styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    sectionHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: '#d4d4d4',
-        height:30,
-        marginTop:0,
 
-    },
-    sectionHeaderText: {
-        fontSize: 15,
-        color: '#424242',
-        marginLeft: 10
-    }
 });
 
 
