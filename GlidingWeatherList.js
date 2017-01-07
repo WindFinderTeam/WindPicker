@@ -32,6 +32,14 @@ import {
     LazyloadView
 } from 'react-native-lazyload';
 
+import {
+    GoogleAnalyticsTracker,
+    GoogleTagManager,
+    GoogleAnalyticsSettings
+} from 'react-native-google-analytics-bridge';
+
+var GAtracker = new GoogleAnalyticsTracker('UA-87305241-1');
+
 
 var pickerStyle    = require('./pickerStyle');
 var GlidingParser  = require('./GlidingParser');
@@ -45,7 +53,7 @@ var offset = 0;           // before scroll position for Action Button
 var rowKey = 0;           // Listview`s row keys
 var bfcurrentOffset = 0;  // before scroll position for MenuBar
 
-var mainBoard = true;
+var gMainBoardFlag = true;
 var API_URL;
 var headerView;
 var mainBoardView;
@@ -107,9 +115,15 @@ class GlidingWeatherList extends Component {
 
     componentWillMount() // before rendering
     {
+        GAtracker.trackScreenView('패러글라이');
+        GAtracker.trackEvent('활공장', '활공장 선택', {name: '활공장', label: district});
+
+        // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
+        GoogleAnalyticsSettings.setDispatchInterval(30);
+        GoogleAnalyticsSettings.setDryRun(true);
+
         this.setHeaderView();
         this.readRealm()    ;
-        mainBoard = true    ;
         fetch.abort(this)   ;
     }
 
@@ -129,12 +143,12 @@ class GlidingWeatherList extends Component {
                     <View style={{flex:1,flexDirection:'column'}}>
                         {/*----------------------------------- Main Board-----------------------------------*/}
                         <View style={{
-                                flex:1,
-                                marginTop: 50,
-                                width:SCREEN_WIDTH,
-                                justifyContent:'center',
-                                alignItems:'center'}
-                    }>
+                            flex:1,
+                            marginTop: 50,
+                            width:SCREEN_WIDTH,
+                            justifyContent:'center',
+                            alignItems:'center'}
+                        }>
 
                             {/* ------------------------------- Navigator ------------------------------------*/}
                             <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
@@ -144,10 +158,10 @@ class GlidingWeatherList extends Component {
                             <View style={pickerStyle.directionMarginTop}>
                                 <Text style={{color:'#FFF'}}>활공방향 </Text>
                                 <View style={pickerStyle.bestDirection}>
-                                {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
-                                {DirectionImage.getWindDirectionImage(parseInt(bestDirection[1]))}
-                                {DirectionImage.getWindDirectionImage(parseInt(bestDirection[2]))}
-                                {DirectionImage.getWindDirectionImage(parseInt(bestDirection[3]))}
+                                    {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
+                                    {DirectionImage.getWindDirectionImage(parseInt(bestDirection[1]))}
+                                    {DirectionImage.getWindDirectionImage(parseInt(bestDirection[2]))}
+                                    {DirectionImage.getWindDirectionImage(parseInt(bestDirection[3]))}
                                 </View>
                             </View>
                             <View style={{flexDirection:'row',marginTop:2}}>
@@ -183,8 +197,8 @@ class GlidingWeatherList extends Component {
         realmInstance.write(() => {
 
             /* --------before display  Favorite Lists----------
-            let AllFavorite_gliding = realmInstance.objects('FavoriteGliding');
-            console.log(AllFavorite_gliding);
+             let AllFavorite_gliding = realmInstance.objects('FavoriteGliding');
+             console.log(AllFavorite_gliding);
              --------before display  Favorite Lists---------- */
 
             let theme = "FavoriteGliding", var_index = this.props.rowData.index;
@@ -231,7 +245,7 @@ class GlidingWeatherList extends Component {
     }
 
     readRealm() {
-       // console.log("read result before ");
+        // console.log("read result before ");
 
         realmInstance.write(() => {
 
@@ -239,20 +253,21 @@ class GlidingWeatherList extends Component {
 
             let specificFavorite = realmInstance.objects(mode).filtered('index = ' + '"' + var_index + '"');
 
-           // console.log(specificFavorite);
+            // console.log(specificFavorite);
 
             if(Object.keys(specificFavorite) == ""){
                 //not exists.
             } else {
                 //exists.
-               // console.log("read. exists. index " + var_index);
+                // console.log("read. exists. index " + var_index);
                 this.setHeartOnOff();
             }
         });
-       // console.log("read result after ");
+        // console.log("read result after ");
     }
 
     fetchData() {
+        gMainBoardFlag = true    ;
         weatherBackImg    = WeatherImage.getBackgroundImage()    ;
         var setTimeoudtID = setTimeout(this.startCountDown, 7000);
 
@@ -273,7 +288,7 @@ class GlidingWeatherList extends Component {
                 clearTimeout(setTimeoudtID);
             })
             .catch((error) => {
-               // console.warn(error);
+                // console.warn(error);
                 clearTimeout(setTimeoudtID);
                 this.setState({
                     spinnerVisible:false,
@@ -296,9 +311,9 @@ class GlidingWeatherList extends Component {
     // Draw List's Headers
     sectionHeader(rowData, sectionID) {
 
-        if(mainBoard === true) {
+        if(gMainBoardFlag === true) {
             this.setHeaderView();
-            mainBoard = false;
+            gMainBoardFlag = false;
         }
         else headerView = (<View style={{width:0,height:0}}></View>);
 
@@ -459,11 +474,11 @@ class GlidingWeatherList extends Component {
                 <TouchableOpacity onPress={()=>this.refreshListView()}>
                     <Ionicons name="md-refresh-circle"
                               style={{
-                                            fontSize:50,
-                                            color: '#9c0010',
-                                            marginBottom:10,
-                                            transform:[{rotate: '136 deg'}],
-                                          }}
+                                  fontSize:50,
+                                  color: '#9c0010',
+                                  marginBottom:10,
+                                  transform:[{rotate: '136 deg'}],
+                              }}
                     />
                 </TouchableOpacity>
                 <Text>네트워크 상태를 확인하세요</Text>
@@ -522,9 +537,9 @@ class GlidingWeatherList extends Component {
                     </View>
                     <View style={pickerStyle.heartView}>
                         <TouchableOpacity onPress={()=> {
-                                this.controlFavorite();
-                                this.setHeartOnOff();
-                                this.refs.toast.show(this.state.heartOnOff==true?'즐겨찾기를 지웁니다':'즐겨찾기에 추가합니다',DURATION.LENGTH_LONG);
+                            this.controlFavorite();
+                            this.setHeartOnOff();
+                            this.refs.toast.show(this.state.heartOnOff==true?'즐겨찾기를 지웁니다':'즐겨찾기에 추가합니다',DURATION.LENGTH_LONG);
                         }}>
                             <Ionicons name="md-heart" size={30}  color={this.state.heartOnOff==true?"#94000F":"#C0C0C0"}/>
                         </TouchableOpacity>
@@ -536,10 +551,10 @@ class GlidingWeatherList extends Component {
                     <View style={pickerStyle.directionMarginBottom}>
                         <Text style={{color:'#FFF'}}>활공방향 </Text>
                         <View style={pickerStyle.bestDirection}>
-                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
-                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[1]))}
-                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[2]))}
-                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[3]))}
+                            {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
+                            {DirectionImage.getWindDirectionImage(parseInt(bestDirection[1]))}
+                            {DirectionImage.getWindDirectionImage(parseInt(bestDirection[2]))}
+                            {DirectionImage.getWindDirectionImage(parseInt(bestDirection[3]))}
                         </View>
                     </View>
                     <GlidingMenu/>

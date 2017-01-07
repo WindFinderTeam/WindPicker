@@ -59,6 +59,7 @@ function getSurfWeather (responseData){
     var speed_gust;
     var temp_pressure;
     var temperature, pressure;
+    var tWind, tGust;
     var wind, gust;
     var winddirectionarrow;
     var time;
@@ -157,13 +158,24 @@ function getSurfWeather (responseData){
             speed_gust = parsing_rawData_direction_speed_gust[j].removeWhitespace().structuredText.split('\n');
             temp_pressure = parsing_rawData_temp_pressure[j].removeWhitespace().structuredText.split('\n');
             temperature = /\d+/.exec(temp_pressure[0]), pressure = /\d+/.exec(temp_pressure[1]);
-            wind = /\d+/.exec(speed_gust[0]), gust = /\d+/.exec(speed_gust[1]);
+            tWind = /\d+/.exec(speed_gust[0]), tGust = /\d+/.exec(speed_gust[1]);
             winddirectionarrow = /\d+/.exec(parsing_rawData_directionarrow_wind[j].removeWhitespace().rawText);
             time = '';
             tideFreq = '', tideHeight = '', tidedirections = '';
             waveheight = '', wavefreq = '', wavedirection = '';
             snowrain = '';
             tideYN = "N";
+
+            console.log("before :" ,tWind[0]);
+            //knotes -> m/s
+            if(tWind[0] % 2 == 0)       wind = Number(tWind[0])/2;
+            else                        wind = (Number(tWind[0])+1)/2;
+
+            if(tGust[0] % 2 == 0)       gust = Number(tGust[0])/2;
+            else                        gust = (Number(tGust[0])+1)/2;
+
+            console.log("after :" ,wind);
+
 
             if(typeof parsing_snowrain[j].childNodes[1] == "undefined"){
                 snowrain = "";
@@ -227,8 +239,8 @@ function getSurfWeather (responseData){
                 "tideheight"        : tideHeight,
                 "tidefreq"          : tideFreq,
                 "tidedirections"    : tidedirections,
-                "wind" : wind[0],
-                "gust" : gust[0],
+                "wind" : wind,
+                "gust" : gust,
             };
 
             rowIDs[i].push(rowJson.key);

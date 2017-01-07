@@ -10,7 +10,8 @@ import {
     TouchableOpacity,
     View,
     Linking,
-    BackAndroid
+    BackAndroid,
+    StatusBar
 } from 'react-native';
 
 
@@ -119,6 +120,11 @@ class  WindPicker extends Component {
         if(this.state.loadingYn == true)
         {
             mainView = (<View style={styles.loadingView}>
+                <StatusBar
+                    backgroundColor = "#94000F"
+                    barStyle = "light-content"
+                    hidden = {false}
+                />
                 <Image source={require('./image/loadingLogo.png')}
                        style={{width:100 , height:100 }}/>
                 <Text style={styles.logoText}> 윈드피커 </Text>
@@ -188,6 +194,7 @@ class  WindPicker extends Component {
         }
 
         return (
+
             mainView  // LoadingView or AndroidFirstView
         );
     }

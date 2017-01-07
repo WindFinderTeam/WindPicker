@@ -58,7 +58,7 @@ const pickerStyle = StyleSheet.create({
     },
 
     webView: {
-        flex: 1,
+        position:'absolute',
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
@@ -180,6 +180,7 @@ const pickerStyle = StyleSheet.create({
         backgroundColor: '#F6F6F6',
         flex: 1,
         flexDirection: 'row',
+        alignItems: 'center',
         height: 50,
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
@@ -205,6 +206,16 @@ const pickerStyle = StyleSheet.create({
         borderColor: '#94000F',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    webView404: {
+        position:'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        width: SCREEN_WIDTH,
+        height:SCREEN_HEIGHT/2,
+        left:0,
+        zIndex:1
     },
     spaceIcon: {
         width: 30

@@ -22,14 +22,6 @@ import SurfWeatherList from './SurfWeatherList';
 import Ionicons        from 'react-native-vector-icons/Ionicons';
 import { realmInstance } from "./RealmHndler.js";
 
-import {
-    GoogleAnalyticsTracker,
-    GoogleTagManager,
-    GoogleAnalyticsSettings
-} from 'react-native-google-analytics-bridge';
-
-var tracker1 = new GoogleAnalyticsTracker('UA-87305241-1');
-
 
 var pickerStyle   = require('./pickerStyle') ;
 var surfLocalData = require('./jsData/SurfLocalData.json');
@@ -81,28 +73,6 @@ class LocalList extends Component{
 
     }
 
-
-    componentWillMount() // before rendering
-    {
-        tracker1.trackScreenView('서핑');
-        tracker1.trackEvent('지역리스트뷰', '서핑스팟 목록');
-
-        // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
-        GoogleAnalyticsSettings.setDispatchInterval(30);
-        GoogleAnalyticsSettings.setDryRun(true);
-
-        // GoogleTagManager is also static, and works only with one container. All functions here are Promises:
-        /*  GoogleTagManager.openContainerWithId("활공장")
-         .then(() => {
-         return GoogleTagManager.stringForKey("pack");
-         })
-         .then((pack) => {
-         console.log("Pack: ", pack);
-         })
-         .catch((err) => {
-         console.log(err);
-         });*/
-    }
 
 
     renderListViewData(surfLocalData) {
@@ -181,7 +151,7 @@ class LocalList extends Component{
                 {/* row style */}
                 <View style={pickerStyle.listViewrow}>
                     {/* distict */}
-                    <View style={pickerStyle.listViewrowDistrict}>
+               ss     <View style={pickerStyle.listViewrowDistrict}>
                         <Text style={pickerStyle.localListrowText}>{rowData.district}</Text>
                     </View>
 

@@ -16,25 +16,13 @@ import {
     Image } from 'react-native';
 
 
-import GlidingWeatherList         from './GlidingWeatherList';
+import GlidingWeatherList from './GlidingWeatherList';
+import { realmInstance }  from "./RealmHndler.js";
 
-import {
-    GoogleAnalyticsTracker,
-    GoogleTagManager,
-    GoogleAnalyticsSettings
-} from 'react-native-google-analytics-bridge';
-
-import { realmInstance } from "./RealmHndler.js";
-
-var tracker1 = new GoogleAnalyticsTracker('UA-87305241-1');
 
 var glidingLocalData = require('./jsData/GlidingLocalData.json');
 var pickerStyle      = require('./pickerStyle') ;
-
 var selectedRowData ;
-
-
-
 
 class LocalList extends Component{
 
@@ -62,37 +50,13 @@ class LocalList extends Component{
 
         var {data, sectionIds} = this.renderListViewData(glidingLocalData);
         this.state = {
-             dataSource      : this.ds.cloneWithRowsAndSections(data, sectionIds)
+            dataSource      : this.ds.cloneWithRowsAndSections(data, sectionIds)
             ,modalVisible    : false
-
         };
 
         this.setModeRealm();
-
     }
 
-
-    componentWillMount() // before rendering
-    {
-        tracker1.trackScreenView('패러글라이딩');
-        tracker1.trackEvent('지역리스트뷰', '활공장 목록');
-
-        // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
-        GoogleAnalyticsSettings.setDispatchInterval(30);
-        GoogleAnalyticsSettings.setDryRun(true);
-
-        // GoogleTagManager is also static, and works only with one container. All functions here are Promises:
-      /*  GoogleTagManager.openContainerWithId("활공장")
-            .then(() => {
-                return GoogleTagManager.stringForKey("pack");
-            })
-            .then((pack) => {
-                console.log("Pack: ", pack);
-            })
-            .catch((err) => {
-                console.log(err);
-            });*/
-    }
 
     renderListViewData(glidingLocalData) {
 
@@ -126,7 +90,7 @@ class LocalList extends Component{
 
             //Already exists. update mode to 'G'
             realmInstance.create('ModeLastStay', {
-            index: 'lastmode', mode: 'G'}, true);
+                index: 'lastmode', mode: 'G'}, true);
 
             console.log("after mode is >> " + lastModeChk[0].mode);
         });
