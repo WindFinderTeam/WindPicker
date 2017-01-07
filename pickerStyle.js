@@ -197,7 +197,8 @@ const pickerStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+
     },
     iconBorder: {
         borderRadius: 100,

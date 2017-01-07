@@ -318,7 +318,7 @@ class FavoriteList extends Component {
                             </View>
                         </TouchableOpacity>
                     </View>
-                    <View style={{height:50, width:5, backgroundColor:'#E6E6E6'}}></View>
+                    <View style={{height:50, width:5, backgroundColor:'#94000F'}}/>
                 </View>
             </TouchableHighlight>
         )
