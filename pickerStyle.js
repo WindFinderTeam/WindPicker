@@ -250,7 +250,7 @@ const pickerStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'rgba(70,70,70,1)',
+        backgroundColor: 'rgba(70,70,70,0.8)',
         height:30,
         marginTop:0,
 
