@@ -64,6 +64,7 @@ class FavoriteList extends Component {
             surfModalVisible  : false
             , glidModalVisible: false
             , isCollapsed     : false
+            , viewMode        : this.props.viewMode
             , dataSource: [
                 {
                     title: <Image source={require('./image/fav_surfing.png')} style={styles.container}>
@@ -267,6 +268,7 @@ class FavoriteList extends Component {
 
     _InnerDataRenderRow(rowData) {
 
+        /* ignore the first row, no to show */
         if (rowData.name === "tempData")
             return (<View style={{height:1, backgroundColor:'#DDD'}}></View>);
 
@@ -355,8 +357,14 @@ class FavoriteList extends Component {
 
     render() {
 
+        let singleModeDataSource = [];
         // whenever FavorieteList is called from AndroidFirstVIew, reload realm
         if(this.props.realmReload == true)          this.realmRead();
+
+        if(this.props.viewMode == 'surf')   singleModeDataSource.push(this.state.dataSource[0]);
+        else                                singleModeDataSource.push(this.state.dataSource[1]);
+
+
 
         return (
             <View>
@@ -389,7 +397,7 @@ class FavoriteList extends Component {
                 </Modal>
 
                 <Accordion
-                    sections={this.state.dataSource}
+                    sections={singleModeDataSource}
                     renderHeader={this._renderHeader}
                     renderContent={this._renderRow}
                 />

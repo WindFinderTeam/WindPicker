@@ -94,10 +94,16 @@ class  AndroidFirstView extends Component {
         console.log(receiveTitleStr, a.nativeEvent.title);
         if(receiveTitleStr == '404') {
             console.log(" ********** 404 detected!");
-            console.log(camLoadOk0==true);
-            console.log(camLoadOk1==true);
-            console.log(camLoadOk2==true);
+            console.log(camLoadOk0==true  , camLoadOk1==true  , camLoadOk2==true);
             this.setState({camLoadError:true});
+        } else {
+            console.log("not error before:",camLoadOk0==true  , camLoadOk1==true  , camLoadOk2==true);
+
+            camLoadOk0 = false;
+            camLoadOk1 = false;
+            camLoadOk2 = false;
+            console.log("not error after:",camLoadOk0==true  , camLoadOk1==true  , camLoadOk2==true);
+
         };
 
 }
@@ -258,7 +264,6 @@ class  AndroidFirstView extends Component {
                     </Carousel>
                 );
                 camLoadOk1 = false;
-
             }
             if(camLoadOk2) {
                 webView2=(<Image source={require('./image/pageNotFound.png')}
@@ -282,11 +287,7 @@ class  AndroidFirstView extends Component {
                 renderNavigationView = {() => navigationView}
                 drawerLockMode       = 'locked-closed'
                 ref                  = {'drawer'}>
-                <StatusBar
-                    backgroundColor = "black"
-                    barStyle="default"
-                    hidden = {false}
-                />
+
                 <Ionicons.ToolbarAndroid
                     // navIconName={require('./image/app_logo.png')}
                     // logo={require('./image/app_logo.png')}
@@ -315,8 +316,7 @@ class  AndroidFirstView extends Component {
                                    tabBarBackgroundColor   = "#9c0010"
                                    ref                     = {'scrollView'}
                                    locked                  = {this.state.tabLock}
-                                   onChangeTab             = {(obj)=>this.onChangeTab(obj)}
-                >
+                                   onChangeTab             = {(obj)=>this.onChangeTab(obj)}>
                     <ScrollView tabLabel="날씨상황"  style={styles.tabView} ref="LocalScrollView">
                         {localList}
                     </ScrollView>
@@ -325,6 +325,7 @@ class  AndroidFirstView extends Component {
                                       setWebCamModalVisible ={this.setWebCamModalVisible}
                                       setTabLock            = {this.setTabLock}
                                       realmReload           = {this.state.realmReload}
+                                      viewMode              = {this.state.viewMode}
                         />
                     </ScrollView>
 
