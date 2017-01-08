@@ -91,8 +91,21 @@ const pickerStyle = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
         flex: 1
-
     },
+
+    outerInfoContainer: {
+        justifyContent: 'center',
+        alignItems:'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        flex: 1
+    },
+
+    innerInfoModal: {
+        backgroundColor:'white',
+        height:SCREEN_HEIGHT/2,
+        width:SCREEN_WIDTH*.9
+    },
+
 
     closeIcon: {
         right: 10,

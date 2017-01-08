@@ -376,7 +376,7 @@ class  AndroidFirstView extends Component {
                     animationType={"fade"}
                     transparent={true}
                     visible={this.state.webCamModalVisible}
-                    onRequestClose={() => {webView0=false; webView1 = false; webView2 = false; this.setState({webCamModalVisible: false, camLoadError: false});this.setState({camLoadedOpa:0 });}}>
+                    onRequestClose={() => {webView0=false; webView1 = false; webView2 = false; this.setState({webCamModalVisible: false, camLoadError: false, camLoadedOpa:0});}}>
                     <View style={pickerStyle.modalContainer}>
                         <View style={[pickerStyle.closeIcon, {opacity:this.state.camLoadedOpa}]}>
                             <TouchableOpacity onPress={()=>{this.setState({webCamModalVisible: false})}}>

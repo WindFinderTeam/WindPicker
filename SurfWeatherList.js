@@ -38,6 +38,9 @@ import {
     GoogleAnalyticsSettings
 } from 'react-native-google-analytics-bridge';
 
+// https://www.npmjs.com/package/react-native-simple-modal
+import SimpleModal from 'react-native-simple-modal';
+
 var GAtracker = new GoogleAnalyticsTracker('UA-87305241-1');
 
 var SurfParser     = require('./SurfParser')  ;
@@ -85,6 +88,7 @@ class SurfWeatherList extends Component {
 
         this.onScrollEnd       = this.onScrollEnd.bind(this)      ;
         this.onScrolling       = this.onScrolling.bind(this)      ;
+        this.renderRow         = this.renderRow.bind(this)        ;
         this.fetchData         = this.fetchData.bind(this)        ;
         this.startCountDown    = this.startCountDown.bind(this)   ;
         this.setSpinnerVisible = this.setSpinnerVisible.bind(this);
@@ -105,18 +109,18 @@ class SurfWeatherList extends Component {
                     rowHasChanged: (row1, row2) => row1 !== row2,
                     sectionHeaderHasChanged: (s1, s2) => s1 !== s2
                 })
-            ,topAlpha      :0
-            ,borderAlpha   :0
-            ,menuOpacity   :0
-            ,sunrise       :"00:00"
-            ,sunset        :"00:00"
-            ,updateTime    :"00:00"
-            ,loadOK        :false
-            ,spinnerVisible:true
-            ,networkState  :true
-            ,tideYN        :"N"
-            ,heartOnOff    :false
-
+            ,topAlpha        :0
+            ,borderAlpha     :0
+            ,menuOpacity     :0
+            ,sunrise         :"00:00"
+            ,sunset          :"00:00"
+            ,updateTime      :"00:00"
+            ,loadOK          :false
+            ,spinnerVisible  :true
+            ,networkState    :true
+            ,tideYN          :"N"
+            ,heartOnOff      :false
+            ,weatherModalVib : false
         };
     }
 
@@ -376,10 +380,14 @@ class SurfWeatherList extends Component {
                         <View style={pickerStyle.menusView}><Text style={pickerStyle.rowListText}>{rowData.time}시</Text></View>
 
                         {/* 날씨 */}
-                        <View style={[pickerStyle.menusView,{flexDirection:'column'}]}>
-                            {weatherImg}
-                            {precipitationImg}
-                        </View>
+                        <TouchableOpacity onPress={()=>{this.setState({weatherModalVib: true})}}
+                            style={[pickerStyle.menusView,{flexDirection:'column'}]}>
+                            <View>
+                                {weatherImg}
+                                {precipitationImg}
+                            </View>
+                        </TouchableOpacity>
+
                         {/* 기온 */}
                         <View style={pickerStyle.menusView}>
                             <View style={[pickerStyle.rowTemperatureView,{ backgroundColor:color[parseInt(rowData.temperature)+20] }]}>
@@ -393,22 +401,33 @@ class SurfWeatherList extends Component {
                         </View>
 
                         {/* 바람 */}
-                        <View style={[pickerStyle.menusView, rowData.tidedirections =="" ? {flex:1.5}:{}]}>
-                            {windArrowSrc}
-                            <View style={{flexDirection:'column'}}>
-                                <Text style={pickerStyle.rowListText}>{rowData.wind} m/s</Text>
-                                <Text style={[pickerStyle.rowListText, {fontSize:10}]}>돌풍 {rowData.gust}</Text>
+                        <TouchableOpacity onPress={()=>{this.setState({weatherModalVib: true})}}
+                                          style={{flex: 1.5,
+                                              justifyContent: 'center',
+                                              alignItems: 'center'}}>
+                            <View style={[pickerStyle.menusView, rowData.tidedirections =="" ? {flex:1.5}:{}]}>
+                                {windArrowSrc}
+                                <View style={{flexDirection:'column'}}>
+                                    <Text style={pickerStyle.rowListText}>{rowData.wind} m/s</Text>
+                                    <Text style={[pickerStyle.rowListText, {fontSize:10}]}>돌풍 {rowData.gust}</Text>
+                                </View>
                             </View>
-                        </View>
+                        </TouchableOpacity>
 
                         {/* 파도 */}
-                        <View style={[pickerStyle.menusView, {flex:1.5}]}>
-                            {swellArrowSrc}
-                            <View style={{flexDirection:'column',marginLeft:1}}>
-                                <Text style={pickerStyle.rowListText}>{rowData.waveheight} m</Text>
-                                <Text style={[pickerStyle.rowListText, {fontSize:11}]}>{rowData.wavefrequency}초 간격</Text>
+                        <TouchableOpacity onPress={()=>{this.setState({weatherModalVib: true})}}
+                                          style={{flex: 1.5,
+                                              justifyContent: 'center',
+                                              alignItems: 'center'
+                                        }}>
+                            <View style={[pickerStyle.menusView, {flex:1.5}]}>
+                                {swellArrowSrc}
+                                <View style={{flexDirection:'column',marginLeft:1}}>
+                                    <Text style={pickerStyle.rowListText}>{rowData.waveheight} m</Text>
+                                    <Text style={[pickerStyle.rowListText, {fontSize:11}]}>{rowData.wavefrequency}초 간격</Text>
+                                </View>
                             </View>
-                        </View>
+                        </TouchableOpacity>
 
                         {/* 조수 */}
                         <View style={rowData.tidedirections=="" ? {width:0, height:0} : [{flexDirection:'column', height:50},pickerStyle.menusView]}>
@@ -607,6 +626,20 @@ class SurfWeatherList extends Component {
                     </View>
                     <SurfMenu tideYN={this.state.tideYN}/>
                 </View>
+
+                {/* webCam Modal */}
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={this.state.weatherModalVib}
+                    onRequestClose={() => {this.setState({weatherModalVib: false})}}>
+                    <View style={pickerStyle.outerInfoContainer}>
+                        <View style={pickerStyle.innerInfoModal}>
+                            <Text>information weather </Text>
+                        </View>
+                    </View>
+                </Modal>
+
             </View>
         );
     }
@@ -614,6 +647,7 @@ class SurfWeatherList extends Component {
 const PARALLAX_HEADER_HEIGHT = 200;
 const SPINNER_SIZE = 80;
 
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const NAVI_HEIGHT = 65;
 const MENU_HEIGHT = 60;
