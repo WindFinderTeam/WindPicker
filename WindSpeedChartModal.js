@@ -15,10 +15,13 @@ import {
 } from 'react-native';
 
 var chartFontColorChk = new Array(9);
-var rowI = 0;
+
 var windDataSource;
 var pickerStyle = require('./pickerStyle');
 var WsChart = require('./jsData/WindSpeedChartData.json');
+
+var windLevel = 0;
+var rowNum = 0;
 
 class WindSpeedChartModal extends Component {
 
@@ -37,19 +40,21 @@ class WindSpeedChartModal extends Component {
         windSpeedData: 0,
     };
 
+
+
+
     windRenderRow(rowData) {
 
-        console.log("   chartFontColorChk[rowI]",rowI,chartFontColorChk[rowI]);
-
-        rowI = rowI+1;
+        var descTxtColor="#000000";
+        if(windLevel == rowNum++)  descTxtColor ="#94000F";
 
         return (
-            <View style={{flex: 1, flexDirection: 'row', marginBottom:15, borderBottomWidth: 1, borderTopWidth: 1,  borderBottomColor: '#e9e9e9', borderTopColor: '#e9e9e9'}}>
+            <View style={{flex: 1, flexDirection: 'row', height:50  ,borderBottomWidth: 1,    borderBottomColor: '#e9e9e9'  }}>
                 <View style={{flex: 1}}>
-                    <Text style={{color:(chartFontColorChk[rowI]) == true? '#94000F':'black', fontSize: 13}}>{rowData['speed']}</Text>
+                    <Text style={{color :descTxtColor, fontSize: 13}}>{rowData['speed']}</Text>
                 </View>
                 <View style={{flex: 3.5}}>
-                    <Text style={{color:(chartFontColorChk[rowI]) == true? '#94000F':'black', marginLeft: 5}}>{rowData['content']}</Text>
+                    <Text style={{color:descTxtColor, marginLeft: 5}}>{rowData['content']}</Text>
                 </View>
             </View>
         );
@@ -59,44 +64,18 @@ class WindSpeedChartModal extends Component {
 
     render() {
 
-        console.log("chartFontColorChk.length:",chartFontColorChk.length);
-
-
-        for(var i=0; i<chartFontColorChk.length; i++){
-            chartFontColorChk[i] = false;
-
-        }
-
+        rowNum=0;
         let windSpeed = this.props.windSpeedData.toFixed();
-        console.log("windSpeed:",windSpeed);
 
-        if      (windSpeed >= 2 && windSpeed <= 3  )     chartFontColorChk[1] = true;
-        else if (windSpeed >= 4 && windSpeed <= 6  )     chartFontColorChk[2] = true;
-        else if (windSpeed >= 7 && windSpeed <= 8  )     chartFontColorChk[3] = true;
-        else if (windSpeed >= 9 && windSpeed <= 14 ){
-            if(windSpeed == 9 ){
-                chartFontColorChk[4] = true;
-            } else if (windSpeed == 10){
-                chartFontColorChk[4] = true;
-                chartFontColorChk[5] = true;
-            } else if (windSpeed == 11){
-                chartFontColorChk[4] = true;
-                chartFontColorChk[5] = true;
-                chartFontColorChk[6] = true;
-            } else if (windSpeed == 12 || windSpeed == 13 || windSpeed == 14){
-                chartFontColorChk[5] = true;
-                chartFontColorChk[6] = true;
-            }
-        }
-        else if(windSpeed >= 15 && windSpeed <= 20 )     chartFontColorChk[7] = true;
-        else if(windSpeed >  20 && windSpeed <= 30 )     chartFontColorChk[8] = true;
-        else if(windSpeed >  30 && windSpeed <= 40 )     chartFontColorChk[9] = true;
-
-        for(var j=0; j<chartFontColorChk.length; j++){
-            console.log("chartFontColorChk[j]:", chartFontColorChk[j]);
-        }
-
-        rowI = 0;
+        if      (windSpeed >= 2 && windSpeed <= 3  )     windLevel = 0;
+        else if (windSpeed >= 4 && windSpeed <= 6  )     windLevel = 1;
+        else if (windSpeed >= 7 && windSpeed <= 8  )     windLevel = 2;
+        else if (windSpeed >= 9 && windSpeed <= 11  )    windLevel = 3;
+        else if (windSpeed >= 12 && windSpeed <= 14  )   windLevel = 4;
+        else if (windSpeed >= 15 && windSpeed <= 20  )   windLevel = 5;
+        else if (windSpeed >= 21 && windSpeed <= 30  )   windLevel = 6;
+        else if (windSpeed >= 31 && windSpeed <= 40  )   windLevel = 7;
+        else                                             windLevel = 9;
 
         return (
 
