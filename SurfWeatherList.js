@@ -125,6 +125,7 @@ class SurfWeatherList extends Component {
             ,tideYN          :"N"
             ,heartOnOff      :false
             ,windModalVib    :false
+            ,windSpeedData   :0
         };
     }
 
@@ -398,7 +399,7 @@ class SurfWeatherList extends Component {
                         </View>
 
                         {/* 바람 */}
-                        <TouchableOpacity onPress={()=>{this.setState({windModalVib:true})}}
+                        <TouchableOpacity onPress={()=>{this.setState({windModalVib:true, windSpeedData:rowData.wind})}}
                                           style={{flex: 1.5,
                                               justifyContent: 'center',
                                               alignItems: 'center'}}>
@@ -557,7 +558,8 @@ class SurfWeatherList extends Component {
                 </View>
 
                 <WindSpeedChartModal windModalVib = {this.state.windModalVib}
-                                    setWindModalVib = {this.setWindModalVib}/>
+                                     setWindModalVib = {this.setWindModalVib}
+                                     windSpeedData = {this.state.windSpeedData}/>
 
                 <ActionButton
                     buttonColor={this.setRgba()}
