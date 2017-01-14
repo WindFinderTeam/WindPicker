@@ -67,7 +67,6 @@ class  WindPicker extends Component {
             .then((res) => {
 
                 this.getLastModeFromRealm();
-                console.log("lastMode >> " + lastMode);
 
                 /* if update is required */
                 if(res.isNeeded == true)    this.setState({updateInfoModal: true,chooseModeModal:false});

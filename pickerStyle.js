@@ -96,16 +96,17 @@ const pickerStyle = StyleSheet.create({
     outerInfoContainer: {
         justifyContent: 'center',
         alignItems:'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        flex: 1
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        flex: 1,
     },
 
     innerInfoModal: {
         backgroundColor:'white',
-        height:SCREEN_HEIGHT/2,
-        width:SCREEN_WIDTH*.9
-    },
+        width:SCREEN_WIDTH*.9,
+        borderRadius: 2,
+        padding:10
 
+    },
 
     closeIcon: {
         right: 10,
@@ -263,8 +264,8 @@ const pickerStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'rgba(70,70,70,0.8)',
-        height:30,
+        backgroundColor: 'rgba(48,48,48,1)',
+        height:25,
         marginTop:0,
 
     },

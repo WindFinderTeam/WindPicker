@@ -37,8 +37,9 @@ import {
     GoogleTagManager,
     GoogleAnalyticsSettings
 } from 'react-native-google-analytics-bridge';
+import WindSpeedChartModal    from './WindSpeedChartModal';
 
-var GAtracker = new GoogleAnalyticsTracker('UA-87305241-1');
+var GAtracker = new GoogleAnalyticsTracker('UA-90380212-1');
 
 
 var pickerStyle    = require('./pickerStyle');
@@ -85,6 +86,8 @@ class GlidingWeatherList extends Component {
         this.setHeaderView     = this.setHeaderView.bind(this)    ;
         this.controlFavorite   = this.controlFavorite.bind(this)       ;
         this.setHeartOnOff     = this.setHeartOnOff.bind(this)         ;
+        this.renderRow         = this.renderRow.bind(this)             ;
+        this.setWindModalVib   = this.setWindModalVib.bind(this)       ;
 
         var getSectionData     = (dataBlob, sectionID)        => {return dataBlob[sectionID];              };
         var getRowData         = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
@@ -109,6 +112,8 @@ class GlidingWeatherList extends Component {
             ,spinnerVisible:true
             ,networkState  :true
             ,heartOnOff    :false
+            ,windModalVib  :false
+
         };
     }
 
@@ -368,10 +373,19 @@ class GlidingWeatherList extends Component {
                         <View style={pickerStyle.menusView}>
                             {windArrowSrc}
                         </View>
-                        <View style={{flex:1,justifyContent:'center',alignItems: 'center',flexDirection: 'column',}}>
-                            <Text style={{color: 'black',textAlign: 'center',fontSize: 13,}}>{rowData.windSpeed+' m/s'}</Text>
-                            <Text style={{color: 'black',textAlign: 'center',fontSize: 10,}}>{'돌풍 '+rowData.windGust}</Text>
-                        </View>
+
+
+                        <TouchableOpacity onPress={()=>{this.setState({windModalVib:true})}}
+                                          style={{flex: 1,
+                                              justifyContent: 'center',
+                                              alignItems: 'center'}}>
+                            <View style={{flex:1,justifyContent:'center',alignItems: 'center',flexDirection: 'column',}}>
+                                <Text style={{color: 'black',textAlign: 'center',fontSize: 13,}}>{rowData.windSpeed+' m/s'}</Text>
+                                <Text style={{color: 'black',textAlign: 'center',fontSize: 10,}}>{'돌풍 '+rowData.windGust}</Text>
+                            </View>
+                        </TouchableOpacity>
+
+
                     </View>
 
                     <View style={{width: SCREEN_WIDTH, height:4, flexDirection: 'row'}}>
@@ -434,6 +448,11 @@ class GlidingWeatherList extends Component {
         this.fetchData();
     }
 
+
+    setWindModalVib(visible){
+        return this.setState({windModalVib:visible});
+    }
+
     setSpinnerVisible(visible){    this.setState({spinnerVisible : visible});    }
 
     render() {
@@ -492,6 +511,9 @@ class GlidingWeatherList extends Component {
 
                     {myView}
                 </View>
+
+                <WindSpeedChartModal windModalVib = {this.state.windModalVib}
+                                     setWindModalVib = {this.setWindModalVib}/>
 
                 <ActionButton
                     buttonColor={this.setRgba()}

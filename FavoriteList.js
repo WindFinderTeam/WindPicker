@@ -400,6 +400,7 @@ class FavoriteList extends Component {
                     sections={singleModeDataSource}
                     renderHeader={this._renderHeader}
                     renderContent={this._renderRow}
+                    activeSection={0}
                 />
             </View>
         )

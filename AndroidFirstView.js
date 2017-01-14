@@ -61,6 +61,7 @@ class  AndroidFirstView extends Component {
         ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         }); // shop ListView Data
+
         this.state = {
             configModalOpen     : false,
             viewMode            : this.props.mode,
@@ -124,10 +125,7 @@ class  AndroidFirstView extends Component {
                         javaScriptEnabled={true}
                         startInLoadingState={true}
                         scalesPageToFit={true}
-                        onError={()=>{console.log("0000 onError")}}
-                        renderError={()=>{console.log("0000 renderError")}}
-                        renderLoading={()=>{console.log("0000 renderLoading")}}
-                        onLoadStart={()=>{camLoadOk0 = true; console.log("0000 onLoadStart")}}
+                        onLoadStart={()=>{camLoadOk0 = true}}
                         onLoadEnd={(a)=> this.onLoadEndErrorCatch(a)}
                     />
                     );
@@ -148,12 +146,8 @@ class  AndroidFirstView extends Component {
                         javaScriptEnabled={true}
                         startInLoadingState={true}
                         scalesPageToFit={true}
-                        onError={()=>{console.log("11111 onError")}}
-                        renderError={()=>{console.log("11111 renderError")}}
-                        renderLoading={()=>{console.log("11111 renderLoading")}}
-                        onLoadStart={()=>{camLoadOk1 = true; console.log("1111 onLoadStart")}}
+                        onLoadStart={()=>{camLoadOk1 = true}}
                         onLoadEnd={(a)=> this.onLoadEndErrorCatch(a)}
-                        onReceivedError={()=>{console.log("111 onReceivedError");}}
                     />
                 );
 
@@ -166,12 +160,8 @@ class  AndroidFirstView extends Component {
                         javaScriptEnabled={true}
                         startInLoadingState={true}
                         scalesPageToFit={true}
-                        onError={()=>{console.log("2222 onError")}}
-                        renderError={()=>{console.log("2222 renderError")}}
-                        renderLoading={()=>{console.log("2222 renderLoading")}}
-                        onLoadStart={()=>{camLoadOk2 = true; console.log("2222 onLoadStart")}}
+                        onLoadStart={()=>{camLoadOk2 = true}}
                         onLoadEnd={(a)=> this.onLoadEndErrorCatch(a)}
-                        onReceivedError={()=>{console.log("2222 onReceivedError");}}
                     />
                 );
 
@@ -210,6 +200,20 @@ class  AndroidFirstView extends Component {
     renderRow(rowData) {
 
         return (<View style={{height: 30,}}><Text>{rowData.name}</Text></View>);
+    }
+
+    windRenderRow(rowData){
+
+        return(
+            <View style={{flex:1, flexDirection:'row', height:45, borderTopWidth: 1, borderTopColor: '#e9e9e9'}}>
+                <View style={{flex:1}}>
+                    <Text style={{fontSize:13}}>{rowData['speed']}</Text>
+                </View>
+                <View style={{flex:4}}>
+                    <Text style={{marginLeft:5}}>{rowData['content']}</Text>
+                </View>
+            </View>
+        )
     }
 
 

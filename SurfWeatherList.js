@@ -15,7 +15,7 @@ import {
     ToastAndroid,
     Modal,
     Image,
-    Dimensions
+    Dimensions,
 } from 'react-native';
 
 
@@ -26,6 +26,8 @@ import ActionButton        from 'react-native-action-button';
 import LinearGradient      from 'react-native-linear-gradient';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import { realmInstance }   from "./RealmHndler.js";
+
+import WindSpeedChartModal    from './WindSpeedChartModal';
 
 import {
     LazyloadListView,
@@ -41,13 +43,14 @@ import {
 // https://www.npmjs.com/package/react-native-simple-modal
 import SimpleModal from 'react-native-simple-modal';
 
-var GAtracker = new GoogleAnalyticsTracker('UA-87305241-1');
+var GAtracker = new GoogleAnalyticsTracker('UA-90380212-1');
 
 var SurfParser     = require('./SurfParser')  ;
 var pickerStyle    = require('./pickerStyle') ;
 var WeatherImage   = require('./WeatherImage');
 var SurfMenu       = require('./SurfMenu')    ;
 var DirectionImage = require('./DirectionImage');
+
 const fetch        = require('react-native-cancelable-fetch');
 
 
@@ -95,12 +98,13 @@ class SurfWeatherList extends Component {
         this.setHeaderView     = this.setHeaderView.bind(this)    ;
         this.controlFavorite   = this.controlFavorite.bind(this)  ;
         this.setHeartOnOff     = this.setHeartOnOff.bind(this)    ;
+        this.setWindModalVib   = this.setWindModalVib.bind(this)  ;
 
         var getSectionData = (dataBlob, sectionID)        => {return dataBlob[sectionID];};
         var getRowData     = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
 
-
         district =  this.props.rowData.district;
+
         this.state = {
             dataSource: new ListView.DataSource(
                 {
@@ -120,11 +124,11 @@ class SurfWeatherList extends Component {
             ,networkState    :true
             ,tideYN          :"N"
             ,heartOnOff      :false
-            ,weatherModalVib : false
+            ,windModalVib    :false
         };
     }
 
-    componentWillMount() // before rendering
+    componentWillMount() // after rendering
     {
         GAtracker.trackScreenView('서핑');
         GAtracker.trackEvent('서핑스팟', '스팟선택', {name: '서핑스팟', label: district});
@@ -138,7 +142,7 @@ class SurfWeatherList extends Component {
         mainBoard    = true;
     }
 
-    componentDidMount()
+    componentDidMount() // before rendering
     {
         this.fetchData();
     }
@@ -220,9 +224,6 @@ class SurfWeatherList extends Component {
             }
         });
     }
-
-
-
 
     fetchData() {
 
@@ -380,14 +381,10 @@ class SurfWeatherList extends Component {
                         <View style={pickerStyle.menusView}><Text style={pickerStyle.rowListText}>{rowData.time}시</Text></View>
 
                         {/* 날씨 */}
-                        <TouchableOpacity onPress={()=>{this.setState({weatherModalVib: true})}}
-                            style={[pickerStyle.menusView,{flexDirection:'column'}]}>
-                            <View>
-                                {weatherImg}
-                                {precipitationImg}
-                            </View>
-                        </TouchableOpacity>
-
+                        <View style={[pickerStyle.menusView,{flexDirection:'column'}]}>
+                            {weatherImg}
+                            {precipitationImg}
+                        </View>
                         {/* 기온 */}
                         <View style={pickerStyle.menusView}>
                             <View style={[pickerStyle.rowTemperatureView,{ backgroundColor:color[parseInt(rowData.temperature)+20] }]}>
@@ -401,7 +398,7 @@ class SurfWeatherList extends Component {
                         </View>
 
                         {/* 바람 */}
-                        <TouchableOpacity onPress={()=>{this.setState({weatherModalVib: true})}}
+                        <TouchableOpacity onPress={()=>{this.setState({windModalVib:true})}}
                                           style={{flex: 1.5,
                                               justifyContent: 'center',
                                               alignItems: 'center'}}>
@@ -415,19 +412,13 @@ class SurfWeatherList extends Component {
                         </TouchableOpacity>
 
                         {/* 파도 */}
-                        <TouchableOpacity onPress={()=>{this.setState({weatherModalVib: true})}}
-                                          style={{flex: 1.5,
-                                              justifyContent: 'center',
-                                              alignItems: 'center'
-                                        }}>
-                            <View style={[pickerStyle.menusView, {flex:1.5}]}>
-                                {swellArrowSrc}
-                                <View style={{flexDirection:'column',marginLeft:1}}>
-                                    <Text style={pickerStyle.rowListText}>{rowData.waveheight} m</Text>
-                                    <Text style={[pickerStyle.rowListText, {fontSize:11}]}>{rowData.wavefrequency}초 간격</Text>
-                                </View>
+                        <View style={[pickerStyle.menusView, {flex:1.5}]}>
+                            {swellArrowSrc}
+                            <View style={{flexDirection:'column',marginLeft:1}}>
+                                <Text style={pickerStyle.rowListText}>{rowData.waveheight} m</Text>
+                                <Text style={[pickerStyle.rowListText, {fontSize:11}]}>{rowData.wavefrequency}초 간격</Text>
                             </View>
-                        </TouchableOpacity>
+                        </View>
 
                         {/* 조수 */}
                         <View style={rowData.tidedirections=="" ? {width:0, height:0} : [{flexDirection:'column', height:50},pickerStyle.menusView]}>
@@ -499,6 +490,10 @@ class SurfWeatherList extends Component {
         this.fetchData();
     }
 
+    setWindModalVib(visible){
+        return this.setState({windModalVib:visible});
+    }
+
     setSpinnerVisible(visible){this.setState({spinnerVisible : visible});}
 
     render() {
@@ -560,6 +555,9 @@ class SurfWeatherList extends Component {
 
                     {myView}
                 </View>
+
+                <WindSpeedChartModal windModalVib = {this.state.windModalVib}
+                                    setWindModalVib = {this.setWindModalVib}/>
 
                 <ActionButton
                     buttonColor={this.setRgba()}
@@ -627,18 +625,6 @@ class SurfWeatherList extends Component {
                     <SurfMenu tideYN={this.state.tideYN}/>
                 </View>
 
-                {/* webCam Modal */}
-                <Modal
-                    animationType={"fade"}
-                    transparent={true}
-                    visible={this.state.weatherModalVib}
-                    onRequestClose={() => {this.setState({weatherModalVib: false})}}>
-                    <View style={pickerStyle.outerInfoContainer}>
-                        <View style={pickerStyle.innerInfoModal}>
-                            <Text>information weather </Text>
-                        </View>
-                    </View>
-                </Modal>
 
             </View>
         );
@@ -647,7 +633,6 @@ class SurfWeatherList extends Component {
 const PARALLAX_HEADER_HEIGHT = 200;
 const SPINNER_SIZE = 80;
 
-const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const NAVI_HEIGHT = 65;
 const MENU_HEIGHT = 60;

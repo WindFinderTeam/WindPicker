@@ -166,16 +166,12 @@ function getSurfWeather (responseData){
             snowrain = '';
             tideYN = "N";
 
-            console.log("before :" ,tWind[0]);
             //knotes -> m/s
             if(tWind[0] % 2 == 0)       wind = Number(tWind[0])/2;
             else                        wind = (Number(tWind[0])+1)/2;
 
             if(tGust[0] % 2 == 0)       gust = Number(tGust[0])/2;
             else                        gust = (Number(tGust[0])+1)/2;
-
-            console.log("after :" ,wind);
-
 
             if(typeof parsing_snowrain[j].childNodes[1] == "undefined"){
                 snowrain = "";
