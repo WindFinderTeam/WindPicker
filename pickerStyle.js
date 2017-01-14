@@ -226,7 +226,7 @@ const pickerStyle = StyleSheet.create({
         position:'absolute',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white',
+        backgroundColor: 'rgb(48,48,48)',
         width: SCREEN_WIDTH,
         height:SCREEN_HEIGHT/2,
         left:0,

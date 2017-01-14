@@ -92,19 +92,16 @@ class  AndroidFirstView extends Component {
 
     onLoadEndErrorCatch(a){
         let receiveTitleStr =  (a.nativeEvent.title).substr(0,3);
+
         console.log(receiveTitleStr, a.nativeEvent.title);
         if(receiveTitleStr == '404') {
             console.log(" ********** 404 detected!");
             console.log(camLoadOk0==true  , camLoadOk1==true  , camLoadOk2==true);
             this.setState({camLoadError:true});
         } else {
-            console.log("not error before:",camLoadOk0==true  , camLoadOk1==true  , camLoadOk2==true);
-
             camLoadOk0 = false;
             camLoadOk1 = false;
             camLoadOk2 = false;
-            console.log("not error after:",camLoadOk0==true  , camLoadOk1==true  , camLoadOk2==true);
-
         };
 
 }
@@ -252,14 +249,18 @@ class  AndroidFirstView extends Component {
             console.log("camLoadError in");
 
             if(camLoadOk0) {
-                webView0 = (<Image source={require('./image/pageNotFound.png')}
-                                   style={pickerStyle.webView404}/>);
+                webView0 = (<View style={pickerStyle.webView404}>
+                                <Ionicons name="md-build" size={28} color={'white'}/>
+                                <Text style={{marginTop:5, fontSize:18,color:'white'}}>라이브캠이 잠시 점검중입니다. </Text>
+                            </View>);
                 webCamView = webView0;
                 camLoadOk0 = false;
             }
             if(camLoadOk1) {
-                webView1=(<Image source={require('./image/pageNotFound.png')}
-                                 style={pickerStyle.webView404}/>);
+                webView1=(<View style={pickerStyle.webView404}>
+                                <Ionicons name="md-build" size={28} color={'white'}/>
+                                <Text style={{marginTop:5, fontSize:18,color:'white'}}>라이브캠이 잠시 점검중입니다. </Text>
+                          </View>);
 
                 webCamView = (
                     <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-68}>
@@ -270,8 +271,10 @@ class  AndroidFirstView extends Component {
                 camLoadOk1 = false;
             }
             if(camLoadOk2) {
-                webView2=(<Image source={require('./image/pageNotFound.png')}
-                                 style={pickerStyle.webView404}/>);
+                webView2=(<View style={pickerStyle.webView404}>
+                                <Ionicons name="md-build" size={28} color={'white'}/>
+                                <Text style={{marginTop:5, fontSize:18,color:'white'}}>라이브캠이 잠시 점검중입니다. </Text>
+                          </View>);
                 webCamView = (
                     <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-68}>
                         {webView1}
@@ -384,7 +387,7 @@ class  AndroidFirstView extends Component {
                     <View style={pickerStyle.modalContainer}>
                         <View style={[pickerStyle.closeIcon, {opacity:this.state.camLoadedOpa}]}>
                             <TouchableOpacity onPress={()=>{this.setState({webCamModalVisible: false})}}>
-                                <Ionicons name="md-close" size={35} color={'white'}/>
+                                <Ionicons name="md-close" size={50} color={'white'}/>
                             </TouchableOpacity>
                         </View>
                         <View style={{height:SCREEN_HEIGHT/2}}>

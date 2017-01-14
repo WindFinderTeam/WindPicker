@@ -79,7 +79,7 @@ class  WindPicker extends Component {
     }
 
     goToMarket(){
-        Linking.openURL("https://play.google.com/store/apps/details?id=shufflebrother.mobile.searchthelaw").catch(err => console.error('An error occurred', err));
+        Linking.openURL("https://play.google.com/store/apps/details?id=com.windpicker").catch(err => console.error('An error occurred', err));
         BackAndroid.exitApp(); // Finish this App
     }
 
