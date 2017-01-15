@@ -113,6 +113,7 @@ class GlidingWeatherList extends Component {
             ,networkState  :true
             ,heartOnOff    :false
             ,windModalVib  :false
+            ,windSpeedData :0
 
         };
     }
@@ -374,8 +375,7 @@ class GlidingWeatherList extends Component {
                             {windArrowSrc}
                         </View>
 
-
-                        <TouchableOpacity onPress={()=>{this.setState({windModalVib:true})}}
+                        <TouchableOpacity onPress={()=>{this.setState({windModalVib:true, windSpeedData:rowData.windSpeed})}}
                                           style={{flex: 1,
                                               justifyContent: 'center',
                                               alignItems: 'center'}}>
@@ -513,7 +513,8 @@ class GlidingWeatherList extends Component {
                 </View>
 
                 <WindSpeedChartModal windModalVib = {this.state.windModalVib}
-                                     setWindModalVib = {this.setWindModalVib}/>
+                                     setWindModalVib = {this.setWindModalVib}
+                                     windSpeedData = {this.state.windSpeedData}/>
 
                 <ActionButton
                     buttonColor={this.setRgba()}

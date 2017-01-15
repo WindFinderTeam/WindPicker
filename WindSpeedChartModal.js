@@ -14,8 +14,6 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 
-var chartFontColorChk = new Array(9);
-
 var windDataSource;
 var pickerStyle = require('./pickerStyle');
 var WsChart = require('./jsData/WindSpeedChartData.json');
@@ -41,8 +39,6 @@ class WindSpeedChartModal extends Component {
     };
 
 
-
-
     windRenderRow(rowData) {
 
         var descTxtColor="#000000";
@@ -58,14 +54,12 @@ class WindSpeedChartModal extends Component {
                 </View>
             </View>
         );
-
-
     }
 
     render() {
 
         rowNum=0;
-        let windSpeed = this.props.windSpeedData.toFixed();
+        let windSpeed = this.props.windSpeedData;
 
         if      (windSpeed >= 2 && windSpeed <= 3  )     windLevel = 0;
         else if (windSpeed >= 4 && windSpeed <= 6  )     windLevel = 1;
