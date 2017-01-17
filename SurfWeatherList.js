@@ -59,10 +59,6 @@ var offset = 0;           // before scroll position for Action Button
 var API_URL;
 var bfcurrentOffset = 0;  // before scroll position for MenuBar
 
-
-var mainBoard = true;
-var headerView;
-var mainBoardView;
 var district ;
 var weatherBackImg=(require('./image/wlLoadingBg.jpg'));
 
@@ -95,10 +91,10 @@ class SurfWeatherList extends Component {
         this.fetchData         = this.fetchData.bind(this)        ;
         this.startCountDown    = this.startCountDown.bind(this)   ;
         this.setSpinnerVisible = this.setSpinnerVisible.bind(this);
-        this.setHeaderView     = this.setHeaderView.bind(this)    ;
         this.controlFavorite   = this.controlFavorite.bind(this)  ;
         this.setHeartOnOff     = this.setHeartOnOff.bind(this)    ;
         this.setWindModalVib   = this.setWindModalVib.bind(this)  ;
+        this._renderHeader     = this._renderHeader.bind(this)  ;
 
         var getSectionData = (dataBlob, sectionID)        => {return dataBlob[sectionID];};
         var getRowData     = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
@@ -138,9 +134,7 @@ class SurfWeatherList extends Component {
         GoogleAnalyticsSettings.setDispatchInterval(30);
         GoogleAnalyticsSettings.setDryRun(true);
 
-        this.setHeaderView();
         this.readRealm();
-        mainBoard    = true;
     }
 
     componentDidMount() // before rendering
@@ -148,53 +142,7 @@ class SurfWeatherList extends Component {
         this.fetchData();
     }
 
-    setHeaderView(){
 
-        headerView =
-            (
-                <Image
-                    source={weatherBackImg}
-                    style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
-
-                    <View style={{flex:1,flexDirection:'column'}}>
-                        {/*----------------------------------- Main Board-----------------------------------*/}
-                        <View style={{
-                            flex:1,
-                            marginTop: 50,
-                            width:SCREEN_WIDTH,
-                            justifyContent:'center',
-                            alignItems:'center'}
-                        }>
-
-                            {/* ------------------------------- Navigator ------------------------------------*/}
-                            <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
-                            <Text style={ pickerStyle.headerDistrictText }>
-                                {district}
-                            </Text>
-                            <View style={pickerStyle.directionMarginTop}>
-                                <Text style={{color:'#FFF'}}>최적방향 </Text>
-                                <View style={pickerStyle.bestDirection}>
-                                    {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
-                                    {DirectionImage.getSwellDirectionImage(parseInt(bestDirection[1]))}
-                                </View>
-                            </View>
-                            <View style={{flexDirection:'row',marginTop:2}}>
-                                <View style={pickerStyle.sunInfo }>
-                                    <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
-                                </View>
-                                <View style={pickerStyle.sunInfo }>
-                                    <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
-                                </View>
-                            </View>
-
-                        </View>
-
-                        {/*-------------------------- BOTTOM MENU ---------------------------------*/}
-                        <View style={{width:SCREEN_WIDTH}}><SurfMenu tideYN={this.state.tideYN}/></View>
-                    </View>
-                </Image>
-            );
-    }
 
 
     startCountDown(){
@@ -295,8 +243,6 @@ class SurfWeatherList extends Component {
 
             if(Object.keys(specificFavorite) == ""){
 
-                //not exists. need to insert
-                //console.log("need to insert");
                 realmInstance.create('FavoriteSurfing', {
                     index  : var_index,
                     name   : this.props.rowData.district,
@@ -307,34 +253,16 @@ class SurfWeatherList extends Component {
             } else {
 
                 //exists. need to delete
-                // console.log("need to delete");
                 realmInstance.delete(specificFavorite); // Deletes all books
 
             }
-
-            /* --------after display  Favorite Lists----------
-             let AllFavorite_surfing_after = realmInstance.objects('FavoriteSurfing');
-             console.log(AllFavorite_surfing_after);
-             console.log("======================");
-             console.log(Object.keys(AllFavorite_surfing_after).length);
-             console.log(AllFavorite_surfing_after);
-             --------after display  Favorite Lists---------- */
-
         });
-        // this.setState({heartOnOff: !this.state.heartOnOff});
     }
 
     // Draw List's Headers
     sectionHeader(rowData, sectionID) {
 
-        if(mainBoard === true) {
-            this.setHeaderView();
-            mainBoard = false;
-        }
-        else headerView = (<View style={{width:0,height:0}}></View>);
         return (
-            <View>
-                {headerView}
                 <View style={pickerStyle.headerViewStyle}>
                     <LazyloadView host="listExample">
                         <View style={pickerStyle.sectionHeader}>
@@ -342,7 +270,6 @@ class SurfWeatherList extends Component {
                         </View>
                     </LazyloadView>
                 </View>
-            </View>
         )
     }
 
@@ -497,14 +424,57 @@ class SurfWeatherList extends Component {
 
     setSpinnerVisible(visible){this.setState({spinnerVisible : visible});}
 
+    _renderHeader(){
+        return  (
+        <Image
+            source={weatherBackImg}
+            style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
+
+            <View style={{flex:1,flexDirection:'column'}}>
+                {/*----------------------------------- Main Board-----------------------------------*/}
+                <View style={{
+                    flex:1,
+                    marginTop: 50,
+                    width:SCREEN_WIDTH,
+                    justifyContent:'center',
+                    alignItems:'center'}
+                }>
+
+                    {/* ------------------------------- Navigator ------------------------------------*/}
+                    <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
+                    <Text style={ pickerStyle.headerDistrictText }>
+                        {district}
+                    </Text>
+                    <View style={pickerStyle.directionMarginTop}>
+                        <Text style={{color:'#FFF'}}>최적방향 </Text>
+                        <View style={pickerStyle.bestDirection}>
+                            {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
+                            {DirectionImage.getSwellDirectionImage(parseInt(bestDirection[1]))}
+                        </View>
+                    </View>
+                    <View style={{flexDirection:'row',marginTop:2}}>
+                        <View style={pickerStyle.sunInfo }>
+                            <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
+                        </View>
+                        <View style={pickerStyle.sunInfo }>
+                            <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
+                        </View>
+                    </View>
+
+                </View>
+
+                {/*-------------------------- BOTTOM MENU ---------------------------------*/}
+                <View style={{width:SCREEN_WIDTH}}><SurfMenu tideYN={this.state.tideYN}/></View>
+            </View>
+        </Image>);
+    }
+
     render() {
 
         var myView;
 
         if(this.state.networkState == true)
         {
-            if(this.state.spinnerVisible == true)  mainBoardView = headerView;
-            else                                   mainBoardView = (<View></View>);
 
             myView =(
                 <LazyloadListView
@@ -513,6 +483,7 @@ class SurfWeatherList extends Component {
                     name                      = "listExample"
                     ref                       = "ScrollView"
                     dataSource                = {this.state.dataSource}
+                    renderHeader              = {this._renderHeader}
                     renderSectionHeader       = {this.sectionHeader.bind(this)}
                     renderRow                 = {this.renderRow}
                     scrollRenderAheadDistance = {200}
@@ -531,7 +502,6 @@ class SurfWeatherList extends Component {
             );
         }
         else{ // OFFLINE VIEW
-            mainBoardView = headerView;
             myView =( <View style={pickerStyle.offlineView}>
                 <TouchableOpacity onPress={()=>this.refreshListView()}>
                     <Ionicons name="md-refresh-circle"
@@ -551,11 +521,7 @@ class SurfWeatherList extends Component {
 
             <View  style={{flex:1}}>
 
-                <View style={{flex: 1}}>
-                    {mainBoardView}
-
-                    {myView}
-                </View>
+                <View style={{flex: 1}}>{myView}</View>
 
                 <WindSpeedChartModal windModalVib = {this.state.windModalVib}
                                      setWindModalVib = {this.setWindModalVib}

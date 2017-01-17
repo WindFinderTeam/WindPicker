@@ -54,10 +54,7 @@ var offset = 0;           // before scroll position for Action Button
 var rowKey = 0;           // Listview`s row keys
 var bfcurrentOffset = 0;  // before scroll position for MenuBar
 
-var gMainBoardFlag = true;
 var API_URL;
-var headerView;
-var mainBoardView;
 var weatherBackImg=(require('./image/wlLoadingBg.jpg'));
 var district ;
 var bestDirection ;
@@ -83,11 +80,11 @@ class GlidingWeatherList extends Component {
         this.fetchData         = this.fetchData.bind(this);
         this.startCountDown    = this.startCountDown.bind(this);
         this.setSpinnerVisible = this.setSpinnerVisible.bind(this);
-        this.setHeaderView     = this.setHeaderView.bind(this)    ;
         this.controlFavorite   = this.controlFavorite.bind(this)       ;
         this.setHeartOnOff     = this.setHeartOnOff.bind(this)         ;
         this.renderRow         = this.renderRow.bind(this)             ;
         this.setWindModalVib   = this.setWindModalVib.bind(this)       ;
+        this._renderHeader     = this._renderHeader.bind(this)         ;
 
         var getSectionData     = (dataBlob, sectionID)        => {return dataBlob[sectionID];              };
         var getRowData         = (dataBlob, sectionID, rowID) => {return dataBlob[sectionID + ':' + rowID];};
@@ -118,7 +115,6 @@ class GlidingWeatherList extends Component {
         };
     }
 
-
     componentWillMount() // before rendering
     {
         GAtracker.trackScreenView('패러글라이딩');
@@ -128,7 +124,6 @@ class GlidingWeatherList extends Component {
         GoogleAnalyticsSettings.setDispatchInterval(30);
         GoogleAnalyticsSettings.setDryRun(true);
 
-        this.setHeaderView();
         this.readRealm()    ;
         fetch.abort(this)   ;
     }
@@ -138,55 +133,6 @@ class GlidingWeatherList extends Component {
         this.fetchData();
     }
 
-    setHeaderView(){
-
-        headerView =
-            (
-                <Image
-                    source={weatherBackImg}
-                    style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
-
-                    <View style={{flex:1,flexDirection:'column'}}>
-                        {/*----------------------------------- Main Board-----------------------------------*/}
-                        <View style={{
-                            flex:1,
-                            marginTop: 50,
-                            width:SCREEN_WIDTH,
-                            justifyContent:'center',
-                            alignItems:'center'}
-                        }>
-
-                            {/* ------------------------------- Navigator ------------------------------------*/}
-                            <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
-                            <Text style={ pickerStyle.headerDistrictText }>
-                                {district}
-                            </Text>
-                            <View style={pickerStyle.directionMarginTop}>
-                                <Text style={{color:'#FFF'}}>활공방향 </Text>
-                                <View style={pickerStyle.bestDirection}>
-                                    {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
-                                    {DirectionImage.getWindDirectionImage(parseInt(bestDirection[1]))}
-                                    {DirectionImage.getWindDirectionImage(parseInt(bestDirection[2]))}
-                                    {DirectionImage.getWindDirectionImage(parseInt(bestDirection[3]))}
-                                </View>
-                            </View>
-                            <View style={{flexDirection:'row',marginTop:2}}>
-                                <View style={pickerStyle.sunInfo }>
-                                    <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
-                                </View>
-                                <View style={pickerStyle.sunInfo }>
-                                    <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
-                                </View>
-                            </View>
-
-                        </View>
-
-                        {/*-------------------------- BOTTOM MENU ---------------------------------*/}
-                        <View style={{width:SCREEN_WIDTH}}><GlidingMenu/></View>
-                    </View>
-                </Image>
-            );
-    }
 
     startCountDown(){
 
@@ -225,22 +171,11 @@ class GlidingWeatherList extends Component {
                 });
 
             } else {
-
                 //exists. need to delete
-                //console.log("need to delete");
                 realmInstance.delete(specificFavorite); // Deletes all books
-
             }
 
-            /* --------after display  Favorite Lists----------
-             let AllFavorite_gliding_after = realmInstance.objects('FavoriteGliding');
-             console.log(AllFavorite_gliding_after);
-             console.log("======================");
-             console.log(Object.keys(AllFavorite_gliding_after).length);
-             --------after display  Favorite Lists---------- */
-
         });
-        // this.setState({heartOnOff: !this.state.heartOnOff});
     }
 
     setHeartOnOff(){
@@ -273,7 +208,6 @@ class GlidingWeatherList extends Component {
     }
 
     fetchData() {
-        gMainBoardFlag = true    ;
         weatherBackImg    = WeatherImage.getBackgroundImage()    ;
         var setTimeoudtID = setTimeout(this.startCountDown, 7000);
 
@@ -317,15 +251,7 @@ class GlidingWeatherList extends Component {
     // Draw List's Headers
     sectionHeader(rowData, sectionID) {
 
-        if(gMainBoardFlag === true) {
-            this.setHeaderView();
-            gMainBoardFlag = false;
-        }
-        else headerView = (<View style={{width:0,height:0}}></View>);
-
         return(
-            <View>
-                {headerView}
                 <View style={pickerStyle.headerViewStyle}>
                     <LazyloadView host="listExample">
                         <View style={pickerStyle.sectionHeader}>
@@ -333,7 +259,6 @@ class GlidingWeatherList extends Component {
                         </View>
                     </LazyloadView>
                 </View>
-            </View>
         );
     }
 
@@ -453,6 +378,53 @@ class GlidingWeatherList extends Component {
         return this.setState({windModalVib:visible});
     }
 
+    _renderHeader(){
+        return (
+            <Image
+                source={weatherBackImg}
+                style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
+
+                <View style={{flex:1,flexDirection:'column'}}>
+                    {/*----------------------------------- Main Board-----------------------------------*/}
+                    <View style={{
+                        flex:1,
+                        marginTop: 50,
+                        width:SCREEN_WIDTH,
+                        justifyContent:'center',
+                        alignItems:'center'}
+                    }>
+
+                        {/* ------------------------------- Navigator ------------------------------------*/}
+                        <Text style={{color:'#FFF'}}>업데이트 {this.state.updateTime}</Text>
+                        <Text style={ pickerStyle.headerDistrictText }>
+                            {district}
+                        </Text>
+                        <View style={pickerStyle.directionMarginTop}>
+                            <Text style={{color:'#FFF'}}>활공방향 </Text>
+                            <View style={pickerStyle.bestDirection}>
+                                {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
+                                {DirectionImage.getWindDirectionImage(parseInt(bestDirection[1]))}
+                                {DirectionImage.getWindDirectionImage(parseInt(bestDirection[2]))}
+                                {DirectionImage.getWindDirectionImage(parseInt(bestDirection[3]))}
+                            </View>
+                        </View>
+                        <View style={{flexDirection:'row',marginTop:2}}>
+                            <View style={pickerStyle.sunInfo }>
+                                <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
+                            </View>
+                            <View style={pickerStyle.sunInfo }>
+                                <Text style={{color:'#FFF',textAlign:'center'}}>일몰 {this.state.sunset}</Text>
+                            </View>
+                        </View>
+
+                    </View>
+
+                    {/*-------------------------- BOTTOM MENU ---------------------------------*/}
+                    <View style={{width:SCREEN_WIDTH}}><GlidingMenu/></View>
+                </View>
+            </Image>
+        );
+    }
     setSpinnerVisible(visible){    this.setState({spinnerVisible : visible});    }
 
     render() {
@@ -460,8 +432,6 @@ class GlidingWeatherList extends Component {
 
         if(this.state.networkState == true)
         {
-            if(this.state.spinnerVisible==true)  mainBoardView = headerView;
-            else                                 mainBoardView = (<View></View>);
 
             myView =(
                 <LazyloadListView
@@ -469,6 +439,7 @@ class GlidingWeatherList extends Component {
                     // contentContainerStyle={styles.content}
                     name="listExample"
                     dataSource={this.state.dataSource}
+                    renderHeader = {this._renderHeader}
                     renderSectionHeader={this.sectionHeader.bind(this)}
                     renderRow={this.renderRow}
                     scrollRenderAheadDistance = {200}
@@ -488,7 +459,6 @@ class GlidingWeatherList extends Component {
             );
         }
         else{ // OFFLINE VIEW
-            mainBoardView = headerView;
             myView =( <View style={pickerStyle.offlineView}>
                 <TouchableOpacity onPress={()=>this.refreshListView()}>
                     <Ionicons name="md-refresh-circle"
@@ -507,8 +477,6 @@ class GlidingWeatherList extends Component {
         return (
             <View  style={{flex:1}}>
                 <View style={{flex: 1}}>
-                    {mainBoardView}
-
                     {myView}
                 </View>
 

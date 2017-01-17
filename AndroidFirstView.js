@@ -351,8 +351,8 @@ class  AndroidFirstView extends Component {
 
                     <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F'}}>모드선택</Text>
 
-                    <View style={{margin:0,flex:1, backgroundColor:'#9c0010'}}>
-                        <View style={{flex:2, backgroundColor:this.state.viewMode =='surf'?'#d4d4d4':'#F5F5F5'}}>
+                    <View style={{margin:0,flex:1}}>
+                        <View style={{flex:2, height:40}}>
                             <TouchableOpacity
                                 style={{margin: 5,flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress={() => {
@@ -360,10 +360,13 @@ class  AndroidFirstView extends Component {
                                     this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
                                 }}>
-                                <Text style={{color:this.state.viewMode =='surf'?'#727272':'#727272', fontSize: 15}}>서                   핑    </Text>
+                                <View style={{ flexDirection:'row'}}>
+                                    <Text style={{color:'#727272', fontSize: 18}}>서                   핑    </Text>
+                                    {this.state.viewMode=='surf' && <Ionicons name="md-checkmark" size={20} color={'#94000f'} />}
+                                </View>
                             </TouchableOpacity>
                         </View>
-                        <View style={{flex:2, backgroundColor:this.state.viewMode =='gliding'?'#d4d4d4':'#F5F5F5'}}>
+                        <View style={{flex:2, flexDirection:'row', height:40}}>
                             <TouchableOpacity
                                 style   = {{margin: 5, flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress = {() => {
@@ -371,7 +374,10 @@ class  AndroidFirstView extends Component {
                                     this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
                                 }}>
-                                <Text style={{color:this.state.viewMode =='gliding'?'#727272':'#727272',fontSize: 15}}>패 러 글 라 이 딩    </Text>
+                                <View style={{ flexDirection:'row'}}>
+                                    <Text style={{color:'#727272',fontSize: 18}}>패 러 글 라 이 딩    </Text>
+                                    {this.state.viewMode=='gliding' && <Ionicons name="md-checkmark" size={20} color={'#94000f'}/>}
+                                </View>
                             </TouchableOpacity>
                         </View>
                     </View>
