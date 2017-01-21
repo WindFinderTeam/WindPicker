@@ -14,6 +14,7 @@ import io.xogus.reactnative.versioncheck.RNVersionCheckPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import io.realm.react.RealmReactPackage;
+import com.jordansexton.react.crosswalk.webview.CrosswalkWebViewPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
           , new LinearGradientPackage()
           , new GoogleAnalyticsBridgePackage()
           , new RealmReactPackage()
+          , new CrosswalkWebViewPackage()
       );
     }
   };

@@ -182,6 +182,8 @@ class SurfWeatherList extends Component {
         fetch(API_URL,null,this).then((responseData) => {
 
             var {dataBlob,sectionIDs, rowIDs,sunInfo,tideYN} = SurfParser.getSurfWeather(responseData);  //data parsing
+            tideDirection = (<Text></Text>);
+
             if(tideYN == "Y") {
                 gTideFlag = true;
                 var {tideDownImg,tideUpImg,tideHighImg,tideLowImg} = WeatherImage.getTideImage();
@@ -189,7 +191,8 @@ class SurfWeatherList extends Component {
                 gTideUpImg   = tideUpImg;
                 gTideHighImg = tideHighImg;
                 gTideLowImg  = tideLowImg;
-            }
+            } else
+                gTideFlag = false;
 
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
@@ -279,7 +282,7 @@ class SurfWeatherList extends Component {
         rowKey++;
         var precipitation = rowData.rainPrecipitation, time = rowData.time;
 
-        if(!gTideFlag)   ;
+        if(!gTideFlag) {}
         else  {
             switch(rowData.tidedirections) {
                 case 'down' :tideDirection = gTideDownImg; break;
@@ -475,7 +478,6 @@ class SurfWeatherList extends Component {
 
         if(this.state.networkState == true)
         {
-
             myView =(
                 <LazyloadListView
                     style={pickerStyle.container}

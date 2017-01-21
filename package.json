@@ -26,6 +26,7 @@
     "react-native-swipe-list-view": "^0.3.1",
     "react-native-vector-icons": "^2.1.0",
     "react-native-version-check": "^0.4.0",
+    "react-native-webview-crosswalk": "^0.4.0",
     "realm": "^0.14.3"
   }
 }

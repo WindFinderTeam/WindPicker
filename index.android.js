@@ -168,7 +168,7 @@ class  WindPicker extends Component {
                                     this.setState({chooseModeModal: false}) ;
                                     setTimeout(this.startCountDown, 2000); // Jump to AndroidFirstView
                                 }}>
-                                <Text style={{color:this.state.viewMode =='surf'?'#727272':'#727272', fontSize: 15}}>서                   핑    </Text>
+                                <Text style={{color:'#727272', fontSize: 18}}>서                   핑    </Text>
                             </TouchableOpacity>
                         </View>
                         <View style={{flex:2, backgroundColor:this.state.viewMode =='gliding'?'#d4d4d4':'#F5F5F5'}}>
@@ -179,7 +179,7 @@ class  WindPicker extends Component {
                                     this.setState({chooseModeModal: false}) ;
                                     setTimeout(this.startCountDown, 2000); // Jump to AndroidFirstView
                                 }}>
-                                <Text style={{color:this.state.viewMode =='gliding'?'#727272':'#727272',fontSize: 15}}>패 러 글 라 이 딩  </Text>
+                                <Text style={{color:'#727272',fontSize: 18}}>패 러 글 라 이 딩  </Text>
                             </TouchableOpacity>
                         </View>
                     </View>

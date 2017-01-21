@@ -27,6 +27,9 @@ import Toast, { DURATION } from 'react-native-easy-toast';
 // https://www.npmjs.com/package/react-native-simple-modal
 import SimpleModal from 'react-native-simple-modal';
 
+//https://github.com/jordansexton/react-native-webview-crosswalk
+import CrosswalkWebView from 'react-native-webview-crosswalk';
+
 import Carousel        from 'react-native-carousel';
 
 //https://github.com/oblador/react-native-vector-icons
@@ -69,7 +72,6 @@ class  AndroidFirstView extends Component {
             tabLock             : false,
             shopModalVisible    : false,
             webCamModalVisible  : false,
-            camLoadedOpa        : 0,
             realmReload         : false,
             camLoadError        : false,
             dataSource          : ds.cloneWithRows(['row 1', 'row 2'])};
@@ -92,6 +94,7 @@ class  AndroidFirstView extends Component {
 
     onLoadEndErrorCatch(a){
         let receiveTitleStr =  (a.nativeEvent.title).substr(0,3);
+        console.log(" onLoadEndErrorCatch");
 
         console.log(receiveTitleStr, a.nativeEvent.title);
         if(receiveTitleStr == '404') {
@@ -114,16 +117,15 @@ class  AndroidFirstView extends Component {
         switch (i) {
             case '0':
                 webView0 = (
-                    <WebView
-                        onLoad={()=>{this.setState({camLoadedOpa:1})}}
+                    <CrosswalkWebView
+                        onLoad={()=>{console.log("onLoad!!!")}}
+                        mediaPlaybackRequiresUserAction={false}
                         style={pickerStyle.webView}
                         automaticallyAdjustContentInsets={true}
                         source={{uri:webcam[0].camUrl}}
                         javaScriptEnabled={true}
                         startInLoadingState={true}
                         scalesPageToFit={true}
-                        onLoadStart={()=>{camLoadOk0 = true}}
-                        onLoadEnd={(a)=> this.onLoadEndErrorCatch(a)}
                     />
                     );
 
@@ -135,30 +137,28 @@ class  AndroidFirstView extends Component {
                 break;
             case '1':
                 webView1 = (
-                    <WebView
-                        onLoad={()=>{this.setState({camLoadedOpa:1})}}
+                    <CrosswalkWebView
+                        onLoad={()=>{console.log("onLoad!!!")}}
+                        mediaPlaybackRequiresUserAction={false}
                         style={pickerStyle.webView}
                         automaticallyAdjustContentInsets={true}
                         source={{uri: webcam[0].camUrl}}
                         javaScriptEnabled={true}
                         startInLoadingState={true}
                         scalesPageToFit={true}
-                        onLoadStart={()=>{camLoadOk1 = true}}
-                        onLoadEnd={(a)=> this.onLoadEndErrorCatch(a)}
                     />
                 );
 
                 webView2 = (
-                    <WebView
-                        onLoad={()=>{this.setState({camLoadedOpa:1})}}
+                    <CrosswalkWebView
+                        onLoad={()=>{console.log("onLoad!!!")}}
+                        mediaPlaybackRequiresUserAction={false}
                         style={pickerStyle.webView}
                         automaticallyAdjustContentInsets={true}
                         source={{uri: webcam[1].camUrl}}
                         javaScriptEnabled={true}
                         startInLoadingState={true}
                         scalesPageToFit={true}
-                        onLoadStart={()=>{camLoadOk2 = true}}
-                        onLoadEnd={(a)=> this.onLoadEndErrorCatch(a)}
                     />
                 );
 
@@ -243,48 +243,6 @@ class  AndroidFirstView extends Component {
                 modeTitle = '패러글라이딩';
                 break;
         };
-
-        if(this.state.camLoadError){
-
-            console.log("camLoadError in");
-
-            if(camLoadOk0) {
-                webView0 = (<View style={pickerStyle.webView404}>
-                                <Ionicons name="md-build" size={28} color={'white'}/>
-                                <Text style={{marginTop:5, fontSize:18,color:'white'}}>라이브캠이 잠시 점검중입니다. </Text>
-                            </View>);
-                webCamView = webView0;
-                camLoadOk0 = false;
-            }
-            if(camLoadOk1) {
-                webView1=(<View style={pickerStyle.webView404}>
-                                <Ionicons name="md-build" size={28} color={'white'}/>
-                                <Text style={{marginTop:5, fontSize:18,color:'white'}}>라이브캠이 잠시 점검중입니다. </Text>
-                          </View>);
-
-                webCamView = (
-                    <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-68}>
-                        {webView1}
-                        {webView2}
-                    </Carousel>
-                );
-                camLoadOk1 = false;
-            }
-            if(camLoadOk2) {
-                webView2=(<View style={pickerStyle.webView404}>
-                                <Ionicons name="md-build" size={28} color={'white'}/>
-                                <Text style={{marginTop:5, fontSize:18,color:'white'}}>라이브캠이 잠시 점검중입니다. </Text>
-                          </View>);
-                webCamView = (
-                    <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-68}>
-                        {webView1}
-                        {webView2}
-                    </Carousel>
-                );
-                camLoadOk2 = false;
-            }
-        }
-
 
         return (
 
@@ -386,12 +344,12 @@ class  AndroidFirstView extends Component {
 
                 {/* webCam Modal */}
                 <Modal
-                    animationType={"fade"}
+                    animationType={"none"}
                     transparent={true}
                     visible={this.state.webCamModalVisible}
-                    onRequestClose={() => {webView0=false; webView1 = false; webView2 = false; this.setState({webCamModalVisible: false, camLoadError: false, camLoadedOpa:0});}}>
+                    onRequestClose={() => {webView0=false; webView1 = false; webView2 = false; this.setState({webCamModalVisible: false, camLoadError: false})}}>
                     <View style={pickerStyle.modalContainer}>
-                        <View style={[pickerStyle.closeIcon, {opacity:this.state.camLoadedOpa}]}>
+                        <View style={[pickerStyle.closeIcon, {opacity:this.state.webCamModalVisible==true?1:0}]}>
                             <TouchableOpacity onPress={()=>{this.setState({webCamModalVisible: false})}}>
                                 <Ionicons name="md-close" size={50} color={'white'}/>
                             </TouchableOpacity>
