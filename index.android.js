@@ -11,13 +11,14 @@ import {
     View,
     Linking,
     BackAndroid,
-    StatusBar
+    StatusBar,
 } from 'react-native';
 
 
 import Modal               from 'react-native-simple-modal';
 import VersionCheck        from 'react-native-version-check';
 import AndroidFirstView    from './AndroidFirstView';
+import Toast, { DURATION } from 'react-native-easy-toast';
 
 import { realmInstance } from "./RealmHndler.js";
 
@@ -87,7 +88,6 @@ class  WindPicker extends Component {
 
         realmInstance.write(() => {
 
-
             let lastModeRealm = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
 
             // when it visits at first
@@ -124,6 +124,7 @@ class  WindPicker extends Component {
                     barStyle = "light-content"
                     hidden = {false}
                 />
+
                 <Image source={require('./image/loadingLogo.png')}
                        style={{width:100 , height:100 }}/>
                 <Text style={styles.logoText}> 윈드피커 </Text>
@@ -151,31 +152,38 @@ class  WindPicker extends Component {
                     </View>
                 </Modal>
 
+                <Toast
+                    ref      = "toast"
+                    style    = {{backgroundColor:'#222222'}}
+                    position = 'bottom'/>
+
                 <Modal
                     open          = {this.state.chooseModeModal}
                     modalDidOpen  = {() => console.log('nowMode choice modal did open')}
                     modalDidClose = {() => this.setState({chooseModeModal: false,loadingYn:false})}
-                    style         = {{flex:1,borderRadius: 2}}>
+                    style         = {{borderRadius: 2}}>
 
                     <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F'}}>모드선택</Text>
 
-                    <View style={{margin:0,flex:1, backgroundColor:'#9c0010'}}>
-                        <View style={{flex:2, backgroundColor:this.state.viewMode =='surf'?'#d4d4d4':'#F5F5F5'}}>
+                    <View style={{margin:0,flex:1}}>
+                        <View style={{flex:2, height:40}}>
                             <TouchableOpacity
                                 style={{margin: 5,flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress={() => {
                                     nowMode="surf";
+                                    this.refs.toast.show('서핑 모드로 시작합니다',DURATION.LENGTH_LONG);
                                     this.setState({chooseModeModal: false}) ;
                                     setTimeout(this.startCountDown, 2000); // Jump to AndroidFirstView
                                 }}>
                                 <Text style={{color:'#727272', fontSize: 18}}>서                   핑    </Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{flex:2, backgroundColor:this.state.viewMode =='gliding'?'#d4d4d4':'#F5F5F5'}}>
+                        <View style={{flex:2, flexDirection:'row', height:40}}>
                             <TouchableOpacity
                                 style   = {{margin: 5, flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress = {() => {
                                     nowMode="gliding";
+                                    this.refs.toast.show('패러글라이딩 모드로 시작합니다',DURATION.LENGTH_LONG);
                                     this.setState({chooseModeModal: false}) ;
                                     setTimeout(this.startCountDown, 2000); // Jump to AndroidFirstView
                                 }}>

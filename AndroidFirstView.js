@@ -70,6 +70,7 @@ class  AndroidFirstView extends Component {
             viewMode            : this.props.mode,
             loadingYn           : true,
             tabLock             : false,
+            tabViewSelectedPage : -1,
             shopModalVisible    : false,
             webCamModalVisible  : false,
             realmReload         : false,
@@ -91,23 +92,6 @@ class  AndroidFirstView extends Component {
     setShopModalVisible(visible,shopRows) {
         this.setState({shopModalVisible: visible,  dataSource: ds.cloneWithRows(shopRows)});
     }
-
-    onLoadEndErrorCatch(a){
-        let receiveTitleStr =  (a.nativeEvent.title).substr(0,3);
-        console.log(" onLoadEndErrorCatch");
-
-        console.log(receiveTitleStr, a.nativeEvent.title);
-        if(receiveTitleStr == '404') {
-            console.log(" ********** 404 detected!");
-            console.log(camLoadOk0==true  , camLoadOk1==true  , camLoadOk2==true);
-            this.setState({camLoadError:true});
-        } else {
-            camLoadOk0 = false;
-            camLoadOk1 = false;
-            camLoadOk2 = false;
-        };
-
-}
 
     setWebCamModalVisible(visible, webcam) {
 
@@ -162,7 +146,6 @@ class  AndroidFirstView extends Component {
                     />
                 );
 
-
                 webCamView = (
                     <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-68}>
                         {webView1}
@@ -186,6 +169,8 @@ class  AndroidFirstView extends Component {
     }
 
     onChangeTab(obj){
+
+        this.setState({tabViewSelectedPage:-1});
 
         /* obj.i : 0 날씨정보, 1 즐겨찾기 */
         if(obj.i == '1')        this.setState({realmReload: true});
@@ -267,20 +252,27 @@ class  AndroidFirstView extends Component {
                     overflowIconName = "md-more"
                     onActionSelected = {(position) => this.onActionSelected(position)}
                 />
-                <View style={{position:'absolute', left:8, top:14,flexDirection:'row', alignItems:'center'}}>
+                <TouchableOpacity
+                    activeOpacity = {1}
+                    style={{position:'absolute', left:8, top:14, alignItems:'center'}}
+                    onPress={()=>{this.setState({tabViewSelectedPage:0});
+                        this.refs.LocalScrollView.scrollTo({x: 0, y: 0});}}>
+                        <View style={{flexDirection:'row'}}>
                         <Image
                             source     = {require('./image/app_logo.png')}
                             resizeMode = "stretch"
                             style      = {{height:30,width:30}}
                         />
-                        <Text style={{marginLeft:8, fontSize:15}}>{modeTitle}</Text>
-                </View>
+                        <Text style={{marginLeft:8, top:2, fontSize:18}}>{modeTitle}</Text>
+                    </View>
+                </TouchableOpacity>
                 <ScrollableTabView tabBarUnderlineStyle    = {{backgroundColor:"#FFFFFF"}}
                                    tabBarActiveTextColor   = "#FFFFFF"
                                    tabBarInactiveTextColor = "#BDBDBD"
                                    tabBarBackgroundColor   = "#9c0010"
                                    ref                     = {'scrollView'}
                                    locked                  = {this.state.tabLock}
+                                   page                    = {this.state.tabViewSelectedPage}
                                    onChangeTab             = {(obj)=>this.onChangeTab(obj)}>
                     <ScrollView tabLabel="날씨상황"  style={styles.tabView} ref="LocalScrollView">
                         {localList}
@@ -314,7 +306,7 @@ class  AndroidFirstView extends Component {
                             <TouchableOpacity
                                 style={{margin: 5,flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress={() => {
-                                    this.setState({viewMode:'surf',configModalOpen: false});
+                                    this.setState({viewMode:'surf',configModalOpen: false,tabViewSelectedPage:0});
                                     this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
                                 }}>
@@ -328,7 +320,7 @@ class  AndroidFirstView extends Component {
                             <TouchableOpacity
                                 style   = {{margin: 5, flex:1,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress = {() => {
-                                    this.setState({viewMode:'gliding',configModalOpen: false}) ;
+                                    this.setState({viewMode:'gliding',configModalOpen: false,tabViewSelectedPage:0}) ;
                                     this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
                                     this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
                                 }}>
