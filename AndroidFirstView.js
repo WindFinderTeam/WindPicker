@@ -46,8 +46,10 @@ import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab
 
 var ds;
 var webCamView, webCamViewIndicator ;
-var webView0, webView1, webView2, camLoadOk0, camLoadOk1, camLoadOk2;
+var webView0, webView1, webView2;
 var pickerStyle   = require('./pickerStyle');
+
+import MyToolbar from './MyToolbar';
 
 class  AndroidFirstView extends Component {
 
@@ -163,6 +165,7 @@ class  AndroidFirstView extends Component {
 
     onActionSelected(position) {
 
+        console.log("xx",position);
         if (position === 0) { // index of 'Settings'
             this.setConfigModalVisible(true);
         }
@@ -184,30 +187,7 @@ class  AndroidFirstView extends Component {
         return (<View style={{height: 30,}}><Text>{rowData.name}</Text></View>);
     }
 
-    windRenderRow(rowData){
-
-        return(
-            <View style={{flex:1, flexDirection:'row', height:45, borderTopWidth: 1, borderTopColor: '#e9e9e9'}}>
-                <View style={{flex:1}}>
-                    <Text style={{fontSize:13}}>{rowData['speed']}</Text>
-                </View>
-                <View style={{flex:4}}>
-                    <Text style={{marginLeft:5}}>{rowData['content']}</Text>
-                </View>
-            </View>
-        )
-    }
-
-
     render() {
-
-        var navigationView =
-            (
-                <View style={styles.drawer}>
-                    <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>메뉴목록</Text>
-                    {/* <MenuList/> */}
-                </View>
-            );
 
         var localList ;
         if(this.state.viewMode =='surf') localList =  (<SurfLocalList setShopModalVisible   ={this.setShopModalVisible}
@@ -231,41 +211,9 @@ class  AndroidFirstView extends Component {
 
         return (
 
-            <DrawerLayoutAndroid
-                drawerWidth          = {200}
-                drawerPosition       = {DrawerLayoutAndroid.positions.Left}
-                renderNavigationView = {() => navigationView}
-                drawerLockMode       = 'locked-closed'
-                ref                  = {'drawer'}>
+            <View style={{flex:1}}>
+                <MyToolbar modeTitle={modeTitle} onActionSelected={(position)=>this.onActionSelected(position)}/>
 
-                <Ionicons.ToolbarAndroid
-                    // navIconName={require('./image/app_logo.png')}
-                    // logo={require('./image/app_logo.png')}
-                    // onIconClicked={() => this.refs['drawer'].openDrawer()}
-                    style      = {styles.toolbar}
-                    iconColor  = "#94000F"
-                    titleColor = "#94000F"
-                    //title= {this.state.school}
-                    actions={[
-                        { title: '', iconName: 'md-swap',iconColor:'gray', iconSize: 30, show: 'always' }
-                    ]}
-                    overflowIconName = "md-more"
-                    onActionSelected = {(position) => this.onActionSelected(position)}
-                />
-                <TouchableOpacity
-                    activeOpacity = {1}
-                    style={{position:'absolute', left:8, top:14, alignItems:'center'}}
-                    onPress={()=>{this.setState({tabViewSelectedPage:0});
-                        this.refs.LocalScrollView.scrollTo({x: 0, y: 0});}}>
-                        <View style={{flexDirection:'row'}}>
-                        <Image
-                            source     = {require('./image/app_logo.png')}
-                            resizeMode = "stretch"
-                            style      = {{height:30,width:30}}
-                        />
-                        <Text style={{marginLeft:8, top:2, fontSize:18}}>{modeTitle}</Text>
-                    </View>
-                </TouchableOpacity>
                 <ScrollableTabView tabBarUnderlineStyle    = {{backgroundColor:"#FFFFFF"}}
                                    tabBarActiveTextColor   = "#FFFFFF"
                                    tabBarInactiveTextColor = "#BDBDBD"
@@ -372,36 +320,20 @@ class  AndroidFirstView extends Component {
                         />
                 </SimpleModal>
 
-            </DrawerLayoutAndroid>
+            </View>
         );
     }
 }
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-const SCREEN_WIDTH = Dimensions.get('window').width;
-
 
 const styles = StyleSheet.create({
 
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-    drawer: {
-        backgroundColor: '#FFFFFF',
-        flex: 1,
-    },
-    toolbar: {
-        height: 56,
-        backgroundColor: '#FFFFFF'
-    },
     tabView: {
         flex: 1,
         padding: 0,
         backgroundColor: 'rgba(0,0,0,0.01)',
     },
-
 
 });
 
