@@ -209,7 +209,7 @@ class SurfWeatherList extends Component {
 
         })
             .catch((error) => { // if network state is unstable
-                // console.warn(error);
+                console.warn(error);
                 clearTimeout(setTimeoudtID);
                 this.setState({
                     spinnerVisible:false,

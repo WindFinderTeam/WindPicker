@@ -23,7 +23,7 @@ function getSurfWeather (responseData){
          last update, sunrise, sunset
          -------------------------------*/
         parsing_lastUpdate = root.querySelector('.tabmeta__update'),
-        parsing_localstats = root.querySelector('.spotmeta__localstats'),
+        parsing_localstats = root.querySelector('.spotmeta__locals'),
 
         /* ------------------------------
          daily weather
@@ -132,21 +132,20 @@ function getSurfWeather (responseData){
          --------------------------------------------*/
         var lastUpdateArr, localStatsArr, lastUpdate, sunRise, sunSet;
 
-        if(!parsing_lastUpdate){
-            console.log(" null nul parsing_lastUpdate ");
-        } else {
-
-            lastUpdateArr = parsing_lastUpdate.removeWhitespace().rawText ;
+        if(parsing_localstats){
             localStatsArr = parsing_localstats.removeWhitespace().rawText;
-            // lastUpdate = year[3] + "년 " + month_kor + " " + day + "일 " + lastUpdateArr.substr(12,5);
-            lastUpdate = month_kor + " " + day + "일 " + lastUpdateArr.substr(12,5);
             sunRise = localStatsArr.substr(0,4);
             sunSet = localStatsArr.substr(4,5);
 
             sunInfo.push(sunRise);
             sunInfo.push(sunSet);
-            sunInfo.push(lastUpdate);
+        }
 
+        if(parsing_lastUpdate){
+            lastUpdateArr = parsing_lastUpdate.removeWhitespace().rawText ;
+            // lastUpdate = year[3] + "년 " + month_kor + " " + day + "일 " + lastUpdateArr.substr(12,5);
+            lastUpdate = month_kor + " " + day + "일 " + lastUpdateArr.substr(12,5);
+            sunInfo.push(lastUpdate);
         }
 
         /* ------------------------------------

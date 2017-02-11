@@ -14,14 +14,12 @@ import {
     Dimensions,
     Modal,
     ToastAndroid,
-    PanResponder
 } from 'react-native';
 
 import Accordion            from 'react-native-collapsible/Accordion';
 import SurfWeatherList      from './SurfWeatherList';
 import GlidWeatherList      from './GlidingWeatherList';
 import Ionicons             from 'react-native-vector-icons/Ionicons';
-import { SwipeListView } from 'react-native-swipe-list-view';
 
 import {realmInstance}      from "./RealmHndler.js";
 
@@ -35,24 +33,18 @@ var ds1, ds2;
 var favoriteGlidingList = [];
 var favoriteSurfingList = [];
 
-var rowOpened     = false;
-var tabLockFlag   = false;
-var closeManual   = false;
-
-var openSecionId,closeSectionId,openRowId,closeRowId ;
-
 class FavoriteList extends Component {
 
     constructor(props) {
         super(props);
 
-        this._renderRow          = this._renderRow.bind(this);
-        this._renderHeader       = this._renderHeader.bind(this);
+        this._renderRow = this._renderRow.bind(this);
+        this._renderHeader = this._renderHeader.bind(this);
         this.setSurfModalVisible = this.setSurfModalVisible.bind(this);
         this.setGlidModalVisible = this.setGlidModalVisible.bind(this);
-        this._onPressButton      = this._onPressButton.bind(this);
-        this.realmRead           = this.realmRead.bind(this);
-        this.realmDelete         = this.realmDelete.bind(this);
+        this._onPressButton = this._onPressButton.bind(this);
+        this.realmRead = this.realmRead.bind(this);
+        this.realmDelete = this.realmDelete.bind(this);
         this._InnerDataRenderRow = this._InnerDataRenderRow.bind(this);
 
 
@@ -61,10 +53,9 @@ class FavoriteList extends Component {
 
 
         this.state = {
-            surfModalVisible  : false
+            surfModalVisible: false
             , glidModalVisible: false
-            , isCollapsed     : false
-            , viewMode        : this.props.viewMode
+            , viewMode: this.props.viewMode
             , dataSource: [
                 {
                     title: <Image source={require('./image/fav_surfing.png')} style={styles.container}>
@@ -83,86 +74,6 @@ class FavoriteList extends Component {
                     , innerDataSource: ds2.cloneWithRows(favoriteGlidingList)
                 }]
         };
-    }
-
-    handleOnMoveShouldSetPanResponder(e, gs) {
-
-        console.log("[[[handleOnMoveShouldSetPanResponder]]]");
-
-        // when tab Unlocked & trying to open manually
-        if(!tabLockFlag && gs.vx < 0) {
-            console.log("RELASE LOCK");
-            this.props.setTabLock(true);
-            tabLockFlag = true         ;
-        }
-        // when tab Locked & trying to Close manually
-        if(tabLockFlag && gs.vx > 0) closeManual = true;
-
-       // console.log("closeManual :" + closeManual);
-       // console.log("tabLockFlag   :"   + tabLockFlag);
-       // console.log("rowOpened :"   + rowOpened);
-        return false;
-    }
-
-    afterRowClosed(section, touchedRow){
-
-        //console.log("[[[  Just CLOSED  ]]]");
-        closeSectionId = section   ;
-        closeRowId     = touchedRow;
-        //console.log("CloseRowID : " + closeRowId);
-        //console.log("OpenRowID  : " + openRowId);
-
-        if(openRowId == closeRowId && openSecionId == closeSectionId)
-        {
-            if(rowOpened && closeManual) {  // a row state just Closed Manually
-          //      console.log("RELASE LOCK");
-                this.props.setTabLock(false);
-                rowOpened   = false;
-                closeManual = false;
-                tabLockFlag = false;
-            }
-            else {   // when failed Close Manually
-
-                if(rowOpened) {
-                    this.props.setTabLock(true);
-                    tabLockFlag = true;
-                }
-                else {
-                    this.props.setTabLock(false);
-                    tabLockFlag = false;
-                }
-            }
-        }
-
-        //console.log("closeManual :" +closeManual);
-        //console.log("tabLockFlag :" +tabLockFlag);
-        //console.log("rowOpened :" + rowOpened);
-    }
-    afterRowOpend(section, touchedRow){
-
-        openSecionId = section;
-        openRowId    = touchedRow;
-        //console.log("[[[onRowOpen]]]");
-        //console.log("OpenRowID : " + touchedRow);
-        this.props.setTabLock(true);
-        rowOpened=true;  closeManual = false;   tabLockFlag   = true;
-        //console.log("closeManual :" +closeManual);
-        //console.log("tabLockFlag :" +tabLockFlag);
-        //console.log("rowOpened :" + rowOpened);
-    }
-
-    handlePanResponderMove(e, gs) {}
-    handlePanResponderEnd (e, gs) {}
-
-    componentWillMount() {
-        this._panResponder2 = PanResponder.create({
-            onMoveShouldSetPanResponder: (e, gs) => this.handleOnMoveShouldSetPanResponder(e, gs),
-            onPanResponderMove         : (e, gs) => this.handlePanResponderMove(e, gs),
-            onPanResponderRelease      : (e, gs) => this.handlePanResponderEnd(e, gs),
-            onPanResponderTerminate    : (e, gs) => this.handlePanResponderEnd(e, gs),
-            onPanResponderGrant        : (e, gs) => false,
-        });
-
     }
 
     setSurfModalVisible(visible) {
@@ -193,7 +104,7 @@ class FavoriteList extends Component {
         realmInstance.write(() => {
 
             let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
-            let AllFavorite_glding  = realmInstance.objects('FavoriteGliding');
+            let AllFavorite_glding = realmInstance.objects('FavoriteGliding');
 
             favoriteSurfingList = [];
             favoriteGlidingList = [];
@@ -205,19 +116,19 @@ class FavoriteList extends Component {
                 favoriteSurfingList.push({
                     "theme": "surfing",
                     "index": AllFavorite_surfing[i].index,
-                    "name" : AllFavorite_surfing[i].name,
+                    "name": AllFavorite_surfing[i].name,
                     "webcam": AllFavorite_surfing[i].webcam,
-                    "shop" : AllFavorite_surfing[i].shop
+                    "shop": AllFavorite_surfing[i].shop
                 });
             }
 
             for (var i in AllFavorite_glding) {
                 favoriteGlidingList.push({
-                    "theme" : "gliding",
-                    "index" : AllFavorite_glding[i].index,
-                    "name"  : AllFavorite_glding[i].name,
+                    "theme": "gliding",
+                    "index": AllFavorite_glding[i].index,
+                    "name": AllFavorite_glding[i].name,
                     "webcam": AllFavorite_glding[i].webcam,
-                    "shop"  : AllFavorite_glding[i].shop
+                    "shop": AllFavorite_glding[i].shop
                 });
             }
 
@@ -231,29 +142,22 @@ class FavoriteList extends Component {
 
         realmInstance.write(() => {
 
-            if(data.theme === "surfing") {
+            if (data.theme === "surfing") {
                 let specificFavorite = realmInstance.objects('FavoriteSurfing').filtered('index = ' + '"' + data.index + '"');
                 realmInstance.delete(specificFavorite); // Deletes the specific favorite
-                favoriteSurfingList.splice(rowId,1);
+                favoriteSurfingList.splice(rowId, 1);
             }
 
-            else if(data.theme === "gliding") {
+            else if (data.theme === "gliding") {
                 let specificFavorite = realmInstance.objects('FavoriteGliding').filtered('index = ' + '"' + data.index + '"');
                 realmInstance.delete(specificFavorite); // Deletes the specific favorite
-                favoriteGlidingList.splice(rowId,1);
+                favoriteGlidingList.splice(rowId, 1);
             }
         });
-
-        rowMap[`${secId}${rowId}`].closeRow();
 
         this.state.dataSource[0].innerDataSource = ds1.cloneWithRows(favoriteSurfingList);
         this.state.dataSource[1].innerDataSource = ds2.cloneWithRows(favoriteGlidingList);
 
-        //console.log("RELASE LOCK");
-        this.props.setTabLock(false);
-        rowOpened   = false;
-        closeManual = false;
-        tabLockFlag = false;
 
     }
 
@@ -270,7 +174,7 @@ class FavoriteList extends Component {
 
         /* ignore the first row, no to show */
         if (rowData.name === "tempData")
-            return (<View style={{height:1, backgroundColor:'#DDD'}}></View>);
+            return (<View style={{height: 1, backgroundColor: '#DDD'}}></View>);
 
         var shopShow = false, webcamShowJudge, shopIconImg;
 
@@ -284,14 +188,23 @@ class FavoriteList extends Component {
 
         /* judge webcam showing */
         if (Object.keys(rowData.webcam) == "") {
-            webcamShowJudge = (<View style={pickerStyle.spaceIcon}/>);
+            webcamShowJudge = (<View style={{flex: 1}}/>);
         }
         else {
             webcamShowJudge = (
-                <TouchableOpacity onPress={()=>{
-                    this.props.setWebCamModalVisible(true, rowData.webcam)}}>
-                    <View style={[pickerStyle.iconBorder, {opacity:1}]}>
-                        <Ionicons name="ios-videocam" style={{color:"rgba(156,0,16,1)", fontSize:25}}/>
+                <TouchableOpacity onPress={()=> {
+                    this.props.setWebCamModalVisible(true, rowData.webcam)
+                }}>
+                    <View style={{
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 50,
+                        height: 50
+                    }}>
+                        <View style={pickerStyle.iconBorder}>
+                            <Ionicons name="ios-videocam" style={{color: "rgba(156,0,16,1)", fontSize: 25}}/>
+                        </View>
                     </View>
                 </TouchableOpacity>
             );
@@ -309,23 +222,27 @@ class FavoriteList extends Component {
 
                     {/* icons */}
                     <View style={pickerStyle.listViewrowCamShop}>
-                        {/* cam icon showing control */}
-                        {webcamShowJudge}
 
-                        {/* shop icon showing control */}
-                        <TouchableOpacity onPress={() => this.props.setShopModalVisible(true, rowData.shop)}>
-                            <View style={[pickerStyle.iconBorder, {opacity:shopShow==false?0:1}]}>
-                                <Image source={shopIconImg}
-                                       style={{opacity:shopShow==false?0:1, width:30, height:30}}/>
-                            </View>
-                        </TouchableOpacity>
+                        <View style={{flex: 1}}>{webcamShowJudge}</View>
+
+                        <View style={{flex: 1}}>
+                            {shopShow &&
+                            <TouchableOpacity onPress={() => this.props.setShopModalVisible(true, rowData.shop)}>
+                                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', height: 50}}>
+
+                                    <View style={pickerStyle.iconBorder}>
+                                        <Image source={shopIconImg} style={{width: 35, height: 35}}/>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>}
+                        </View>
+
+
                     </View>
-                    <View style={{ height:50, width:5, backgroundColor:'gray'}}></View>
                 </View>
             </TouchableHighlight>
         )
     }
-
 
     _renderRow(section) {
 
@@ -333,25 +250,12 @@ class FavoriteList extends Component {
 
         return (
 
-            <View {...this._panResponder2.panHandlers}>
 
-                <SwipeListView
-                    enableEmptySections = {true}
-                    dataSource          = {section.innerDataSource}
-                    renderRow           = {(rowData) => this._InnerDataRenderRow(rowData)}
-                    renderHiddenRow     = { (data, secId, rowId, rowMap) => (
-                    <View style={styles.rowBack}>
-                        <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={() => {this.realmDelete(data,secId, rowId, rowMap)}}>
-                            <Text style={styles.backTextWhite}>삭제</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
-                    disableRightSwipe = {true}
-                    rightOpenValue    = {-50}
-                    onRowClose        = {(section,touchedRow)=>this.afterRowClosed(section,touchedRow)}
-                    onRowOpen         = {(section,touchedRow)=>this.afterRowOpend(section,touchedRow)}
-                />
-            </View>
+            <ListView
+                enableEmptySections={true}
+                dataSource={section.innerDataSource}
+                renderRow={(rowData) => this._InnerDataRenderRow(rowData)}/>
+
         );
     }
 
@@ -359,11 +263,10 @@ class FavoriteList extends Component {
 
         let singleModeDataSource = [];
         // whenever FavorieteList is called from AndroidFirstVIew, reload realm
-        if(this.props.realmReload == true)          this.realmRead();
+        if (this.props.realmReload == true)          this.realmRead();
 
-        if(this.props.viewMode == 'surf')   singleModeDataSource.push(this.state.dataSource[0]);
+        if (this.props.viewMode == 'surf')   singleModeDataSource.push(this.state.dataSource[0]);
         else                                singleModeDataSource.push(this.state.dataSource[1]);
-
 
 
         return (
@@ -416,23 +319,23 @@ var styles = StyleSheet.create({
     },
 
     listViewrow: {
-        flexDirection    : 'row',
-        justifyContent   : 'space-between',
-        paddingLeft      : 20,
-        backgroundColor  : '#F6F6F6',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 20,
+        backgroundColor: '#F6F6F6',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
-        height           : 35,
-        alignItems       : 'center',
+        height: 35,
+        alignItems: 'center',
     },
     listViewrowText: {
-        fontSize   : 15,
-        fontWeight : "100",
-        color      : 'black',
+        fontSize: 15,
+        fontWeight: "100",
+        color: 'black',
     },
     sectionHeader: {
-        flex          : 1,
-        height        : 150,
+        flex: 1,
+        height: 150,
         justifyContent: 'center',
 
     },
@@ -449,29 +352,7 @@ var styles = StyleSheet.create({
         marginBottom: 0,
         opacity: 0
     },
-    backRightBtnRight: {
-        backgroundColor: '#94000F',
-        right: 0
-    },
-    backRightBtn: {
-        alignItems: 'center',
-        bottom: 0,
-        justifyContent: 'center',
-        position: 'absolute',
-        top: 0,
-        width: 50
-    },
-    backTextWhite: {
-        color: '#FFF'
-    },
-    rowBack: {
-        alignItems: 'center',
-        backgroundColor: '#DDD',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingLeft: 15,
-    },
+
 
 });
 

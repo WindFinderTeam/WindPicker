@@ -5,6 +5,7 @@ import {
     Text,
     View,
     TouchableOpacity,
+    DrawerLayoutAndroid,
     Image
 } from 'react-native';
 //https://github.com/oblador/react-native-vector-icons
@@ -16,6 +17,7 @@ class MyToolbar extends Component {
     }
 
     render() {
+
         var myToolbar;
         if (Platform.OS === 'ios') {
             myToolbar = '';
@@ -25,27 +27,21 @@ class MyToolbar extends Component {
                     <Ionicons.ToolbarAndroid
                         // navIconName={require('./image/app_logo.png')}
                         // logo={require('./image/app_logo.png')}
-                        // onIconClicked={() => this.refs['drawer'].openDrawer()}
                         style={styles.toolbar}
                         iconColor="#94000F"
                         titleColor="#94000F"
+                        navIconName          = "md-menu"
+                        onIconClicked        ={() => this.props.openDrawer()}
                         //title= {this.state.school}
-                        actions={[
-                            {title: '', iconName: 'md-swap', iconColor: 'gray', iconSize: 30, show: 'always'}
-                        ]}
+                        //actions={[
+                        //    {title: '', iconName: 'md-swap', iconColor: 'gray', iconSize: 30, show: 'always'}
+                        //]}
                         overflowIconName="md-more"
                         onActionSelected={(position) => this.props.onActionSelected(position)}
                     />
-
                     <View style={styles.logoImage}>
-                        <Image
-                            source={require('./image/app_logo.png')}
-                            resizeMode="stretch"
-                            style={{height: 30, width: 30}}
-                        />
                         <Text style={styles.modeText}>{this.props.modeTitle}</Text>
                     </View>
-
                 </View>
             );
         }
@@ -63,8 +59,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
 
+    drawer: {
+        backgroundColor: '#FFFFFF',
+        flex: 1,
+    },
     modeText: {
-        marginLeft: 8,
+        marginLeft: 40,
         top: 2,
         fontSize: 18,
         color: '#94000F'

@@ -128,15 +128,19 @@ class LocalList extends Component{
                     {/* icons */}
                     <View style={pickerStyle.listViewrowCamShop}>
                         {/* space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠 */}
-                        <View style={pickerStyle.spaceIcon}/>
+                        <View style={{flex:1}}></View>
 
-                        {/* shop icon showing control */}
-                        <TouchableOpacity  onPress = {() => this.props.setShopModalVisible(true , rowData.shop)}>
-                            <View style={[pickerStyle.iconBorder, {opacity:shopShow==false?0:1}]}>
-                                <Image source={require('./image/glidingShop.png')}
-                                       style={{opacity:shopShow==false?0:1, width:28, height:28}}/>
-                            </View>
-                        </TouchableOpacity>
+                        <View style={{flex:1}}>
+                            {shopShow && <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
+                                <View style={{flex:1,alignItems:'center', justifyContent:'center',height:50}}>
+
+                                    <View style={pickerStyle.iconBorder}>
+                                        <Image source={require('./image/glidingShop.png')} style={{width: 35, height: 35}}/>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>}
+                        </View>
+
                     </View>
                 </View>
             </TouchableOpacity>

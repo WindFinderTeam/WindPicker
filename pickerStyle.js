@@ -195,29 +195,26 @@ const pickerStyle = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        height: 50,
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
+        height:50,
 
     },
     listViewrowDistrict: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
         paddingLeft: 20,
         alignItems: 'center',
-        flex: 2
+        flex: 2,
     },
     listViewrowCamShop: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
         flex: 1,
-
     },
     iconBorder: {
         borderRadius: 100,
-        width: 35, height: 35,
         borderWidth: 1,
+        width:35,
+        height:35,
         borderColor: '#94000F',
         alignItems: 'center',
         justifyContent: 'center'
@@ -231,9 +228,6 @@ const pickerStyle = StyleSheet.create({
         height:SCREEN_HEIGHT/2,
         left:0,
         zIndex:1
-    },
-    spaceIcon: {
-        width: 30
     },
 
     directionMarginBottom: {
@@ -264,14 +258,19 @@ const pickerStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'rgba(48,48,48,1)',
+        backgroundColor: 'rgba(244,244,244,0.1)',
         height:25,
         marginTop:0,
+        borderBottomWidth:1,
+        borderRightWidth:1,
+        borderBottomColor:'rgb(244,244,244)',
+        borderRightColor:'rgb(244,244,244)',
+
 
     },
     localSectionHeaderText: {
         fontSize: 15,
-        color: 'white',
+        color: 'gray',
         marginLeft: 10
     }
 });

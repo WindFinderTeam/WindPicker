@@ -22,7 +22,6 @@ import SurfWeatherList from './SurfWeatherList';
 import Ionicons        from 'react-native-vector-icons/Ionicons';
 import { realmInstance } from "./RealmHndler.js";
 
-
 var pickerStyle   = require('./pickerStyle') ;
 var surfLocalData = require('./jsData/SurfLocalData.json');
 var selectedRowData ;
@@ -46,9 +45,6 @@ class LocalList extends Component{
         this.setModalVisible(true);
     }
 
-
-
-
     constructor(prop){
         super(prop);
 
@@ -56,7 +52,6 @@ class LocalList extends Component{
         this.setModalVisible = this.setModalVisible.bind(this);
         this.renderRow = this.renderRow.bind(this);
         //---------------------------------------------------------
-
         this.ds = new ListView.DataSource({
             sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
             rowHasChanged: (r1, r2) => r1 !== r2
@@ -66,14 +61,15 @@ class LocalList extends Component{
         this.state = {
             dataSource          : this.ds.cloneWithRowsAndSections(data, sectionIds)
             ,modalVisible        : false
+            ,dataSource_fb : new ListView.DataSource({
+            rowHasChanged: (row1, row2) => row1 !== row2,
+        })
 
         };
 
         this.controlModeRealm();
 
     }
-
-
 
     renderListViewData(surfLocalData) {
 
@@ -135,14 +131,16 @@ class LocalList extends Component{
         if (webcamShow == true) {
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=>{if(webcamShow==true){this.props.setWebCamModalVisible(true, rowData.webcam)}}}>
-                    <View style={[pickerStyle.iconBorder, {opacity:webcamShow==false?0:1}]}>
-                        <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
+                    <View style={{flex:1 ,alignItems:'center', justifyContent:'center',width:webcamShow==false?0:50,height:webcamShow==false?0:50}}>
+                            <View style={[pickerStyle.iconBorder, {opacity:webcamShow==false?0:1}]}>
+                                <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
+                            </View>
                     </View>
                 </TouchableOpacity>
             );
         } else {
             //space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠
-            webcamShowJudge = (<View style={pickerStyle.spaceIcon}/>);
+            webcamShowJudge = (<View style={{flex:1}}/>);
 
         }
 
@@ -157,16 +155,18 @@ class LocalList extends Component{
 
                     {/* icons */}
                     <View style={pickerStyle.listViewrowCamShop}>
-                        {/* cam icon showing control */}
-                        {webcamShowJudge}
+                        <View style={{flex:1}}>{webcamShowJudge}</View>
 
-                        {/* shop icon showing control */}
-                        <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
-                            <View style={[pickerStyle.iconBorder, {opacity:shopShow==false?0:1}]}>
-                                <Image source={require('./image/surfShop.png')}
-                                       style={{opacity:shopShow==false?0:1, width:30, height:30}}/>
-                            </View>
-                        </TouchableOpacity>
+                        <View style={{flex:1 }}>
+                             {shopShow && <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
+                                <View style={{flex:1,alignItems:'center', justifyContent:'center',height:50}}>
+
+                                    <View style={pickerStyle.iconBorder}>
+                                        <Image source={require('./image/surfShop.png')} style={{width: 35, height: 35}}/>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>}
+                        </View>
 
                     </View>
                 </View>

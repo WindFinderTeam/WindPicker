@@ -10,7 +10,6 @@ import {
     Image,
     ListView,
     ToolbarAndroid,
-    DrawerLayoutAndroid,
     TouchableOpacity,
     View,
     WebView,
@@ -35,6 +34,9 @@ import Carousel        from 'react-native-carousel';
 //https://github.com/oblador/react-native-vector-icons
 import Ionicons     from 'react-native-vector-icons/Ionicons';
 
+//https://github.com/root-two/react-native-drawer
+import Drawer from 'react-native-drawer'
+
 // import ShopPage          from './ShopPage';
 import GlidingLocalList  from './GlidingLocalList';
 import SurfLocalList     from './SurfLocalList';
@@ -42,13 +44,13 @@ import FavoriteList      from './FavoriteList';
 
 // https://github.com/skv-headless/react-native-scrollable-tab-view
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
-// import MenuList from './MenuList';
 
 var ds;
 var webCamView, webCamViewIndicator ;
 var webView0, webView1, webView2;
 var pickerStyle   = require('./pickerStyle');
 
+import MenuList  from './MenuList';
 import MyToolbar from './MyToolbar';
 
 class  AndroidFirstView extends Component {
@@ -59,9 +61,9 @@ class  AndroidFirstView extends Component {
         this.setConfigModalVisible = this.setConfigModalVisible.bind(this);
         this.setShopModalVisible   = this.setShopModalVisible.bind(this);
         this.setWebCamModalVisible   = this.setWebCamModalVisible.bind(this);
-        this.openDrawer            = this.openDrawer.bind(this);
         this.renderRow             = this.renderRow.bind(this);
-        this.setTabLock            = this.setTabLock.bind(this);
+        this.openDrawer            = this.openDrawer.bind(this);
+        this.setModeChange         = this.setModeChange.bind(this);
 
         ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
@@ -81,19 +83,38 @@ class  AndroidFirstView extends Component {
     }
 
     openDrawer() {
-        this.refs['DRAWER'].openDrawer()
+        console.log("openDrawer;");
+        this._drawer.open();
     }
 
-    setTabLock(lock) {
-        this.setState({tabLock: lock});
-    }
     setConfigModalVisible(visible) {
         this.setState({configModalOpen: visible});
     }
 
     setShopModalVisible(visible,shopRows) {
+        console.log("shopRows",shopRows);
         this.setState({shopModalVisible: visible,  dataSource: ds.cloneWithRows(shopRows)});
     }
+
+    setModeChange(mode){
+
+        console.log("mode::::",mode)
+        var nowMode_han;
+
+
+        if(mode == 'surf')    this.setState({viewMode:'surf',tabViewSelectedPage:0});
+        else                  this.setState({viewMode:'gliding',tabViewSelectedPage:0});
+
+        if(this.state.viewMode == 'surf')           nowMode_han = '서핑';
+        else                                        nowMode_han = '패러글라이딩';
+
+        this._drawer.close();
+
+        // this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
+        // this.refs.toast.show({nowMode_han} + '모드로 전환합니다',DURATION.LENGTH_LONG);
+
+    }
+
 
     setWebCamModalVisible(visible, webcam) {
 
@@ -181,7 +202,6 @@ class  AndroidFirstView extends Component {
 
     }
 
-
     renderRow(rowData) {
 
         return (<View style={{height: 30,}}><Text>{rowData.name}</Text></View>);
@@ -211,24 +231,39 @@ class  AndroidFirstView extends Component {
 
         return (
 
-            <View style={{flex:1}}>
-                <MyToolbar modeTitle={modeTitle} onActionSelected={(position)=>this.onActionSelected(position)}/>
+        <Drawer
+            type="overlay"
+            content={<MenuList modeTitle={modeTitle} setModeChange={(mode)=>this.setModeChange(mode)}/>}
+            tapToClose={true}
+            openDrawerOffset={0.4} // 20% gap on the right side of drawer
+            panCloseMask={0.2}
+            captureGestures={true}
+            closedDrawerOffset={-3}
+            panOpenMask={0.05}
+            styles={drawerStyles}
+            ref = {(ref) => this._drawer = ref}
+            tweenHandler={(ratio) => ({
+                main: { opacity:(1.5-ratio)/2}
+            })}
+           >
+                <MyToolbar modeTitle={modeTitle} onActionSelected={(position)=>this.onActionSelected(position)} openDrawer={()=>this.openDrawer()}/>
 
-                <ScrollableTabView tabBarUnderlineStyle    = {{backgroundColor:"#FFFFFF"}}
-                                   tabBarActiveTextColor   = "#FFFFFF"
-                                   tabBarInactiveTextColor = "#BDBDBD"
-                                   tabBarBackgroundColor   = "#9c0010"
+                <ScrollableTabView tabBarUnderlineStyle    = {{backgroundColor:"#94000f"}}
+                                   tabBarActiveTextColor   = "#94000f"
+                                   tabBarInactiveTextColor = "#94000f"
+                                   tabBarBackgroundColor   = "white"
                                    ref                     = {'scrollView'}
                                    locked                  = {this.state.tabLock}
                                    page                    = {this.state.tabViewSelectedPage}
-                                   onChangeTab             = {(obj)=>this.onChangeTab(obj)}>
+                                   tabBarTextStyle         = {styles.tabText}
+                                   onChangeTab             = {(obj)=>this.onChangeTab(obj)}
+                                   style={{height:18}}>
                     <ScrollView tabLabel="날씨상황"  style={styles.tabView} ref="LocalScrollView">
                         {localList}
                     </ScrollView>
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
                         <FavoriteList setShopModalVisible   ={this.setShopModalVisible}
                                       setWebCamModalVisible ={this.setWebCamModalVisible}
-                                      setTabLock            = {this.setTabLock}
                                       realmReload           = {this.state.realmReload}
                                       viewMode              = {this.state.viewMode}
                         />
@@ -281,7 +316,6 @@ class  AndroidFirstView extends Component {
                     </View>
                 </SimpleModal>
 
-
                 {/* webCam Modal */}
                 <Modal
                     animationType={"none"}
@@ -298,7 +332,6 @@ class  AndroidFirstView extends Component {
                             {webCamView}
                         </View>
                         <View style={pickerStyle.circleIcon}>{webCamViewIndicator}</View>
-
                     </View>
                 </Modal>
 
@@ -319,21 +352,28 @@ class  AndroidFirstView extends Component {
                             renderRow ={this.renderRow}
                         />
                 </SimpleModal>
+            </Drawer>
 
-            </View>
         );
     }
 }
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
-const styles = StyleSheet.create({
+const drawerStyles = {
+    drawer: {backgroundColor:'#FFFFFF', flex:1, shadowColor: 'black', shadowOpacity: 0.6, shadowRadius: 3},
+    main: {paddingLeft: 3},
+}
 
+const styles = StyleSheet.create({
     tabView: {
         flex: 1,
         padding: 0,
         backgroundColor: 'rgba(0,0,0,0.01)',
     },
+    tabText:{
+        fontSize:17
+    }
 
 });
 
