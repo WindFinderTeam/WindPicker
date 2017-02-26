@@ -263,14 +263,12 @@ const pickerStyle = StyleSheet.create({
         marginTop:0,
         borderBottomWidth:1,
         borderRightWidth:1,
-        borderBottomColor:'rgb(244,244,244)',
-        borderRightColor:'rgb(244,244,244)',
-
-
+        borderBottomColor:'rgba(202,202,202,0.5)',
+        borderRightColor:'rgba(202,202,202,0.5)',
     },
     localSectionHeaderText: {
         fontSize: 15,
-        color: 'gray',
+        color: 'rgba(100,100,100,1)',
         marginLeft: 10
     }
 });

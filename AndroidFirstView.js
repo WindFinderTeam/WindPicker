@@ -15,7 +15,9 @@ import {
     WebView,
     Modal,
     Dimensions,
-    StatusBar
+    StatusBar,
+    Animated,
+
 } from 'react-native';
 
 //import CustomTabbar from './CustomTabbar';
@@ -34,8 +36,8 @@ import Carousel        from 'react-native-carousel';
 //https://github.com/oblador/react-native-vector-icons
 import Ionicons     from 'react-native-vector-icons/Ionicons';
 
-//https://github.com/root-two/react-native-drawer
-import Drawer from 'react-native-drawer'
+//https://github.com/kyle-ssg/react-native-simple-drawer
+import Drawer from 'react-native-simple-drawer'
 
 // import ShopPage          from './ShopPage';
 import GlidingLocalList  from './GlidingLocalList';
@@ -49,6 +51,7 @@ var ds;
 var webCamView, webCamViewIndicator ;
 var webView0, webView1, webView2;
 var pickerStyle   = require('./pickerStyle');
+
 
 import MenuList  from './MenuList';
 import MyToolbar from './MyToolbar';
@@ -79,12 +82,14 @@ class  AndroidFirstView extends Component {
             webCamModalVisible  : false,
             realmReload         : false,
             camLoadError        : false,
-            dataSource          : ds.cloneWithRows(['row 1', 'row 2'])};
+            dataSource          : ds.cloneWithRows(['row 1', 'row 2']),
+            drawerAnimation     : new Animated.Value(0)
+        };
     }
 
     openDrawer() {
         console.log("openDrawer;");
-        this._drawer.open();
+        this.refs._drawer.open();
     }
 
     setConfigModalVisible(visible) {
@@ -108,13 +113,12 @@ class  AndroidFirstView extends Component {
         if(this.state.viewMode == 'surf')           nowMode_han = '서핑';
         else                                        nowMode_han = '패러글라이딩';
 
-        this._drawer.close();
+        this.refs._drawer.close();
 
         // this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
         // this.refs.toast.show({nowMode_han} + '모드로 전환합니다',DURATION.LENGTH_LONG);
 
     }
-
 
     setWebCamModalVisible(visible, webcam) {
 
@@ -209,6 +213,8 @@ class  AndroidFirstView extends Component {
 
     render() {
 
+        const DRAWER_WIDTH = 250;
+
         var localList ;
         if(this.state.viewMode =='surf') localList =  (<SurfLocalList setShopModalVisible   ={this.setShopModalVisible}
                                                                       setWebCamModalVisible ={this.setWebCamModalVisible}/>);
@@ -232,20 +238,16 @@ class  AndroidFirstView extends Component {
         return (
 
         <Drawer
-            type="overlay"
-            content={<MenuList modeTitle={modeTitle} setModeChange={(mode)=>this.setModeChange(mode)}/>}
-            tapToClose={true}
-            openDrawerOffset={0.4} // 20% gap on the right side of drawer
-            panCloseMask={0.2}
-            captureGestures={true}
-            closedDrawerOffset={-3}
-            panOpenMask={0.05}
-            styles={drawerStyles}
-            ref = {(ref) => this._drawer = ref}
-            tweenHandler={(ratio) => ({
-                main: { opacity:(1.5-ratio)/2}
-            })}
-           >
+            style={drawerStyles}
+            onChange={()=>{}}
+            direction="left"
+            backdropStyle={{backgroundColor:'rgba(65,65,65,.9)'}}
+            ref="_drawer"
+            value={this.state.drawerAnimation}
+            disableGestures={true}
+            width={DRAWER_WIDTH}
+            menu={<MenuList modeTitle={modeTitle} setModeChange={(mode)=>this.setModeChange(mode)}/>}
+            >
                 <MyToolbar modeTitle={modeTitle} onActionSelected={(position)=>this.onActionSelected(position)} openDrawer={()=>this.openDrawer()}/>
 
                 <ScrollableTabView tabBarUnderlineStyle    = {{backgroundColor:"#94000f"}}
@@ -361,8 +363,7 @@ class  AndroidFirstView extends Component {
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const drawerStyles = {
-    drawer: {backgroundColor:'#FFFFFF', flex:1, shadowColor: 'black', shadowOpacity: 0.6, shadowRadius: 3},
-    main: {paddingLeft: 3},
+    backgroundColor:'#FFFFFF', flex:1, shadowColor: 'black',  shadowRadius: 3
 }
 
 const styles = StyleSheet.create({
