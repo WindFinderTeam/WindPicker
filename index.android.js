@@ -5,8 +5,6 @@ import {
     ScrollView,
     Text,
     Image,
-    ToolbarAndroid,
-    DrawerLayoutAndroid,
     TouchableOpacity,
     View,
     Linking,
