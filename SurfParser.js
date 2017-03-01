@@ -3,7 +3,7 @@
  */
 exports.getSurfWeather = getSurfWeather;
 
-var HTMLParser = require('fast-html-parser');
+//var HTMLParser = require('fast-html-parser');
 var testTime, testTime2;
 
 function getSurfWeather (responseData){

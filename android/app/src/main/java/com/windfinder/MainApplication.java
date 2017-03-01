@@ -14,16 +14,19 @@ import io.xogus.reactnative.versioncheck.RNVersionCheckPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import io.realm.react.RealmReactPackage;
+
 import com.jordansexton.react.crosswalk.webview.CrosswalkWebViewPackage;
+import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
 import java.util.List;
+
 
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
-    protected boolean getUseDeveloperSupport() {
+    public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
     }
 
@@ -31,19 +34,29 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage()
-          , new VectorIconsPackage()
-          , new RNSpinkitPackage()
-          , new RNVersionCheckPackage()
-          , new LinearGradientPackage()
-          , new GoogleAnalyticsBridgePackage()
-          , new RealmReactPackage()
-          , new CrosswalkWebViewPackage()
+                    , new VectorIconsPackage()
+                    , new RNSpinkitPackage()
+                    , new RNVersionCheckPackage()
+                    , new LinearGradientPackage()
+                    , new GoogleAnalyticsBridgePackage()
+                    , new RealmReactPackage()
+                    ,new CrosswalkWebViewPackage()
       );
     }
   };
 
   @Override
   public ReactNativeHost getReactNativeHost() {
-      return mReactNativeHost;
+    return mReactNativeHost;
+  }
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
   }
 }
+
+
+
+

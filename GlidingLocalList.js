@@ -132,7 +132,7 @@ class LocalList extends Component{
 
                         <View style={{flex:1}}>
                             {shopShow && <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
-                                <View style={{flex:1,alignItems:'center', justifyContent:'center',height:50}}>
+                                <View style={{alignItems:'center', justifyContent:'center',height:50}}>
 
                                     <View style={pickerStyle.iconBorder}>
                                         <Image source={require('./image/glidingShop.png')} style={{width: 35, height: 35}}/>

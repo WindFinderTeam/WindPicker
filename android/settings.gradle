@@ -17,7 +17,5 @@ project(':react-native-linear-gradient').projectDir = new File(rootProject.proje
 include ':react-native-google-analytics-bridge'
 project(':react-native-google-analytics-bridge').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-analytics-bridge/android')
 
-include ':CrosswalkWebView'
+include ':CrosswalkWebView', ':app'
 project(':CrosswalkWebView').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview-crosswalk')
-
-

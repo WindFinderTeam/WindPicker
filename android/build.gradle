@@ -22,8 +22,8 @@ allprojects {
             url "$rootDir/../node_modules/react-native/android"
         }
 
-        flatDir {
-                    dirs 'libs'
-                }
+        flatDir {          // <--- add this line
+            dirs 'libs'    // <--- add this line
+        }                  // <--- add this line
     }
 }

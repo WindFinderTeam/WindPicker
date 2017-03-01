@@ -148,9 +148,10 @@ dependencies {
     compile project(':react-native-vector-icons')
     compile project(':react-native-spinkit')
     compile project(':react-native-version-check')
-    compile (name: "xwalk_core_library-18.48.477.13", ext: "aar")
-    compile project(':CrosswalkWebView')
     compile 'com.google.firebase:firebase-core:10.0.1'
+      compile (name: "xwalk_core_library-22.52.561.4", ext: "aar")     // <--- add this line
+      compile project(':CrosswalkWebView')                             // <--- add this line
+
 }
 
 // Run this once to be able to run the application with BUCK

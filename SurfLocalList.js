@@ -131,7 +131,7 @@ class LocalList extends Component{
         if (webcamShow == true) {
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=>{if(webcamShow==true){this.props.setWebCamModalVisible(true, rowData.webcam)}}}>
-                    <View style={{flex:1 ,alignItems:'center', justifyContent:'center',width:webcamShow==false?0:50,height:webcamShow==false?0:50}}>
+                    <View style={{alignItems:'center', justifyContent:'center',width:webcamShow==false?0:50,height:webcamShow==false?0:50}}>
                             <View style={[pickerStyle.iconBorder, {opacity:webcamShow==false?0:1}]}>
                                 <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
                             </View>
@@ -159,7 +159,7 @@ class LocalList extends Component{
 
                         <View style={{flex:1 }}>
                              {shopShow && <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
-                                <View style={{flex:1,alignItems:'center', justifyContent:'center',height:50}}>
+                                <View style={{alignItems:'center', justifyContent:'center',height:50}}>
 
                                     <View style={pickerStyle.iconBorder}>
                                         <Image source={require('./image/surfShop.png')} style={{width: 35, height: 35}}/>
