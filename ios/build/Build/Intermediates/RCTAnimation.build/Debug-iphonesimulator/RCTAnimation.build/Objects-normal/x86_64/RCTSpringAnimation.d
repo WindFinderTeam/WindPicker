@@ -1,0 +1,19 @@
+dependencies: \
+  /Users/maestro/project/WindPicker/node_modules/react-native/Libraries/NativeAnimation/Drivers/RCTSpringAnimation.m \
+  /Users/maestro/project/WindPicker/node_modules/react-native/Libraries/NativeAnimation/Drivers/RCTSpringAnimation.h \
+  /Users/maestro/project/WindPicker/node_modules/react-native/Libraries/NativeAnimation/Drivers/RCTAnimationDriver.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeModule.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTDefines.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTConvert.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/Yoga.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAnimationType.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBorderStyle.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTLog.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAssert.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTPointerEvents.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTTextDecorationLineType.h \
+  /Users/maestro/project/WindPicker/node_modules/react-native/Libraries/NativeAnimation/RCTAnimationUtils.h \
+  /Users/maestro/project/WindPicker/node_modules/react-native/Libraries/NativeAnimation/Nodes/RCTValueAnimatedNode.h \
+  /Users/maestro/project/WindPicker/node_modules/react-native/Libraries/NativeAnimation/Nodes/RCTAnimatedNode.h

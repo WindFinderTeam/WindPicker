@@ -1,0 +1,29 @@
+dependencies: \
+  /Users/maestro/project/WindPicker/node_modules/react-native/Libraries/Image/RCTImageLoader.m \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTConvert.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/Yoga.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAnimationType.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBorderStyle.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTDefines.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTLog.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAssert.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTPointerEvents.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTTextDecorationLineType.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTImageLoader.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridge.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeDelegate.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTJavaScriptLoader.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeModule.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTFrameUpdate.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTInvalidating.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTResizeMode.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTURLRequestHandler.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTURLRequestDelegate.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTNetworking.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTEventEmitter.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTNetworkTask.h \
+  /Users/maestro/project/WindPicker/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTUtils.h \
+  /Users/maestro/project/WindPicker/node_modules/react-native/Libraries/Image/RCTImageCache.h \
+  /Users/maestro/project/WindPicker/node_modules/react-native/Libraries/Image/RCTImageUtils.h
