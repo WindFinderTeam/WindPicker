@@ -315,13 +315,14 @@ class GlidingWeatherList extends Component {
 
                     <View style={{width: SCREEN_WIDTH, height:4, flexDirection: 'row'}}>
                         <LinearGradient
-                            start={[0.0, 1.0]} end={[1.0, 1.0]}
+                            start={{x:0.0, y:1.0}} end={{x:1.0, y:1.0}}
                             locations={[0,0.5,1.0]}
                             colors={['#90E4FF', '#B4FFFF', '#FFFFFF']}
                             style={{width: windSpeedWidth }}/>
 
+
                         <LinearGradient
-                            start={[0.0, 1.0]} end={[1.0, 1.0]}
+                            start={{x:0.0, y:1.0}} end={{x:1.0, y:1.0}}
                             locations={[0,0.5,1.0]}
                             colors={['#FF9090', '#FFB4B4', '#FFFFFF']}
                             style={{width: windMaxSpeedWidth }}/>

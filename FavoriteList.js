@@ -172,7 +172,7 @@ class FavoriteList extends Component {
 
     _InnerDataRenderRow(rowData) {
 
-        /* ignore the first row, no to show */
+
         if (rowData.name === "tempData")
             return (<View style={{height: 1, backgroundColor: '#DDD'}}></View>);
 

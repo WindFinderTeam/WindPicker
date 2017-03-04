@@ -163,29 +163,29 @@ class  WindPicker extends Component {
 
                     <Text style={{fontSize: 20, marginBottom: 10, color:'#94000F'}}>모드선택</Text>
 
-                    <View style={{margin:0,flex:1}}>
-                        <View style={{flex:2, height:40}}>
+                    <View style={{margin:0}}>
+                        <View style={{height:40}}>
                             <TouchableOpacity
-                                style={{margin: 5,flex:1,justifyContent:'center',alignItems:'flex-start' }}
+                                style={{margin: 5,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress={() => {
                                     nowMode="surf";
                                     this.refs.toast.show('서핑 모드로 시작합니다',DURATION.LENGTH_LONG);
                                     this.setState({chooseModeModal: false}) ;
                                     setTimeout(this.startCountDown, 2000); // Jump to AndroidFirstView
                                 }}>
-                                <Text style={{color:'#727272', fontSize: 18}}>서                   핑    </Text>
+                                <Text style={{color:'#727272', fontSize: 16}}>서                   핑    </Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{flex:2, flexDirection:'row', height:40}}>
+                        <View style={{height:40}}>
                             <TouchableOpacity
-                                style   = {{margin: 5, flex:1,justifyContent:'center',alignItems:'flex-start' }}
+                                style   = {{margin: 5,justifyContent:'center',alignItems:'flex-start' }}
                                 onPress = {() => {
                                     nowMode="gliding";
                                     this.refs.toast.show('패러글라이딩 모드로 시작합니다',DURATION.LENGTH_LONG);
                                     this.setState({chooseModeModal: false}) ;
                                     setTimeout(this.startCountDown, 2000); // Jump to AndroidFirstView
                                 }}>
-                                <Text style={{color:'#727272',fontSize: 18}}>패 러 글 라 이 딩  </Text>
+                                <Text style={{color:'#727272',fontSize: 16}}>패 러 글 라 이 딩  </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
