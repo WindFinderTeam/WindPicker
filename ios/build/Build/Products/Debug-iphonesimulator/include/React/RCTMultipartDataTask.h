@@ -9,7 +9,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <React/RCTMultipartStreamReader.h>
+#import "RCTMultipartStreamReader.h"
 
 typedef void (^RCTMultipartDataTaskCallback)(NSInteger statusCode, NSDictionary *headers, NSData *content, NSError *error, BOOL done);
 

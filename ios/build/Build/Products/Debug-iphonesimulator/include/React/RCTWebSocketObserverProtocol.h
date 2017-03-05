@@ -7,7 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#import <React/RCTDefines.h>
+#import "RCTDefines.h"
 
 #if RCT_DEV // Only supported in dev mode
 

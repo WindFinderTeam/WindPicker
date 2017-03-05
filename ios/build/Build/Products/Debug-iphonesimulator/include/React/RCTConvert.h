@@ -11,12 +11,12 @@
 #import <UIKit/UIKit.h>
 
 #import <yoga/Yoga.h>
-#import <React/RCTAnimationType.h>
-#import <React/RCTBorderStyle.h>
-#import <React/RCTDefines.h>
-#import <React/RCTLog.h>
-#import <React/RCTPointerEvents.h>
-#import <React/RCTTextDecorationLineType.h>
+#import "RCTAnimationType.h"
+#import "RCTBorderStyle.h"
+#import "RCTDefines.h"
+#import "RCTLog.h"
+#import "RCTPointerEvents.h"
+#import "RCTTextDecorationLineType.h"
 
 /**
  * This class provides a collection of conversion functions for mapping
