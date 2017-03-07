@@ -6,7 +6,7 @@
 	<dict>
 		<key>Base.lproj/LaunchScreen.nib</key>
 		<data>
-		+zuQfrp+k7z4oDs3wDmi5xLEZsU=
+		wlE1ooE3akR/6NRIzkgAvItZDxQ=
 		</data>
 		<key>Frameworks/IDEBundleInjection.framework/IDEBundleInjection</key>
 		<data>
@@ -215,7 +215,7 @@
 		</data>
 		<key>PlugIns/WindPickerTests.xctest/WindPickerTests</key>
 		<data>
-		Bcd2lgn63pD/NOYJioX23tirvbc=
+		yiCr81diuvwaIjahjomrB41XO08=
 		</data>
 		<key>PlugIns/WindPickerTests.xctest/_CodeSignature/CodeResources</key>
 		<data>
@@ -228,11 +228,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			+zuQfrp+k7z4oDs3wDmi5xLEZsU=
+			wlE1ooE3akR/6NRIzkgAvItZDxQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			xC6Vc9LhMJDwhy2JDHD1t0qTyX1N0lwVh11FXvmZi1I=
+			XzTYsvUj0aecyGt0PWL/xoo0hWNjKB3g0Ook1rM4JZQ=
 			</data>
 		</dict>
 		<key>Frameworks/IDEBundleInjection.framework/IDEBundleInjection</key>
@@ -774,11 +774,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Bcd2lgn63pD/NOYJioX23tirvbc=
+			yiCr81diuvwaIjahjomrB41XO08=
 			</data>
 			<key>hash2</key>
 			<data>
-			jJdlWbr3NFb0tggs2sHF4uzWZBs1VAn3TVYpFT1Z8js=
+			IwuhYH9zPIUyoG5ZVjDIBDXzRXrP1zpKpgGfOL3h+uE=
 			</data>
 		</dict>
 		<key>PlugIns/WindPickerTests.xctest/_CodeSignature/CodeResources</key>
