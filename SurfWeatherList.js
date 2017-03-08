@@ -31,7 +31,7 @@ import WindSpeedChartModal    from './WindSpeedChartModal';
 
 import {
     LazyloadListView,
-    LazyloadView
+    LazyloadView,
 } from 'react-native-lazyload';
 
 import {
@@ -277,7 +277,7 @@ class SurfWeatherList extends Component {
     }
 
     // Draw List's Rows
-    renderRow(rowData, sectionID, rowID) {
+    renderRow(rowData) {
 
         rowKey++;
         var precipitation = rowData.rainPrecipitation, time = rowData.time;
@@ -360,7 +360,9 @@ class SurfWeatherList extends Component {
                         </View>
 
                     </View>
+                </LazyloadView>
 
+                <LazyloadView host="listExample">
                     <View style={{width: SCREEN_WIDTH, height:4, flexDirection: 'row'}}>
                         <LinearGradient
                             start={{x:0.0, y:1.0}} end={{x:1.0, y:1.0}}
@@ -375,7 +377,6 @@ class SurfWeatherList extends Component {
                             colors={['#FF9090', '#FFB4B4', '#FFFFFF']}
                             style={{width: windMaxSpeedWidth }}/>
                     </View>
-
                 </LazyloadView>
             </View>
         );

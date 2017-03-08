@@ -92,7 +92,7 @@ function getSurfWeather (responseData){
         d = (parsing_sectionData[i].removeWhitespace().rawText).split(' '); // 날짜와 시간을 ',', 빈칸기준으로 나눠서 배열화함
         dayoftheweek = d[0]; // yo il
         month = d[1]; // month란 이름의 변수에 'd' 배열의 두 번째 숫자(월)를 지정
-        day = Number(d[2]); // day란 이름의 변수에 'd' 배열의 세 번째 숫자(일)를 지정
+        day = d[2].substr(0,2); // day란 이름의 변수에 'd' 배열의 세 번째 숫자(일)를 지정.
 
         switch (dayoftheweek) {
             case 'Sunday,'    :  dayoftheweek_kor = "일요일"; break;
@@ -134,8 +134,9 @@ function getSurfWeather (responseData){
 
         if(parsing_localstats){
             localStatsArr = parsing_localstats.removeWhitespace().rawText;
-            sunRise = localStatsArr.substr(0,4);
-            sunSet = localStatsArr.substr(4,5);
+
+            sunRise = localStatsArr.substr(7,4);
+            sunSet = localStatsArr.substr(17,5);
 
             sunInfo.push(sunRise);
             sunInfo.push(sunSet);
