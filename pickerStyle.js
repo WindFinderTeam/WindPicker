@@ -78,7 +78,7 @@ const pickerStyle = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         borderRadius: 5,
-        width: 35
+        width: 37
     },
 
     localListrowText: {

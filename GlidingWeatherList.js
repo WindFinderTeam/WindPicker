@@ -312,7 +312,10 @@ class GlidingWeatherList extends Component {
 
 
                     </View>
+                </LazyloadView>
 
+
+                <LazyloadView host="listExample">
                     <View style={{width: SCREEN_WIDTH, height:4, flexDirection: 'row'}}>
                         <LinearGradient
                             start={{x:0.0, y:1.0}} end={{x:1.0, y:1.0}}
@@ -320,14 +323,12 @@ class GlidingWeatherList extends Component {
                             colors={['#90E4FF', '#B4FFFF', '#FFFFFF']}
                             style={{width: windSpeedWidth }}/>
 
-
                         <LinearGradient
                             start={{x:0.0, y:1.0}} end={{x:1.0, y:1.0}}
                             locations={[0,0.5,1.0]}
                             colors={['#FF9090', '#FFB4B4', '#FFFFFF']}
                             style={{width: windMaxSpeedWidth }}/>
                     </View>
-
                 </LazyloadView>
             </View>
         );
