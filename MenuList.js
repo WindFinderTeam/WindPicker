@@ -31,7 +31,9 @@ class MenuList extends Component {
 
         this.handleViewLayout            = this.handleViewLayout.bind(this);
 
-        this.state = {viewHeight : 0}
+        this.state = {
+            viewHeight     : 0,
+    }
 
 };
 
@@ -46,9 +48,13 @@ class MenuList extends Component {
             <View style={{flex: 1}}>
                 <View style={{flex: 1,}}>
                     <View onLayout={this.handleViewLayout} style={{flex:1}}>
-                        <Image source={require('./image/bg.png')} style={{flex:1,}}> </Image>
+                        <Image source={require('./image/bg.png')} style={{flex:1,}}>
+
+                        </Image>
                     </View>
-                    <View style={{ height: 10}}/>
+                    <View style={{
+                        height: 10,
+                    }}/>
                 </View>
                 <View style={{flex: 2}}>
                     <TouchableOpacity
@@ -77,8 +83,8 @@ class MenuList extends Component {
                     </TouchableOpacity>
 
                     <View style={{flex:1, marginLeft:10, marginBottom:10, justifyContent:'flex-end'}}>
-                        <Text>윈드피커 입점문의</Text>
-                        <Text>reedtail@gmail.com</Text>
+                            <Text>윈드피커 입점문의</Text>
+                            <Text>reedtail@gmail.com</Text>
                     </View>
 
                 </View>
