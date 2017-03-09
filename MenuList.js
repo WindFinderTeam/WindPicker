@@ -31,9 +31,7 @@ class MenuList extends Component {
 
         this.handleViewLayout            = this.handleViewLayout.bind(this);
 
-        this.state = {
-            viewHeight     : 0,
-    }
+        this.state = {viewHeight : 0}
 
 };
 
@@ -48,14 +46,9 @@ class MenuList extends Component {
             <View style={{flex: 1}}>
                 <View style={{flex: 1,}}>
                     <View onLayout={this.handleViewLayout} style={{flex:1}}>
-                        <Image source={require('./image/bg.png')} style={{flex:1,}}>
-                            <Text style={{marginTop:this.state.viewHeight-50, marginLeft:10, color:'white'}}>윈드피커</Text>
-                            <Text style={{marginLeft:10, color:'white'}}>reedtail@gmail.com</Text>
-                        </Image>
+                        <Image source={require('./image/bg.png')} style={{flex:1,}}> </Image>
                     </View>
-                    <View style={{
-                        height: 10,
-                    }}/>
+                    <View style={{ height: 10}}/>
                 </View>
                 <View style={{flex: 2}}>
                     <TouchableOpacity
@@ -66,7 +59,7 @@ class MenuList extends Component {
                             alignItems: 'center',
                             backgroundColor: this.props.modeTitle == '서핑' ? '#E0E0E0' : null
                         }}>
-                            <Ionicons name="md-boat" style={{marginLeft: 18}} size={25} color={'#66b2ff'} />
+
                             <Text style={{marginLeft: 20, fontSize: 18, color:'black'}}> 서핑</Text>
                         </View>
                     </TouchableOpacity>
@@ -78,16 +71,16 @@ class MenuList extends Component {
                             alignItems: 'center',
                             backgroundColor: this.props.modeTitle == '패러글라이딩' ? '#E0E0E0' : null
                         }}>
-                            <Ionicons name="md-jet" style={{marginLeft: 18}} size={25} color={'#ffb266'} />
+
                             <Text style={{marginLeft: 20, fontSize: 18, color:'black'}}> 패러글라이딩 </Text>
                         </View>
                     </TouchableOpacity>
-                        <View style={{
-                            height: 10,
-                            borderBottomWidth:1,
-                            borderBottomColor:'rgba(202,202,202,0.5)',
-                        }}>
-                        </View>
+
+                    <View style={{flex:1, marginLeft:10, marginBottom:10, justifyContent:'flex-end'}}>
+                        <Text>윈드피커 입점문의</Text>
+                        <Text>reedtail@gmail.com</Text>
+                    </View>
+
                 </View>
             </View>
         );
