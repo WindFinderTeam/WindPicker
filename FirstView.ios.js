@@ -96,7 +96,7 @@ class  AndroidFirstView extends Component {
         if(this.state.viewMode == 'surf')           nowMode_han = '서핑';
         else                                        nowMode_han = '패러글라이딩';
 
-        this.refs._drawer.close();
+        this.refs._drawer.closeDrawer();
 
         // this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
         // this.refs.toast.show({nowMode_han} + '모드로 전환합니다',DURATION.LENGTH_LONG);
