@@ -328,8 +328,7 @@ class  AndroidFirstView extends Component {
                     <Text style={{fontSize: 20, marginBottom: 15, color:'#94000F'}}>주변샾</Text>
                         <ListView
                             dataSource={this.state.dataSource}
-                            renderRow ={this.renderRow}
-                        />
+                            renderRow ={this.renderRow}/>
                 </SimpleModal>
             </DrawerLayoutAndroid>
 
