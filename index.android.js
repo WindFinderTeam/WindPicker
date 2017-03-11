@@ -15,7 +15,7 @@ import {
 
 import Modal               from 'react-native-simple-modal';
 import VersionCheck        from 'react-native-version-check';
-import AndroidFirstView    from './AndroidFirstView';
+import AndroidFirstView    from './FirstView';
 import Toast, { DURATION } from 'react-native-easy-toast';
 
 import { realmInstance } from "./RealmHndler.js";
