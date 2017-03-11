@@ -27,7 +27,6 @@ import Toast, { DURATION } from 'react-native-easy-toast';
 import SimpleModal from 'react-native-simple-modal';
 import Carousel        from 'react-native-carousel';
 import Ionicons     from 'react-native-vector-icons/Ionicons';
-import Drawer from 'react-native-simple-drawer'
 import GlidingLocalList  from './GlidingLocalList';
 import SurfLocalList     from './SurfLocalList';
 import FavoriteList      from './FavoriteList';
