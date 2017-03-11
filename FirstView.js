@@ -61,7 +61,6 @@ class  AndroidFirstView extends Component {
             configModalOpen     : false,
             viewMode            : this.props.mode,
             loadingYn           : true,
-            tabLock             : false,
             tabViewSelectedPage : -1,
             shopModalVisible    : false,
             webCamModalVisible  : false,
@@ -240,7 +239,7 @@ class  AndroidFirstView extends Component {
                                    tabBarInactiveTextColor = "#94000f"
                                    tabBarBackgroundColor   = "white"
                                    ref                     = {'scrollView'}
-                                   locked                  = {this.state.tabLock}
+                                   locked                  = {false}
                                    page                    = {this.state.tabViewSelectedPage}
                                    tabBarTextStyle         = {styles.tabText}
                                    onChangeTab             = {(obj)=>this.onChangeTab(obj)}

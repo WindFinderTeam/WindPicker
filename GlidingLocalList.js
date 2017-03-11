@@ -58,6 +58,7 @@ class LocalList extends Component{
     }
 
 
+
     renderListViewData(glidingLocalData) {
 
         var data = {}  ;      // Object
@@ -142,6 +143,7 @@ class LocalList extends Component{
                         </View>
 
                     </View>
+
                 </View>
             </TouchableOpacity>
         )
@@ -177,25 +179,6 @@ class LocalList extends Component{
 };
 
 
-var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    listViewrow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingLeft: 20,
-        backgroundColor: '#F6F6F6',
-        borderBottomWidth: 1,
-        borderBottomColor: '#e9e9e9',
-        height:40,
-        alignItems: 'center',
-    },
-
-
-});
 
 
 module.exports = LocalList;

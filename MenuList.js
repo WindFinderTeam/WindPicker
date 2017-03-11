@@ -19,10 +19,6 @@ import {
     Animated
 } from 'react-native';
 
-//https://github.com/oblador/react-native-vector-icons
-import Ionicons     from 'react-native-vector-icons/Ionicons';
-
-var viewHeight;
 
 class MenuList extends Component {
 
