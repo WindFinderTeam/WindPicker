@@ -31,7 +31,7 @@ class MyToolbar extends Component {
                         iconColor="#94000F"
                         titleColor="#94000F"
                         navIconName          = "md-menu"
-                        onIconClicked        ={() => this.props.openDrawer()}
+                        onIconClicked        ={() => this.props.openDrawerLayout()}
                         //title= {this.state.school}
                         //actions={[
                         //    {title: '', iconName: 'md-swap', iconColor: 'gray', iconSize: 30, show: 'always'}

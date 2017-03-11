@@ -16,6 +16,7 @@ import {
     Modal,
     Dimensions,
     StatusBar,
+    DrawerLayoutAndroid,
     Animated,
 
 } from 'react-native';
@@ -50,7 +51,7 @@ class  AndroidFirstView extends Component {
         this.setShopModalVisible   = this.setShopModalVisible.bind(this);
         this.setWebCamModalVisible   = this.setWebCamModalVisible.bind(this);
         this.renderRow             = this.renderRow.bind(this);
-        this.openDrawer            = this.openDrawer.bind(this);
+        this.openDrawerLayout      = this.openDrawerLayout.bind(this);
         this.setModeChange         = this.setModeChange.bind(this);
 
         ds = new ListView.DataSource({
@@ -71,9 +72,9 @@ class  AndroidFirstView extends Component {
         };
     }
 
-    openDrawer() {
-        console.log("openDrawer;");
-        this.refs._drawer.open();
+
+    openDrawerLayout(){
+        this.refs._drawer.openDrawer();
     }
 
     setConfigModalVisible(visible) {
@@ -197,7 +198,6 @@ class  AndroidFirstView extends Component {
 
     render() {
 
-        const DRAWER_WIDTH = 250;
 
         var localList ;
         if(this.state.viewMode =='surf') localList =  (<SurfLocalList setShopModalVisible   ={this.setShopModalVisible}
@@ -219,20 +219,17 @@ class  AndroidFirstView extends Component {
                 break;
         };
 
+
         return (
 
-        <Drawer
-            style={drawerStyles}
-            onChange={()=>{}}
-            direction="left"
-            backdropStyle={{backgroundColor:'rgba(65,65,65,.9)'}}
-            ref="_drawer"
-            value={this.state.drawerAnimation}
-            disableGestures={true}
-            width={DRAWER_WIDTH}
-            menu={<MenuList modeTitle={modeTitle} setModeChange={(mode)=>this.setModeChange(mode)}/>}
-            >
-                <MyToolbar modeTitle={modeTitle} onActionSelected={(position)=>this.onActionSelected(position)} openDrawer={()=>this.openDrawer()}/>
+            <DrawerLayoutAndroid
+                drawerWidth={250}
+                drawerPosition={DrawerLayoutAndroid.positions.Left}
+                ref={'_drawer'}
+                renderNavigationView={() => <MenuList modeTitle={modeTitle} setModeChange={(mode)=>this.setModeChange(mode)}/>}>
+
+
+                <MyToolbar modeTitle={modeTitle} onActionSelected={(position)=>this.onActionSelected(position)} openDrawerLayout={()=>this.openDrawerLayout()}/>
 
                 <ScrollableTabView tabBarUnderlineStyle    = {{backgroundColor:"#94000f"}}
                                    tabBarActiveTextColor   = "#94000f"
@@ -338,7 +335,7 @@ class  AndroidFirstView extends Component {
                             renderRow ={this.renderRow}
                         />
                 </SimpleModal>
-            </Drawer>
+            </DrawerLayoutAndroid>
 
         );
     }
