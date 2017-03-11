@@ -252,9 +252,6 @@ class  AndroidFirstView extends Component {
                         />
                     </ScrollView>
 
-                    {/* <ScrollView tabLabel="샾랭킹" style={styles.tabView}>
-                        <ShopPage/>
-                        </ScrollView>*/}
                 </ScrollableTabView>
 
                 {/* configMode selection Modal */}
@@ -343,9 +340,7 @@ class  AndroidFirstView extends Component {
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
-const drawerStyles = {
-    backgroundColor:'#FFFFFF', flex:1, shadowColor: 'black',  shadowRadius: 3
-}
+
 
 const styles = StyleSheet.create({
     tabView: {
