@@ -16,7 +16,8 @@ import {
     DeviceEventEmitter,
     ToastAndroid,
     Image,
-    Animated
+    Animated,
+    Linking
 } from 'react-native';
 
 
@@ -35,6 +36,12 @@ class MenuList extends Component {
 
     handleViewLayout(evt) {
         this.setState({viewHeight: evt.nativeEvent.layout.height});
+    }
+
+    sendEmail(){
+
+        Linking.openURL('mailto:reedtale@gmail.com?subject=윈드피커 입점문의').catch(err => console.error('An error occurred', err));
+
     }
 
     render() {
@@ -78,8 +85,10 @@ class MenuList extends Component {
                     </TouchableOpacity>
 
                     <View style={{flex: 1, marginLeft: 10, marginBottom: 10, justifyContent: 'flex-end'}}>
-                        <Text>윈드피커 입점문의</Text>
-                        <Text>reedtail@gmail.com</Text>
+                        <TouchableOpacity onPress={() => this.sendEmail()}>
+                            <Text>윈드피커 입점문의</Text>
+                            <Text style={{fontStyle:'italic'}}>reedtale@gmail.com</Text>
+                        </TouchableOpacity>
                     </View>
 
                 </View>
