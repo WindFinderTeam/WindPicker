@@ -315,7 +315,7 @@ class SurfWeatherList extends Component {
                                           style={{flex: 1.5,
                                               justifyContent: 'center',
                                               alignItems: 'center'}}>
-                            <View style={[pickerStyle.menusView, rowData.tidedirections =="" ? {flex:1.5}:{}]}>
+                            <View style={[pickerStyle.menusView, rowData.tidedirections==""? {flex:1.5}:{}]}>
                                 {windArrowSrc}
                                 <View style={{flexDirection:'column'}}>
                                     <Text style={pickerStyle.rowListText}>{rowData.wind} m/s</Text>

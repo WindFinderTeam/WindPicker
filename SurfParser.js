@@ -195,11 +195,12 @@ function getSurfWeather (responseData){
 
                 if(typeof parsing_rowData_tidedirections[j]== "undefined"){
                 } else  {
-                    directionName = parsing_rowData_tidedirections[j].childNodes[1].classNames[0];
-                    if(directionName.substr(10,4) == 'down')       tidedirections = 'down';
-                    else if (directionName.substr(10,3) == 'low')  tidedirections = 'low';
-                    else if (directionName.substr(10,2) == 'up')   tidedirections = 'up';
-                    else if (directionName.substr(10,4) == 'high') tidedirections = 'high';
+                    directionName = parsing_rowData_tidedirections[j].childNodes[1].classNames[1];
+                    console.log("directionName :::: ", directionName);
+                    if(directionName == 'icon-wf-i-down')       tidedirections = 'down';
+                    else if (directionName == 'icon-wf-i-low')  tidedirections = 'low';
+                    else if (directionName == 'icon-wf-i-up')   tidedirections = 'up';
+                    else if (directionName == 'icon-wf-i-high') tidedirections = 'high';
                     else                                           tidedirections = '';
 
                     tideYN = "Y" ;
