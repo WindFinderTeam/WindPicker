@@ -87,7 +87,7 @@ class MenuList extends Component {
                     <View style={{flex: 1, marginLeft: 10, marginBottom: 10, justifyContent: 'flex-end'}}>
                         <TouchableOpacity onPress={() => this.sendEmail()}>
                             <Text>윈드피커 입점문의</Text>
-                            <Text style={{}}>reedtale@gmail.com</Text>
+                            <Text style={{fontStyle:'italic'}}>reedtale@gmail.com</Text>
                         </TouchableOpacity>
                     </View>
 
