@@ -28,16 +28,10 @@ class MyToolbar extends Component {
                         // navIconName={require('./image/app_logo.png')}
                         // logo={require('./image/app_logo.png')}
                         style={styles.toolbar}
-                        iconColor="#94000F"
-                        titleColor="#94000F"
-                        navIconName          = "md-menu"
-                        onIconClicked        ={() => this.props.openDrawerLayout()}
-                        //title= {this.state.school}
-                        //actions={[
-                        //    {title: '', iconName: 'md-swap', iconColor: 'gray', iconSize: 30, show: 'always'}
-                        //]}
-                        overflowIconName="md-more"
-                        onActionSelected={(position) => this.props.onActionSelected(position)}
+                        iconColor     = "#94000F"
+                        titleColor    = "#94000F"
+                        navIconName   = "md-menu"
+                        onIconClicked = {() => this.props.openDrawerLayout()}
                     />
                     <View style={styles.logoImage}>
                         <Text style={styles.modeText}>{this.props.modeTitle}</Text>
