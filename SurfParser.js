@@ -196,7 +196,6 @@ function getSurfWeather (responseData){
                 if(typeof parsing_rowData_tidedirections[j]== "undefined"){
                 } else  {
                     directionName = parsing_rowData_tidedirections[j].childNodes[1].classNames[1];
-                    console.log("directionName :::: ", directionName);
                     if(directionName == 'icon-wf-i-down')       tidedirections = 'down';
                     else if (directionName == 'icon-wf-i-low')  tidedirections = 'low';
                     else if (directionName == 'icon-wf-i-up')   tidedirections = 'up';
