@@ -281,8 +281,9 @@ class FirstViewAndroid extends Component {
                         </View>
                         <View style={{height: SCREEN_HEIGHT / 1.5}}>
                             <View style={{position:'absolute', backgroundColor:'white', width: SCREEN_WIDTH, height: SCREEN_HEIGHT / 1.5}}>
-                                <Text style={{paddingTop:30, marginLeft:30, textAlign:'left', color:'black', fontSize:17}}>잠시만 기다려 주세요. </Text>
-                                <Text style={{marginLeft:30, textAlign:'left', color:'black', fontSize:17}}>캠이 점검중이면 실행되지 않을 수 있습니다. </Text>
+                                <Ionicons name="ios-checkmark-outline" style={{paddingTop:SCREEN_HEIGHT/4,textAlign:'center',}} size={30} color='gray'/>
+                                <Text style={pickerStyle.camLoading}>잠시만 기다려 주세요. </Text>
+                                <Text style={pickerStyle.camLoading}>캠이 점검중이면 실행되지 않을 수 있습니다. </Text>
                             </View>
                             {webCamView}
                         </View>

@@ -219,17 +219,11 @@ const pickerStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    webView404: {
-        position:'absolute',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgb(48,48,48)',
-        width: SCREEN_WIDTH,
-        height:SCREEN_HEIGHT/2,
-        left:0,
-        zIndex:1
+    camLoading : {
+        textAlign:'center',
+        color:'gray',
+        fontSize:16
     },
-
     directionMarginBottom: {
         flexDirection: 'row',
         justifyContent: 'center',
