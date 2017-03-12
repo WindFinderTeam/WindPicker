@@ -57,7 +57,7 @@ class FirstViewAndroid extends Component {
         this.state = {
             configModalOpen: false,
             viewMode: this.props.mode,
-            loadingYn: true,
+            loadingYn: false,
             tabViewSelectedPage: -1,
             shopModalVisible: false,
             webCamModalVisible: false,
@@ -102,17 +102,21 @@ class FirstViewAndroid extends Component {
 
     setWebCamModalVisible(visible, webcam) {
 
+        var LoadSatus = '';
 
         webCamView = (
             <WebView
                 onLoad={() => {
-                    console.log("onLoad!!!")
+                    console.log("onLoad!!!");
+                    LoadSatus = 'onLoad';
                 }}
                 onError={() => {
-                    console.log("onError!!!")
+                    console.log("onError!!!");
+                    LoadStatus = 'onError';
                 }}
                 renderError={() => {
                     console.log("renderError!!!");
+                    LoadSatus = 'renderError';
                 }}
                 mediaPlaybackRequiresUserAction={false}
                 style={pickerStyle.webView}
@@ -124,12 +128,13 @@ class FirstViewAndroid extends Component {
             />
         );
 
-        this.setState({webCamModalVisible: visible, camLoadError: false});
+        this.setState({webCamModalVisible: visible});
+        if (LoadSatus == 'onLoad')                       this.setState({loadingYn:true})
+        else if (LoadSatus == 'onError'||'renderError')  this.setState({camLoadError:true})
     }
 
     onActionSelected(position) {
 
-        console.log("xx", position);
         if (position === 0) { // index of 'Settings'
             this.setConfigModalVisible(true);
         }
@@ -264,7 +269,7 @@ class FirstViewAndroid extends Component {
                     transparent={true}
                     visible={this.state.webCamModalVisible}
                     onRequestClose={() => {
-                        this.setState({webCamModalVisible: false, camLoadError: false});
+                        this.setState({webCamModalVisible: false, camLoadError: false, loadingYn:false});
                     }}>
                     <View style={pickerStyle.modalContainer}>
                         <View style={[pickerStyle.closeIcon, {opacity: this.state.webCamModalVisible == true ? 1 : 0}]}>
@@ -274,7 +279,11 @@ class FirstViewAndroid extends Component {
                                 <Ionicons name="md-close" size={40} color={'white'}/>
                             </TouchableOpacity>
                         </View>
-                        <View style={{height: parseInt(SCREEN_HEIGHT / 1.5)}}>
+                        <View style={{height: SCREEN_HEIGHT / 1.5}}>
+                            <View style={{position:'absolute', backgroundColor:'white', width: SCREEN_WIDTH, height: SCREEN_HEIGHT / 1.5}}>
+                                <Text style={{paddingTop:30, marginLeft:30, textAlign:'left', color:'black', fontSize:17}}>잠시만 기다려 주세요. </Text>
+                                <Text style={{marginLeft:30, textAlign:'left', color:'black', fontSize:17}}>캠이 점검중이면 실행되지 않을 수 있습니다. </Text>
+                            </View>
                             {webCamView}
                         </View>
                     </View>
@@ -303,6 +312,8 @@ class FirstViewAndroid extends Component {
 }
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
+const SCREEN_WIDTH = Dimensions.get('window').width;
+
 
 
 const styles = StyleSheet.create({
