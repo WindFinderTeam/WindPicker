@@ -43,19 +43,16 @@ class FirstViewAndroid extends Component {
     constructor(prop) {
         super(prop);
 
-        this.setConfigModalVisible = this.setConfigModalVisible.bind(this);
         this.setShopModalVisible = this.setShopModalVisible.bind(this);
         this.setWebCamModalVisible = this.setWebCamModalVisible.bind(this);
         this.renderRow = this.renderRow.bind(this);
         this.openDrawerLayout = this.openDrawerLayout.bind(this);
         this.setModeChange = this.setModeChange.bind(this);
 
-        ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
-        }); // shop ListView Data
+        ds = new ListView.DataSource({  rowHasChanged: (r1, r2) => r1 !== r2     }); // shop ListView Data
 
         this.state = {
-            configModalOpen: false,
+
             viewMode: this.props.mode,
             loadingYn: false,
             tabViewSelectedPage: -1,
@@ -73,9 +70,7 @@ class FirstViewAndroid extends Component {
         this.refs._drawer.openDrawer();
     }
 
-    setConfigModalVisible(visible) {
-        this.setState({configModalOpen: visible});
-    }
+
 
     setShopModalVisible(visible, shopRows) {
         console.log("shopRows", shopRows);
@@ -84,19 +79,16 @@ class FirstViewAndroid extends Component {
 
     setModeChange(mode) {
 
-        console.log("mode::::", mode)
-        var nowMode_han;
-
-        if (mode == 'surf') this.setState({viewMode: 'surf', tabViewSelectedPage: 0});
-        else                  this.setState({viewMode: 'gliding', tabViewSelectedPage: 0});
-
-        if (this.state.viewMode == 'surf') nowMode_han = '서핑';
-        else                                        nowMode_han = '패러글라이딩';
+        if (mode == 'surf') {
+            this.setState({viewMode: 'surf', tabViewSelectedPage: 0});
+            this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
+        }
+        else {
+            this.setState({viewMode: 'gliding', tabViewSelectedPage: 0});
+            this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
+        }
 
         this.refs._drawer.closeDrawer();
-
-        // this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
-        // this.refs.toast.show({nowMode_han} + '모드로 전환합니다',DURATION.LENGTH_LONG);
 
     }
 
@@ -133,19 +125,14 @@ class FirstViewAndroid extends Component {
         else if (LoadSatus == 'onError'||'renderError')  this.setState({camLoadError:true})
     }
 
-    onActionSelected(position) {
 
-        if (position === 0) { // index of 'Settings'
-            this.setConfigModalVisible(true);
-        }
-    }
 
     onChangeTab(obj) {
 
         this.setState({tabViewSelectedPage: -1});
 
         /* obj.i : 0 날씨정보, 1 즐겨찾기 */
-        if (obj.i == '1') this.setState({realmReload: true});
+        if (obj.i == '1')      this.setState({realmReload: true});
         else if (obj.i == '0') this.setState({realmReload: false});
 
     }
@@ -160,21 +147,16 @@ class FirstViewAndroid extends Component {
         var localList;
         if (this.state.viewMode == 'surf') localList = (<SurfLocalList setShopModalVisible={this.setShopModalVisible}
                                                                        setWebCamModalVisible={this.setWebCamModalVisible}/>);
-        else                             localList = (
-            <GlidingLocalList setShopModalVisible={this.setShopModalVisible}/>);
+        else                               localList = (<GlidingLocalList setShopModalVisible={this.setShopModalVisible}/>);
 
         var modeTitle;
 
-
         switch (this.state.viewMode) {
-            case 'surf':
-                modeTitle = '서핑';
+            case 'surf':     modeTitle = '서핑';
                 break;
-            case 'gliding':
-                modeTitle = '패러글라이딩';
+            case 'gliding':  modeTitle = '패러글라이딩';
                 break;
-            default :
-                modeTitle = '패러글라이딩';
+            default :        modeTitle = '패러글라이딩';
                 break;
         }
         ;
@@ -185,11 +167,9 @@ class FirstViewAndroid extends Component {
                 drawerWidth={250}
                 drawerPosition={DrawerLayoutAndroid.positions.Left}
                 ref={'_drawer'}
-                renderNavigationView={() => <MenuList modeTitle={modeTitle}
-                                                      setModeChange={(mode) => this.setModeChange(mode)}/>}>
+                renderNavigationView={() => <MenuList modeTitle={modeTitle}  setModeChange={(mode) => this.setModeChange(mode)}/>}>
 
-
-                <MyToolbar modeTitle={modeTitle} onActionSelected={(position) => this.onActionSelected(position)}
+                <MyToolbar modeTitle={modeTitle}
                            openDrawerLayout={() => this.openDrawerLayout()}/>
 
                 <ScrollableTabView tabBarUnderlineStyle={{backgroundColor: "#94000f"}}
@@ -212,56 +192,9 @@ class FirstViewAndroid extends Component {
                                       viewMode={this.state.viewMode}
                         />
                     </ScrollView>
-
                 </ScrollableTabView>
 
-                {/* configMode selection Modal */}
-                <SimpleModal
-                    offset={this.state.offset}
-                    open={this.state.configModalOpen}
-                    modalDidOpen={() => console.log('modal did open')}
-                    modalDidClose={() => this.setState({configModalOpen: false})}
-                    style={{flex: 1, borderRadius: 2}}>
 
-                    <Text style={{fontSize: 20, marginBottom: 10, color: '#94000F'}}>모드선택</Text>
-
-                    <View style={{margin: 0, flex: 1}}>
-                        <View style={{flex: 2, height: 40}}>
-                            <TouchableOpacity
-                                style={{margin: 5, flex: 1, justifyContent: 'center', alignItems: 'flex-start'}}
-                                onPress={() => {
-                                    this.setState({viewMode: 'surf', configModalOpen: false, tabViewSelectedPage: 0});
-                                    this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
-                                    this.refs.toast.show('서핑모드 모드로 전환합니다', DURATION.LENGTH_LONG);
-                                }}>
-                                <View style={{flexDirection: 'row'}}>
-                                    <Text style={{color: '#727272', fontSize: 18}}>서 핑 </Text>
-                                    {this.state.viewMode == 'surf' &&
-                                    <Ionicons name="md-checkmark" size={20} color={'#94000f'}/>}
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{flex: 2, flexDirection: 'row', height: 40}}>
-                            <TouchableOpacity
-                                style={{margin: 5, flex: 1, justifyContent: 'center', alignItems: 'flex-start'}}
-                                onPress={() => {
-                                    this.setState({
-                                        viewMode: 'gliding',
-                                        configModalOpen: false,
-                                        tabViewSelectedPage: 0
-                                    });
-                                    this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
-                                    this.refs.toast.show('페러글라이딩 모드로 전환합니다', DURATION.LENGTH_SHORT);
-                                }}>
-                                <View style={{flexDirection: 'row'}}>
-                                    <Text style={{color: '#727272', fontSize: 18}}>패 러 글 라 이 딩 </Text>
-                                    {this.state.viewMode == 'gliding' &&
-                                    <Ionicons name="md-checkmark" size={20} color={'#94000f'}/>}
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </SimpleModal>
 
                 {/* webCam Modal */}
                 <Modal
@@ -311,7 +244,6 @@ class FirstViewAndroid extends Component {
                     <View style={{flex:1,alignItems:'center',justifyContent:'center',height:50, borderColor:'gray',borderWidth:2,borderStyle:'dotted', borderRadius:2}}>
                         <Text>광고자리입니다</Text>
                     </View>
-
 
                 </SimpleModal>
             </DrawerLayoutAndroid>
