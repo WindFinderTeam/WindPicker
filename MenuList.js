@@ -25,15 +25,15 @@ class MenuList extends Component {
     constructor(prop) {
         super(prop);
 
-        this.handleViewLayout            = this.handleViewLayout.bind(this);
+        this.handleViewLayout = this.handleViewLayout.bind(this);
 
         this.state = {
-            viewHeight     : 0,
-    }
+            viewHeight: 0,
+        }
 
-};
+    };
 
-    handleViewLayout(evt){
+    handleViewLayout(evt) {
         this.setState({viewHeight: evt.nativeEvent.layout.height});
     }
 
@@ -43,10 +43,9 @@ class MenuList extends Component {
         return (
             <View style={{flex: 1}}>
                 <View style={{flex: 1,}}>
-                    <View onLayout={this.handleViewLayout} style={{flex:1}}>
-                        <Image source={require('./image/bg.png')} style={{flex:1,}}>
-
-                        </Image>
+                    <View onLayout={this.handleViewLayout} style={{flex: 1}}>
+                        <Image source={require('./image/bg.jpg')} style={{height: this.state.viewHeight}}
+                               resizeMode={Image.resizeMode.cover}/>
                     </View>
                     <View style={{
                         height: 10,
@@ -54,33 +53,33 @@ class MenuList extends Component {
                 </View>
                 <View style={{flex: 2}}>
                     <TouchableOpacity
-                        onPress={()=>this.props.setModeChange('surf')}>
+                        onPress={() => this.props.setModeChange('surf')}>
                         <View style={{
                             height: 50,
-                            flexDirection:'row',
+                            flexDirection: 'row',
                             alignItems: 'center',
                             backgroundColor: this.props.modeTitle == '서핑' ? '#E0E0E0' : null
                         }}>
-
-                            <Text style={{marginLeft: 20, fontSize: 18, color:'black'}}> 서핑</Text>
+                            <Text style={{color:'rgb(226,0,85)', fontSize:13}}>      ●</Text>
+                            <Text style={{marginLeft: 20, fontSize: 18, color: 'black'}}> 서핑</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={()=>this.props.setModeChange('gliding')}>
+                        onPress={() => this.props.setModeChange('gliding')}>
                         <View style={{
                             height: 50,
-                            flexDirection:'row',
+                            flexDirection: 'row',
                             alignItems: 'center',
                             backgroundColor: this.props.modeTitle == '패러글라이딩' ? '#E0E0E0' : null
                         }}>
-
-                            <Text style={{marginLeft: 20, fontSize: 18, color:'black'}}> 패러글라이딩 </Text>
+                            <Text style={{color:'rgb(255,226,28)', fontSize:13}}>     ●</Text>
+                            <Text style={{marginLeft: 20, fontSize: 18, color: 'black'}}> 패러글라이딩 </Text>
                         </View>
                     </TouchableOpacity>
 
-                    <View style={{flex:1, marginLeft:10, marginBottom:10, justifyContent:'flex-end'}}>
-                            <Text>윈드피커 입점문의</Text>
-                            <Text>reedtail@gmail.com</Text>
+                    <View style={{flex: 1, marginLeft: 10, marginBottom: 10, justifyContent: 'flex-end'}}>
+                        <Text>윈드피커 입점문의</Text>
+                        <Text>reedtail@gmail.com</Text>
                     </View>
 
                 </View>
