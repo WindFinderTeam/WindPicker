@@ -300,10 +300,18 @@ class FirstViewAndroid extends Component {
                     modalDidOpen={() => console.log('modal did open')}
                     modalDidClose={() => this.setState({shopModalVisible: false})}
                     style={{alignItems: 'center'}}>
+
                     <Text style={{fontSize: 20, marginBottom: 15, color: '#94000F'}}>주변샾</Text>
+
                     <ListView
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow}/>
+
+                    <View style={{flex:1,alignItems:'center',justifyContent:'center',height:50, borderColor:'gray',borderWidth:2,borderStyle:'dotted', borderRadius:2}}>
+                        <Text>광고자리입니다</Text>
+                    </View>
+
+
                 </SimpleModal>
             </DrawerLayoutAndroid>
 
