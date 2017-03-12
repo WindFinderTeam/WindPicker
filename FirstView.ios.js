@@ -24,7 +24,6 @@ import {
 
 import Toast, { DURATION } from 'react-native-easy-toast';
 import SimpleModal from 'react-native-simple-modal';
-import Carousel        from 'react-native-carousel';
 import Ionicons     from 'react-native-vector-icons/Ionicons';
 import GlidingLocalList  from './GlidingLocalList';
 import SurfLocalList     from './SurfLocalList';
@@ -40,7 +39,7 @@ var pickerStyle   = require('./pickerStyle');
 import MenuList  from './MenuList';
 import MyToolbar from './MyToolbar';
 
-class  AndroidFirstView extends Component {
+class  FirstViewIos extends Component {
 
     constructor(prop){
         super(prop);
@@ -105,12 +104,8 @@ class  AndroidFirstView extends Component {
 
     setWebCamModalVisible(visible, webcam) {
 
-        {/* count i */}
-        for(var i in webcam){}
 
-        switch (i) {
-            case '0':
-                webView0 = (
+                webCamView = (
                     <WebView
                         onLoad={()=>{console.log("onLoad!!!")}}
                         mediaPlaybackRequiresUserAction={false}
@@ -123,57 +118,11 @@ class  AndroidFirstView extends Component {
                     />
                     );
 
-                webCamView = webView0;
-
-                webCamViewIndicator = (
-                    <Text style={{fontSize:50, color:"#94000F", textAlign:'center'}}>•</Text>
-                );
-                break;
-            case '1':
-                webView1 = (
-                    <WebView
-                        onLoad={()=>{console.log("onLoad!!!")}}
-                        mediaPlaybackRequiresUserAction={false}
-                        style={pickerStyle.webView}
-                        automaticallyAdjustContentInsets={true}
-                        source={{uri: webcam[0].camUrl}}
-                        javaScriptEnabled={true}
-                        startInLoadingState={true}
-                        scalesPageToFit={true}
-                    />
-                );
-
-                webView2 = (
-                    <WebView
-                        onLoad={()=>{console.log("onLoad!!!")}}
-                        mediaPlaybackRequiresUserAction={false}
-                        style={pickerStyle.webView}
-                        automaticallyAdjustContentInsets={true}
-                        source={{uri: webcam[1].camUrl}}
-                        javaScriptEnabled={true}
-                        startInLoadingState={true}
-                        scalesPageToFit={true}
-                    />
-                );
-
-                webCamView = (
-                    <Carousel animate={false} indicatorColor="#94000F" indicatorOffset={-68}>
-                        {webView1}
-                        {webView2}
-                    </Carousel>
-                );
-
-                webCamViewIndicator = null;
-                break;
-            default: break;
-        };
-
         this.setState({webCamModalVisible: visible, camLoadError:false});
     }
 
     onActionSelected(position) {
 
-        console.log("xx",position);
         if (position === 0) { // index of 'Settings'
             this.setConfigModalVisible(true);
         }
@@ -299,7 +248,7 @@ class  AndroidFirstView extends Component {
                                 <Ionicons name="md-close" size={50} color={'white'}/>
                             </TouchableOpacity>
                         </View>
-                        <View style={{height:SCREEN_HEIGHT/2}}>
+                        <View style={{height:SCREEN_HEIGHT/1.5}}>
                             {webCamView}
                         </View>
                         <View style={pickerStyle.circleIcon}>{webCamViewIndicator}</View>
@@ -343,4 +292,4 @@ const styles = StyleSheet.create({
 
 });
 
-module.exports = AndroidFirstView;
+module.exports = FirstViewIos;

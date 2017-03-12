@@ -64,7 +64,7 @@ const pickerStyle = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'white',
         width: SCREEN_WIDTH,
-        height: SCREEN_HEIGHT / 2
+        height: SCREEN_HEIGHT / 1.5
     },
 
     rowListText: {

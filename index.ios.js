@@ -14,7 +14,7 @@ import {
 
 
 import Modal               from 'react-native-simple-modal';
-import AndroidFirstView    from './FirstView';
+import FirstViewIos        from './FirstView.ios';
 import Toast, { DURATION } from 'react-native-easy-toast';
 
 import { realmInstance } from "./RealmHndler.js";
@@ -46,7 +46,7 @@ class  WindPicker extends Component {
 
 
                 this.getLastModeFromRealm();
-                setTimeout(this.startCountDown, 2000); // go to first AndroidFirstView page after 3s
+                setTimeout(this.startCountDown, 2000); // go to first FirstViewIos page after 3s
                 return ;
 
     }
@@ -144,7 +144,7 @@ class  WindPicker extends Component {
                                     nowMode="surf";
                                     this.refs.toast.show('서핑 모드로 시작합니다',DURATION.LENGTH_LONG);
                                     this.setState({chooseModeModal: false}) ;
-                                    setTimeout(this.startCountDown, 2000); // Jump to AndroidFirstView
+                                    setTimeout(this.startCountDown, 2000); // Jump to FirstViewIos
                                 }}>
                                 <Text style={{color:'#727272', fontSize: 16}}>서                   핑    </Text>
                             </TouchableOpacity>
@@ -156,7 +156,7 @@ class  WindPicker extends Component {
                                     nowMode="gliding";
                                     this.refs.toast.show('패러글라이딩 모드로 시작합니다',DURATION.LENGTH_LONG);
                                     this.setState({chooseModeModal: false}) ;
-                                    setTimeout(this.startCountDown, 2000); // Jump to AndroidFirstView
+                                    setTimeout(this.startCountDown, 2000); // Jump to FirstViewIos
                                 }}>
                                 <Text style={{color:'#727272',fontSize: 16}}>패 러 글 라 이 딩  </Text>
                             </TouchableOpacity>
@@ -168,12 +168,12 @@ class  WindPicker extends Component {
         }
 
         else {
-            mainView = (<AndroidFirstView mode = {nowMode}/>);
+            mainView = (<FirstViewIos mode = {nowMode}/>);
         }
 
         return (
 
-            mainView  // LoadingView or AndroidFirstView
+            mainView  // LoadingView or FirstViewIos
         );
     }
 }

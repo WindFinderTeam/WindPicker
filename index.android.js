@@ -15,7 +15,7 @@ import {
 
 import Modal               from 'react-native-simple-modal';
 import VersionCheck        from 'react-native-version-check';
-import AndroidFirstView    from './FirstView';
+import FirstViewAndroid    from './FirstView.android';
 import Toast, { DURATION } from 'react-native-easy-toast';
 
 import { realmInstance } from "./RealmHndler.js";
@@ -57,7 +57,7 @@ class  WindPicker extends Component {
             .catch((error) => { // if network state is unstable
                 console.warn(error);
                 this.getLastModeFromRealm();
-                setTimeout(this.startCountDown, 2000); // go to first AndroidFirstView page after 3s
+                setTimeout(this.startCountDown, 2000); // go to first FirstViewAndroid page after 3s
                 return ;
 
             });
@@ -72,7 +72,7 @@ class  WindPicker extends Component {
                 /* the last version. update is not required */
                 else {
                     if (lastMode == '')     this.setState({chooseModeModal: true});
-                    else                    setTimeout(this.startCountDown, 1000); // Jump to AndroidFirstView
+                    else                    setTimeout(this.startCountDown, 1000); // Jump to FirstViewAndroid
                 }
             });
     }
@@ -171,7 +171,7 @@ class  WindPicker extends Component {
                                     nowMode="surf";
                                     this.refs.toast.show('서핑 모드로 시작합니다',DURATION.LENGTH_LONG);
                                     this.setState({chooseModeModal: false}) ;
-                                    setTimeout(this.startCountDown, 2000); // Jump to AndroidFirstView
+                                    setTimeout(this.startCountDown, 2000); // Jump to FirstViewAndroid
                                 }}>
                                 <Text style={{color:'#727272', fontSize: 16}}>서                   핑    </Text>
                             </TouchableOpacity>
@@ -183,7 +183,7 @@ class  WindPicker extends Component {
                                     nowMode="gliding";
                                     this.refs.toast.show('패러글라이딩 모드로 시작합니다',DURATION.LENGTH_LONG);
                                     this.setState({chooseModeModal: false}) ;
-                                    setTimeout(this.startCountDown, 2000); // Jump to AndroidFirstView
+                                    setTimeout(this.startCountDown, 2000); // Jump to FirstViewAndroid
                                 }}>
                                 <Text style={{color:'#727272',fontSize: 16}}>패 러 글 라 이 딩  </Text>
                             </TouchableOpacity>
@@ -195,12 +195,12 @@ class  WindPicker extends Component {
         }
 
         else {
-            mainView = (<AndroidFirstView mode = {nowMode}/>);
+            mainView = (<FirstViewAndroid mode = {nowMode}/>);
         }
 
         return (
 
-            mainView  // LoadingView or AndroidFirstView
+            mainView  // LoadingView or FirstViewAndroid
         );
     }
 }
