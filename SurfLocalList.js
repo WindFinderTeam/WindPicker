@@ -57,9 +57,8 @@ class LocalList extends Component{
             rowHasChanged: (r1, r2) => r1 !== r2
         });
 
-        var {data, sectionIds} = this.renderListViewData(surfLocalData);
         this.state = {
-            dataSource          : this.ds.cloneWithRowsAndSections(data, sectionIds)
+            dataSource          : this.ds.cloneWithRowsAndSections(this.renderListViewData())
             ,modalVisible        : false
             ,dataSource_fb : new ListView.DataSource({
             rowHasChanged: (row1, row2) => row1 !== row2,
@@ -71,28 +70,19 @@ class LocalList extends Component{
 
     }
 
-    renderListViewData(surfLocalData) {
+    renderListViewData() {
 
-        var data = {}  ;      // Object
-        var sectionIds = [];  // Array
+        var localListMap = {}  ;
 
-        //if(서핑테마 일 경우)
-        surfLocalData = surfLocalData.local;
-
-        var province = null;
-
-        for(var i=0; i< surfLocalData.length ; i++){
-
-            if(province != surfLocalData[i].province){
-                sectionIds.push(surfLocalData[i].province);
-                data[surfLocalData[i].province]=[];
-                province = surfLocalData[i].province;
+        Array.from(surfLocalData.local).forEach(function (myItem){
+            if(!localListMap[myItem.province]){
+                localListMap[myItem.province] = [];
             }
+            localListMap[myItem.province].push(myItem);
+        });
 
-            data[surfLocalData[i].province].push(surfLocalData[i]);
-        }
+        return localListMap;
 
-        return {data, sectionIds};
     }
 
     renderSectionHeader(data, sectionId) {

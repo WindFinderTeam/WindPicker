@@ -48,9 +48,8 @@ class LocalList extends Component{
             rowHasChanged          : (r1, r2) => r1 !== r2
         });
 
-        var {data, sectionIds} = this.renderListViewData(glidingLocalData);
         this.state = {
-            dataSource      : this.ds.cloneWithRowsAndSections(data, sectionIds)
+            dataSource      : this.ds.cloneWithRowsAndSections(this.renderListViewData())
             ,modalVisible    : false
         };
 
@@ -58,29 +57,19 @@ class LocalList extends Component{
     }
 
 
+    renderListViewData() {  
 
-    renderListViewData(glidingLocalData) {
+        var localListMap = {}  ;
 
-        var data = {}  ;      // Object
-        var sectionIds = [];  // Array
+        Array.from(glidingLocalData.local).forEach(function (myItem){ 
+            if(!localListMap[myItem.province]){ 
+                localListMap[myItem.province] = []; 
+            } 
+            localListMap[myItem.province].push(myItem);  
+        });  
 
-        //if(서핑테마 일 경우)
-        glidingLocalData = glidingLocalData.local;
+        return localListMap;  
 
-        var province = null;
-
-        for(var i=0; i< glidingLocalData.length ; i++){
-
-            if(province != glidingLocalData[i].province){
-                sectionIds.push(glidingLocalData[i].province);
-                data[glidingLocalData[i].province]=[];
-                province = glidingLocalData[i].province;
-            }
-
-            data[glidingLocalData[i].province].push(glidingLocalData[i]);
-        }
-
-        return {data, sectionIds};
     }
 
     setModeRealm(){
