@@ -20,7 +20,16 @@ class MyToolbar extends Component {
 
         var myToolbar;
         if (Platform.OS === 'ios') {
-            myToolbar = '';
+            myToolbar = (
+                <View style={{height: 56,backgroundColor: '#FFFFFF'}}>
+
+                    <Ionicons name="md-menu" size={20} color={'#94000F'} style={{marginTop:14,marginLeft:20}}/>
+                    <View style={{ position: 'absolute', left: 8,top: 14, alignItems: 'center', flexDirection: 'row'}}>
+                        <Text style={{marginLeft: 40, top: 2,  fontSize: 18,   color: '#94000F'}}>{this.props.modeTitle}</Text>
+                    </View>
+                </View>
+
+            );
         } else {
             myToolbar = (
                 <View>
