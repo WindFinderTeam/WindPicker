@@ -23,7 +23,6 @@ import {
 
 //import CustomTabbar from './CustomTabbar';
 
-import Toast, {DURATION} from 'react-native-easy-toast';
 import SimpleModal from 'react-native-simple-modal';
 import Ionicons     from 'react-native-vector-icons/Ionicons';
 import GlidingLocalList  from './GlidingLocalList';
@@ -151,7 +150,7 @@ class TabView extends Component {
                         <FavoriteList setShopModalVisible={this.setShopModalVisible}
                                       setWebCamModalVisible={this.setWebCamModalVisible}
                                       realmReload={this.state.realmReload}
-                                      viewMode={this.state.viewMode}
+                                      viewMode  ={this.state.viewMode}
                         />
                     </ScrollView>
                 </ScrollableTabView>

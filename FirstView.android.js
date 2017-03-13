@@ -79,7 +79,7 @@ class FirstViewAndroid extends Component {
                 renderNavigationView={() => <MenuList viewMode={this.state.viewMode} setModeChange={(mode) => this.setModeChange(mode)}/>}>
 
                 <MyToolbar modeTitle={modeTitle} openDrawerLayout={() => this.openDrawerLayout()}/>
-                <TabView viewMode={this.state.viewMode} tabViewSelectPage={this.state.tabViewSelectedPage} />
+                <TabView viewMode={this.state.viewMode} tabViewSelectedPage={this.state.tabViewSelectedPage} />
 
                 <Toast
                     ref="toast"
