@@ -18,6 +18,7 @@ import {
     StatusBar,
     Animated,
 
+
 } from 'react-native';
 
 //import CustomTabbar from './CustomTabbar';
@@ -104,7 +105,6 @@ class  FirstViewIos extends Component {
 
     setWebCamModalVisible(visible, webcam) {
 
-
                 webCamView = (
                     <WebView
                         onLoad={()=>{console.log("onLoad!!!")}}
@@ -138,6 +138,8 @@ class  FirstViewIos extends Component {
 
     }
 
+
+
     renderRow(rowData) {
 
         return (<View style={{height: 30,}}><Text>{rowData.name}</Text></View>);
@@ -167,10 +169,19 @@ class  FirstViewIos extends Component {
         };
 
 
+
+
         return (
 
             <View style={{flex:1}}>
 
+                <View style={{height: 56,backgroundColor: '#FFFFFF'}}>
+
+                    <Ionicons name="md-menu" size={20} color={'#94000F'} style={{marginTop:14,marginLeft:20}}/>
+                    <View style={{ position: 'absolute', left: 8,top: 14, alignItems: 'center', flexDirection: 'row'}}>
+                        <Text style={{marginLeft: 40, top: 2,  fontSize: 18,   color: '#94000F'}}>{modeTitle}</Text>
+                    </View>
+                </View>
                 <ScrollableTabView tabBarUnderlineStyle    = {{backgroundColor:"#94000f"}}
                                    tabBarActiveTextColor   = "#94000f"
                                    tabBarInactiveTextColor = "#94000f"

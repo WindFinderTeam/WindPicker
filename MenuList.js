@@ -45,7 +45,7 @@ class MenuList extends Component {
     }
 
     render() {
-        console.log("this.props.modeTitle: ", this.props.modeTitle)
+        console.log("this.props.viewMode: ", this.props.viewMode)
 
         return (
             <View style={{flex: 1}}>
@@ -65,7 +65,7 @@ class MenuList extends Component {
                             height: 50,
                             flexDirection: 'row',
                             alignItems: 'center',
-                            backgroundColor: this.props.modeTitle == '서핑' ? '#E0E0E0' : null
+                            backgroundColor: this.props.viewMode == 'surf' ? '#E0E0E0' : null
                         }}>
                             <Text style={{color:'rgb(226,0,85)', fontSize:13}}>      ●</Text>
                             <Text style={{marginLeft: 20, fontSize: 18, color: 'black'}}> 서핑</Text>
@@ -77,7 +77,7 @@ class MenuList extends Component {
                             height: 50,
                             flexDirection: 'row',
                             alignItems: 'center',
-                            backgroundColor: this.props.modeTitle == '패러글라이딩' ? '#E0E0E0' : null
+                            backgroundColor: this.props.viewMode == 'gliding' ? '#E0E0E0' : null
                         }}>
                             <Text style={{color:'rgb(255,226,28)', fontSize:13}}>     ●</Text>
                             <Text style={{marginLeft: 20, fontSize: 18, color: 'black'}}> 패러글라이딩 </Text>
