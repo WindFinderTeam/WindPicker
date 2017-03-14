@@ -23,8 +23,6 @@ class MyToolbar extends Component {
             myToolbar = (
                 <View style={{height: 56,backgroundColor: '#FFFFFF'}}>
 
-
-
                     <View style={{ position: 'absolute', left: 8,top: 14, alignItems: 'center', flexDirection: 'row'}}>
                         <Text style={{marginLeft: 40, top: 2,  fontSize: 18,   color: '#94000F'}}>{this.props.modeTitle}</Text>
                     </View>
