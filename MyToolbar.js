@@ -23,9 +23,17 @@ class MyToolbar extends Component {
             myToolbar = (
                 <View style={{height: 56,backgroundColor: '#FFFFFF'}}>
 
-                    <Ionicons name="md-menu" size={20} color={'#94000F'} style={{marginTop:14,marginLeft:20}}/>
+
+
                     <View style={{ position: 'absolute', left: 8,top: 14, alignItems: 'center', flexDirection: 'row'}}>
                         <Text style={{marginLeft: 40, top: 2,  fontSize: 18,   color: '#94000F'}}>{this.props.modeTitle}</Text>
+                    </View>
+
+                    <View style={{position: 'absolute', left: 20,top: 14,}}>
+                        <TouchableOpacity
+                            onPress={() => this.props.openDrawerLayout()}>
+                            <Ionicons name="md-menu" size={20} color={'#94000F'} />
+                        </TouchableOpacity>
                     </View>
                 </View>
 

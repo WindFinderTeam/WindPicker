@@ -39,7 +39,8 @@ class FirstView extends Component {
     }
 
     openDrawerLayout() {
-        this.refs._drawer.openDrawer();
+        this.refs.toast.show('ddddd 모드로 전환합니다',DURATION.LENGTH_SHORT);
+        this.refs._drawer.toggleSlideMenu();
     }
 
 
@@ -85,7 +86,9 @@ class FirstView extends Component {
                  <MyToolbar modeTitle={modeTitle} openDrawerLayout={() => this.openDrawerLayout()}/>
                 <TabView  viewMode={this.state.viewMode}  tabViewSelectedPage={this.state.tabViewSelectedPage} />
                 </View>}
-                     menu  ={<MenuList viewMode={this.state.viewMode}  setModeChange={(mode) => this.setModeChange(mode)}/>} slideWay='left' moveFrontView={false} width={250}/>
+                       ref="_drawer"
+                     menu  ={<MenuList viewMode={this.state.viewMode}
+                     setModeChange={(mode) => this.setModeChange(mode)}/>} slideWay='left' moveFrontView={false} width={250}/>
         </View>
 
         );
