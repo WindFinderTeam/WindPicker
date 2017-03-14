@@ -48,7 +48,7 @@ var rowKey = 0;           // Listview`s row keys
 var bfcurrentOffset = 0;  // before scroll position for MenuBar
 
 var API_URL;
-var weatherBackImg=(require('./image/wlLoadingBg.jpg'));
+//var weatherBackImg=(require('./image/wlLoadingBg.jpg'));
 var district ;
 var bestDirection ;
 
@@ -104,6 +104,7 @@ class GlidingWeatherList extends Component {
             ,heartOnOff    :false
             ,windModalVib  :false
             ,windSpeedData :0
+            ,weatherBackImg:(require('./image/wlLoadingBg.jpg'))
 
         };
     }
@@ -194,7 +195,7 @@ class GlidingWeatherList extends Component {
     }
 
     fetchData() {
-        weatherBackImg    = WeatherImage.getBackgroundImage()    ;
+       // weatherBackImg    = WeatherImage.getBackgroundImage()    ;
         var setTimeoudtID = setTimeout(this.startCountDown, 7000);
 
         fetch(API_URL)
@@ -369,7 +370,7 @@ class GlidingWeatherList extends Component {
     _renderHeader(){
         return (
             <Image
-                source={weatherBackImg}
+                source={this.state.weatherBackImg}
                 style={{width: SCREEN_WIDTH, height: PARALLAX_HEADER_HEIGHT}}>
 
                 <View style={{flex:1,flexDirection:'column'}}>
@@ -497,7 +498,7 @@ class GlidingWeatherList extends Component {
                 {/* ------------------------------- Navigator Background ------------------------------------*/}
                 <View style={{ position:'absolute', backgroundColor:'transparent',top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
                     <Image
-                        source={weatherBackImg}
+                        source={this.state.weatherBackImg}
                         style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,opacity:this.state.menuOpacity
                      }}/>
                 </View>
