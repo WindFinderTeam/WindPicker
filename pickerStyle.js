@@ -172,6 +172,7 @@ const pickerStyle = StyleSheet.create({
     },
     navigator: {
         flex: 1,
+        backgroundColor:'transparent',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -234,7 +235,8 @@ const pickerStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 1
+        marginTop: 1,
+        backgroundColor:'transparent'
     },
     localListView:{ 
         top: 0, 
@@ -242,6 +244,7 @@ const pickerStyle = StyleSheet.create({
     },
     navigatorMenu: {
         position: 'absolute',
+        backgroundColor:'transparent',
         top: NAVI_HEIGHT + 2,
         width: SCREEN_WIDTH,
         height: MENU_HEIGHT,

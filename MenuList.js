@@ -48,50 +48,43 @@ class MenuList extends Component {
         console.log("this.props.viewMode: ", this.props.viewMode)
 
         return (
-            <View style={{flex: 1}}>
-                <View style={{flex: 1,}}>
-                    <View onLayout={this.handleViewLayout} style={{flex: 1}}>
-                        <Image source={require('./image/bg.jpg')} style={{height: this.state.viewHeight}}
-                               resizeMode={Image.resizeMode.cover}/>
-                    </View>
+            <View style={{flex: 1, backgroundColor:'white'}}>
+                <Image source={require('./image/bg.jpg')} style={{width:250, height:250}} />
+
+                <View style={{ height: 10 }}/>
+
+                <TouchableOpacity
+                    onPress={() => this.props.setModeChange('surf')}>
                     <View style={{
-                        height: 10,
-                    }}/>
-                </View>
-                <View style={{flex: 2}}>
-                    <TouchableOpacity
-                        onPress={() => this.props.setModeChange('surf')}>
-                        <View style={{
                             height: 50,
                             flexDirection: 'row',
                             alignItems: 'center',
                             backgroundColor: this.props.viewMode == 'surf' ? '#E0E0E0' : null
                         }}>
-                            <Text style={{color:'rgb(226,0,85)', fontSize:13}}>      ●</Text>
-                            <Text style={{marginLeft: 20, fontSize: 18, color: 'black'}}> 서핑</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => this.props.setModeChange('gliding')}>
-                        <View style={{
+                        <Text style={{color:'rgb(226,0,85)', fontSize:13}}>      ●</Text>
+                        <Text style={{marginLeft: 20, fontSize: 18, color: 'black'}}> 서핑</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => this.props.setModeChange('gliding')}>
+                    <View style={{
                             height: 50,
                             flexDirection: 'row',
                             alignItems: 'center',
                             backgroundColor: this.props.viewMode == 'gliding' ? '#E0E0E0' : null
                         }}>
-                            <Text style={{color:'rgb(255,226,28)', fontSize:13}}>     ●</Text>
-                            <Text style={{marginLeft: 20, fontSize: 18, color: 'black'}}> 패러글라이딩 </Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <View style={{flex: 1, marginLeft: 10, marginBottom: 10, justifyContent: 'flex-end'}}>
-                        <TouchableOpacity onPress={() => this.sendEmail()}>
-                            <Text>윈드피커 입점문의</Text>
-                            <Text style={{fontStyle:'italic'}}>reedtale@gmail.com</Text>
-                        </TouchableOpacity>
+                        <Text style={{color:'rgb(255,226,28)', fontSize:13}}>     ●</Text>
+                        <Text style={{marginLeft: 20, fontSize: 18, color: 'black'}}> 패러글라이딩 </Text>
                     </View>
+                </TouchableOpacity>
 
+                <View style={{flex: 1, marginLeft: 10, marginBottom: 10, justifyContent: 'flex-end'}}>
+                    <TouchableOpacity onPress={() => this.sendEmail()}>
+                        <Text>윈드피커 입점문의</Text>
+                        <Text style={{fontStyle:'italic'}}>reedtale@gmail.com</Text>
+                    </TouchableOpacity>
                 </View>
+
             </View>
         );
     }

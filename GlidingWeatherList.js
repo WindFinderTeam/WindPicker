@@ -19,7 +19,6 @@ import {
 } from 'react-native';
 
 
-//import MyGoogleMap  from 'react-native-maps-google';
 import Spinner            from 'react-native-spinkit';
 import Ionicons           from 'react-native-vector-icons/Ionicons';
 import ActionButton       from 'react-native-action-button';
@@ -377,6 +376,7 @@ class GlidingWeatherList extends Component {
                     {/*----------------------------------- Main Board-----------------------------------*/}
                     <View style={{
                         flex:1,
+                        backgroundColor:'transparent',
                         marginTop: 50,
                         width:SCREEN_WIDTH,
                         justifyContent:'center',
@@ -397,7 +397,7 @@ class GlidingWeatherList extends Component {
                                 {DirectionImage.getWindDirectionImage(parseInt(bestDirection[3]))}
                             </View>
                         </View>
-                        <View style={{flexDirection:'row',marginTop:2}}>
+                        <View style={{flexDirection:'row',marginTop:2, backgroundColor:'transparent'}}>
                             <View style={pickerStyle.sunInfo }>
                                 <Text style={{color:'#FFF',textAlign:'center'}}>일출 {this.state.sunrise}</Text>
                             </View>
@@ -495,24 +495,22 @@ class GlidingWeatherList extends Component {
                     color={"#94000F"}
                 />
                 {/* ------------------------------- Navigator Background ------------------------------------*/}
-                <View style={{ position:'absolute', top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
+                <View style={{ position:'absolute', backgroundColor:'transparent',top:0,left:0,zIndex:1000, borderBottomWidth:2, borderColor:this.setBorderRgba()}}>
                     <Image
                         source={weatherBackImg}
-                        style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,
-                            opacity:this.state.menuOpacity
-                        }}/>
-
+                        style={{width: SCREEN_WIDTH, height: NAVI_HEIGHT+MENU_HEIGHT,opacity:this.state.menuOpacity
+                     }}/>
                 </View>
                 {/* ------------------------------- Navigator ------------------------------------*/}
                 <View style={pickerStyle.navigator}>
-                    <View style={{ marginLeft:10}}>
+                    <View style={{ marginLeft:10, backgroundColor:'transparent'}}>
                         <TouchableOpacity onPress={()=>this.props.modalVisible(false)}>
                             <View style={{width:40}}>
                                 <Ionicons name="ios-arrow-back" size={40} color="#94000F"/>
                             </View>
                         </TouchableOpacity>
                     </View>
-                    <View style={{flex:2}}>
+                    <View style={{flex:2, backgroundColor:'transparent'}}>
                         <Text style={{color: "white", fontSize: 20, textAlign:'center', opacity:this.state.menuOpacity}}>{this.props.rowData.district}</Text>
                     </View>
                     <View style={pickerStyle.heartView}>
