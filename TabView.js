@@ -18,7 +18,7 @@ import {
     StatusBar,
     DrawerLayoutAndroid,
     Animated,
-
+    Platform,
 } from 'react-native';
 
 //import CustomTabbar from './CustomTabbar';
@@ -29,7 +29,6 @@ import GlidingLocalList  from './GlidingLocalList';
 import SurfLocalList     from './SurfLocalList';
 import FavoriteList      from './FavoriteList';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
-
 
 
 var ds;
@@ -45,7 +44,7 @@ class TabView extends Component {
         this.setWebCamModalVisible = this.setWebCamModalVisible.bind(this);
         this.renderRow = this.renderRow.bind(this);
 
-        ds = new ListView.DataSource({  rowHasChanged: (r1, r2) => r1 !== r2     }); // shop ListView Data
+        ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); // shop ListView Data
 
         this.state = {
 
@@ -62,13 +61,10 @@ class TabView extends Component {
     }
 
 
-
-
     setShopModalVisible(visible, shopRows) {
         console.log("shopRows", shopRows);
         this.setState({shopModalVisible: visible, dataSource: ds.cloneWithRows(shopRows)});
     }
-
 
 
     setWebCamModalVisible(visible, webcam) {
@@ -100,10 +96,9 @@ class TabView extends Component {
         );
 
         this.setState({webCamModalVisible: visible});
-        if (LoadSatus == 'onLoad')                       this.setState({loadingYn:true})
-        else if (LoadSatus == 'onError'||'renderError')  this.setState({camLoadError:true})
+        if (LoadSatus == 'onLoad') this.setState({loadingYn: true})
+        else if (LoadSatus == 'onError' || 'renderError') this.setState({camLoadError: true})
     }
-
 
 
     onChangeTab(obj) {
@@ -111,7 +106,7 @@ class TabView extends Component {
         this.setState({tabViewSelectedPage: -1});
 
         /* obj.i : 0 날씨정보, 1 즐겨찾기 */
-        if (obj.i == '1')      this.setState({realmReload: true});
+        if (obj.i == '1') this.setState({realmReload: true});
         else if (obj.i == '0') this.setState({realmReload: false});
 
     }
@@ -126,12 +121,13 @@ class TabView extends Component {
         var localList;
         if (this.props.viewMode == 'surf') localList = (<SurfLocalList setShopModalVisible={this.setShopModalVisible}
                                                                        setWebCamModalVisible={this.setWebCamModalVisible}/>);
-        else                               localList = (<GlidingLocalList setShopModalVisible={this.setShopModalVisible}/>);
+        else                               localList = (
+            <GlidingLocalList setShopModalVisible={this.setShopModalVisible}/>);
 
 
         return (
 
-             <View style={{flex:1}}>
+            <View style={{flex: 1}}>
 
                 <ScrollableTabView tabBarUnderlineStyle={{backgroundColor: "#94000f"}}
                                    tabBarActiveTextColor="#94000f"
@@ -144,17 +140,19 @@ class TabView extends Component {
                                    onChangeTab={(obj) => this.onChangeTab(obj)}
                                    style={{height: 18}}>
                     <ScrollView tabLabel="날씨상황" style={styles.tabView} ref="LocalScrollView">
-                        {localList}
+                        {(Platform.OS == 'ios') && <View style={pickerStyle.localListView}>
+                            {localList}
+                        </View>}
+                        {!(Platform.OS == 'ios') && localList}
                     </ScrollView>
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
                         <FavoriteList setShopModalVisible={this.setShopModalVisible}
                                       setWebCamModalVisible={this.setWebCamModalVisible}
                                       realmReload={this.state.realmReload}
-                                      viewMode  ={this.state.viewMode}
+                                      viewMode={this.state.viewMode}
                         />
                     </ScrollView>
                 </ScrollableTabView>
-
 
 
                 {/* webCam Modal */}
@@ -163,7 +161,7 @@ class TabView extends Component {
                     transparent={true}
                     visible={this.state.webCamModalVisible}
                     onRequestClose={() => {
-                        this.setState({webCamModalVisible: false, camLoadError: false, loadingYn:false});
+                        this.setState({webCamModalVisible: false, camLoadError: false, loadingYn: false});
                     }}>
                     <View style={pickerStyle.modalContainer}>
                         <View style={[pickerStyle.closeIcon, {opacity: this.state.webCamModalVisible == true ? 1 : 0}]}>
@@ -174,8 +172,15 @@ class TabView extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={{height: SCREEN_HEIGHT / 1.5}}>
-                            <View style={{position:'absolute', backgroundColor:'white', width: SCREEN_WIDTH, height: SCREEN_HEIGHT / 1.5}}>
-                                <Ionicons name="ios-checkmark-outline" style={{paddingTop:SCREEN_HEIGHT/4,textAlign:'center',}} size={30} color='gray'/>
+                            <View style={{
+                                position: 'absolute',
+                                backgroundColor: 'white',
+                                width: SCREEN_WIDTH,
+                                height: SCREEN_HEIGHT / 1.5
+                            }}>
+                                <Ionicons name="ios-checkmark-outline"
+                                          style={{paddingTop: SCREEN_HEIGHT / 4, textAlign: 'center',}} size={30}
+                                          color='gray'/>
                                 <Text style={pickerStyle.camLoading}>잠시만 기다려 주세요. </Text>
                                 <Text style={pickerStyle.camLoading}>캠이 점검중이면 실행되지 않을 수 있습니다. </Text>
                             </View>
@@ -183,7 +188,6 @@ class TabView extends Component {
                         </View>
                     </View>
                 </Modal>
-
 
 
                 {/* shopList Modal */}
@@ -199,12 +203,21 @@ class TabView extends Component {
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow}/>
 
-                    <View style={{flex:1,alignItems:'center',justifyContent:'center',height:50, borderColor:'gray',borderWidth:2,borderStyle:'dotted', borderRadius:2}}>
+                    <View style={{
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: 50,
+                        borderColor: 'gray',
+                        borderWidth: 2,
+                        borderStyle: 'dotted',
+                        borderRadius: 2
+                    }}>
                         <Text>광고자리입니다</Text>
                     </View>
 
                 </SimpleModal>
-             </View>
+            </View>
 
         );
     }
@@ -212,7 +225,6 @@ class TabView extends Component {
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
-
 
 
 const styles = StyleSheet.create({

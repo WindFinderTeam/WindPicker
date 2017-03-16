@@ -33,13 +33,15 @@ class FirstView extends Component {
 
         this.state = {
             viewMode: this.props.mode,
-            tabViewSelectedPage: -1
+            tabViewSelectedPage: -1,
+            isOpen:false,
         };
 
     }
 
     openDrawerLayout() {
-        this.refs.toast.show('ddddd 모드로 전환합니다',DURATION.LENGTH_SHORT);
+
+        this.setState({isOpen:true});
         this.refs._drawer.toggleSlideMenu();
     }
 
@@ -54,7 +56,9 @@ class FirstView extends Component {
             this.setState({viewMode: 'gliding', tabViewSelectedPage: 0});
             this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
         }
-        this.refs._drawer.closeDrawer();
+
+        this.setState({isOpen:false});
+        this.refs._drawer.toggleSlideMenu();
     }
 
 
@@ -74,21 +78,23 @@ class FirstView extends Component {
 
         return (
 
-        <View style={{flex:1}}>
+        <View style={{flex:1, backgroundColor:'white'}}>
 
-            <Toast
-                ref="toast"
-                style={{backgroundColor: '#222222'}}
-                position='bottom'/>
 
             <SlideMenu frontView={
                 <View style={{flex:1}}>
                  <MyToolbar modeTitle={modeTitle} openDrawerLayout={() => this.openDrawerLayout()}/>
                 <TabView  viewMode={this.state.viewMode}  tabViewSelectedPage={this.state.tabViewSelectedPage} />
                 </View>}
-                       ref="_drawer"
-                     menu  ={<MenuList viewMode={this.state.viewMode}
+                       ref={'_drawer'}
+                       slideMenuIsOpen={this.state.isOpen}
+                       menu  ={<MenuList viewMode={this.state.viewMode}
                      setModeChange={(mode) => this.setModeChange(mode)}/>} slideWay='left' moveFrontView={false} width={250}/>
+            <Toast
+                ref="toast"
+                style={{backgroundColor: '#222222'}}
+                position='bottom'/>
+
         </View>
 
         );
