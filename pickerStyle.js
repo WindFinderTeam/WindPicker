@@ -140,6 +140,7 @@ const pickerStyle = StyleSheet.create({
     },
 
     headerDistrictText: {
+        backgroundColor:'transparent',
         color: 'white',
         fontSize: 30,
         paddingTop: 0
@@ -151,6 +152,7 @@ const pickerStyle = StyleSheet.create({
     },
 
     sunInfo: {
+        backgroundColor:'transparent',
         borderRadius: 20,
         width: 90,
         height: 30,

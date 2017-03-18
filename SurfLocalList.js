@@ -180,6 +180,7 @@ class LocalList extends Component{
                 <ListView
                     ref="listView"
                     automaticallyAdjustContentInsets={false}
+                    scrollsToTop={true}
                     dataSource={this.state.dataSource}
                     renderSectionHeader={this.renderSectionHeader}
                     renderRow={this.renderRow}
