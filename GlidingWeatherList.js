@@ -195,7 +195,7 @@ class GlidingWeatherList extends Component {
     }
 
     fetchData() {
-       // weatherBackImg    = WeatherImage.getBackgroundImage()    ;
+        this.setState({weatherBackImg :WeatherImage.getBackgroundImage()  })  ;
         var setTimeoudtID = setTimeout(this.startCountDown, 7000);
 
         fetch(API_URL)

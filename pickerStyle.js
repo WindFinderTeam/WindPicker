@@ -130,13 +130,14 @@ const pickerStyle = StyleSheet.create({
 
     heartView: {
         borderRadius: 100,
-        width: 40, height: 40,
+        width: 40,
+        height: 40,
         borderWidth: 1,
-        marginRight: 10,
+        marginLeft: SCREEN_WIDTH-80,
         borderColor: 'white',
         backgroundColor: 'white',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
 
     headerDistrictText: {
@@ -176,14 +177,12 @@ const pickerStyle = StyleSheet.create({
         flex: 1,
         backgroundColor:'transparent',
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
         position: 'absolute',
         left: 0,
-        top: 0,
+        top: 20,
         width: SCREEN_WIDTH,
         height: NAVI_HEIGHT,
-        zIndex: 1000,
+        zIndex: 10,
     },
     offlineView: {
         flex: 1,
@@ -250,7 +249,7 @@ const pickerStyle = StyleSheet.create({
         top: NAVI_HEIGHT + 2,
         width: SCREEN_WIDTH,
         height: MENU_HEIGHT,
-        zIndex: 1000
+        zIndex: 10
     },
     bestDirection: {
         flexDirection: 'row',
