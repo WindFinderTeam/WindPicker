@@ -34,7 +34,6 @@ import {
     LazyloadView,
 } from 'react-native-lazyload';
 
-var SurfParser = require('./SurfParser');
 var pickerStyle = require('./pickerStyle');
 var WeatherImage = require('./WeatherImage');
 var SurfMenu = require('./SurfMenu');
