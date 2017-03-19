@@ -21,15 +21,13 @@ class MyToolbar extends Component {
         var myToolbar;
         if (Platform.OS === 'ios') {
             myToolbar = (
-                <View style={{height: 56,flexDirection:'row', paddingTop:25}}>
-                    <View style={{left: 18}}>
-                        <TouchableOpacity
-                            onPress={() => this.props.openDrawerLayout()}>
-                            <Ionicons name="md-menu" size={20} color={'#94000F'} />
-                        </TouchableOpacity>
-                    </View>
+                <View style={styles.iosToolbar}>
+                    <TouchableOpacity
+                        onPress={() => this.props.openDrawerLayout()}>
+                        <View style={styles.iosHamburger}><Ionicons name="md-menu" size={20} color={'#94000F'}/></View>
+                    </TouchableOpacity>
                     <View style={{left: 8,  alignItems: 'center'}}>
-                        <Text style={{marginLeft: 30, top:2, fontSize: 18,   color: '#94000F'}}>{this.props.modeTitle}</Text>
+                        <Text style={{ fontSize: 18,   color: '#94000F'}}>{this.props.modeTitle}</Text>
                     </View>
 
 
@@ -40,13 +38,11 @@ class MyToolbar extends Component {
             myToolbar = (
                 <View>
                     <Ionicons.ToolbarAndroid
-                        // navIconName={require('./image/app_logo.png')}
-                        // logo={require('./image/app_logo.png')}
-                        style={styles.toolbar}
-                        iconColor     = "#94000F"
-                        titleColor    = "#94000F"
-                        navIconName   = "md-menu"
-                        onIconClicked = {() => this.props.openDrawerLayout()}
+                        style={styles.androidToolbar}
+                        iconColor="#94000F"
+                        titleColor="#94000F"
+                        navIconName="md-menu"
+                        onIconClicked={() => this.props.openDrawerLayout()}
                     />
                     <View style={styles.logoImage}>
                         <Text style={styles.modeText}>{this.props.modeTitle}</Text>
@@ -68,10 +64,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
 
-    drawer: {
-        backgroundColor: '#FFFFFF',
-        flex: 1,
-    },
     modeText: {
         marginLeft: 40,
         top: 2,
@@ -79,10 +71,10 @@ const styles = StyleSheet.create({
         color: '#94000F'
     },
 
-    toolbar: {
-        height: 56,
-        backgroundColor: '#FFFFFF'
-    },
+    androidToolbar: {height: 56, backgroundColor: '#FFFFFF'},
+
+    iosToolbar: { height: 56, flexDirection: 'row', paddingTop: 25  },
+    iosHamburger  : {width : 35, marginLeft: 15}
 
 
 });
