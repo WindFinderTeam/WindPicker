@@ -8,7 +8,6 @@ import {
     DrawerLayoutAndroid,
     Image
 } from 'react-native';
-//https://github.com/oblador/react-native-vector-icons
 import Ionicons     from 'react-native-vector-icons/Ionicons';
 
 class MyToolbar extends Component {
@@ -26,13 +25,10 @@ class MyToolbar extends Component {
                         onPress={() => this.props.openDrawerLayout()}>
                         <View style={styles.iosHamburger}><Ionicons name="md-menu" size={20} color={'#94000F'}/></View>
                     </TouchableOpacity>
-                    <View style={{left: 8,  alignItems: 'center'}}>
-                        <Text style={{ fontSize: 18,   color: '#94000F'}}>{this.props.modeTitle}</Text>
+                    <View style={styles.iosTitleView}>
+                        <Text style={styles.modeText}>{this.props.modeTitle}</Text>
                     </View>
-
-
                 </View>
-
             );
         } else {
             myToolbar = (
@@ -44,7 +40,7 @@ class MyToolbar extends Component {
                         navIconName="md-menu"
                         onIconClicked={() => this.props.openDrawerLayout()}
                     />
-                    <View style={styles.logoImage}>
+                    <View style={styles.anroidTitleView}>
                         <Text style={styles.modeText}>{this.props.modeTitle}</Text>
                     </View>
                 </View>
@@ -56,26 +52,21 @@ class MyToolbar extends Component {
 
 const styles = StyleSheet.create({
 
-    logoImage: {
+    iosTitleView:{ left: 8,  alignItems: 'center'  },
+    anroidTitleView: {
         position: 'absolute',
-        left: 8,
-        top: 14,
+        left: 8, top: 16,  marginLeft: 40,
         alignItems: 'center',
         flexDirection: 'row'
     },
-
     modeText: {
-        marginLeft: 40,
-        top: 2,
         fontSize: 18,
         color: '#94000F'
     },
 
     androidToolbar: {height: 56, backgroundColor: '#FFFFFF'},
-
     iosToolbar: { height: 56, flexDirection: 'row', paddingTop: 25  },
     iosHamburger  : {width : 35, marginLeft: 15}
-
 
 });
 
