@@ -3,6 +3,7 @@ exports.getGlidingWeather = getGlidingWeather;
 
 function getGlidingWeather (responseJSON){
 
+    console.log("parser in ");
 
     var today = new Date();
     var localeDate  =  today.toLocaleDateString()    ;
@@ -16,10 +17,16 @@ function getGlidingWeather (responseJSON){
     var rowIDs     = [];
     var sunInfo    = [];  // sunRise, sunSet Time, updateTime
 
+    sectionIDs.push('9y9m9d');
+    dataBlob[sectionIDs[0]] = sectionIDs[0];
+
+    rowIDs[0] = [];
+    rowIDs[0].push('tempRowIds');
+    dataBlob['9y9m9d' + ':' + 'tempRowIds'] = {};
+
     // set the sun Info
     sunInfo.push(responseJSON.sunrise);
     sunInfo.push(responseJSON.sunset) ;
-
 
     // Wind info
     var responseJSON = responseJSON.fcst['3'];
@@ -46,10 +53,10 @@ function getGlidingWeather (responseJSON){
 
     sectionIDs.push(sectionKey);         //  첫번 째 섹션헤더(오늘 년월일) push
 
-    dataBlob[sectionIDs[0]] = sectionKey;
-    rowIDs[0] = [];
+    dataBlob[sectionIDs[1]] = sectionKey;
+    rowIDs[1] = [];
 
-    for(var i=0,j=0; i < totalRow; i++){
+    for(var i=0,j=1; i < totalRow; i++){
 
         if(responseJSON.hr_h[i] === '00') {
 
@@ -83,6 +90,7 @@ function getGlidingWeather (responseJSON){
             "windDir"     : responseJSON.WINDDIR[i], // 바람방향
             "windGust"    : (responseJSON.GUST[i]*0.514).toFixed(1),    // 돌풍
         };
+        console.log("sectionKey, rowJson.key ", sectionKey, rowJson.key);
         rowIDs[j].push(rowJson.key);
         dataBlob[sectionKey + ':' + rowJson.key] = rowJson;
     }

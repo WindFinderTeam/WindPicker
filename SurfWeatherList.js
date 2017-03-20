@@ -42,9 +42,7 @@ var DirectionImage = require('./DirectionImage');
 const fetch = require('react-native-cancelable-fetch');
 
 var rowKey = 0;           // Listview`s row keys
-var offset = 0;           // before scroll position for Action Button
 var API_URL;
-var bfcurrentOffset = 0;  // before scroll position for MenuBar
 
 var district;
 var weatherBackImg = (require('./image/wlLoadingBg.jpg'));
@@ -111,6 +109,7 @@ class SurfWeatherList extends Component {
             , sunset: "00:00"
             , updateTime: "00:00"
             , spinnerVisible: true
+            , loadOK: false
             , networkState: true
             , tideYN: "N"
             , heartOnOff: false
@@ -165,23 +164,27 @@ class SurfWeatherList extends Component {
         weatherBackImg = WeatherImage.getBackgroundImage();
         var setTimeoudtID = setTimeout(this.startCountDown, 7000);
 
-        fetch('https://windpicker-maestrolsj.c9users.io'
+        fetch('https://windpicker-maestrolsj.c9users.io?url=' + API_URL
             ,{
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                },
-                body: API_URL
+                }
             }
-            ,this).then((responseData) => {
+            , this).then((responseData) => {
 
             var jsonData = JSON.parse(responseData._bodyInit);
-            var dataBlob =  jsonData.dataBlob;  //data parsing
-            var sectionIDs =   jsonData.sectionIDs;
-            var rowIDs =  jsonData.rowIDs;
-            var sunInfo =  jsonData.sunInfo;
-            var tideYN = jsonData.tideYN
+            var dataBlob = jsonData.dataBlob;  //data parsing
+            var sectionIDs = jsonData.sectionIDs;
+            var rowIDs = jsonData.rowIDs;
+            var sunInfo = jsonData.sunInfo;
+            var tideYN = jsonData.tideYN;
+
+            console.log("tideYN ", tideYN);
+            console.log("sectionIDs ", sectionIDs);
+            console.log("sunInfo ", sunInfo);
+            console.log("dataBlob ", dataBlob);
 
             tideDirection = (<Text></Text>);
 
@@ -201,7 +204,9 @@ class SurfWeatherList extends Component {
                 sunset: sunInfo[1],
                 updateTime: sunInfo[2],
                 networkState: true,
-                tideYN: tideYN
+                tideYN: tideYN,
+                loadOK: true
+
             });
 
             this.setSpinnerVisible(false);
@@ -222,11 +227,6 @@ class SurfWeatherList extends Component {
     setRgba() {
         var myAlpha = this.state.topAlpha;
         return `"rgba(156,0,16,` + `${myAlpha})"`;
-    }
-
-    setBorderRgba() {
-        var myAlpha = this.state.borderAlpha;
-        return `"rgba(255,255,255,` + `${myAlpha})"`;
     }
 
     setHeartOnOff() {
@@ -281,13 +281,14 @@ class SurfWeatherList extends Component {
             </LazyloadView>
         </View>);
 
-
         return sectionHeader;
 
     }
 
     // Draw List's Rows
     renderRow(rowData, sectionID) {
+
+        console.log("sectionID: ", sectionID);
 
         if (sectionID == '9y9m9d') {
             return null;
@@ -474,12 +475,12 @@ class SurfWeatherList extends Component {
         if (this.state.networkState == true) {
             myView = (
                 <LazyloadListView
-                    style={styles.container}
-                    scrollEventThrottle={16}
+                    style={{top: HEADER_MIN_HEIGHT, flex: 1}}
+                    scrollEventThrottle={10}
                     onScroll={Animated.event(
                         [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
                     )}
-                    // contentContainerStyle={styles.content}
+                    //contentContainerStyle={styles.container}
                     name="listExample"
                     ref="ScrollView"
                     dataSource={this.state.dataSource}
@@ -489,11 +490,12 @@ class SurfWeatherList extends Component {
                     renderDistance={200}
                     pageSize={1}
                     initialListSize={8}
+                    scrollsToTop={true}
                     // dont need to declare, only for warning fixing (below)
                     stickyHeaderIndices={[0]}
                     onEndReachedThreshold={1000}
-                    renderScrollComponent={ _ => {
-                    }}
+                    renderScrollComponent={ _ => {}}
+                    scrollEnabled={this.state.loadOK}
                 />
             );
         }
@@ -516,32 +518,6 @@ class SurfWeatherList extends Component {
         return (
 
             <View style={{flex: 1, backgroundColor: 'white'}}>
-                <LazyloadListView
-                    style={{top: HEADER_MIN_HEIGHT, flex: 1}}
-                    scrollEventThrottle={10}
-                    onScroll={Animated.event(
-                        [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
-                    )}
-                    //contentContainerStyle={styles.container}
-                    name="listExample"
-                    ref="ScrollView"
-                    dataSource={this.state.dataSource}
-                    renderSectionHeader={this.sectionHeader.bind(this)}
-                    renderRow={this.renderRow}
-                    scrollRenderAheadDistance={200}
-                    renderDistance={200}
-                    pageSize={1}
-                    initialListSize={8}
-                    scrollsToTop={true}
-                    // dont need to declare, only for warning fixing (below)
-                    stickyHeaderIndices={[0]}
-                    onEndReachedThreshold={1000}
-                    renderScrollComponent={ _ => {
-                    }}
-                    scrollEnabled={this.state.loadOK}
-                    onScrollEndDrag={this.onScrollEnd}
-                    onMomentumScrollEnd={this.onScrollEnd}
-                />
                 <Animated.View style={[styles.header, {height: headerHeight}]}>
                     <Animated.Image
                         source={weatherBackImg}
@@ -560,7 +536,7 @@ class SurfWeatherList extends Component {
                                 alignItems: 'center'
                             }
                             }>
-                                {/* ------------------------------- Navigator ------------------------------------*/}
+                                {/*-------------------------- 1.update ------------------------------*/}
                                 <Text style={{
                                     backgroundColor: 'transparent',
                                     color: '#FFF'
@@ -568,6 +544,7 @@ class SurfWeatherList extends Component {
                                 <Text style={ pickerStyle.headerDistrictText }>
                                     {district}
                                 </Text>
+                                {/*-------------------------- 2.ideal direction ------------------------------*/}
                                 <View style={pickerStyle.directionMarginTop}>
                                     <Text style={{color: '#FFF'}}>최적방향 </Text>
                                     <View style={pickerStyle.bestDirection}>
@@ -575,6 +552,8 @@ class SurfWeatherList extends Component {
                                         {DirectionImage.getSwellDirectionImage(parseInt(bestDirection[1]))}
                                     </View>
                                 </View>
+
+                                {/*-------------------------- 3.sun info ------------------------------*/}
                                 <View style={{flexDirection: 'row', marginTop: 2}}>
                                     <View style={pickerStyle.sunInfo }>
                                         <Text
@@ -586,14 +565,13 @@ class SurfWeatherList extends Component {
                                 </View>
 
                             </View>
-
-                            {/*-------------------------- BOTTOM MENU ---------------------------------*/}
+                            {/*-------------------------- 4.menu -------------------------------------*/}
                             <View style={{backgroundColor: 'transparent', width: SCREEN_WIDTH}}>
                                 <SurfMenu tideYN={this.state.tideYN}/></View>
                         </View>
                     </Animated.Image>
 
-                    {/*-------------------------- Navigator image -------------------------------------*/}
+                    {/*-------------------------- NAVIGATOR -------------------------------------*/}
 
                     <Animated.Image
                         source={weatherBackImg}
@@ -602,15 +580,14 @@ class SurfWeatherList extends Component {
                             {opacity: menuImageOpacity, transform: [{translateY: imageTranslate}]},
                         ]}>
 
-                        {/*-------------------------- Navigator text -------------------------------------*/}
-
+                        {/*-------------------------- 1.district -------------------------------------*/}
                         <Animated.View style={{
                             backgroundColor: 'transparent',
                             top: 30,
                             opacity: menuOpacity,
                             width: SCREEN_WIDTH
                         }}>
-                            <View style={{top: 55}}>
+                            <View style={{top: 50}}>
                                 <Text style={{
                                     color: "white",
                                     fontSize: 20,
@@ -619,25 +596,29 @@ class SurfWeatherList extends Component {
                                 }}>{this.props.rowData.district}</Text>
                             </View>
 
-                            {/* ------------------------------- Navigator MENU ------------------------------------*/}
-                            <View style={[pickerStyle.directionMarginBottom,{top:61,}]}>
+                            {/*-------------------------- 2.ideal direction ------------------------------*/}
+                            <View style={[pickerStyle.directionMarginBottom, {top: 61,}]}>
                                 <Text style={{color: '#FFF'}}>최적방향 </Text>
                                 <View style={pickerStyle.bestDirection}>
                                     {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
                                     {DirectionImage.getSwellDirectionImage(parseInt(bestDirection[1]))}
                                 </View>
                             </View>
+
+                            {/*-------------------------- 3.menu -------------------------------------*/}
                             <View style={{top: 48}}>
                                 <SurfMenu tideYN={this.state.tideYN}/>
                             </View>
                         </Animated.View>
                     </Animated.Image>
                 </Animated.View>
+                {myView}
 
+                {/* ------------------------------- Chart Modal ----------------------------------*/}
                 <WindSpeedChartModal windModalVib={this.state.windModalVib}
                                      setWindModalVib={this.setWindModalVib}
                                      windSpeedData={this.state.windSpeedData}/>
-
+                {/* ------------------------- Scroll up to top button -----------------------------*/}
                 <ActionButton
                     buttonColor={this.setRgba()}
                     type={'tab'}
@@ -651,15 +632,14 @@ class SurfWeatherList extends Component {
                         opacity: this.state.topAlpha
                     }}/>}
                 />
+                {/* ------------------------------- Toast ----------------------------------*/}
                 <Toast
                     ref="toast"
                     style={{backgroundColor: '#222222'}}
                     position='bottom'/>
-
-
-                {/* ------------------------------- favorite heart configure ------------------------------------*/}
+                {/* ------------------------------- favorite heart configure ---------------------*/}
                 <View style={pickerStyle.navigator}>
-                    <View style={{marginLeft: 10}}>
+                    <View style={{marginLeft: 10, backgroundColor: 'transparent'}}>
                         <TouchableOpacity onPress={() => this.props.modalVisible(false)}>
                             <Ionicons name="ios-arrow-back" size={40} color="white"/>
                         </TouchableOpacity>
@@ -675,17 +655,13 @@ class SurfWeatherList extends Component {
                                       color={this.state.heartOnOff == true ? "#94000F" : "#C0C0C0"}/>
                         </TouchableOpacity>
                     </View>
-
                 </View>
-
                 {/* ------------------------------- Spinner ------------------------------------*/}
-
                 <Spinner
                     style={pickerStyle.spinner} isVisible={this.state.spinnerVisible} size={SPINNER_SIZE}
                     type={"Bounce"}
                     color={"#94000F"}
                 />
-
             </View>
         );
     }
