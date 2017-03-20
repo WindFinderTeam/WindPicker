@@ -21,8 +21,7 @@ class MyToolbar extends Component {
         if (Platform.OS === 'ios') {
             myToolbar = (
                 <View style={styles.iosToolbar}>
-                    <TouchableOpacity
-                        onPress={() => this.props.openDrawerLayout()}>
+                    <TouchableOpacity  onPress={() => this.props.openDrawerLayout()}>
                         <View style={styles.iosHamburger}><Ionicons name="md-menu" size={20} color={'#94000F'}/></View>
                     </TouchableOpacity>
                     <View style={styles.iosTitleView}>
@@ -36,10 +35,10 @@ class MyToolbar extends Component {
                 <View>
                     <Ionicons.ToolbarAndroid
                         style={styles.androidToolbar}
-                        iconColor   = "#94000F"
-                        titleColor  = "#94000F"
-                        navIconName = "md-menu"
-                        onIconClicked={() => this.props.openDrawerLayout()}
+                        iconColor     = "#94000F"
+                        titleColor    = "#94000F"
+                        navIconName   = "md-menu"
+                        onIconClicked = {() => this.props.openDrawerLayout()}
                     />
                     <View style={styles.anroidTitleView}>
                         <Text style={styles.modeText}>{this.props.modeTitle}</Text>
