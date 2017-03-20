@@ -30,14 +30,15 @@ class MyToolbar extends Component {
                     </View>
                 </View>
             );
-        } else {
+        }
+        else {
             myToolbar = (
                 <View>
                     <Ionicons.ToolbarAndroid
                         style={styles.androidToolbar}
-                        iconColor="#94000F"
-                        titleColor="#94000F"
-                        navIconName="md-menu"
+                        iconColor   = "#94000F"
+                        titleColor  = "#94000F"
+                        navIconName = "md-menu"
                         onIconClicked={() => this.props.openDrawerLayout()}
                     />
                     <View style={styles.anroidTitleView}>
@@ -52,8 +53,8 @@ class MyToolbar extends Component {
 
 const styles = StyleSheet.create({
 
-    iosTitleView:{ left: 8,  alignItems: 'center'  },
-    anroidTitleView: {
+    iosTitleView    :{ left: 8,  alignItems: 'center'  },
+    anroidTitleView :{
         position: 'absolute',
         left: 8, top: 16,  marginLeft: 40,
         alignItems: 'center',
@@ -63,10 +64,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#94000F'
     },
-
-    androidToolbar: {height: 56, backgroundColor: '#FFFFFF'},
-    iosToolbar: { height: 56, flexDirection: 'row', paddingTop: 25  },
-    iosHamburger  : {width : 35, marginLeft: 15}
+    androidToolbar: { height: 56, backgroundColor: '#FFFFFF'},
+    iosToolbar    : { height: 56, flexDirection: 'row', paddingTop: 25  },
+    iosHamburger  : { width : 35, marginLeft: 15}
 
 });
 
