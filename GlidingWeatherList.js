@@ -17,6 +17,8 @@ import {
     Image,
     Dimensions,
     Animated,
+    Platform,
+
 } from 'react-native';
 
 import Spinner            from 'react-native-spinkit';
@@ -48,7 +50,7 @@ var rowKey = 0;           // Listview`s row keys
 var bfcurrentOffset = 0;  // before scroll position for MenuBar
 
 var API_URL;
-//var weatherBackImg=(require('./image/wlLoadingBg.jpg'));
+var weatherBackImg=(require('./image/wlLoadingBg.jpg'));
 var district;
 var bestDirection;
 
@@ -246,8 +248,6 @@ class GlidingWeatherList extends Component {
 
         var sectionHeader;
 
-        console.log("sectionID",sectionID);
-
         if (sectionID == '9y9m9d') sectionHeader = (
             <LazyloadView host="listExample">
                 <View style={{backgroundColor: 'transparent', height: HEADER_SCROLL_DISTANCE}}>
@@ -268,10 +268,8 @@ class GlidingWeatherList extends Component {
     renderRow(rowData, sectionID, rowID) {
 
         if (sectionID == '9y9m9d') {
-            console.log("null ok ");
             return null;
         }
-        console.log("rowData", rowData.time);
 
         rowKey++;
 
@@ -461,7 +459,7 @@ class GlidingWeatherList extends Component {
             <View style={{flex: 1, backgroundColor: 'white'}}>
                 <Animated.View style={[styles.header, {height: headerHeight}]}>
                     <Animated.Image
-                        source={this.state.weatherBackImg}
+                        source={weatherBackImg}
                         style={[
                             styles.backgroundImage,
                             {opacity: imageOpacity, transform: [{translateY: imageTranslate}]},
@@ -512,24 +510,21 @@ class GlidingWeatherList extends Component {
                             </View>
                         </View>
                     </Animated.Image>
-
                     {/*-------------------------- NAVIGATOR -------------------------------------*/}
-
                     <Animated.Image
-                        source={this.state.weatherBackImg}
+                        source={weatherBackImg}
                         style={[
                             styles.backgroundImage,
                             {opacity: menuImageOpacity, transform: [{translateY: imageTranslate}]},
                         ]}>
-
-                        {/*-------------------------- 1.district -------------------------------------*/}
                         <Animated.View style={{
-                            backgroundColor: 'transparent',
-                            top: 30,
+                            backgroundColor:'transparent',
+                            height:160,
                             opacity: menuOpacity,
                             width: SCREEN_WIDTH
                         }}>
-                            <View style={{top: 50}}>
+                            {/*-------------------------- 1.district -------------------------------------*/}
+                            <View style={{top: 80}}>
                                 <Text style={{
                                     color: "white",
                                     fontSize: 20,
@@ -539,7 +534,7 @@ class GlidingWeatherList extends Component {
                             </View>
 
                             {/*-------------------------- 2.ideal direction ------------------------------*/}
-                            <View style={[pickerStyle.directionMarginBottom, {top: 61,}]}>
+                            <View style={[pickerStyle.directionMarginBottom, {top: 88, backgroundColor: 'transparent',}]}>
                                 <Text style={{color: '#FFF'}}>활공방향 </Text>
                                 <View style={pickerStyle.bestDirection}>
                                     {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
@@ -550,7 +545,7 @@ class GlidingWeatherList extends Component {
                             </View>
 
                             {/*-------------------------- 3.menu -------------------------------------*/}
-                            <View style={{top: 48}}>
+                            <View style={{top: Platform.OS == 'ios'? 80:73,backgroundColor: 'transparent',}}>
                                 <GlidingMenu/>
                             </View>
                         </Animated.View>
@@ -619,6 +614,15 @@ const styles = StyleSheet.create({
         right: 0,
         width: null,
         height: HEADER_MAX_HEIGHT,
+        resizeMode: 'cover',
+    },
+    naviBgImage: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        width: null,
+        height: HEADER_MIN_HEIGHT,
         resizeMode: 'cover',
     },
     fill: {

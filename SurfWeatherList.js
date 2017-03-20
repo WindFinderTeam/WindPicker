@@ -17,7 +17,7 @@ import {
     Image,
     Dimensions,
     Animated,
-
+    Platform,
 } from 'react-native';
 
 import Spinner             from 'react-native-spinkit';
@@ -570,24 +570,21 @@ class SurfWeatherList extends Component {
                                 <SurfMenu tideYN={this.state.tideYN}/></View>
                         </View>
                     </Animated.Image>
-
                     {/*-------------------------- NAVIGATOR -------------------------------------*/}
-
                     <Animated.Image
                         source={weatherBackImg}
                         style={[
                             styles.backgroundImage,
                             {opacity: menuImageOpacity, transform: [{translateY: imageTranslate}]},
                         ]}>
-
-                        {/*-------------------------- 1.district -------------------------------------*/}
                         <Animated.View style={{
-                            backgroundColor: 'transparent',
-                            top: 30,
+                            backgroundColor:'transparent',
+                            height:160,
                             opacity: menuOpacity,
                             width: SCREEN_WIDTH
                         }}>
-                            <View style={{top: 50}}>
+                            {/*-------------------------- 1.district -------------------------------------*/}
+                            <View style={{top: 80}}>
                                 <Text style={{
                                     color: "white",
                                     fontSize: 20,
@@ -597,7 +594,8 @@ class SurfWeatherList extends Component {
                             </View>
 
                             {/*-------------------------- 2.ideal direction ------------------------------*/}
-                            <View style={[pickerStyle.directionMarginBottom, {top: 61,}]}>
+                            <View style={[pickerStyle.directionMarginBottom, {top: 88, backgroundColor: 'transparent'}]}>
+
                                 <Text style={{color: '#FFF'}}>최적방향 </Text>
                                 <View style={pickerStyle.bestDirection}>
                                     {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
@@ -606,7 +604,7 @@ class SurfWeatherList extends Component {
                             </View>
 
                             {/*-------------------------- 3.menu -------------------------------------*/}
-                            <View style={{top: 48}}>
+                            <View style={{top: Platform.OS == 'ios'? 80:73,backgroundColor: 'transparent',}}>
                                 <SurfMenu tideYN={this.state.tideYN}/>
                             </View>
                         </Animated.View>

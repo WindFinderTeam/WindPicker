@@ -3,8 +3,6 @@ exports.getGlidingWeather = getGlidingWeather;
 
 function getGlidingWeather (responseJSON){
 
-    console.log("parser in ");
-
     var today = new Date();
     var localeDate  =  today.toLocaleDateString()    ;
 
@@ -90,7 +88,6 @@ function getGlidingWeather (responseJSON){
             "windDir"     : responseJSON.WINDDIR[i], // 바람방향
             "windGust"    : (responseJSON.GUST[i]*0.514).toFixed(1),    // 돌풍
         };
-        console.log("sectionKey, rowJson.key ", sectionKey, rowJson.key);
         rowIDs[j].push(rowJson.key);
         dataBlob[sectionKey + ':' + rowJson.key] = rowJson;
     }
