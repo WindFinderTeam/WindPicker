@@ -33,12 +33,11 @@ class MyToolbar extends Component {
         else {
             myToolbar = (
                 <View>
-                    <Ionicons.ToolbarAndroid
+                    <Ionicons.ToolbarAndroid  onIconClicked = {() => this.props.openDrawerLayout()}
                         style={styles.androidToolbar}
                         iconColor     = "#94000F"
                         titleColor    = "#94000F"
                         navIconName   = "md-menu"
-                        onIconClicked = {() => this.props.openDrawerLayout()}
                     />
                     <View style={styles.anroidTitleView}>
                         <Text style={styles.modeText}>{this.props.modeTitle}</Text>
