@@ -22,7 +22,7 @@ import MyToolbar  from './MyToolbar';
 import TabView  from './TabView';
 
 var pickerStyle = require('./pickerStyle');
-import SlideMenu from 'react-native-navigation-drawer'
+import SlideMenu from 'react-native-navi-drawer'
 
 class FirstView extends Component {
 
