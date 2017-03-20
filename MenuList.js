@@ -32,7 +32,7 @@ class MenuList extends Component {
     render() {
 
         return (
-            <View style={{flex: 1, backgroundColor:'white'}}>
+            <View style={styles.container}>
                 <Image source={require('./image/bg.jpg')} style={{width:250, height:250}} />
 
                 <View style={{ height: 10 }}/>
@@ -70,7 +70,9 @@ const styles = StyleSheet.create({
     yellowDot   : {color:'rgb(255,226,28)', fontSize:13, marginLeft:15},
     redDot      : {color:'rgb(226,0,85)'  , fontSize:13, marginLeft:15},
     menuText    : {marginLeft: 20, fontSize: 18, color: 'black'},
-    menuView    : {height: 50,   flexDirection: 'row',    alignItems: 'center'}
+    menuView    : {height: 50,   flexDirection: 'row',    alignItems: 'center'},
+    container   : {flex: 1, backgroundColor:'white'}
+
 });
 
 module.exports = MenuList;
