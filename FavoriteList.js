@@ -52,13 +52,10 @@ class FavoriteList extends Component {
         };
     }
 
-    setSurfModalVisible(visible) {
-        this.setState({surfModalVisible: visible});
-    }
+    componentDidMount()          {  this.realmRead();    }
 
-    setGlidModalVisible(visible) {
-        this.setState({glidModalVisible: visible});
-    }
+    setSurfModalVisible(visible) {  this.setState({surfModalVisible: visible});   }
+    setGlidModalVisible(visible) {  this.setState({glidModalVisible: visible});   }
 
     _onPressButton(rowData) {
 
@@ -75,13 +72,11 @@ class FavoriteList extends Component {
 
 
     realmRead() {
-        console.log("realmRead ok ok ok ");
-
         // READ all favorite surfing, gliding data
         realmInstance.write(() => {
 
             let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
-            let AllFavorite_glding = realmInstance.objects('FavoriteGliding');
+            let AllFavorite_glding  = realmInstance.objects('FavoriteGliding');
 
             favoriteDataList = [];
 
@@ -109,21 +104,10 @@ class FavoriteList extends Component {
                 }
             }
         });
-
-        // this.state.dataSource =  this.state.dataSource.cloneWithRows(favoriteDataList);
         dataSource =  dataSource.cloneWithRows(favoriteDataList);
-
-
-        // this.setState({dataSource:ds.cloneWithRows(favoriteDataList)});
     }
 
-    componentDidMount(){
 
-        console.log("componentDidMount ok ");
-
-        this.realmRead();
-
-    }
 
     _renderHeader() {
 
@@ -163,14 +147,10 @@ class FavoriteList extends Component {
         else                                       shopShow = true;
 
         /* judge webcam showing */
-        if (Object.keys(rowData.webcam) == "") {
-            webcamShowJudge = (<View style={{flex: 1}}/>);
-        }
+        if (Object.keys(rowData.webcam) == "") {  webcamShowJudge = (<View style={{flex: 1}}/>);        }
         else {
             webcamShowJudge = (
-                <TouchableOpacity onPress={()=> {
-                    this.props.setWebCamModalVisible(true, rowData.webcam)
-                }}>
+                <TouchableOpacity onPress={()=> { this.props.setWebCamModalVisible(true, rowData.webcam) }}>
                     <View style={{
                         flex: 1,
                         alignItems: 'center',
@@ -187,10 +167,7 @@ class FavoriteList extends Component {
         }
 
         return (
-            <TouchableHighlight onPress={() => {
-
-                this._onPressButton(rowData)
-            }}>
+            <TouchableHighlight onPress={() => {  this._onPressButton(rowData)    }}>
                 <View style={pickerStyle.listViewrow}>
                     <View style={pickerStyle.listViewrowDistrict}>
                         <Text style={pickerStyle.localListrowText}>{rowData.name}</Text>
@@ -220,9 +197,6 @@ class FavoriteList extends Component {
 
     render() {
 
-        console.log("rendering in");
-
-
         if (this.props.realmReload == true)          this.realmRead();
 
         return (
@@ -231,9 +205,7 @@ class FavoriteList extends Component {
                     animationType={"slide"}
                     transparent={false}
                     visible={this.state.surfModalVisible}
-                    onRequestClose={() => {
-                        this.setSurfModalVisible(false)
-                    }}>
+                    onRequestClose={() => {  this.setSurfModalVisible(false)   }}>
 
                     <SurfWeatherList
                         modalVisible={this.setSurfModalVisible}
@@ -245,9 +217,7 @@ class FavoriteList extends Component {
                     animationType={"slide"}
                     transparent={false}
                     visible={this.state.glidModalVisible}
-                    onRequestClose={() => {
-                        this.setGlidModalVisible(false)
-                    }}>
+                    onRequestClose={() => {  this.setGlidModalVisible(false)  }}>
 
                     <GlidWeatherList
                         modalVisible={this.setGlidModalVisible}
