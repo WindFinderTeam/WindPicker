@@ -27,7 +27,10 @@ var glidfLocalData = require('./jsData/GlidingLocalData.json');
 var pickerStyle = require('./pickerStyle');
 var dataSource              = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 var selectedRowData;
-var favoriteDataList = []
+var favoriteDataList = [];
+
+const WINDOW_WIDTH = Dimensions.get('window').width;
+
 
 class FavoriteList extends Component {
 
@@ -46,7 +49,6 @@ class FavoriteList extends Component {
             surfModalVisible        : false,
             glidModalVisible        : false,
             viewMode                : this.props.viewMode,
-            // dataSource              : new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
         };
     }
 
@@ -202,8 +204,7 @@ class FavoriteList extends Component {
                         <View style={{flex: 1}}>
                             {shopShow &&
                             <TouchableOpacity onPress={() => this.props.setShopModalVisible(true, rowData.shop)}>
-                                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', height: 50}}>
-
+                                <View style={{flexGrow: 1, alignItems: 'center', justifyContent: 'center', height: 50}}>
                                     <View style={pickerStyle.iconBorder}>
                                         <Image source={shopIconImg} style={{width: 35, height: 35}}/>
                                     </View>
@@ -225,7 +226,7 @@ class FavoriteList extends Component {
         if (this.props.realmReload == true)          this.realmRead();
 
         return (
-            <View>
+            <View style={{flex:1}}>
                 <Modal
                     animationType={"slide"}
                     transparent={false}
@@ -264,7 +265,6 @@ class FavoriteList extends Component {
         )
     }
 }
-const WINDOW_WIDTH = Dimensions.get('window').width;
 
 var styles = StyleSheet.create({
     container: {
