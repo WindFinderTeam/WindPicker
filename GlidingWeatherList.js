@@ -206,15 +206,15 @@ class GlidingWeatherList extends Component {
     }
 
     fetchData() {
-        this.setState({weatherBackImg: WeatherImage.getBackgroundImage()});
+        // this.setState({weatherBackImg: WeatherImage.getBackgroundImage()});
+        weatherBackImg = WeatherImage.getBackgroundImage();
         var setTimeoudtID = setTimeout(this.startCountDown, 7000);
+        var myOs = Platform.OS=='ios'? 'ios':'android';
 
         fetch(API_URL)
             .then((response) => response.json())
             .then((responseJSON) => {
-                var {dataBlob, sectionIDs, rowIDs, sunInfo} = GlidingParser.getGlidingWeather(responseJSON);  // Data Parsing
-                console.log("rowIDs",rowIDs);
-                console.log("sectionIDs",sectionIDs);
+                var {dataBlob, sectionIDs, rowIDs, sunInfo} = GlidingParser.getGlidingWeather(responseJSON,myOs);  // Data Parsing
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
                     sunrise: sunInfo[0],
@@ -228,7 +228,6 @@ class GlidingWeatherList extends Component {
             })
             .catch((error) => {
                 console.warn(error);
-                // console.log("error!");
                 clearTimeout(setTimeoudtID);
                 this.setState({
                     spinnerVisible: false,
@@ -335,11 +334,8 @@ class GlidingWeatherList extends Component {
                                 }}>{'돌풍 ' + rowData.windGust}</Text>
                             </View>
                         </TouchableOpacity>
-
-
                     </View>
                 </LazyloadView>
-
 
                 <LazyloadView host="listExample">
                     <View style={{width: SCREEN_WIDTH, height: 4, flexDirection: 'row'}}>
@@ -360,7 +356,6 @@ class GlidingWeatherList extends Component {
         );
     }
 
-
     refreshListView() {
 
         this.setState({
@@ -369,7 +364,6 @@ class GlidingWeatherList extends Component {
         });
         this.fetchData();
     }
-
 
     setWindModalVib(visible) {
         return this.setState({windModalVib: visible});

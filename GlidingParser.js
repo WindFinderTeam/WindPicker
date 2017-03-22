@@ -1,14 +1,22 @@
 exports.getGlidingWeather = getGlidingWeather;
 
 
-function getGlidingWeather (responseJSON){
+function getGlidingWeather (responseJSON,myOs){
 
     var today = new Date();
     var localeDate  =  today.toLocaleDateString()    ;
 
-    var year        = '20'+localeDate.substr(6,4);
-    var month       = localeDate.substr(0,2)     ;
-    var date        = localeDate.substr(3,2)     ;
+    var year, month, date;
+
+    if(myOs == 'ios'){
+        year      = localeDate.substr(0,4);
+        month     = localeDate.substr(5,2)     ;
+        date      = localeDate.substr(9,2)     ;
+    }else{
+        year        = '20'+localeDate.substr(6,4);
+        month       = localeDate.substr(0,2)     ;
+        date        = localeDate.substr(3,2)     ;
+    }
 
     var dataBlob   = {};
     var sectionIDs = [];
@@ -60,16 +68,25 @@ function getGlidingWeather (responseJSON){
 
             today.setDate(today.getDate() + 1);
             localeDate = today.toLocaleDateString()    ;
-            year      = '20'+localeDate.substr(6,4);
-            month     = localeDate.substr(0,2)     ;
-            date      = localeDate.substr(3,2)     ;
+
+            if(myOs == 'ios'){
+                year      = localeDate.substr(0,4);
+                month     = localeDate.substr(5,2)     ;
+                date      = localeDate.substr(9,2)     ;
+            }else{
+                year      = '20'+localeDate.substr(6,4);
+                month     = localeDate.substr(0,2)     ;
+                date      = localeDate.substr(3,2)     ;
+            }
 
             day = week[today.getDay()];
+
             if(i==0){
                 sectionIDs=[];
                 rowIDs=[];
                 j= -1;
             }
+
             j++;
             sectionKey = month+'월 '+date+'일 '+day;
             sectionIDs.push(sectionKey);
