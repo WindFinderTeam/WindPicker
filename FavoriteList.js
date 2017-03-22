@@ -22,10 +22,10 @@ import Ionicons             from 'react-native-vector-icons/Ionicons';
 
 import {realmInstance}      from "./RealmHndler.js";
 
-var surfLocalData = require('./jsData/SurfLocalData.json');
+var surfLocalData  = require('./jsData/SurfLocalData.json');
 var glidfLocalData = require('./jsData/GlidingLocalData.json');
-var pickerStyle = require('./pickerStyle');
-var dataSource              = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+var pickerStyle    = require('./pickerStyle');
+var dataSource     = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 var selectedRowData;
 var favoriteDataList = [];
 
