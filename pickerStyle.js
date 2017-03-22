@@ -206,7 +206,7 @@ const pickerStyle = StyleSheet.create({
         flexDirection: 'row',
         paddingLeft: 20,
         alignItems: 'center',
-        flex: 2,
+        flex:2
     },
     listViewrowCamShop: {
         flexDirection: 'row',

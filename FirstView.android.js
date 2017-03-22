@@ -32,7 +32,7 @@ class FirstViewAndroid extends Component {
 
         this.state = {
             viewMode: this.props.mode,
-            tabViewSelectedPage: -1
+
         };
 
     }
