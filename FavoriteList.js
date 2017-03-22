@@ -147,12 +147,12 @@ class FavoriteList extends Component {
         else                                       shopShow = true;
 
         /* judge webcam showing */
-        if (Object.keys(rowData.webcam) == "") {  webcamShowJudge = (<View style={{flex: 1}}/>);        }
+        if (Object.keys(rowData.webcam) == "") {  webcamShowJudge = (<View style={{flexGrow: 1}}/>);        }
         else {
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=> { this.props.setWebCamModalVisible(true, rowData.webcam) }}>
                     <View style={{
-                        flex: 1,
+                        flexGrow: 1,
                         alignItems: 'center',
                         justifyContent: 'center',
                         width: 50,
@@ -177,8 +177,7 @@ class FavoriteList extends Component {
                     <View style={pickerStyle.listViewrowCamShop}>
 
                         <View style={{flex: 1}}>{webcamShowJudge}</View>
-
-                        <View style={{flex: 1}}>
+                        <View style={{flexGrow: 1}}>
                             {shopShow &&
                             <TouchableOpacity onPress={() => this.props.setShopModalVisible(true, rowData.shop)}>
                                 <View style={{flexGrow: 1, alignItems: 'center', justifyContent: 'center', height: 50}}>
