@@ -5,23 +5,18 @@ import  React, {
 import {
     AppRegistry,
     StyleSheet,
-    ScrollView,
     Text,
     View,
-    DrawerLayoutAndroid,
-
 } from 'react-native';
 
 
 import Toast, {DURATION} from 'react-native-easy-toast';
-
-
-import MenuList  from './MenuList';
-import MyToolbar  from './MyToolbar';
-import TabView  from './TabView';
+import MenuList          from './MenuList';
+import MyToolbar         from './MyToolbar';
+import TabView           from './TabView';
+import SlideMenu         from 'react-native-navi-drawer';
 
 var pickerStyle = require('./pickerStyle');
-import SlideMenu from 'react-native-navi-drawer'
 
 class FirstView extends Component {
 
@@ -30,10 +25,7 @@ class FirstView extends Component {
 
         this.openDrawerLayout = this.openDrawerLayout.bind(this);
 
-        this.state = {
-            tabViewSelectedPage : -1,
-            viewMode            : this.props.mode,
-        };
+        this.state = {  tabViewSelectedPage : -1,    viewMode : this.props.mode  };
     }
 
     openDrawerLayout() {    this.refs._drawer.toggleSlideMenu();    }
@@ -58,32 +50,25 @@ class FirstView extends Component {
         var modeTitle;
 
         switch (this.state.viewMode) {
-            case 'surf':     modeTitle = '서핑';
-                break;
-            case 'gliding':  modeTitle = '패러글라이딩';
-                break;
-            default :        modeTitle = '패러글라이딩';
-                break;
-        }
-        ;
+            case 'surf'   :  modeTitle = '서핑';           break;
+            case 'gliding':  modeTitle = '패러글라이딩';     break;
+            default       :  modeTitle = '패러글라이딩';     break;
+        };
 
         return (
-
         <View style={{flex:1, backgroundColor:'white'}}>
-
-            <SlideMenu frontView={
-                <View style={{flex:1}}>
-                 <MyToolbar modeTitle={modeTitle} openDrawerLayout={() => this.openDrawerLayout()}/>
-                <TabView  viewMode={this.state.viewMode}  tabViewSelectedPage={this.state.tabViewSelectedPage} />
-                </View>}
-                       ref={'_drawer'}
-                       menu  ={<MenuList viewMode={this.state.viewMode}
-                       setModeChange={(mode) => this.setModeChange(mode)}/>} slideWay='left' moveFrontView={false} width={250}/>
-            <Toast
-                ref="toast"
-                style={{backgroundColor: '#222222'}}
-                position='bottom'/>
-
+            <SlideMenu
+                       ref          = {'_drawer'}
+                       menu         = {<MenuList viewMode={this.state.viewMode}
+                       setModeChange= {(mode) => this.setModeChange(mode)}/>} slideWay='left' moveFrontView={false} width={250}
+                       frontView    = {
+                                <View style={{flex:1}}>
+                                     <MyToolbar modeTitle={modeTitle} openDrawerLayout={() => this.openDrawerLayout()}/>
+                                     <TabView  viewMode={this.state.viewMode}  tabViewSelectedPage={this.state.tabViewSelectedPage} />
+                                </View>
+                       }
+            />
+            <Toast    ref="toast"   style={{backgroundColor: '#222222'}}     position='bottom'/>
         </View>
 
         );
