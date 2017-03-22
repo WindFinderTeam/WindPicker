@@ -5,7 +5,6 @@ import  React, {
 import {
     AppRegistry,
     StyleSheet,
-    ScrollView,
     Text,
     View,
     DrawerLayoutAndroid,
