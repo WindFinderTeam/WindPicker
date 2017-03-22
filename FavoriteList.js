@@ -170,7 +170,7 @@ class FavoriteList extends Component {
                     {/* icons */}
                     <View style={pickerStyle.listViewrowCamShop}>
 
-                        <View style={{flex: 1}}>{webcamShowJudge}</View>
+                        <View style={{flexGrow: 1}}>{webcamShowJudge}</View>
                         <View style={{flexGrow: 1}}>
                             {shopShow &&
                             <TouchableOpacity onPress={() => this.props.setShopModalVisible(true, rowData.shop)}>
