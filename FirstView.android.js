@@ -9,17 +9,12 @@ import {
     Text,
     View,
     DrawerLayoutAndroid,
-
 } from 'react-native';
 
-//import CustomTabbar from './CustomTabbar';
-
 import Toast, {DURATION} from 'react-native-easy-toast';
-
-
-import MenuList  from './MenuList';
-import MyToolbar  from './MyToolbar';
-import TabView  from './TabView';
+import MenuList          from './MenuList';
+import MyToolbar         from './MyToolbar';
+import TabView           from './TabView';
 
 var pickerStyle = require('./pickerStyle');
 
@@ -29,18 +24,10 @@ class FirstViewAndroid extends Component {
         super(prop);
 
         this.openDrawerLayout = this.openDrawerLayout.bind(this);
-
-        this.state = {
-            viewMode: this.props.mode,
-
-        };
-
+        this.state = { viewMode: this.props.mode  };
     }
 
-    openDrawerLayout() {
-        this.refs._drawer.openDrawer();
-    }
-
+    openDrawerLayout() {  this.refs._drawer.openDrawer();  }
 
     setModeChange(mode) {
 
@@ -61,17 +48,12 @@ class FirstViewAndroid extends Component {
         var modeTitle;
 
         switch (this.state.viewMode) {
-            case 'surf':     modeTitle = '서핑';
-                break;
-            case 'gliding':  modeTitle = '패러글라이딩';
-                break;
-            default :        modeTitle = '패러글라이딩';
-                break;
-        }
-        ;
+            case 'surf'   :  modeTitle = '서핑';            break;
+            case 'gliding':  modeTitle = '패러글라이딩';      break;
+            default       :  modeTitle = '패러글라이딩';      break;
+        }  ;
 
         return (
-
             <DrawerLayoutAndroid
                 drawerWidth={250}
                 drawerPosition={DrawerLayoutAndroid.positions.Left}
@@ -81,12 +63,8 @@ class FirstViewAndroid extends Component {
                 <MyToolbar modeTitle={modeTitle} openDrawerLayout={() => this.openDrawerLayout()}/>
                 <TabView viewMode={this.state.viewMode} tabViewSelectedPage={this.state.tabViewSelectedPage} />
 
-                <Toast
-                    ref="toast"
-                    style={{backgroundColor: '#222222'}}
-                    position='bottom'/>
+                <Toast   ref="toast"   style={{backgroundColor: '#222222'}}    position='bottom'/>
             </DrawerLayoutAndroid>
-
         );
     }
 }
