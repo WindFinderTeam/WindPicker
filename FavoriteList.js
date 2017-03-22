@@ -151,13 +151,7 @@ class FavoriteList extends Component {
         else {
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=> { this.props.setWebCamModalVisible(true, rowData.webcam) }}>
-                    <View style={{
-                        flexGrow: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: 50,
-                        height: 50
-                    }}>
+                    <View style={styles.webcamIconView}>
                         <View style={pickerStyle.iconBorder}>
                             <Ionicons name="ios-videocam" style={{color: "rgba(156,0,16,1)", fontSize: 25}}/>
                         </View>
@@ -276,6 +270,13 @@ var styles = StyleSheet.create({
         marginBottom: 0,
         opacity: 0
     },
+    webcamIconView:{
+        flexGrow: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 50,
+        height: 50
+    }
 
 
 });
