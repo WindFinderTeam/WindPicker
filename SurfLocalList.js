@@ -7,12 +7,8 @@ import {
     Text,
     View,
     ListView,
-    TextInput,
     TouchableHighlight,
     TouchableOpacity,
-    DeviceEventEmitter,
-    ToastAndroid,
-    WebView,
     Modal,
     Image,
     Dimensions } from 'react-native';
@@ -28,10 +24,7 @@ var selectedRowData ;
 
 class LocalList extends Component{
 
-    setModalVisible(visible) {
-        this.setState({modalVisible: visible});
-        //console.log("changed !!! this.state.modalVisible :" + this.state.modalVisible);
-    }
+    setModalVisible(visible) {     this.setState({modalVisible: visible});   }
 
     setRgba(alpha) {
         var myAlpha = alpha;
@@ -40,7 +33,6 @@ class LocalList extends Component{
 
 
     _onPressButton(rowData){
-        //ToastAndroid.show('This is '+ rowData.lastName, ToastAndroid.SHORT);
         selectedRowData = rowData;
         this.setModalVisible(true);
     }
@@ -50,20 +42,17 @@ class LocalList extends Component{
 
         //---------------- Binding to Custom Func ----------------
         this.setModalVisible = this.setModalVisible.bind(this);
-        this.renderRow = this.renderRow.bind(this);
+        this.renderRow       = this.renderRow.bind(this);
         //---------------------------------------------------------
         this.ds = new ListView.DataSource({
-            sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
-            rowHasChanged: (r1, r2) => r1 !== r2
+            sectionHeaderHasChanged : (r1, r2) => r1 !== r2,
+            rowHasChanged           : (r1, r2) => r1 !== r2
         });
 
         this.state = {
-            dataSource          : this.ds.cloneWithRowsAndSections(this.renderListViewData())
+             dataSource          : this.ds.cloneWithRowsAndSections(this.renderListViewData())
             ,modalVisible        : false
-            ,dataSource_fb : new ListView.DataSource({
-            rowHasChanged: (row1, row2) => row1 !== row2,
-        })
-
+            ,dataSource_fb       : new ListView.DataSource({   rowHasChanged: (row1, row2) => row1 !== row2     })
         };
 
         this.controlModeRealm();
@@ -75,14 +64,11 @@ class LocalList extends Component{
         var localListMap = {}  ;
 
         Array.from(surfLocalData.local).forEach(function (myItem){
-            if(!localListMap[myItem.province]){
-                localListMap[myItem.province] = [];
-            }
+            if(!localListMap[myItem.province])   localListMap[myItem.province] = [];
             localListMap[myItem.province].push(myItem);
         });
 
         return localListMap;
-
     }
 
     renderSectionHeader(data, sectionId) {
@@ -98,13 +84,9 @@ class LocalList extends Component{
 
         realmInstance.write(() => {
 
-            let lastModeChk = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
-
             //Already exists. update mode to 'S'
-            realmInstance.create('ModeLastStay', {
-                index: 'lastmode', mode: 'S'}, true);
+            realmInstance.create('ModeLastStay', {index: 'lastmode', mode: 'S'}, true);
 
-            console.log("after mode is >> " + lastModeChk[0].mode);
         });
     }
 
@@ -121,7 +103,7 @@ class LocalList extends Component{
         if (webcamShow == true) {
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=>{if(webcamShow==true){this.props.setWebCamModalVisible(true, rowData.webcam)}}}>
-                    <View style={{alignItems:'center', justifyContent:'center',width:webcamShow==false?0:50,height:webcamShow==false?0:50}}>
+                    <View style={[styles.webcamIconView ,{width:webcamShow==false?0:50,height:webcamShow==false?0:50}]}>
                             <View style={[pickerStyle.iconBorder, {opacity:webcamShow==false?0:1}]}>
                                 <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
                             </View>
@@ -149,15 +131,13 @@ class LocalList extends Component{
 
                         <View style={{flex:1 }}>
                              {shopShow && <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
-                                <View style={{alignItems:'center', justifyContent:'center',height:50}}>
-
+                                <View style={styles.shopIconView}>
                                     <View style={pickerStyle.iconBorder}>
                                         <Image source={require('./image/surfShop.png')} style={{width: 35, height: 35}}/>
                                     </View>
                                 </View>
                             </TouchableOpacity>}
                         </View>
-
                     </View>
                 </View>
             </TouchableOpacity>
@@ -168,22 +148,22 @@ class LocalList extends Component{
         return (
             <View>
                 <Modal
-                    animationType={"fade"}
-                    transparent={false}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {this.setModalVisible(false)}}>
+                    animationType  = {"fade"}
+                    transparent    = {false}
+                    visible        = {this.state.modalVisible}
+                    onRequestClose = {() => {this.setModalVisible(false)}}>
 
                     <SurfWeatherList
-                        modalVisible={this.setModalVisible}
-                        rowData = {selectedRowData}/>
+                        modalVisible = {this.setModalVisible}
+                        rowData      = {selectedRowData}/>
                 </Modal>
                 <ListView
-                    ref="listView"
+                    ref = "listView"
+                    scrollsToTop        = {true}
+                    dataSource          = {this.state.dataSource}
+                    renderSectionHeader = {this.renderSectionHeader}
+                    renderRow           = {this.renderRow}
                     automaticallyAdjustContentInsets={false}
-                    scrollsToTop={true}
-                    dataSource={this.state.dataSource}
-                    renderSectionHeader={this.renderSectionHeader}
-                    renderRow={this.renderRow}
                 />
             </View>
         );
@@ -191,33 +171,10 @@ class LocalList extends Component{
 };
 
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-
 var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#F5FCFF',
-    },
 
-
-    innerContainer:{
-        backgroundColor:'rgba(0, 0, 0, 0.5)',
-        height:SCREEN_HEIGHT/2,
-    },
-    closeContain:{
-        backgroundColor:'gray',
-        borderRadius: 100,
-        width: 30,
-        height: 30,
-        borderWidth: 1,
-        borderColor: '#FFF',
-        alignItems: 'center',
-        marginLeft: SCREEN_WIDTH-45
-    },
-
-
+    webcamIconView: { alignItems:'center', justifyContent:'center'  },
+    shopIconView  : { alignItems:'center', justifyContent:'center', height:50}
 });
 
 module.exports = LocalList;
