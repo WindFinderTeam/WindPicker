@@ -6,12 +6,12 @@ import {
     Dimensions
 } from 'react-native';
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_WIDTH  = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const SPINNER_SIZE = 80;
-const NAVI_HEIGHT = 60;
-const MENU_HEIGHT = 60;
+const NAVI_HEIGHT  = 60;
+const MENU_HEIGHT  = 60;
 
 const pickerStyle = StyleSheet.create({
 
@@ -28,7 +28,6 @@ const pickerStyle = StyleSheet.create({
         fontSize: 13,
         color: '#424242',
         marginLeft: 5,
-
     },
 
     sectionHeader: {
@@ -122,6 +121,7 @@ const pickerStyle = StyleSheet.create({
     headerViewStyle: {
         height: 25,
         width: SCREEN_WIDTH,
+        backgroundColor:'white'
     },
     rowViewStyle: {
         height: 50,
