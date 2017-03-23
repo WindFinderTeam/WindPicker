@@ -388,24 +388,24 @@ class SurfWeatherList extends Component {
         if (this.state.networkState == true) {
             myView = (
                 <LazyloadListView
-                    style={{top: HEADER_MIN_HEIGHT, flex: 1}}
-                    scrollEventThrottle={10}
-                    onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]  )}
-                    name="listExample"
-                    ref="ScrollView"
-                    dataSource={this.state.dataSource}
-                    renderSectionHeader={this.sectionHeader.bind(this)}
-                    renderRow={this.renderRow}
-                    scrollRenderAheadDistance={200}
-                    renderDistance={200}
-                    pageSize={1}
-                    initialListSize={8}
-                    scrollsToTop={true}
+                    style                     = {{top: HEADER_MIN_HEIGHT, flex: 1}}
+                    scrollEventThrottle       = {10}
+                    onScroll                  = {Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]  )}
+                    name                      = "listExample"
+                    ref                       = "ScrollView"
+                    dataSource                = {this.state.dataSource}
+                    renderSectionHeader       = {this.sectionHeader.bind(this)}
+                    renderRow                 = {this.renderRow}
+                    scrollRenderAheadDistance = {200}
+                    renderDistance            = {200}
+                    pageSize                  = {1}
+                    initialListSize           = {8}
+                    scrollsToTop              = {true}
                     // dont need to declare, only for warning fixing (below)
-                    stickyHeaderIndices={[0]}
-                    onEndReachedThreshold={1000}
-                    renderScrollComponent={ _ => {}}
-                    scrollEnabled={this.state.loadOK}
+                    stickyHeaderIndices       = {[0]}
+                    onEndReachedThreshold     = {1000}
+                    renderScrollComponent     = { _ => {}}
+                    scrollEnabled             = {this.state.loadOK}
                 />
             );
         }
