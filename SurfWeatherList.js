@@ -431,7 +431,7 @@ class SurfWeatherList extends Component {
                             <View style={styles.mainboardView}>
                                 {/*-------------------------- 1.update ------------------------------*/}
                                 <Text style={{ backgroundColor: 'transparent',  color: '#FFF'  }}>업데이트 {this.state.updateTime}</Text>
-                                <Text style={ pickerStyle.headerDistrictText }> {district}     </Text>
+                                <Text style={ pickerStyle.headerDistrictText }>{district}</Text>
                                 {/*-------------------------- 2.ideal direction ------------------------------*/}
                                 <View style={pickerStyle.directionMarginTop}>
                                     <Text style={{color: '#FFF'}}>최적방향 </Text>
@@ -469,7 +469,7 @@ class SurfWeatherList extends Component {
                             width: SCREEN_WIDTH
                         }}>
                             {/*-------------------------- 1.district -------------------------------------*/}
-                            <View style={{top: 80}}><Text style={styles.districtText}>{this.props.rowData.district}</Text></View>
+                            <View style={{top: 80}}><Text style={pickerStyle.districtText}>{this.props.rowData.district}</Text></View>
 
                             {/*-------------------------- 2.ideal direction ------------------------------*/}
                             <View style={[pickerStyle.directionMarginBottom, {top: 88, backgroundColor: 'transparent'}]}>
@@ -558,12 +558,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    districtText:{
-        color: "white",
-        fontSize: 20,
-        textAlign: 'center',
-        backgroundColor: 'transparent',
-    },
+
 
     refreshView:{
         fontSize: 50,
