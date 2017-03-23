@@ -135,11 +135,8 @@ class SurfWeatherList extends Component {
         fetch('https://windpicker-maestrolsj.c9users.io?url=' + API_URL
             ,{
                 method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            }
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'   }
+             }
             , this).then((responseData) => {
 
             var jsonData   = JSON.parse(responseData._bodyInit);
@@ -351,8 +348,7 @@ class SurfWeatherList extends Component {
         this.fetchData();
     }
 
-    setWindModalVib(visible) {    return this.setState({windModalVib: visible});   }
-
+    setWindModalVib(visible)   {  return this.setState({windModalVib: visible});   }
     setSpinnerVisible(visible) {  this.setState({spinnerVisible: visible});  }
 
     render() {
@@ -473,9 +469,7 @@ class SurfWeatherList extends Component {
                             width: SCREEN_WIDTH
                         }}>
                             {/*-------------------------- 1.district -------------------------------------*/}
-                            <View style={{top: 80}}>
-                                <Text style={styles.districtText}>{this.props.rowData.district}</Text>
-                            </View>
+                            <View style={{top: 80}}><Text style={styles.districtText}>{this.props.rowData.district}</Text></View>
 
                             {/*-------------------------- 2.ideal direction ------------------------------*/}
                             <View style={[pickerStyle.directionMarginBottom, {top: 88, backgroundColor: 'transparent'}]}>
