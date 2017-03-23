@@ -254,18 +254,9 @@ class GlidingWeatherList extends Component {
                         </View>
 
                         <TouchableOpacity onPress={() => { this.setState({windModalVib: true, windSpeedData: rowData.windSpeed})  }}>
-                            <View style={{
-                                flex: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                flexDirection: 'column',
-                            }}>
+                            <View style={styles.windView}>
                                 <Text style={styles.windSpeedText}>{rowData.windSpeed + ' m/s'}</Text>
-                                <Text style={{
-                                    color: 'black',
-                                    textAlign: 'center',
-                                    fontSize: 10,
-                                }}>{'돌풍 ' + rowData.windGust}</Text>
+                                <Text style={styles.windGustText}>{'돌풍 ' + rowData.windGust}</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -292,20 +283,13 @@ class GlidingWeatherList extends Component {
 
     refreshListView() {
 
-        this.setState({
-            spinnerVisible: true,
-            networkState: true
-        });
+        this.setState({ spinnerVisible: true,  networkState: true    });
         this.fetchData();
     }
 
-    setWindModalVib(visible) {
-        return this.setState({windModalVib: visible});
-    }
+    setWindModalVib(visible) {  return this.setState({windModalVib: visible});   }
 
-    setSpinnerVisible(visible) {
-        this.setState({spinnerVisible: visible});
-    }
+    setSpinnerVisible(visible) {  this.setState({spinnerVisible: visible});   }
 
     render() {
 
@@ -345,34 +329,30 @@ class GlidingWeatherList extends Component {
 
             myView = (
                 <LazyloadListView
-                    style={{top: HEADER_MIN_HEIGHT, flex: 1}}
-                    scrollEventThrottle={10}
-                    onScroll={Animated.event(
-                        [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
-                    )}
-                    dataSource={this.state.dataSource}
-                    renderSectionHeader={this.sectionHeader.bind(this)}
-                    renderRow={this.renderRow}
-                    scrollRenderAheadDistance={200}
-                    renderDistance={200}
-                    pageSize={1}
-                    initialListSize={8}
-                    scrollsToTop={true}
-                    stickyHeaderIndices={[0]}
-                    onEndReachedThreshold={1000}
-                    renderScrollComponent={ _ => {}}
-                    name="listExample"
-                    ref="ScrollView"
-                    scrollEnabled={this.state.loadOK}
+                    style                     = {{top: HEADER_MIN_HEIGHT, flex: 1}}
+                    scrollEventThrottle       = {10}
+                    onScroll                  = {Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]  )}
+                    dataSource                = {this.state.dataSource}
+                    renderSectionHeader       = {this.sectionHeader.bind(this)}
+                    renderRow                 = {this.renderRow}
+                    scrollRenderAheadDistance = {200}
+                    renderDistance            = {200}
+                    pageSize                  = {1}
+                    initialListSize           = {8}
+                    scrollsToTop              = {true}
+                    stickyHeaderIndices       = {[0]}
+                    onEndReachedThreshold     = {1000}
+                    renderScrollComponent     = { _ => {}}
+                    name                      = "listExample"
+                    ref                       = "ScrollView"
+                    scrollEnabled             = {this.state.loadOK}
                 />
             );
         }
         else { // OFFLINE VIEW
             myView = ( <View style={pickerStyle.offlineView}>
                 <TouchableOpacity onPress={() => this.refreshListView()}>
-                    <Ionicons name="md-refresh-circle"
-                              style={pickerStyle.refreshView}
-                    />
+                    <Ionicons name="md-refresh-circle"   style={pickerStyle.refreshView}    />
                 </TouchableOpacity>
                 <Text>네트워크 상태를 확인하세요</Text>
             </View>);
@@ -458,23 +438,15 @@ class GlidingWeatherList extends Component {
                                      windSpeedData={this.state.windSpeedData}/>
                 {/* ------------------------- Scroll up to top button -----------------------------*/}
                 <ActionButton
-                    buttonColor={this.setRgba()}
-                    type={'tab'}
-                    position={'right'}
-                    offsetY={35}
-                    onPress={() => this.refs.ScrollView.scrollTo({x: 0, y: 0})}
-                    icon={<Ionicons name="md-arrow-round-up" style={{
-                        fontSize: 20,
-                        height: 22,
-                        color: 'white',
-                        opacity: this.state.topAlpha
-                    }}/>}
+                    buttonColor = {this.setRgba()}
+                    type        = {'tab'}
+                    position    = {'right'}
+                    offsetY     = {35}
+                    onPress     = {() => this.refs.ScrollView.scrollTo({x: 0, y: 0})}
+                    icon        = {<Ionicons name="md-arrow-round-up" style={{ fontSize: 20,height: 22, color: 'white', opacity: this.state.topAlpha }}/>}
                 />
                 {/* ------------------------------- Toast ----------------------------------*/}
-                <Toast
-                    ref="toast"
-                    style={{backgroundColor: '#222222'}}
-                    position='bottom'/>
+                <Toast  ref="toast"  style={{backgroundColor: '#222222'}}   position='bottom'/>
                 {/* ------------------------------- favorite heart configure ------------------------------------*/}
                 <View style={pickerStyle.navigator}>
                     <View style={{marginLeft: 10, backgroundColor: 'transparent'}}>
@@ -560,12 +532,23 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 13,
     },
+    windGustText:{
+        color: 'black',
+        textAlign: 'center',
+        fontSize: 10,
+    },
     glidingMainBoardView:{
         flex: 1,
         marginTop: 50,
         width: SCREEN_WIDTH,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    windView:{
+        flex: 1,
+            justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
     }
 });
 
