@@ -412,7 +412,7 @@ class SurfWeatherList extends Component {
         else { // OFFLINE VIEW
             myView = ( <View style={pickerStyle.offlineView}>
                 <TouchableOpacity onPress={() => this.refreshListView()}>
-                    <Ionicons name="md-refresh-circle"  style={styles.refreshView}    />
+                    <Ionicons name="md-refresh-circle"  style={pickerStyle.refreshView}    />
                 </TouchableOpacity>
                 <Text>네트워크 상태를 확인하세요</Text>
             </View>);
@@ -557,14 +557,6 @@ const styles = StyleSheet.create({
         width: SCREEN_WIDTH,
         justifyContent: 'center',
         alignItems: 'center'
-    },
-
-
-    refreshView:{
-        fontSize: 50,
-        color: '#9c0010',
-        marginBottom: 10,
-        transform: [{rotate: '136 deg'}],
     }
 });
 
