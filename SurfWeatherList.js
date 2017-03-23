@@ -292,7 +292,7 @@ class SurfWeatherList extends Component {
                         </View>
 
                         {/* 바람 */}
-                        <TouchableOpacity onPress={() => { this.setState({windModalVib: true, windSpeedData: rowData.wind}) }}   style={styles.windArrowView}>
+                        <TouchableOpacity onPress={() => { this.setState({windModalVib: true, windSpeedData: rowData.wind}) }}  >
                             <View style={[pickerStyle.menusView, rowData.tidedirections == "" ? {flex: 1.5} : {}]}>
                                 {windArrowSrc}
                                 <View style={{flexDirection: 'column'}}>
@@ -564,14 +564,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         backgroundColor: 'transparent',
     },
-    windArrowView:{
-        flex: 1.5,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+
     refreshView:{
         fontSize: 50,
-            color: '#9c0010',
+        color: '#9c0010',
         marginBottom: 10,
         transform: [{rotate: '136 deg'}],
     }
