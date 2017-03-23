@@ -55,6 +55,12 @@ const pickerStyle = StyleSheet.create({
         textAlign: 'center',
         fontSize: 15,
     },
+    districtText:{
+        color: "white",
+        fontSize: 20,
+        textAlign: 'center',
+        backgroundColor: 'transparent',
+    },
 
     webView: {
         position:'absolute',
@@ -272,6 +278,13 @@ const pickerStyle = StyleSheet.create({
         fontSize: 15,
         color: 'rgba(100,100,100,1)',
         marginLeft: 10
+    },
+
+    refreshView:{
+        fontSize: 50,
+        color: '#9c0010',
+        marginBottom: 10,
+        transform: [{rotate: '136 deg'}],
     }
 });
 
