@@ -23,11 +23,11 @@ import {
 
 //import CustomTabbar from './CustomTabbar';
 
-import SimpleModal from 'react-native-simple-modal';
-import Ionicons     from 'react-native-vector-icons/Ionicons';
-import GlidingLocalList  from './GlidingLocalList';
-import SurfLocalList     from './SurfLocalList';
-import FavoriteList      from './FavoriteList';
+import SimpleModal                           from 'react-native-simple-modal';
+import Ionicons                              from 'react-native-vector-icons/Ionicons';
+import GlidingLocalList                      from './GlidingLocalList';
+import SurfLocalList                         from './SurfLocalList';
+import FavoriteList                          from './FavoriteList';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
 
 
@@ -40,64 +40,45 @@ class TabView extends Component {
     constructor(prop) {
         super(prop);
 
-        this.setShopModalVisible = this.setShopModalVisible.bind(this);
+        this.setShopModalVisible   = this.setShopModalVisible.bind(this);
         this.setWebCamModalVisible = this.setWebCamModalVisible.bind(this);
-        this.renderRow = this.renderRow.bind(this);
+        this.renderRow             = this.renderRow.bind(this);
 
         ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); // shop ListView Data
 
         this.state = {
 
-            viewMode: this.props.viewMode,
-            loadingYn: false,
-            tabViewSelectedPage: this.props.tabViewSelectedPage,
-            shopModalVisible: false,
-            webCamModalVisible: false,
-            realmReload: false,
-            camLoadError: false,
-            dataSource: ds.cloneWithRows(['row 1', 'row 2']),
-            drawerAnimation: new Animated.Value(0)
+            viewMode            : this.props.viewMode,
+            tabViewSelectedPage : this.props.tabViewSelectedPage,
+            shopModalVisible    : false,
+            webCamModalVisible  : false,
+            realmReload         : false,
+            dataSource          : ds.cloneWithRows(['row 1', 'row 2']),
+            drawerAnimation     : new Animated.Value(0)
         };
     }
 
 
     setShopModalVisible(visible, shopRows) {
-        console.log("shopRows", shopRows);
         this.setState({shopModalVisible: visible, dataSource: ds.cloneWithRows(shopRows)});
     }
 
 
     setWebCamModalVisible(visible, webcam) {
 
-        var LoadSatus = '';
-
         webCamView = (
             <WebView
-                onLoad={() => {
-                    console.log("onLoad!!!");
-                    LoadSatus = 'onLoad';
-                }}
-                onError={() => {
-                    console.log("onError!!!");
-                    LoadStatus = 'onError';
-                }}
-                renderError={() => {
-                    console.log("renderError!!!");
-                    LoadSatus = 'renderError';
-                }}
-                mediaPlaybackRequiresUserAction={false}
-                style={pickerStyle.webView}
-                automaticallyAdjustContentInsets={true}
-                source={{uri: webcam[0].camUrl}}
-                javaScriptEnabled={true}
-                startInLoadingState={true}
-                scalesPageToFit={true}
+                mediaPlaybackRequiresUserAction  = {false}
+                style                            = {pickerStyle.webView}
+                automaticallyAdjustContentInsets = {true}
+                source                           = {{uri: webcam[0].camUrl}}
+                javaScriptEnabled                = {true}
+                startInLoadingState              = {true}
+                scalesPageToFit                  = {true}
             />
         );
 
         this.setState({webCamModalVisible: visible});
-        if (LoadSatus == 'onLoad') this.setState({loadingYn: true})
-        else if (LoadSatus == 'onError' || 'renderError') this.setState({camLoadError: true})
     }
 
 
@@ -106,39 +87,36 @@ class TabView extends Component {
         this.setState({tabViewSelectedPage: -1});
 
         /* obj.i : 0 날씨정보, 1 즐겨찾기 */
-        if (obj.i == '1') this.setState({realmReload: true});
+        if      (obj.i == '1') this.setState({realmReload: true});
         else if (obj.i == '0') this.setState({realmReload: false});
 
     }
 
-    renderRow(rowData) {
-
-        return (<View style={{height: 30,}}><Text>{rowData.name}</Text></View>);
-    }
+    renderRow(rowData) {   return (<View style={{height: 30,}}><Text>{rowData.name}</Text></View>);   }
 
     render() {
 
         var localList;
-        if (this.props.viewMode == 'surf') localList = (<SurfLocalList setShopModalVisible={this.setShopModalVisible}
-                                                                       setWebCamModalVisible={this.setWebCamModalVisible}/>);
-        else                               localList = (
-            <GlidingLocalList setShopModalVisible={this.setShopModalVisible}/>);
+        if (this.props.viewMode == 'surf') localList = (<SurfLocalList    setShopModalVisible   = {this.setShopModalVisible}
+                                                                          setWebCamModalVisible = {this.setWebCamModalVisible}/>);
+        else                               localList = (<GlidingLocalList setShopModalVisible   = {this.setShopModalVisible}/>);
 
 
         return (
 
             <View style={{flex: 1}}>
 
-                <ScrollableTabView tabBarUnderlineStyle={{backgroundColor: "#94000f"}}
-                                   tabBarActiveTextColor="#94000f"
-                                   tabBarInactiveTextColor="#94000f"
-                                   tabBarBackgroundColor="white"
-                                   ref={'scrollView'}
-                                   locked={false}
-                                   page={this.props.tabViewSelectedPage}
-                                   tabBarTextStyle={styles.tabText}
-                                   onChangeTab={(obj) => this.onChangeTab(obj)}
-                                   style={{height: 18}}>
+                <ScrollableTabView tabBarUnderlineStyle    = {{backgroundColor: "#94000f"}}
+                                   tabBarActiveTextColor   = "#94000f"
+                                   tabBarInactiveTextColor = "#94000f"
+                                   tabBarBackgroundColor   = "white"
+                                   ref                     = {'scrollView'}
+                                   locked                  = {false}
+                                   page                    = {this.props.tabViewSelectedPage}
+                                   tabBarTextStyle         = {styles.tabText}
+                                   onChangeTab             = {(obj) => this.onChangeTab(obj)}
+                                   style                   = {{height: 18}}>
+
                     <ScrollView tabLabel="날씨상황" style={styles.tabView} ref="LocalScrollView">
                         {(Platform.OS == 'ios') && <View style={pickerStyle.localListView}>
                             {localList}
@@ -146,10 +124,10 @@ class TabView extends Component {
                         {!(Platform.OS == 'ios') && localList}
                     </ScrollView>
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
-                        <FavoriteList setShopModalVisible={this.setShopModalVisible}
-                                      setWebCamModalVisible={this.setWebCamModalVisible}
-                                      realmReload={this.state.realmReload}
-                                      viewMode={this.state.viewMode}
+                        <FavoriteList setShopModalVisible   = {this.setShopModalVisible}
+                                      setWebCamModalVisible = {this.setWebCamModalVisible}
+                                      realmReload           = {this.state.realmReload}
+                                      viewMode              = {this.state.viewMode}
                         />
                     </ScrollView>
                 </ScrollableTabView>
@@ -157,27 +135,19 @@ class TabView extends Component {
 
                 {/* webCam Modal */}
                 <Modal
-                    animationType={"none"}
-                    transparent={true}
-                    visible={this.state.webCamModalVisible}
-                    onRequestClose={() => {
-                        this.setState({webCamModalVisible: false, camLoadError: false, loadingYn: false});
-                    }}>
+                    animationType  = {"none"}
+                    transparent    = {true}
+                    visible        = {this.state.webCamModalVisible}
+                    onRequestClose = {() => { this.setState({webCamModalVisible: false});  }}>
+
                     <View style={pickerStyle.modalContainer}>
                         <View style={[pickerStyle.closeIcon, {opacity: this.state.webCamModalVisible == true ? 1 : 0}]}>
-                            <TouchableOpacity onPress={() => {
-                                this.setState({webCamModalVisible: false})
-                            }}>
+                            <TouchableOpacity onPress={() => {  this.setState({webCamModalVisible: false})  }}>
                                 <Ionicons name="md-close" size={40} color={'white'}/>
                             </TouchableOpacity>
                         </View>
                         <View style={{height: SCREEN_HEIGHT / 1.5}}>
-                            <View style={{
-                                position: 'absolute',
-                                backgroundColor: 'white',
-                                width: SCREEN_WIDTH,
-                                height: SCREEN_HEIGHT / 1.5
-                            }}>
+                            <View style={styles.webCamWaitting}>
                                 <Ionicons name="ios-checkmark-outline"
                                           style={{paddingTop: SCREEN_HEIGHT / 4, textAlign: 'center',}} size={30}
                                           color='gray'/>
@@ -222,6 +192,12 @@ const styles = StyleSheet.create({
     },
     tabText: {
         fontSize: 17
+    },
+    webCamWaitting:{
+        position: 'absolute',
+        backgroundColor: 'white',
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT / 1.5
     }
 
 });

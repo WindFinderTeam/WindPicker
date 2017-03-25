@@ -145,6 +145,7 @@ class SurfWeatherList extends Component {
             var rowIDs     = jsonData.rowIDs;
             var sunInfo    = jsonData.sunInfo;
             var tideYN     = jsonData.tideYN;
+            console.log(tideYN);
 
             tideDirection = (<Text></Text>);
 
@@ -292,8 +293,10 @@ class SurfWeatherList extends Component {
                         </View>
 
                         {/* 바람 */}
-                        <TouchableOpacity onPress={() => { this.setState({windModalVib: true, windSpeedData: rowData.wind}) }}  >
-                            <View style={[pickerStyle.menusView, rowData.tidedirections == "" ? {flex: 1.5} : {}]}>
+                        <TouchableOpacity
+                            style={[pickerStyle.menusView, {flex: 1.5} ]}
+                            onPress={() => { this.setState({windModalVib: true, windSpeedData: rowData.wind}) }}  >
+                            <View style={{flex:1,flexDirection: 'row'}}>
                                 {windArrowSrc}
                                 <View style={{flexDirection: 'column'}}>
                                     <Text style={pickerStyle.rowListText}>{rowData.wind} m/s</Text>
@@ -303,7 +306,7 @@ class SurfWeatherList extends Component {
                         </TouchableOpacity>
 
                         {/* 파도 */}
-                        <View style={[pickerStyle.menusView, {flex: 1.5}]}>
+                        <View style={[pickerStyle.menusView, {flex: 1.5} ]}>
                             {swellArrowSrc}
                             <View style={{flexDirection: 'column', marginLeft: 1}}>
                                 <Text style={pickerStyle.rowListText}>{rowData.waveheight} m</Text>

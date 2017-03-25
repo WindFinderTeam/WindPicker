@@ -17,7 +17,7 @@ class SurfMenu extends Component {
 
     render() {
         return (
-            <View style={{flexDirection:'row',}}>
+            <View style={{flexDirection:'row'}}>
                 <View style={pickerStyle.menusView}>
                     <Text style={pickerStyle.menuText}>시간</Text>
                 </View>
@@ -31,10 +31,10 @@ class SurfMenu extends Component {
                     <Text style={pickerStyle.menuText}>강수량</Text>
                 </View>
 
-                <View style={[pickerStyle.menusView, this.props.tideYN=="N"? {flex:1.5}:{}]}>
+                <View style={[pickerStyle.menusView, {flex:1.5}]}>
                     <Text style={pickerStyle.menuText}>바람</Text>
                 </View>
-                <View style={[pickerStyle.menusView, {flex:1.5}]}>
+                <View style={[pickerStyle.menusView,  {flex:1.5}]}>
                     <Text style={pickerStyle.menuText}>파도</Text>
                 </View>
                 <View style={this.props.tideYN=="N"? {width:0, height:0} : pickerStyle.menusView}>

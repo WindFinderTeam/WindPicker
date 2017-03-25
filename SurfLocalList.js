@@ -7,15 +7,14 @@ import {
     Text,
     View,
     ListView,
-    TouchableHighlight,
     TouchableOpacity,
     Modal,
     Image,
     Dimensions } from 'react-native';
 
 
-import SurfWeatherList from './SurfWeatherList';
-import Ionicons        from 'react-native-vector-icons/Ionicons';
+import SurfWeatherList   from './SurfWeatherList';
+import Ionicons          from 'react-native-vector-icons/Ionicons';
 import { realmInstance } from "./RealmHndler.js";
 
 var pickerStyle   = require('./pickerStyle') ;
@@ -96,8 +95,8 @@ class LocalList extends Component{
         if(typeof rowData.webcam == "undefined")    webcamShow = false;
         else                                        webcamShow = true;
 
-        if( typeof rowData.shop == "undefined")     shopShow = false;
-        else                                        shopShow = true;
+        if( typeof rowData.shop == "undefined")     shopShow   = false;
+        else                                        shopShow   = true;
 
         if (webcamShow == true) {
             webcamShowJudge = (
@@ -109,11 +108,8 @@ class LocalList extends Component{
                     </View>
                 </TouchableOpacity>
             );
-        } else {
-            //space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠
-            webcamShowJudge = (<View style={{flex:1}}/>);
-
         }
+        else    webcamShowJudge = (<View style={{flex:1}}/>);
 
         return (
             <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>

@@ -43,6 +43,9 @@ const pickerStyle = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
+        borderWidth:0,
+        margin:0,
+        padding:0
     },
     menusViewTideYes: {
         justifyContent: 'center',
@@ -54,6 +57,7 @@ const pickerStyle = StyleSheet.create({
         color: '#FFFFFF',
         textAlign: 'center',
         fontSize: 15,
+        margin:0,padding:0
     },
     districtText:{
         color: "white",
