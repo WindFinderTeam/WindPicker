@@ -83,7 +83,6 @@ class LocalList extends Component{
     controlModeRealm(){
 
         realmInstance.write(() => {
-
             //Already exists. update mode to 'S'
             realmInstance.create('ModeLastStay', {index: 'lastmode', mode: 'S'}, true);
 
@@ -158,7 +157,7 @@ class LocalList extends Component{
                         rowData      = {selectedRowData}/>
                 </Modal>
                 <ListView
-                    ref = "listView"
+                    ref                 = "listView"
                     scrollsToTop        = {true}
                     dataSource          = {this.state.dataSource}
                     renderSectionHeader = {this.renderSectionHeader}

@@ -203,19 +203,6 @@ class TabView extends Component {
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow}/>
 
-                    <View style={{
-                        flex: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        height: 50,
-                        borderColor: 'gray',
-                        borderWidth: 2,
-                        borderStyle: 'dotted',
-                        borderRadius: 2
-                    }}>
-                        <Text>광고자리입니다</Text>
-                    </View>
-
                 </SimpleModal>
             </View>
 

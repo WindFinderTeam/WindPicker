@@ -132,7 +132,7 @@ class SurfWeatherList extends Component {
         weatherBackImg    = WeatherImage.getBackgroundImage();
         var setTimeoudtID = setTimeout(this.startCountDown, 7000);
 
-        fetch('https://windpicker-maestrolsj.c9users.io?url=' + API_URL
+        fetch('http://ec2-54-187-110-41.us-west-2.compute.amazonaws.com:8080/?url=' + API_URL
             ,{
                 method: 'GET',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'   }
