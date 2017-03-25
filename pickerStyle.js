@@ -37,6 +37,7 @@ const pickerStyle = StyleSheet.create({
         height: 25,
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
+        backgroundColor:'white'
     },
     menusView: {
         flex: 1,

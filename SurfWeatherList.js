@@ -261,8 +261,8 @@ class SurfWeatherList extends Component {
         var windArrowSrc  = DirectionImage.getWindDirectionImage(parseInt(rowData.winddirection));
         var swellArrowSrc = DirectionImage.getSwellDirectionImage(parseInt(rowData.wavedirection));
 
-        var windSpeedWidth    = (SCREEN_WIDTH * rowData.wind) / 60;
-        var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.gust) / 60 ) - windSpeedWidth;
+        var windSpeedWidth    = (SCREEN_WIDTH * rowData.wind) / 20;
+        var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.gust) / 20 ) - windSpeedWidth;
 
 
         return (

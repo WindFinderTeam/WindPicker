@@ -201,13 +201,13 @@ class GlidingWeatherList extends Component {
                 <View style={{backgroundColor: 'transparent', height: HEADER_SCROLL_DISTANCE}}>
                 </View>
             </LazyloadView>)
-        else sectionHeader = (<View style={pickerStyle.headerViewStyle}>
+        else sectionHeader = (
             <LazyloadView host="listExample">
                 <View style={pickerStyle.sectionHeader}>
                     <Text style={pickerStyle.sectionHeaderText}>{sectionID}</Text>
                 </View>
             </LazyloadView>
-        </View>);
+        );
 
         return sectionHeader;
     }
@@ -219,8 +219,8 @@ class GlidingWeatherList extends Component {
 
         rowKey++;
 
-        var windSpeedWidth    = (SCREEN_WIDTH * rowData.windSpeed) / 60;
-        var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.windGust) / 60 ) - windSpeedWidth;
+        var windSpeedWidth    = (SCREEN_WIDTH * rowData.windSpeed) / 20;
+        var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.windGust) / 20 ) - windSpeedWidth;
 
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(rowData.time, rowData.cloud, rowData.rain, rowData.snowYn + "");
 
