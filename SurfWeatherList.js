@@ -224,13 +224,13 @@ class SurfWeatherList extends Component {
                 </View>
             </LazyloadView>
         );
-        else sectionHeader = (<View style={pickerStyle.headerViewStyle}>
+        else sectionHeader = (
             <LazyloadView host="listExample">
                 <View style={pickerStyle.sectionHeader}>
                     <Text style={pickerStyle.sectionHeaderText}>{sectionID}</Text>
                 </View>
             </LazyloadView>
-        </View>);
+         );
 
         return sectionHeader;
 

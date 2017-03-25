@@ -128,11 +128,7 @@ const pickerStyle = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute'
     },
-    headerViewStyle: {
-        height: 25,
-        width: SCREEN_WIDTH,
-        backgroundColor:'white'
-    },
+
     rowViewStyle: {
         height: 50,
         width: SCREEN_WIDTH,
