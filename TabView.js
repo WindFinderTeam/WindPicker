@@ -52,11 +52,12 @@ class TabView extends Component {
             tabViewSelectedPage : this.props.tabViewSelectedPage,
             shopModalVisible    : false,
             webCamModalVisible  : false,
-            realmReload         : false,
             dataSource          : ds.cloneWithRows(['row 1', 'row 2']),
             drawerAnimation     : new Animated.Value(0)
         };
     }
+
+    componentWillReceiveProps(){  this.refs.scrollableTabView.goToPage(0);   }
 
     setShopModalVisible(visible, shopRows) {  this.setState({shopModalVisible: visible, dataSource: ds.cloneWithRows(shopRows)});    }
 
@@ -79,7 +80,6 @@ class TabView extends Component {
 
     onChangeTab(obj) {
 
-        this.setState({tabViewSelectedPage: -1});
 
         /* obj.i : 0 날씨정보, 1 즐겨찾기 */
         if      (obj.i == '1') this.setState({realmReload: true});
@@ -90,12 +90,11 @@ class TabView extends Component {
 
     render() {
 
-        console.log(this.state.viewMode);
         var localList;
-        if (this.state.viewMode == 'surf') localList = (<SurfLocalList    setShopModalVisible      = {this.setShopModalVisible}
+        if (this.props.viewMode == 'surf') localList = (<SurfLocalList    setShopModalVisible      = {this.setShopModalVisible}
                                                                           setWebCamModalVisible    = {this.setWebCamModalVisible} />
                                                        );
-        else if (this.state.viewMode == 'gliding')   localList = (<GlidingLocalList setShopModalVisible      = {this.setShopModalVisible} />);
+        else if (this.props.viewMode == 'gliding')   localList = (<GlidingLocalList setShopModalVisible      = {this.setShopModalVisible} />);
 
        // this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
 
@@ -108,9 +107,8 @@ class TabView extends Component {
                                    tabBarActiveTextColor   = "#94000f"
                                    tabBarInactiveTextColor = "#94000f"
                                    tabBarBackgroundColor   = "white"
-                                   ref                     = {'scrollView'}
+                                   ref                     = {'scrollableTabView'}
                                    locked                  = {false}
-                                   page                    = {this.props.tabViewSelectedPage}
                                    tabBarTextStyle         = {styles.tabText}
                                    onChangeTab             = {(obj) => this.onChangeTab(obj)}
                                    style                   = {{height: 18}}>
@@ -125,7 +123,7 @@ class TabView extends Component {
                         <FavoriteList setShopModalVisible   = {this.setShopModalVisible}
                                       setWebCamModalVisible = {this.setWebCamModalVisible}
                                       realmReload           = {this.state.realmReload}
-                                      viewMode              = {this.state.viewMode}
+                                      viewMode              = {this.props.viewMode}
                         />
                     </ScrollView>
                 </ScrollableTabView>
@@ -161,8 +159,8 @@ class TabView extends Component {
                 {/* shopList Modal */}
                 <SimpleModal
                     open={this.state.shopModalVisible}
-                    modalDidOpen={() => console.log('modal did open')}
-                    modalDidClose={() => this.setState({shopModalVisible: false})}
+                    modalDidOpen = {() => console.log('modal did open')}
+                    modalDidClose= {() => this.setState({shopModalVisible: false})}
                     style={{alignItems: 'center'}}>
 
                     <Text style={{fontSize: 20, marginBottom: 15, color: '#94000F'}}>주변샾</Text>

@@ -31,12 +31,12 @@ class FirstViewAndroid extends Component {
     setModeChange(mode) {
 
         if (mode == 'surf') {
-            this.setState({viewMode: 'surf', tabViewSelectedPage: 0});
+            this.setState({viewMode: 'surf'});
             this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
 
         }
         else if (mode == 'gliding') {
-            this.setState({viewMode: 'gliding', tabViewSelectedPage: 0});
+            this.setState({viewMode: 'gliding'});
             this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
         }
         this.refs._drawer.closeDrawer();
@@ -60,7 +60,7 @@ class FirstViewAndroid extends Component {
                 renderNavigationView={() => <MenuList viewMode={this.state.viewMode} setModeChange={(mode) => this.setModeChange(mode)}/>}>
 
                 <MyToolbar modeTitle={modeTitle} openDrawerLayout={() => this.openDrawerLayout()}/>
-                <TabView viewMode={this.state.viewMode} tabViewSelectedPage={this.state.tabViewSelectedPage} />
+                <TabView viewMode={this.state.viewMode} />
 
                 <Toast   ref="toast"   style={{backgroundColor: '#222222'}}    position='bottom'/>
             </DrawerLayoutAndroid>

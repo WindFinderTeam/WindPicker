@@ -25,7 +25,7 @@ class FirstView extends Component {
 
         this.openDrawerLayout = this.openDrawerLayout.bind(this);
 
-        this.state = {  tabViewSelectedPage : -1,    viewMode : this.props.mode  };
+        this.state = {  viewMode : this.props.mode  };
     }
 
     openDrawerLayout() {    this.refs._drawer.toggleSlideMenu();    }
@@ -34,11 +34,11 @@ class FirstView extends Component {
     setModeChange(mode) {
 
         if (mode == 'surf') {
-            this.setState({viewMode: 'surf', tabViewSelectedPage: 0});
+            this.setState({viewMode: 'surf'});
             this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
         }
         if (mode == 'gliding') {
-            this.setState({viewMode: 'gliding', tabViewSelectedPage: 0});
+            this.setState({viewMode: 'gliding'});
             this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
         }
         this.refs._drawer.toggleSlideMenu();
@@ -63,7 +63,7 @@ class FirstView extends Component {
                        frontView    = {
                                 <View style={{flex:1}}>
                                      <MyToolbar modeTitle={modeTitle} openDrawerLayout={() => this.openDrawerLayout()}/>
-                                     <TabView  viewMode={this.state.viewMode}  tabViewSelectedPage={this.state.tabViewSelectedPage} />
+                                     <TabView  viewMode={this.state.viewMode} />
                                 </View>
                        }
             />
