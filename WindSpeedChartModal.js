@@ -61,14 +61,15 @@ class WindSpeedChartModal extends Component {
         rowNum=0;
         let windSpeed = this.props.windSpeedData;
 
-        if      (windSpeed >= 2 && windSpeed <= 3  )     windLevel = 0;
-        else if (windSpeed >= 4 && windSpeed <= 6  )     windLevel = 1;
-        else if (windSpeed >= 7 && windSpeed <= 8  )     windLevel = 2;
-        else if (windSpeed >= 9 && windSpeed <= 11  )    windLevel = 3;
-        else if (windSpeed >= 12 && windSpeed <= 14  )   windLevel = 4;
-        else if (windSpeed >= 15 && windSpeed <= 20  )   windLevel = 5;
-        else if (windSpeed >= 21 && windSpeed <= 30  )   windLevel = 6;
-        else if (windSpeed >= 31 && windSpeed <= 40  )   windLevel = 7;
+        if      (windSpeed >= 0 && windSpeed <= 1  )     windLevel = 0;
+        else if (windSpeed >= 2 && windSpeed <= 3  )     windLevel = 1;
+        else if (windSpeed >= 4 && windSpeed <= 6  )     windLevel = 2;
+        else if (windSpeed >= 7 && windSpeed <= 8  )     windLevel = 3;
+        else if (windSpeed >= 9 && windSpeed <= 11  )    windLevel = 4;
+        else if (windSpeed >= 12 && windSpeed <= 14  )   windLevel = 5;
+        else if (windSpeed >= 15 && windSpeed <= 20  )   windLevel = 6;
+        else if (windSpeed >= 21 && windSpeed <= 30  )   windLevel = 7;
+        else if (windSpeed >= 31 && windSpeed <= 40  )   windLevel = 8;
         else                                             windLevel = 9;
 
         return (

@@ -57,7 +57,10 @@ class TabView extends Component {
         };
     }
 
-    componentWillReceiveProps(){  this.refs.scrollableTabView.goToPage(0);   }
+    componentWillReceiveProps(){
+        this.refs.scrollableTabView.goToPage(0);
+        this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
+    }
 
     setShopModalVisible(visible, shopRows) {  this.setState({shopModalVisible: visible, dataSource: ds.cloneWithRows(shopRows)});    }
 
@@ -96,7 +99,6 @@ class TabView extends Component {
                                                        );
         else if (this.props.viewMode == 'gliding')   localList = (<GlidingLocalList setShopModalVisible      = {this.setShopModalVisible} />);
 
-       // this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
 
 
         return (
@@ -120,10 +122,10 @@ class TabView extends Component {
                         {!(Platform.OS == 'ios') && localList}
                     </ScrollView>
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
-                        <FavoriteList setShopModalVisible   = {this.setShopModalVisible}
+                        <FavoriteList setShopModalVisible   = {this.setShopModalVisible  }
                                       setWebCamModalVisible = {this.setWebCamModalVisible}
-                                      realmReload           = {this.state.realmReload}
-                                      viewMode              = {this.props.viewMode}
+                                      realmReload           = {this.state.realmReload    }
+                                      viewMode              = {this.props.viewMode       }
                         />
                     </ScrollView>
                 </ScrollableTabView>
