@@ -37,15 +37,13 @@ class MenuList extends Component {
 
                 <View style={{ height: 10 }}/>
 
-                <TouchableOpacity
-                    onPress={() => this.props.setModeChange('surf')}>
+                <TouchableOpacity   onPress={() => this.props.setModeChange('surf')}>
                     <View style={[styles.menuView, {backgroundColor: this.props.viewMode == 'surf' ? '#E0E0E0' : null  }]}>
                         <Text style={styles.redDot}>●</Text>
                         <Text style={styles.menuText}>서핑</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => this.props.setModeChange('gliding')}>
+                <TouchableOpacity   onPress={() => this.props.setModeChange('gliding')}>
                     <View style={[styles.menuView, { backgroundColor: this.props.viewMode == 'gliding' ? '#E0E0E0' : null  }]}>
                         <Text style={styles.yellowDot}>●</Text>
                         <Text style={styles.menuText}>패러글라이딩</Text>

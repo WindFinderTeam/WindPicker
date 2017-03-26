@@ -62,9 +62,8 @@ class LocalList extends Component{
         var localListMap = {}  ;
 
         Array.from(glidingLocalData.local).forEach(function (myItem){ 
-            if(!localListMap[myItem.province]){ 
-                localListMap[myItem.province] = []; 
-            } 
+            if(!localListMap[myItem.province])     localListMap[myItem.province] = []; 
+
             localListMap[myItem.province].push(myItem);  
         });  
 
@@ -100,11 +99,9 @@ class LocalList extends Component{
 
         var shopShow = false;
 
-        if( typeof rowData.shop == "undefined"){
-            shopShow = false;
-        } else {
-            shopShow = true;
-        }
+        if( typeof rowData.shop == "undefined")     shopShow = false;
+        else                                        shopShow = true;
+
 
         return (
             <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>
@@ -130,9 +127,7 @@ class LocalList extends Component{
                                 </View>
                             </TouchableOpacity>}
                         </View>
-
                     </View>
-
                 </View>
             </TouchableOpacity>
         )

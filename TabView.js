@@ -58,11 +58,7 @@ class TabView extends Component {
         };
     }
 
-
-    setShopModalVisible(visible, shopRows) {
-        this.setState({shopModalVisible: visible, dataSource: ds.cloneWithRows(shopRows)});
-    }
-
+    setShopModalVisible(visible, shopRows) {  this.setState({shopModalVisible: visible, dataSource: ds.cloneWithRows(shopRows)});    }
 
     setWebCamModalVisible(visible, webcam) {
 
@@ -77,7 +73,6 @@ class TabView extends Component {
                 scalesPageToFit                  = {true}
             />
         );
-
         this.setState({webCamModalVisible: visible});
     }
 
@@ -89,17 +84,20 @@ class TabView extends Component {
         /* obj.i : 0 날씨정보, 1 즐겨찾기 */
         if      (obj.i == '1') this.setState({realmReload: true});
         else if (obj.i == '0') this.setState({realmReload: false});
-
     }
 
     renderRow(rowData) {   return (<View style={{height: 30,}}><Text>{rowData.name}</Text></View>);   }
 
     render() {
 
+        console.log(this.state.viewMode);
         var localList;
-        if (this.props.viewMode == 'surf') localList = (<SurfLocalList    setShopModalVisible   = {this.setShopModalVisible}
-                                                                          setWebCamModalVisible = {this.setWebCamModalVisible}/>);
-        else                               localList = (<GlidingLocalList setShopModalVisible   = {this.setShopModalVisible}/>);
+        if (this.state.viewMode == 'surf') localList = (<SurfLocalList    setShopModalVisible      = {this.setShopModalVisible}
+                                                                          setWebCamModalVisible    = {this.setWebCamModalVisible} />
+                                                       );
+        else if (this.state.viewMode == 'gliding')   localList = (<GlidingLocalList setShopModalVisible      = {this.setShopModalVisible} />);
+
+       // this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
 
 
         return (

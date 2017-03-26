@@ -14,12 +14,11 @@ import {
 
 
 import Modal               from 'react-native-simple-modal';
-import FirstViewIos        from './FirstView.ios';
+import FirstView           from './FirstView.ios';
 import Toast, { DURATION } from 'react-native-easy-toast';
+import { realmInstance }   from "./RealmHndler.js";
 
-import { realmInstance } from "./RealmHndler.js";
-
-var nowMode = "";
+var nowMode = "surf";
 var lastMode ;
 
 class  WindPicker extends Component {
@@ -38,15 +37,12 @@ class  WindPicker extends Component {
         setTimeout(this.loadProcess, 500);
     }
 
-    startCountDown(){
-        this.setState({loadingYn: false});
-    }
+    startCountDown(){   this.setState({loadingYn: false});   }
 
     loadProcess(){
 
-
                 this.getLastModeFromRealm();
-                setTimeout(this.startCountDown, 2000); // go to first FirstViewIos page after 3s
+                setTimeout(this.startCountDown, 2000); // go to first FirstView page after 3s
                 return ;
 
     }
@@ -90,11 +86,7 @@ class  WindPicker extends Component {
         if(this.state.loadingYn == true)
         {
             mainView = (<View style={styles.loadingView}>
-                <StatusBar
-                    backgroundColor = "#94000F"
-                    barStyle = "light-content"
-                    hidden = {false}
-                />
+                <StatusBar   backgroundColor = "#94000F"   barStyle = "light-content"    hidden = {false}     />
 
                 <Image source={require('./image/loadingLogo.png')}
                        style={{width:100 , height:100 }}/>
@@ -167,14 +159,9 @@ class  WindPicker extends Component {
             </View>);
         }
 
-        else {
-            mainView = (<FirstViewIos mode = {nowMode}/>);
-        }
+        else  mainView = (<FirstView mode = {nowMode}/>);
 
-        return (
-
-            mainView  // LoadingView or FirstViewIos
-        );
+        return (    mainView    );
     }
 }
 

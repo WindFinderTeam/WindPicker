@@ -55,8 +55,8 @@ class LocalList extends Component{
         };
 
         this.controlModeRealm();
-
     }
+
 
     renderListViewData() {
 

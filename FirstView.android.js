@@ -33,8 +33,9 @@ class FirstViewAndroid extends Component {
         if (mode == 'surf') {
             this.setState({viewMode: 'surf', tabViewSelectedPage: 0});
             this.refs.toast.show('서핑모드 모드로 전환합니다',DURATION.LENGTH_LONG);
+
         }
-        else {
+        else if (mode == 'gliding') {
             this.setState({viewMode: 'gliding', tabViewSelectedPage: 0});
             this.refs.toast.show('페러글라이딩 모드로 전환합니다',DURATION.LENGTH_SHORT);
         }
@@ -49,7 +50,6 @@ class FirstViewAndroid extends Component {
         switch (this.state.viewMode) {
             case 'surf'   :  modeTitle = '서핑';            break;
             case 'gliding':  modeTitle = '패러글라이딩';      break;
-            default       :  modeTitle = '패러글라이딩';      break;
         }  ;
 
         return (
