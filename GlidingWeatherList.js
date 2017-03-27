@@ -37,6 +37,7 @@ const fetch        = require('react-native-cancelable-fetch');
 
 
 var rowKey = 0;           // Listview`s row keys
+var offset = 0;           // scroll position for Action Button
 
 var API_URL;
 var weatherBackImg=(require('./image/wlLoadingBg.jpg'));
@@ -73,6 +74,7 @@ class GlidingWeatherList extends Component {
         this.setHeartOnOff     = this.setHeartOnOff.bind(this);
         this.renderRow         = this.renderRow.bind(this);
         this.setWindModalVib   = this.setWindModalVib.bind(this);
+        this.onScrollEnd       = this.onScrollEnd.bind(this);
 
         var getSectionData = (dataBlob, sectionID) => {  return dataBlob[sectionID];  };
         var getRowData     = (dataBlob, sectionID, rowID) => { return dataBlob[sectionID + ':' + rowID];     };
@@ -88,8 +90,6 @@ class GlidingWeatherList extends Component {
                     sectionHeaderHasChanged : (s1, s2) => s1 !== s2
                 })
             , topAlpha      : 0
-            , borderAlpha   : 0
-            , menuOpacity   : 0
             , sunrise       : "00:00"
             , sunset        : "00:00"
             , updateTime    : "00:00"
@@ -210,6 +210,18 @@ class GlidingWeatherList extends Component {
         );
 
         return sectionHeader;
+    }
+
+    onScrollEnd(event) {
+
+        var currentOffset = event.nativeEvent.contentOffset.y;
+        var direction = currentOffset > offset ? 'down' : 'up';
+        offset = currentOffset;
+
+        switch (direction) {
+            case 'down'  : this.setState({topAlpha: 0,}); break;
+            case 'up'    : this.setState({topAlpha: 0.8,}); break;
+        };
     }
 
     // Draw List's Rows
@@ -346,6 +358,8 @@ class GlidingWeatherList extends Component {
                     name                      = "listExample"
                     ref                       = "ScrollView"
                     scrollEnabled             = {this.state.loadOK}
+                    onScrollEndDrag           = {this.onScrollEnd}
+                    onMomentumScrollEnd       = {this.onScrollEnd}
                 />
             );
         }

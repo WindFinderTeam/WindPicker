@@ -34,6 +34,8 @@ var DirectionImage = require('./DirectionImage');
 const fetch = require('react-native-cancelable-fetch');
 
 var rowKey = 0;           // Listview`s row keys
+var offset = 0;           // scroll position for Action Button
+
 var API_URL;
 
 var district;
@@ -75,6 +77,7 @@ class SurfWeatherList extends Component {
         this.controlFavorite   = this.controlFavorite.bind(this);
         this.setHeartOnOff     = this.setHeartOnOff.bind(this);
         this.setWindModalVib   = this.setWindModalVib.bind(this);
+        this.onScrollEnd       = this.onScrollEnd.bind(this);
 
         var getSectionData     = (dataBlob, sectionID)        => {  return dataBlob[sectionID];                 };
         var getRowData         = (dataBlob, sectionID, rowID) => {   return dataBlob[sectionID + ':' + rowID];  };
@@ -183,6 +186,18 @@ class SurfWeatherList extends Component {
     setRgba() {
         var myAlpha = this.state.topAlpha;
         return `"rgba(156,0,16,` + `${myAlpha})"`;
+    }
+
+    onScrollEnd(event) {
+
+        var currentOffset = event.nativeEvent.contentOffset.y;
+        var direction = currentOffset > offset ? 'down' : 'up';
+        offset = currentOffset;
+
+        switch (direction) {
+            case 'down'  : this.setState({topAlpha: 0,}); break;
+            case 'up'    : this.setState({topAlpha: 0.8,}); break;
+        };
     }
 
     setHeartOnOff() {
@@ -409,6 +424,8 @@ class SurfWeatherList extends Component {
                     onEndReachedThreshold     = {1000}
                     renderScrollComponent     = { _ => {}}
                     scrollEnabled             = {this.state.loadOK}
+                    onScrollEndDrag           = {this.onScrollEnd}
+                    onMomentumScrollEnd       = {this.onScrollEnd}
                 />
             );
         }
