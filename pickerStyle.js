@@ -218,6 +218,8 @@ const pickerStyle = StyleSheet.create({
     listViewrowCamShop: {
         flexDirection: 'row',
         flex: 1,
+        justifyContent:'flex-end'
+
     },
     iconBorder: {
         borderRadius: 100,

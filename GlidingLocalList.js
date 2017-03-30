@@ -115,9 +115,8 @@ class LocalList extends Component{
                     {/* icons */}
                     <View style={pickerStyle.listViewrowCamShop}>
                         {/* space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠 */}
-                        <View style={{flex:1}}></View>
 
-                        <View style={{flex:1}}>
+                        <View style={{marginRight:20}}>
                             {shopShow && <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
                                 <View style={{alignItems:'center', justifyContent:'center',height:50}}>
 

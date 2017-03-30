@@ -122,10 +122,10 @@ class LocalList extends Component{
 
                     {/* icons */}
                     <View style={pickerStyle.listViewrowCamShop}>
-                        <View style={{flex:1}}>{webcamShowJudge}</View>
-
-                        <View style={{flex:1 }}>
-                             {shopShow && <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
+                        <View style={{marginRight:20}}>{webcamShowJudge}</View>
+                        <View style={{marginRight:20}}>
+                             {shopShow &&
+                             <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
                                 <View style={styles.shopIconView}>
                                     <View style={pickerStyle.iconBorder}>
                                         <Image source={require('./image/surfShop.png')} style={{width: 35, height: 35}}/>
