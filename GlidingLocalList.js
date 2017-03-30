@@ -74,14 +74,8 @@ class LocalList extends Component{
     setModeRealm(){
 
         realmInstance.write(() => {
-
-            let lastModeChk = realmInstance.objects('ModeLastStay').filtered('index = "lastmode"');
-
             //Already exists. update mode to 'G'
-            realmInstance.create('ModeLastStay', {
-                index: 'lastmode', mode: 'G'}, true);
-
-            console.log("after mode is >> " + lastModeChk[0].mode);
+            realmInstance.create('ModeLastStay', { index: 'lastmode', mode: 'G'}, true);
         });
     }
 
