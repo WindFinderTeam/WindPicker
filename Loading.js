@@ -94,11 +94,7 @@ class  Loading extends Component {
             // when it visits for the first time
             if(Object.keys(lastModeRealm) == "" ){
 
-                realmInstance.create('ModeLastStay', {
-                    index: 'lastmode',
-                    mode : ''
-                });
-
+                realmInstance.create('ModeLastStay', {  index: 'lastmode',  mode : ''   });
                 lastMode = lastModeRealm[0].mode;
 
             } else {
@@ -139,10 +135,7 @@ class  Loading extends Component {
                         </View>
                     </Modal>
 
-                    <Toast
-                        ref      = "toast"
-                        style    = {{backgroundColor:'#222222'}}
-                        position = 'bottom'/>
+                    <Toast  ref = "toast"   style = {{backgroundColor:'#222222'}}  position = 'bottom'/>
 
                     <Modal
                         open          = {this.state.chooseModeModal}
