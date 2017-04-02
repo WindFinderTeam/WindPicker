@@ -198,7 +198,7 @@ class TabView extends Component {
                                 mediaPlaybackRequiresUserAction  = {false}
                                 style                            = {pickerStyle.webView}
                                 automaticallyAdjustContentInsets = {true}
-                                source                           = {{uri: 'http://m.naver.com'}}
+                                source                           = {{uri: 'http://mercicandle.cafe24.com/web/windPicker/preparing.html'}}
                                 javaScriptEnabled                = {true}
                                 startInLoadingState              = {true}
                                 scalesPageToFit                  = {true}
