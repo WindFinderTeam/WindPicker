@@ -180,6 +180,7 @@ class FavoriteList extends Component {
                                     </View>
                                 </View>
                             </TouchableOpacity>}
+                            { !shopShow &&  <View style={{width:35, height:35}}></View> }
                         </View>
                     </View>
                 </View>
