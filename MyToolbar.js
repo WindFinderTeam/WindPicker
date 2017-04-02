@@ -22,10 +22,10 @@ class MyToolbar extends Component {
             myToolbar = (
                 <View style={styles.iosToolbar}>
                     <TouchableOpacity  onPress={() => this.props.openDrawerLayout()}>
-                        <View style={styles.iosHamburger}><Ionicons name="md-menu" size={20} color={'#94000F'}/></View>
+                        <View style={styles.iosHamburger}><Ionicons name="md-menu" size={30} color={'#94000F'}/></View>
                     </TouchableOpacity>
                     <View style={styles.iosTitleView}>
-                        <Text style={styles.modeText}>{this.props.modeTitle}</Text>
+                        <Text style={[styles.modeText,{marginTop:5}]}>{this.props.modeTitle}</Text>
                     </View>
                 </View>
             );
@@ -59,11 +59,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     modeText: {
-        fontSize: 18,
-        color: '#94000F'
+        fontSize: 20,
+        color: '#94000F',
+        marginTop:2,
     },
-    androidToolbar: { height: 56, backgroundColor: '#FFFFFF'},
-    iosToolbar    : { height: 56, flexDirection: 'row', paddingTop: 25  },
+    androidToolbar: { height: 56, backgroundColor: '#FFFFFF', marginTop:5},
+    iosToolbar    : { height: 56, flexDirection: 'row', paddingTop: 25 },
     iosHamburger  : { width : 35, marginLeft: 15}
 
 });
