@@ -16,7 +16,7 @@ import {
 
 import Modal               from 'react-native-simple-modal' ;
 import VersionCheck        from 'react-native-version-check';
-import FirstView           from './FirstView.android'       ;
+import FirstView           from './FirstView'               ;
 import Toast, { DURATION } from 'react-native-easy-toast'   ;
 import { realmInstance }   from "./RealmHndler.js"          ;
 
@@ -27,8 +27,8 @@ var lastMode ;
 
 if (Platform.OS === 'ios') {
 
-    VersionCheck.setAppID(APP_ID);                    // Your App ID for App Store URL
-    VersionCheck.setAppName(APP_NAME);                // Your App Name for App Store URL
+    VersionCheck.setAppID('com.bluebird.WindPicker');                    // Your App ID for App Store URL
+    VersionCheck.setAppName('WindPicker');
 }
 // Your app's id, name and country info will be use for App Store URL like
 // https://itunes.apple.com/{COUNTRY}/app/{APP_NAME}/id{APP_ID}
