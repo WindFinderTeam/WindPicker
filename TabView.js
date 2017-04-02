@@ -51,6 +51,7 @@ class TabView extends Component {
             viewMode            : this.props.viewMode,
             tabViewSelectedPage : this.props.tabViewSelectedPage,
             shopModalVisible    : false,
+            shopDetailVisible   : false,
             webCamModalVisible  : false,
             dataSource          : ds.cloneWithRows(['row 1', 'row 2']),
             drawerAnimation     : new Animated.Value(0)
@@ -63,6 +64,7 @@ class TabView extends Component {
     }
 
     setShopModalVisible(visible, shopRows) {  this.setState({shopModalVisible: visible, dataSource: ds.cloneWithRows(shopRows)});    }
+
 
     setWebCamModalVisible(visible, webcam) {
 
@@ -82,22 +84,28 @@ class TabView extends Component {
 
 
     onChangeTab(obj) {
-
-
         /* obj.i : 0 날씨정보, 1 즐겨찾기 */
         if      (obj.i == '1') this.setState({realmReload: true});
         else if (obj.i == '0') this.setState({realmReload: false});
     }
 
-    renderRow(rowData) {   return (<View style={{height: 30,}}><Text>{rowData.name}</Text></View>);   }
+    renderRow(rowData) {   // shop ListView
+        return (
+            <TouchableOpacity onPress={() => {  this.setState({shopDetailVisible: true})  }}>
+            <View style={{height: 30,}}><Text>{rowData.name}</Text></View>
+            </TouchableOpacity>
+        );
+    }
 
     render() {
 
         var localList;
-        if (this.props.viewMode == 'surf') localList = (<SurfLocalList    setShopModalVisible      = {this.setShopModalVisible}
-                                                                          setWebCamModalVisible    = {this.setWebCamModalVisible} />
+        if (this.props.viewMode == 'surf') localList = (<SurfLocalList    setShopModalVisible       = {this.setShopModalVisible}
+                                                                          setWebCamModalVisible     = {this.setWebCamModalVisible}
+                                                        />
                                                        );
-        else if (this.props.viewMode == 'gliding')   localList = (<GlidingLocalList setShopModalVisible      = {this.setShopModalVisible} />);
+        else if (this.props.viewMode == 'gliding')   localList = (<GlidingLocalList setShopModalVisible       = {this.setShopModalVisible}
+                                                                  />);
 
 
 
@@ -131,7 +139,7 @@ class TabView extends Component {
                 </ScrollableTabView>
 
 
-                {/* webCam Modal */}
+                {/*------ webCam Modal ------- */}
                 <Modal
                     animationType  = {"none"}
                     transparent    = {true}
@@ -160,18 +168,46 @@ class TabView extends Component {
 
                 {/* shopList Modal */}
                 <SimpleModal
-                    open={this.state.shopModalVisible}
-                    modalDidOpen = {() => console.log('modal did open')}
-                    modalDidClose= {() => this.setState({shopModalVisible: false})}
-                    style={{alignItems: 'center'}}>
+                    open          = {this.state.shopModalVisible}
+                    modalDidOpen  = {() => console.log('modal did open')}
+                    modalDidClose = {() => this.setState({shopModalVisible: false})}
+                    style         = {{alignItems: 'center'}}>
 
-                    <Text style={{fontSize: 20, marginBottom: 15, color: '#94000F'}}>주변샾</Text>
+                    <Text style = {{fontSize: 20, marginBottom: 15, color: '#94000F'}}>주변샾</Text>
 
-                    <ListView
-                        dataSource={this.state.dataSource}
-                        renderRow={this.renderRow}/>
+                    <ListView  dataSource = {this.state.dataSource}   renderRow = {this.renderRow}/>
 
                 </SimpleModal>
+
+                {/*------ Shop Detail Modal ------- */}
+                <Modal
+                    animationType  = {"none"}
+                    transparent    = {true}
+                    visible        = {this.state.shopDetailVisible}
+                    onRequestClose = {() => { this.setState({shopDetailVisible: false});  }}>
+
+                    <View style={pickerStyle.modalContainer}>
+                        <View style={[pickerStyle.closeIcon, {opacity: this.state.shopDetailVisible == true ? 1 : 0}]}>
+                            <TouchableOpacity onPress={() => {  this.setState({shopDetailVisible: false})  }}>
+                                <Ionicons name="md-close" size={40} color={'white'}/>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{height: SCREEN_HEIGHT / 1.5}}>
+
+                            <WebView
+                                mediaPlaybackRequiresUserAction  = {false}
+                                style                            = {pickerStyle.webView}
+                                automaticallyAdjustContentInsets = {true}
+                                source                           = {{uri: 'http://m.naver.com'}}
+                                javaScriptEnabled                = {true}
+                                startInLoadingState              = {true}
+                                scalesPageToFit                  = {true}
+                            />
+                        </View>
+
+                    </View>
+                </Modal>
+
             </View>
 
         );
