@@ -152,7 +152,7 @@ class TabView extends Component {
                                 <Ionicons name="md-close" size={40} color={'white'}/>
                             </TouchableOpacity>
                         </View>
-                        <View style={{height: SCREEN_HEIGHT / 1.5 }}>
+                        <View style={{height: SCREEN_HEIGHT / 1.5, marginLeft:20, marginRight:20 }}>
                             {webCamView}
                         </View>
                     </View>
@@ -185,7 +185,7 @@ class TabView extends Component {
                                 <Ionicons name="md-close" size={40} color={'white'}/>
                             </TouchableOpacity>
                         </View>
-                        <View style={{height: SCREEN_HEIGHT / 1.5 }}>
+                        <View style={{height: SCREEN_HEIGHT / 1.5 ,marginLeft:20, marginRight:20 }}>
 
                             <WebView
                                 mediaPlaybackRequiresUserAction  = {false}

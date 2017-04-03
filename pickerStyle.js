@@ -73,8 +73,7 @@ const pickerStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white',
-        marginRight:20,
-        marginLeft:20,
+
         width: SCREEN_WIDTH-40,
         height: SCREEN_HEIGHT / 1.5
     },
