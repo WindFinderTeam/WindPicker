@@ -73,7 +73,9 @@ const pickerStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white',
-        width: SCREEN_WIDTH,
+        marginRight:20,
+        marginLeft:20,
+        width: SCREEN_WIDTH-40,
         height: SCREEN_HEIGHT / 1.5
     },
 
@@ -100,7 +102,8 @@ const pickerStyle = StyleSheet.create({
     modalContainer: {
         justifyContent: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        flex: 1
+        flex: 1,
+
     },
 
     outerInfoContainer: {

@@ -152,14 +152,7 @@ class TabView extends Component {
                                 <Ionicons name="md-close" size={40} color={'white'}/>
                             </TouchableOpacity>
                         </View>
-                        <View style={{height: SCREEN_HEIGHT / 1.5}}>
-                            <View style={styles.webCamWaitting}>
-                                <Ionicons name="ios-checkmark-outline"
-                                          style={{paddingTop: SCREEN_HEIGHT / 4, textAlign: 'center',}} size={30}
-                                          color='gray'/>
-                                <Text style={pickerStyle.camLoading}>잠시만 기다려 주세요. </Text>
-                                <Text style={pickerStyle.camLoading}>캠이 점검중이면 실행되지 않을 수 있습니다. </Text>
-                            </View>
+                        <View style={{height: SCREEN_HEIGHT / 1.5 }}>
                             {webCamView}
                         </View>
                     </View>
@@ -192,7 +185,7 @@ class TabView extends Component {
                                 <Ionicons name="md-close" size={40} color={'white'}/>
                             </TouchableOpacity>
                         </View>
-                        <View style={{height: SCREEN_HEIGHT / 1.5}}>
+                        <View style={{height: SCREEN_HEIGHT / 1.5 }}>
 
                             <WebView
                                 mediaPlaybackRequiresUserAction  = {false}
@@ -230,7 +223,9 @@ const styles = StyleSheet.create({
     webCamWaitting:{
         position: 'absolute',
         backgroundColor: 'white',
-        width: SCREEN_WIDTH,
+        width: SCREEN_WIDTH-40,
+        marginRight:20,
+        marginLeft:20,
         height: SCREEN_HEIGHT / 1.5
     }
 
