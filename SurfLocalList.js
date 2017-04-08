@@ -19,7 +19,6 @@ import { realmInstance } from "./RealmHndler.js";
 import Firebase          from './FirebaseHndler';
 
 var pickerStyle   = require('./pickerStyle') ;
-var surfLocalData = require('./jsData/SurfLocalData.json');
 var selectedRowData ;
 
 class LocalList extends Component{
@@ -38,7 +37,6 @@ class LocalList extends Component{
     }
 
     constructor(prop){
-        console.log("surfing constructor");
         super(prop);
 
         //---------------- Binding to Custom Func ----------------
@@ -90,13 +88,10 @@ class LocalList extends Component{
             });
 
             this.setState({dataSource:this.state.dataSource.cloneWithRowsAndSections(localListMap)});
-
         });
     }
 
     renderSectionHeader(data, sectionId) {
-
-        console.log("surfing renderSectionHeader");
 
         return (
             <View style={pickerStyle.localSectionHeader}>
@@ -112,14 +107,6 @@ class LocalList extends Component{
             realmInstance.create('ModeLastStay', {index: 'lastmode', mode: 'S'}, true);
 
         });
-    }
-
-    componentWillReceiveProps(){
-        console.log("componentWillReceiveProps");
-
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRowsAndSections(this.listenForItems(Firebase.ref().child('SurfLocalData')))
-        })
     }
 
     renderRow(rowData) {

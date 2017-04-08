@@ -19,8 +19,8 @@ import {
 import GlidingWeatherList from './GlidingWeatherList';
 import { realmInstance }  from "./RealmHndler.js";
 import Firebase           from './FirebaseHndler';
+import Analytics          from 'react-native-firebase-analytics';
 
-var glidingLocalData = require('./jsData/GlidingLocalData.json');
 var pickerStyle      = require('./pickerStyle') ;
 var selectedRowData ;
 
@@ -67,6 +67,15 @@ class LocalList extends Component{
     componentWillMount() {
         // this.listenForItems(Firebase.ref().child('GlidingLocalData'));
         this.listenForItems(this.itemsRef);
+    }
+
+    componentDidMount(){
+        Analytics.setUserId('11111');
+        Analytics.setUserProperty('propertyName', 'propertyValue');
+
+        Analytics.logEvent('view_item', {
+            'item_id': 'login'
+        });
     }
 
     listenForItems(itemsRef) {
@@ -147,7 +156,6 @@ class LocalList extends Component{
 
 
     render() {
-        console.log("render ok glidin");
         return (
             <View>
                 <Modal
