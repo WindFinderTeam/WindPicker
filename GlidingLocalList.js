@@ -18,7 +18,7 @@ import {
 
 import GlidingWeatherList from './GlidingWeatherList';
 import { realmInstance }  from "./RealmHndler.js";
-
+import Firebase           from './FirebaseHndler';
 
 var glidingLocalData = require('./jsData/GlidingLocalData.json');
 var pickerStyle      = require('./pickerStyle') ;
@@ -41,6 +41,7 @@ class LocalList extends Component{
         //---------------- Binding to Custom Func ----------------
         this.setModalVisible = this.setModalVisible.bind(this);
         this.renderRow       = this.renderRow.bind(this);
+        this.listenForItems  = this.listenForItems.bind(this);
         //---------------------------------------------------------
 
         this.ds = new ListView.DataSource({
@@ -49,26 +50,45 @@ class LocalList extends Component{
         });
 
         this.state = {
-            dataSource      : this.ds.cloneWithRowsAndSections(this.renderListViewData())
+            // dataSource      : this.ds.cloneWithRowsAndSections(this.renderListViewData())
+            // dataSource      : this.ds.cloneWithRowsAndSections(this.listenForItems(Firebase.ref().child('GlidingLocalData')))
+            dataSource: new ListView.DataSource({
+                sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
+                rowHasChanged: (r1, r2) => r1 !== r2
+            })
             ,modalVisible    : false
         };
 
         this.setModeRealm();
+
+        this.itemsRef = Firebase.ref().child('GlidingLocalData');
     }
 
+    componentWillMount() {
+        // this.listenForItems(Firebase.ref().child('GlidingLocalData'));
+        this.listenForItems(this.itemsRef);
+    }
 
-    renderListViewData() {  
+    listenForItems(itemsRef) {
 
-        var localListMap = {}  ;
+        // get children as an array
+        var localListMap = {};
 
-        Array.from(glidingLocalData.local).forEach(function (myItem){ 
-            if(!localListMap[myItem.province])     localListMap[myItem.province] = []; 
+        var district, province;
 
-            localListMap[myItem.province].push(myItem);  
-        });  
+        itemsRef.on('value', (snap) => {
 
-        return localListMap;  
+            snap.forEach((child) => {
 
+                district = child.val().district;
+                province = child.val().province;
+
+                if (!localListMap[province]) localListMap[province] = [];
+                localListMap[province].push(child.val());
+            });
+
+            this.setState({dataSource:this.state.dataSource.cloneWithRowsAndSections(localListMap)});
+        });
     }
 
     setModeRealm(){
@@ -88,13 +108,12 @@ class LocalList extends Component{
         );
     }
 
-
     renderRow(rowData) {
 
         var shopShow = false;
 
-        if( typeof rowData.shop == "undefined")     shopShow = false;
-        else                                        shopShow = true;
+        if( rowData.shop == "")     shopShow = false;
+        else                        shopShow = true;
 
 
         return (
@@ -128,6 +147,7 @@ class LocalList extends Component{
 
 
     render() {
+        console.log("render ok glidin");
         return (
             <View>
                 <Modal
@@ -155,8 +175,5 @@ class LocalList extends Component{
         );
     }
 };
-
-
-
 
 module.exports = LocalList;

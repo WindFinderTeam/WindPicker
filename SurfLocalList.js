@@ -16,6 +16,7 @@ import {
 import SurfWeatherList   from './SurfWeatherList';
 import Ionicons          from 'react-native-vector-icons/Ionicons';
 import { realmInstance } from "./RealmHndler.js";
+import Firebase          from './FirebaseHndler';
 
 var pickerStyle   = require('./pickerStyle') ;
 var surfLocalData = require('./jsData/SurfLocalData.json');
@@ -37,6 +38,7 @@ class LocalList extends Component{
     }
 
     constructor(prop){
+        console.log("surfing constructor");
         super(prop);
 
         //---------------- Binding to Custom Func ----------------
@@ -49,28 +51,52 @@ class LocalList extends Component{
         });
 
         this.state = {
-             dataSource          : this.ds.cloneWithRowsAndSections(this.renderListViewData())
+            // dataSource          : this.ds.cloneWithRowsAndSections(this.renderListViewData())
+            // dataSource      : this.ds.cloneWithRowsAndSections(this.listenForItems(Firebase.ref().child('SurfLocalData')))
+            dataSource: new ListView.DataSource({
+                sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
+                rowHasChanged: (r1, r2) => r1 !== r2
+            })
             ,modalVisible        : false
-            ,dataSource_fb       : new ListView.DataSource({   rowHasChanged: (row1, row2) => row1 !== row2     })
         };
 
         this.controlModeRealm();
+
+        this.itemsRef = Firebase.ref().child('SurfLocalData');
+
     }
 
+    componentWillMount() {
+        // this.listenForItems(Firebase.ref().child('SurfLocalData'));
+        this.listenForItems(this.itemsRef);
+    }
 
-    renderListViewData() {
+    listenForItems(itemsRef) {
 
-        var localListMap = {}  ;
+        // get children as an array
+        var localListMap = {};
 
-        Array.from(surfLocalData.local).forEach(function (myItem){
-            if(!localListMap[myItem.province])   localListMap[myItem.province] = [];
-            localListMap[myItem.province].push(myItem);
+        var district, province;
+
+        itemsRef.on('value', (snap) => {
+
+            snap.forEach((child) => {
+
+                district = child.val().district;
+                province = child.val().province;
+
+                if (!localListMap[province]) localListMap[province] = [];
+                localListMap[province].push(child.val());
+            });
+
+            this.setState({dataSource:this.state.dataSource.cloneWithRowsAndSections(localListMap)});
+
         });
-
-        return localListMap;
     }
 
     renderSectionHeader(data, sectionId) {
+
+        console.log("surfing renderSectionHeader");
 
         return (
             <View style={pickerStyle.localSectionHeader}>
@@ -88,23 +114,31 @@ class LocalList extends Component{
         });
     }
 
+    componentWillReceiveProps(){
+        console.log("componentWillReceiveProps");
+
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRowsAndSections(this.listenForItems(Firebase.ref().child('SurfLocalData')))
+        })
+    }
+
     renderRow(rowData) {
 
         var webcamShow = false, shopShow = false, webcamShowJudge;
 
-        if(typeof rowData.webcam == "undefined")    webcamShow = false;
-        else                                        webcamShow = true;
+        if(rowData.webcam == "")    webcamShow = false;
+        else                        webcamShow = true;
 
-        if( typeof rowData.shop == "undefined")     shopShow   = false;
-        else                                        shopShow   = true;
+        if(rowData.shop == "")      shopShow   = false;
+        else                        shopShow   = true;
 
         if (webcamShow == true) {
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=>{if(webcamShow==true){this.props.setWebCamModalVisible(true, rowData.webcam)}}}>
                     <View style={[styles.webcamIconView ,{width:webcamShow==false?0:50,height:webcamShow==false?0:50}]}>
-                            <View style={[pickerStyle.iconBorder, {opacity:webcamShow==false?0:1}]}>
-                                <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
-                            </View>
+                        <View style={[pickerStyle.iconBorder, {opacity:webcamShow==false?0:1}]}>
+                            <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
+                        </View>
                     </View>
                 </TouchableOpacity>
             );
@@ -124,8 +158,8 @@ class LocalList extends Component{
                     <View style={pickerStyle.listViewrowCamShop}>
                         <View style={{marginRight:20}}>{webcamShowJudge}</View>
                         <View style={{marginRight:20}}>
-                             {shopShow &&
-                             <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
+                            {shopShow &&
+                            <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
                                 <View style={styles.shopIconView}>
                                     <View style={pickerStyle.iconBorder}>
                                         <Image source={require('./image/surfShop.png')} style={{width: 35, height: 35}}/>
