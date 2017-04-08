@@ -23,17 +23,7 @@ import { realmInstance }   from "./RealmHndler.js"          ;
 var nowMode = "surf";
 var lastMode ;
 
-// START: iOS Only
 
-if (Platform.OS === 'ios') {
-
-    VersionCheck.setAppID('com.bluebird.WindPicker');                    // Your App ID for App Store URL
-    VersionCheck.setAppName('WindPicker');
-}
-// Your app's id, name and country info will be use for App Store URL like
-// https://itunes.apple.com/{COUNTRY}/app/{APP_NAME}/id{APP_ID}
-
-// END: iOS Only
 
 class  Loading extends Component {
 
@@ -48,7 +38,18 @@ class  Loading extends Component {
             updateInfoModal : false,
             chooseModeModal : false
         };
-        setTimeout(this.loadProcess, 500);
+
+        this.getLastModeFromRealm();
+
+    }
+
+    componentWillMount() {
+        if (Platform.OS === 'ios')
+        {
+            if (lastMode == '')     this.setState({chooseModeModal: true});
+            else                    setTimeout(this.startCountDown, 1000); // Jump to FirstView
+        }
+        else                        setTimeout(this.loadProcess, 500);
     }
 
     startCountDown(){   this.setState({loadingYn: false});   }
@@ -59,7 +60,6 @@ class  Loading extends Component {
             .then((latestVersion) => {      console.log(latestVersion);          })
             .catch((error) => { // if network state is unstable
                 console.warn(error);
-                this.getLastModeFromRealm();
                 setTimeout(this.startCountDown, 2000); // go to first FirstView page after 3s
                 return ;
             });
@@ -67,7 +67,6 @@ class  Loading extends Component {
         VersionCheck.needUpdate()
             .then((res) => {
 
-                this.getLastModeFromRealm();
                 /* if update is required */
                 if(res.isNeeded == true)    this.setState({updateInfoModal: true,chooseModeModal:false});
                 /* the last version. update is not required */
