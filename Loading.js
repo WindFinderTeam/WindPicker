@@ -23,8 +23,6 @@ import { realmInstance }   from "./RealmHndler.js"          ;
 var nowMode = "surf";
 var lastMode ;
 
-
-
 class  Loading extends Component {
 
     constructor(prop){
@@ -38,22 +36,20 @@ class  Loading extends Component {
             updateInfoModal : false,
             chooseModeModal : false
         };
-
-        this.getLastModeFromRealm();
-
+        //setTimeout(this.loadProcess, 500);
     }
 
-    componentWillMount() {
-        if (Platform.OS === 'ios')
-        {
-            if (lastMode == '')     this.setState({chooseModeModal: true});
-            else                    setTimeout(this.startCountDown, 1000); // Jump to FirstView
-        }
-        else                        setTimeout(this.loadProcess, 500);
-    }
 
     startCountDown(){   this.setState({loadingYn: false});   }
 
+    componentDidMount()   {
+        this.getLastModeFromRealm();
+        if (Platform.OS === 'android')   this.loadProcess();
+        else{
+            if (lastMode == '')     this.setState({chooseModeModal: true});
+            else                    setTimeout(this.startCountDown, 1000); // Jump to FirstView
+        }
+    }
     loadProcess(){
 
         VersionCheck.getLatestVersion() // from market
@@ -78,11 +74,8 @@ class  Loading extends Component {
     }
 
     goToMarket(){
-        if (Platform.OS === 'ios')  Linking.openURL("http://itunes.apple.com/app/id431472195?mt=8").catch(err => console.error('An error occurred', err));
-        else{
-            Linking.openURL("https://play.google.com/store/apps/details?id=com.windpicker").catch(err => console.error('An error occurred', err));
-            BackAndroid.exitApp(); // Finish this App
-        }
+        Linking.openURL("https://play.google.com/store/apps/details?id=com.windpicker").catch(err => console.error('An error occurred', err));
+        BackAndroid.exitApp(); // Finish this App
     }
 
     getLastModeFromRealm(){
