@@ -34,6 +34,7 @@ import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-v
 var ds;
 var webCamView;
 var pickerStyle = require('./pickerStyle');
+var shopUrl='http://mercicandle.cafe24.com/web/windPicker/preparing.html';
 
 class TabView extends Component {
 
@@ -91,7 +92,12 @@ class TabView extends Component {
 
     renderRow(rowData) {   // shop ListView
         return (
-            <TouchableOpacity onPress={() => {  this.setState({shopDetailVisible: true})  }}>
+            <TouchableOpacity
+                onPress={() => {
+                    shopUrl = rowData.homepage;
+                    this.setState({shopDetailVisible: true});
+                }}
+            >
             <View style={{height: 30,}}><Text>{rowData.name}</Text></View>
             </TouchableOpacity>
         );
@@ -191,7 +197,7 @@ class TabView extends Component {
                                 mediaPlaybackRequiresUserAction  = {false}
                                 style                            = {pickerStyle.webView}
                                 automaticallyAdjustContentInsets = {true}
-                                source                           = {{uri: 'http://mercicandle.cafe24.com/web/windPicker/preparing.html'}}
+                                source                           = {{uri: shopUrl}}
                                 javaScriptEnabled                = {true}
                                 startInLoadingState              = {true}
                                 scalesPageToFit                  = {true}
