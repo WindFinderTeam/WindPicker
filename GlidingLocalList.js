@@ -12,6 +12,7 @@ import {
     TouchableOpacity,
     DeviceEventEmitter,
     ToastAndroid,
+    Platform,
     Modal,
     Image } from 'react-native';
 
@@ -70,11 +71,17 @@ class LocalList extends Component{
     }
 
     componentDidMount(){
-        Analytics.setUserId('11111');
-        Analytics.setUserProperty('propertyName', 'propertyValue');
+
+        Analytics.setUserId('GlidingLocal_notSelected');
+        Platform.select({
+            ios    : () => Analytics.setUserId('GlidingLocal_ios'),
+            android: () => Analytics.setUserId('GlidingLocal_android')}
+        );
+
+        Analytics.setUserProperty('propertyName_gliding', 'propertyValue_gliding');
 
         Analytics.logEvent('view_item', {
-            'item_id': 'login'
+            'item_id': 'GlidingLocalList'
         });
     }
 

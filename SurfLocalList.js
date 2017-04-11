@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     Modal,
     Image,
+    Platform,
     Dimensions } from 'react-native';
 
 
@@ -17,6 +18,7 @@ import SurfWeatherList   from './SurfWeatherList';
 import Ionicons          from 'react-native-vector-icons/Ionicons';
 import { realmInstance } from "./RealmHndler.js";
 import Firebase          from './FirebaseHndler';
+import Analytics         from 'react-native-firebase-analytics';
 
 var pickerStyle   = require('./pickerStyle') ;
 var selectedRowData ;
@@ -67,6 +69,21 @@ class LocalList extends Component{
     componentWillMount() {
         // this.listenForItems(Firebase.ref().child('SurfLocalData'));
         this.listenForItems(this.itemsRef);
+    }
+
+    componentDidMount(){
+        Analytics.setUserId('SurfLocal_notSelected');
+
+        Platform.select({
+            ios    : () => Analytics.setUserId('SurfLocal_ios'),
+            android: () => Analytics.setUserId('SurfLocal_android')}
+            );
+
+        Analytics.setUserProperty('propertyName_surf', 'propertyValue_surf');
+
+        Analytics.logEvent('view_item', {
+            'item_id': 'SurfLocalList'
+        });
     }
 
     listenForItems(itemsRef) {

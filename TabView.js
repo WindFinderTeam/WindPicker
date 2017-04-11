@@ -29,7 +29,7 @@ import GlidingLocalList                      from './GlidingLocalList';
 import SurfLocalList                         from './SurfLocalList';
 import FavoriteList                          from './FavoriteList';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
-
+import Analytics                             from 'react-native-firebase-analytics';
 
 var ds;
 var webCamView;
@@ -69,6 +69,19 @@ class TabView extends Component {
 
     setWebCamModalVisible(visible, webcam) {
 
+        Analytics.setUserId('webcam_notSelected');
+
+        Platform.select({
+            ios    : () => Analytics.setUserId('webcam_ios'),
+            android: () => Analytics.setUserId('webcam_android')}
+        );
+
+        Analytics.setUserProperty('propertyName_webcam', 'propertyValue_webcam');
+
+        Analytics.logEvent('view_item', {
+            'item_id': webcam
+        });
+
         webCamView = (
             <WebView
                 mediaPlaybackRequiresUserAction  = {false}
@@ -91,6 +104,20 @@ class TabView extends Component {
     }
 
     renderRow(rowData) {   // shop ListView
+
+        Analytics.setUserId('shop_notSelected');
+
+        Platform.select({
+            ios    : () => Analytics.setUserId('shop_ios'),
+            android: () => Analytics.setUserId('shop_android')}
+        );
+
+        Analytics.setUserProperty('propertyName_shop', 'propertyValue_shop');
+
+        Analytics.logEvent('view_item', {
+            'item_id': rowData.name
+        });
+
         return (
             <TouchableOpacity
                 onPress={() => {
