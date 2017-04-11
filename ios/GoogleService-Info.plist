@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>774491953525-21utd93cp1ka0r9j73kue1f9treesom9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.774491953525-21utd93cp1ka0r9j73kue1f9treesom9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBc9xUSY9PaEkLrnozzqQeXLNFZ4VSmN-c</string>
+	<key>GCM_SENDER_ID</key>
+	<string>774491953525</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.windpicker.ios</string>
+	<key>PROJECT_ID</key>
+	<string>bluebird-52433</string>
+	<key>STORAGE_BUCKET</key>
+	<string>bluebird-52433.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:774491953525:ios:00ec7ddc61bb8d27</string>
+	<key>DATABASE_URL</key>
+	<string>https://bluebird-52433.firebaseio.com</string>
+</dict>
+</plist>
