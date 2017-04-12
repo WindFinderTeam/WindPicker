@@ -29,12 +29,13 @@ import GlidingLocalList                      from './GlidingLocalList';
 import SurfLocalList                         from './SurfLocalList';
 import FavoriteList                          from './FavoriteList';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
-import Analytics                             from 'react-native-firebase-analytics';
+//import Analytics                             from 'react-native-firebase-analytics';
 
 var ds;
 var webCamView;
 var pickerStyle = require('./pickerStyle');
 var shopUrl='http://mercicandle.cafe24.com/web/windPicker/preparing.html';
+
 
 class TabView extends Component {
 
@@ -60,7 +61,7 @@ class TabView extends Component {
     }
 
     componentWillReceiveProps(){
-        this.refs.scrollableTabView.goToPage(0);
+        //this.refs.scrollableTabView.goToPage(0);
         this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
     }
 
@@ -69,7 +70,7 @@ class TabView extends Component {
 
     setWebCamModalVisible(visible, webcam) {
 
-        Analytics.setUserId('webcam_notSelected');
+       /* Analytics.setUserId('webcam_notSelected');
 
         Platform.select({
             ios    : () => Analytics.setUserId('webcam_ios'),
@@ -80,7 +81,7 @@ class TabView extends Component {
 
         Analytics.logEvent('view_item', {
             'item_id': webcam
-        });
+        });*/
 
         webCamView = (
             <WebView
@@ -105,7 +106,7 @@ class TabView extends Component {
 
     renderRow(rowData) {   // shop ListView
 
-        Analytics.setUserId('shop_notSelected');
+       /* Analytics.setUserId('shop_notSelected');
 
         Platform.select({
             ios    : () => Analytics.setUserId('shop_ios'),
@@ -116,7 +117,7 @@ class TabView extends Component {
 
         Analytics.logEvent('view_item', {
             'item_id': rowData.name
-        });
+        });*/
 
         return (
             <TouchableOpacity
@@ -139,7 +140,6 @@ class TabView extends Component {
                                                        );
         else if (this.props.viewMode == 'gliding')   localList = (<GlidingLocalList setShopModalVisible       = {this.setShopModalVisible}
                                                                   />);
-
 
 
         return (

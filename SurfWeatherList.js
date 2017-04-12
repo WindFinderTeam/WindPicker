@@ -219,8 +219,8 @@ class SurfWeatherList extends Component {
                 realmInstance.create('FavoriteSurfing', {
                     index  : var_index,
                     name   : this.props.rowData.district,
-                    webcam : this.props.rowData.webcam,
-                    shop   : this.props.rowData.shop
+                    webcam : (this.props.rowData.webcam !='')?this.props.rowData.webcam:[],
+                    shop   : (this.props.rowData.shop !='')?this.props.rowData.shop:[]
                 });
 
             } else   realmInstance.delete(specificFavorite); // Deletes all books

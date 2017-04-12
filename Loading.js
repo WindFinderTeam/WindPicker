@@ -19,6 +19,7 @@ import VersionCheck        from 'react-native-version-check';
 import FirstView           from './FirstView'               ;
 import Toast, { DURATION } from 'react-native-easy-toast'   ;
 import { realmInstance }   from "./RealmHndler.js"          ;
+import codePush from "react-native-code-push";
 
 var nowMode = "surf";
 var lastMode ;
@@ -173,6 +174,8 @@ class  Loading extends Component {
         return (    mainView    );
     }
 }
+
+Loading = codePush(Loading);
 
 const styles = StyleSheet.create({
 

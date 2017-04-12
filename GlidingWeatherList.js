@@ -130,8 +130,8 @@ class GlidingWeatherList extends Component {
                 realmInstance.create('FavoriteGliding', {
                     index   : var_index,
                     name    : this.props.rowData.district,
-                    webcam  : this.props.rowData.webcam,
-                    shop    : this.props.rowData.shop
+                    webcam  : [],
+                    shop    : (this.props.rowData.shop !='')?this.props.rowData.shop:[]
                 });
 
             } else    realmInstance.delete(specificFavorite); // Deletes all books
