@@ -8,14 +8,11 @@ import {
     TouchableOpacity,
     View,
     Linking,
-    BackAndroid,
-    StatusBar,
-    Platform
+    StatusBar
 } from 'react-native';
 
 
 import Modal               from 'react-native-simple-modal' ;
-import VersionCheck        from 'react-native-version-check';
 import FirstView           from './FirstView'               ;
 import Toast, { DURATION } from 'react-native-easy-toast'   ;
 import { realmInstance }   from "./RealmHndler.js"          ;
@@ -30,53 +27,22 @@ class  Loading extends Component {
         super(prop);
 
         this.startCountDown         = this.startCountDown.bind(this)    ;
-        this.loadProcess            = this.loadProcess.bind(this)       ;
 
         this.state = {
             loadingYn       : true ,
-            updateInfoModal : false,
             chooseModeModal : false
         };
         //setTimeout(this.loadProcess, 500);
     }
 
-
     startCountDown(){   this.setState({loadingYn: false});   }
 
     componentDidMount()   {
         this.getLastModeFromRealm();
-        if (Platform.OS === 'android')   this.loadProcess();
-        else{
-            if (lastMode == '')     this.setState({chooseModeModal: true});
-            else                    setTimeout(this.startCountDown, 1000); // Jump to FirstView
-        }
-    }
-    loadProcess(){
 
-        VersionCheck.getLatestVersion() // from market
-            .then((latestVersion) => {      console.log(latestVersion);          })
-            .catch((error) => { // if network state is unstable
-                console.warn(error);
-                setTimeout(this.startCountDown, 2000); // go to first FirstView page after 3s
-                return ;
-            });
+        if (lastMode == '')     this.setState({chooseModeModal: true});
+        else                    setTimeout(this.startCountDown, 1000); // Jump to FirstView
 
-        VersionCheck.needUpdate()
-            .then((res) => {
-
-                /* if update is required */
-                if(res.isNeeded == true)    this.setState({updateInfoModal: true,chooseModeModal:false});
-                /* the last version. update is not required */
-                else {
-                    if (lastMode == '')     this.setState({chooseModeModal: true});
-                    else                    setTimeout(this.startCountDown, 1000); // Jump to FirstView
-                }
-            });
-    }
-
-    goToMarket(){
-        Linking.openURL("https://play.google.com/store/apps/details?id=com.windpicker").catch(err => console.error('An error occurred', err));
-        BackAndroid.exitApp(); // Finish this App
     }
 
     getLastModeFromRealm(){
@@ -111,22 +77,6 @@ class  Loading extends Component {
                     <Image source={require('./image/loadingLogo.png')} style={{width:100 , height:100 }}/>
 
                     <Text style={styles.logoText}> 윈드피커 </Text>
-                    <Modal
-                        open          = {this.state.updateInfoModal}
-                        modalDidOpen  = {() => console.log('update modal did open')}
-                        modalDidClose = {() => {  this.setState({updateInfoModal: false,loadingYn:false});} }
-                        style         = {{alignItems: 'center'}}>
-                        <View>
-                            <Text style = {{fontSize: 20, marginBottom: 10, color:'#94000F'}}>업데이트 알림</Text>
-                            <View style = {{flexDirection:'row',justifyContent:'center',alignItems:'center',}}>
-                                <TouchableOpacity
-                                    style   = {{margin: 15,flex:1,justifyContent:'center',alignItems:'center' }}
-                                    onPress = {() => {  this.goToMarket();   }}>
-                                    <Text>업데이트 시작</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </Modal>
 
                     <Toast  ref = "toast"   style = {{backgroundColor:'#222222'}}  position = 'bottom'/>
 
