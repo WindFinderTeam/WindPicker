@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "logcat": "adb logcat *:S ReactNative:V ReactNativeJS:V"
+    "logcat": "adb logcat *:S ReactNative:V ReactNativeJS:V",
+    "adblog": "adb logcat -v time -s FA FA-SVC"
   },
   "dependencies": {
     "firebase": "^3.7.5",
@@ -15,6 +16,7 @@
     "react-native-cancelable-fetch": "^0.1.1",
     "react-native-code-push": "^1.16.1-beta",
     "react-native-easy-toast": "^1.0.2",
+    "react-native-firebase-analytics": "^1.0.6",
     "react-native-lazyload": "^1.1.0",
     "react-native-linear-gradient": "^1.5.14",
     "react-native-navi-drawer": "^1.0.0",
