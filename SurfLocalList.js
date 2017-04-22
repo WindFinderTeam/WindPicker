@@ -208,7 +208,7 @@ class LocalList extends Component{
 
 var styles = StyleSheet.create({
 
-    webcamIconView: { alignItems:'center', justifyContent:'center'  },
+    webcamIconView: { alignItems:'flex-end', justifyContent:'center',paddingRight:10  },
     shopIconView  : { alignItems:'flex-end',paddingRight:20, justifyContent:'center',flexGrow:1, height:50}
 });
 

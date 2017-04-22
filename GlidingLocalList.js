@@ -148,7 +148,7 @@ class LocalList extends Component{
                         {/* space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠 */}
 
                             {shopShow && <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
-                                <View style={{alignItems:'flex-end', paddingRight:20,backgroundColor:'gold',justifyContent:'center',width:80,height:50}}>
+                                <View style={{alignItems:'flex-end', paddingRight:20,justifyContent:'center',width:80,height:50}}>
 
                                     <View style={pickerStyle.iconBorder}>
                                         <Image source={require('./image/glidingShop.png')} style={{width: 35, height: 35}}/>
