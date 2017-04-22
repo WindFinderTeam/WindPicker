@@ -152,7 +152,6 @@ const pickerStyle = StyleSheet.create({
     headerDistrictText: {
         backgroundColor:'transparent',
         color: 'white',
-        fontSize: 30,
         paddingTop: 0
     },
 
@@ -165,7 +164,6 @@ const pickerStyle = StyleSheet.create({
         backgroundColor:'transparent',
         borderRadius: 20,
         width: 90,
-        height: 30,
         borderWidth: 1,
         borderColor: '#FFF',
         alignItems: 'center',
