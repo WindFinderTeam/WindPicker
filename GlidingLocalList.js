@@ -101,9 +101,11 @@ class LocalList extends Component{
 
                 if (!localListMap[province]) localListMap[province] = [];
                 localListMap[province].push(child.val());
+
+                this.setState({dataSource:this.state.dataSource.cloneWithRowsAndSections(localListMap)});
+
             });
 
-            this.setState({dataSource:this.state.dataSource.cloneWithRowsAndSections(localListMap)});
         });
     }
 
