@@ -160,7 +160,6 @@ class SurfWeatherList extends Component {
             var rowIDs = jsonData.rowIDs;
             var sunInfo = jsonData.sunInfo;
             var tideYN = jsonData.tideYN;
-            console.log(tideYN);
 
             tideDirection = (<Text></Text>);
 
@@ -413,16 +412,12 @@ class SurfWeatherList extends Component {
         });
 
         var textOpacity = this.state.scrollY.interpolate({
-            inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
-            outputRange: [1, 1, 0],
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [1, 0],
             extrapolate: 'clamp',
         });
 
-        var suninfoSize = this.state.scrollY.interpolate({
-            inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
-            outputRange: [30, 15, 0],
-            extrapolate: 'clamp',
-        });
+
 
         var districtSize = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
@@ -432,21 +427,35 @@ class SurfWeatherList extends Component {
 
         var updateFontSize = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE / 2, 80],
-            outputRange: [15, 15, 0],
+            outputRange: [15, 7, 1],
             extrapolate: 'clamp',
         });
 
-        var menuTextOpacity = this.state.scrollY.interpolate({
-            inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
-            outputRange: [0, 0, 1],
+        var suninfoPosition = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [130, 80],
             extrapolate: 'clamp',
         });
 
-        var menuOpacity = this.state.scrollY.interpolate({
-            inputRange: [0, HEADER_SCROLL_DISTANCE / 1.2, HEADER_SCROLL_DISTANCE],
-            outputRange: [0, 0, 1],
+        var menuPosition = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [184, 94],
             extrapolate: 'clamp',
         });
+
+
+        var districtPosition = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [50, 30],
+            extrapolate: 'clamp',
+        });
+
+        var directionPosition = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [100, 60],
+            extrapolate: 'clamp',
+        });
+
 
         var imageTranslate = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],
@@ -498,41 +507,43 @@ class SurfWeatherList extends Component {
                     <Animated.Image
                         source={weatherBackImg}
                         style={[ styles.backgroundImage, {opacity: 1, transform: [{translateY: imageTranslate}]}  ]}>
-                        <View style={{flex: 1, flexDirection: 'column'}}>
-                            {/*----------------------------------- Main Board-----------------------------------*/}
-                            <View style={styles.mainboardView}>
-                                {/*-------------------------- 1.update ------------------------------*/}
-                                <Animated.Text
-                                    style={{  fontSize:updateFontSize, backgroundColor: 'transparent',  color: '#FFF', opacity:1 }}>업데이트 {this.state.updateTime}</Animated.Text>
-                                <Animated.Text
-                                    style={[ pickerStyle.headerDistrictText, {fontSize:districtSize} ]}>{district}</Animated.Text>
-                                {/*-------------------------- 2.ideal direction ------------------------------*/}
-                                <View style={pickerStyle.directionMarginTop}>
-                                    <Text style={{color: '#FFF'}}>최적방향 </Text>
-                                    <View style={pickerStyle.bestDirection}>
-                                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
-                                        {DirectionImage.getSwellDirectionImage(parseInt(bestDirection[1]))}
-                                    </View>
-                                </View>
 
-                                {/*-------------------------- 3.sun info ------------------------------*/}
-                                <Animated.View
-                                    style={{flexDirection: 'row', marginTop: 2, backgroundColor: 'transparent', opacity:textOpacity}}>
-                                    <View style={pickerStyle.sunInfo }>
-                                        <Animated.Text
-                                            style={{color: '#FFF', textAlign: 'center'}}>일출 {this.state.sunrise}</Animated.Text>
-                                    </View>
-                                    <View style={pickerStyle.sunInfo }>
-                                        <Animated.Text style={{color: '#FFF', textAlign: 'center'}}>일몰 {this.state.sunset}</Animated.Text>
-                                    </View>
-                                </Animated.View>
-                            </View>
-                            {/*-------------------------- 4.menu -------------------------------------*/}
-                            <View style={{backgroundColor: 'transparent', width: SCREEN_WIDTH}}>
-                                <SurfMenu tideYN={this.state.tideYN}/>
-                            </View>
-                        </View>
                     </Animated.Image>
+
+                    {/*-------------------------- 1.update ------------------------------*/}
+                    <Animated.Text
+                        style={{ position:'absolute',top:32, textAlign:'center',width:SCREEN_WIDTH, fontSize:updateFontSize, backgroundColor: 'transparent',  color: '#FFF', opacity:textOpacity }}>업데이트 {this.state.updateTime}</Animated.Text>
+
+                    {/*-------------------------- 2.District ------------------------------*/}
+                    <Animated.Text
+                        style={{ backgroundColor:'transparent', textAlign:'center',width:SCREEN_WIDTH, color: 'white',fontSize:districtSize, position:'absolute',top:districtPosition}}>{district}</Animated.Text>
+
+                    {/*-------------------------- 3.Direction ------------------------------*/}
+                    <Animated.View style={{ position:'absolute',top:directionPosition,width:SCREEN_WIDTH,flexDirection: 'row',  justifyContent: 'center', alignItems: 'center', backgroundColor:'transparent'}}>
+                        <Text style={{color: '#FFF'}}>최적방향 </Text>
+                        <View style={pickerStyle.bestDirection}>
+                            {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
+                            {DirectionImage.getSwellDirectionImage(parseInt(bestDirection[1]))}
+                        </View>
+                    </Animated.View>
+
+                    {/*-------------------------- 4.sun info ------------------------------*/}
+                    <Animated.View
+                        style={{position:'absolute',width:SCREEN_WIDTH,top:suninfoPosition,flexDirection: 'row',justifyContent:'center', backgroundColor: 'transparent', opacity:textOpacity}}>
+                        <View style={pickerStyle.sunInfo }>
+                            <Animated.Text
+                                style={{color: '#FFF', textAlign: 'center'}}>일출 {this.state.sunrise}</Animated.Text>
+                        </View>
+                        <View style={pickerStyle.sunInfo }>
+                            <Animated.Text style={{color: '#FFF', textAlign: 'center'}}>일몰 {this.state.sunset}</Animated.Text>
+                        </View>
+                    </Animated.View>
+
+
+                    {/*-------------------------- 5.menu ------------------------------*/}
+                    <Animated.View style={{position:'absolute',top:menuPosition,backgroundColor: 'transparent', width: SCREEN_WIDTH}}>
+                        <SurfMenu tideYN={this.state.tideYN}/>
+                    </Animated.View>
                 </Animated.View>
                 {myView}
 
@@ -599,13 +610,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
 
-    mainboardView: {
-        flex: 1,
-        marginTop: 50,
-        width: SCREEN_WIDTH,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
+
 });
 
 

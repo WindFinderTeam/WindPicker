@@ -149,11 +149,7 @@ const pickerStyle = StyleSheet.create({
         justifyContent: 'center',
     },
 
-    headerDistrictText: {
-        backgroundColor:'transparent',
-        color: 'white',
-        paddingTop: 0
-    },
+
 
     container: {
         flex: 1,
@@ -164,6 +160,7 @@ const pickerStyle = StyleSheet.create({
         backgroundColor:'transparent',
         borderRadius: 20,
         width: 90,
+        height:30,
         borderWidth: 1,
         borderColor: '#FFF',
         alignItems: 'center',
@@ -241,13 +238,7 @@ const pickerStyle = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 18
     },
-    directionMarginTop: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 1,
-        backgroundColor:'transparent'
-    },
+
     localListView:{ 
         top: 0, 
         height: SCREEN_HEIGHT, 

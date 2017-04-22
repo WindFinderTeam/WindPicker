@@ -169,17 +169,17 @@ class FavoriteList extends Component {
 
                     {/* icons */}
                     <View style={pickerStyle.listViewrowCamShop}>
-
-                        <View style={{marginRight:20}}>{webcamShowJudge}</View>
-                        <View style={{marginRight:20}}>
+                        <View style={{marginRight:0}}>{webcamShowJudge}</View>
+                        <View style={{marginRight:0,flex:1}}>
                             {shopShow &&
-                            <TouchableOpacity onPress={() => this.props.setShopModalVisible(true, rowData.shop)}>
-                                <View style={{flexGrow: 1, alignItems: 'center', justifyContent: 'center', height: 50}}>
+                            <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
+                                <View style={styles.shopIconView}>
                                     <View style={pickerStyle.iconBorder}>
-                                        <Image source={shopIconImg} style={{width: 35, height: 35}}/>
+                                        <Image source={require('./image/surfShop.png')} style={{width: 35, height: 35}}/>
                                     </View>
                                 </View>
                             </TouchableOpacity>}
+
                             { !shopShow &&  <View style={{width:35, height:35}}></View> }
                         </View>
                     </View>
@@ -271,13 +271,8 @@ var styles = StyleSheet.create({
         marginBottom: 0,
         opacity: 0
     },
-    webcamIconView:{
-        flexGrow: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 50,
-        height: 50
-    }
+    webcamIconView: { alignItems:'flex-end',height:50,width:50, paddingRight:10,justifyContent:'center' },
+    shopIconView  : { alignItems:'flex-end',paddingRight:20, justifyContent:'center',flexGrow:1, height:50}
 
 
 });

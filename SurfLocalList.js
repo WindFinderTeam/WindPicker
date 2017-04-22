@@ -139,7 +139,7 @@ class LocalList extends Component{
         if (webcamShow == true) {
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=>{if(webcamShow==true){this.props.setWebCamModalVisible(true, rowData.webcam)}}}>
-                    <View style={[styles.webcamIconView ,{width:webcamShow==false?0:50,height:webcamShow==false?0:50}]}>
+                    <View style={[styles.webcamIconView ,{width:webcamShow==false?0:50,height:webcamShow==false?0:50 }]}>
                         <View style={[pickerStyle.iconBorder, {opacity:webcamShow==false?0:1}]}>
                             <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
                         </View>
@@ -160,8 +160,8 @@ class LocalList extends Component{
 
                     {/* icons */}
                     <View style={pickerStyle.listViewrowCamShop}>
-                        <View style={{marginRight:20}}>{webcamShowJudge}</View>
-                        <View style={{marginRight:20}}>
+                        <View style={{marginRight:0}}>{webcamShowJudge}</View>
+                        <View style={{marginRight:0,flex:1}}>
                             {shopShow &&
                             <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
                                 <View style={styles.shopIconView}>
@@ -209,7 +209,7 @@ class LocalList extends Component{
 var styles = StyleSheet.create({
 
     webcamIconView: { alignItems:'center', justifyContent:'center'  },
-    shopIconView  : { alignItems:'center', justifyContent:'center', height:50}
+    shopIconView  : { alignItems:'flex-end',paddingRight:20, justifyContent:'center',flexGrow:1, height:50}
 });
 
 module.exports = LocalList;
