@@ -16,10 +16,10 @@ import {
     Modal,
     Image } from 'react-native';
 
-
+import Spinner            from 'react-native-spinkit';
 import GlidingWeatherList from './GlidingWeatherList';
 import { realmInstance }  from "./RealmHndler.js";
-import Firebase           from './FirebaseHndler';
+import FirebaseHndler     from './FirebaseHndler';
 import Analytics          from 'react-native-firebase-analytics';
 
 var pickerStyle      = require('./pickerStyle') ;
@@ -42,7 +42,6 @@ class LocalList extends Component{
         //---------------- Binding to Custom Func ----------------
         this.setModalVisible = this.setModalVisible.bind(this);
         this.renderRow       = this.renderRow.bind(this);
-        this.listenForItems  = this.listenForItems.bind(this);
         //---------------------------------------------------------
 
         this.ds = new ListView.DataSource({
@@ -58,20 +57,25 @@ class LocalList extends Component{
                 rowHasChanged: (r1, r2) => r1 !== r2
             })
             ,modalVisible    : false
+            ,spinnerVisible: true
         };
 
         this.setModeRealm();
 
-        this.itemsRef = Firebase.ref().child('GlidingLocalData');
-    }
-
-    componentWillMount() {
-        // this.listenForItems(Firebase.ref().child('GlidingLocalData'));
-        this.listenForItems(this.itemsRef);
     }
 
     componentDidMount(){
 
+        var that = this;
+
+        FirebaseHndler.getGlidLocalListItem().then(function(item){
+            that.setState({dataSource:that.state.dataSource.cloneWithRowsAndSections(item)});
+            that.setState({spinnerVisible:false});
+        }, function(error) {
+            console.log("error!", error);
+        });
+
+        {/*---------------- Analytics ----------------*/}
         Analytics.setUserId('GlidingLocal_notSelected');
         Platform.select({
             ios    : () => Analytics.setUserId('GlidingLocal_ios'),
@@ -83,30 +87,7 @@ class LocalList extends Component{
         Analytics.logEvent('view_item', {
             'item_id': 'GlidingLocalList'
         });
-    }
-
-    listenForItems(itemsRef) {
-
-        // get children as an array
-        var localListMap = {};
-
-        var district, province;
-
-        itemsRef.on('value', (snap) => {
-
-            snap.forEach((child) => {
-
-                district = child.val().district;
-                province = child.val().province;
-
-                if (!localListMap[province]) localListMap[province] = [];
-                localListMap[province].push(child.val());
-
-                this.setState({dataSource:this.state.dataSource.cloneWithRowsAndSections(localListMap)});
-
-            });
-
-        });
+        {/*---------------- Analytics ----------------*/}
     }
 
     setModeRealm(){
@@ -186,6 +167,8 @@ class LocalList extends Component{
                     renderRow={this.renderRow}
                 />
 
+                <Spinner style={pickerStyle.spinnerLocal} isVisible={this.state.spinnerVisible} size={80} type={"Bounce"}
+                         color={"#94000F"}/>
             </View>
         );
     }

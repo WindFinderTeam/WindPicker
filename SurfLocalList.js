@@ -13,7 +13,7 @@ import {
     Platform,
     Dimensions } from 'react-native';
 
-
+import Spinner           from 'react-native-spinkit';
 import SurfWeatherList   from './SurfWeatherList';
 import Ionicons          from 'react-native-vector-icons/Ionicons';
 import { realmInstance } from "./RealmHndler.js";
@@ -58,32 +58,27 @@ class LocalList extends Component{
                 rowHasChanged: (r1, r2) => r1 !== r2
             })
             ,modalVisible        : false
+            ,spinnerVisible      : true
+
         };
 
         this.controlModeRealm();
 
-        // this.itemsRef = Firebase.ref().child('SurfLocalData');
-
     }
 
-    componentWillMount() {
-        // this.listenForItems(Firebase.ref().child('SurfLocalData'));
-        // this.listenForItems(this.itemsRef);
-
-
-    }
 
     componentDidMount(){
 
         var that = this;
 
         FirebaseHndler.getSurfLocalListItem().then(function (items) {
-            console.log(items);
             that.setState({dataSource:that.state.dataSource.cloneWithRowsAndSections(items)});
+            that.setState({spinnerVisible:false});
+        }, function(err){
+            console.log(err)
+        });
 
-        }, function(err){console.log(err)})
-
-
+        {/*---------------- Analytics ----------------*/}
         Analytics.setUserId('SurfLocal_notSelected');
 
         Platform.select({
@@ -96,28 +91,7 @@ class LocalList extends Component{
         Analytics.logEvent('view_item', {
             'item_id': 'SurfLocalList'
         });
-    }
-
-    listenForItems(itemsRef) {
-
-        // get children as an array
-        var localListMap = {};
-
-        var district, province;
-
-        itemsRef.on('value', (snap) => {
-
-            snap.forEach((child) => {
-
-                district = child.val().district;
-                province = child.val().province;
-
-                if (!localListMap[province]) localListMap[province] = [];
-                localListMap[province].push(child.val());
-            });
-
-            this.setState({dataSource:this.state.dataSource.cloneWithRowsAndSections(localListMap)});
-        });
+        {/*---------------- Analytics ----------------*/}
     }
 
     renderSectionHeader(data, sectionId) {
@@ -212,6 +186,8 @@ class LocalList extends Component{
                     renderRow           = {this.renderRow}
                     automaticallyAdjustContentInsets={false}
                 />
+                <Spinner style={pickerStyle.spinnerLocal} isVisible={this.state.spinnerVisible} size={80} type={"Bounce"}
+                         color={"#94000F"}/>
             </View>
         );
     }

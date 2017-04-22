@@ -142,7 +142,7 @@ const pickerStyle = StyleSheet.create({
         width: 40,
         height: 40,
         borderWidth: 1,
-        marginLeft: SCREEN_WIDTH-80,
+        marginLeft: SCREEN_WIDTH-55,
         borderColor: 'white',
         backgroundColor: 'white',
         alignItems: 'center',
@@ -177,12 +177,20 @@ const pickerStyle = StyleSheet.create({
         alignItems: 'center',
         zIndex: 1000
     },
+    spinnerLocal: {
+        position: 'absolute',
+        left: (SCREEN_WIDTH - SPINNER_SIZE)/2,
+        top: (SCREEN_HEIGHT - SPINNER_SIZE)/3,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000
+    },
     navigator: {
         flex: 1,
         backgroundColor:'transparent',
         flexDirection: 'row',
         position: 'absolute',
-        left: 0,
         top: 20,
         width: SCREEN_WIDTH,
         height: NAVI_HEIGHT,

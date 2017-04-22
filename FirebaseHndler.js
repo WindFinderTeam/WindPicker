@@ -16,9 +16,6 @@ const firebaseConfig = {
 };
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
-
-
-
 var getSurfLocalListItem = function () {
 
     return new Promise(
@@ -40,7 +37,7 @@ var getSurfLocalListItem = function () {
 
                     if (!localListMap[province]) localListMap[province] = [];
                     localListMap[province].push(child.val());
-                    console.log("hnadlfke province:",            province);
+                    console.log("hndler getSurfLocalListItem province:", province);
                 });
                 resolve(localListMap);
 
@@ -49,7 +46,33 @@ var getSurfLocalListItem = function () {
     )
 }
 
+var getGlidLocalListItem = function () {
 
+    return new Promise(
+        function (resolve, reject) {
 
+            var itemsRef = firebaseApp.database().ref().child('GlidingLocalData');
+            // get children as an array
+            var localListMap = {};
+
+            var district, province;
+
+            itemsRef.on('value', (snap) => {
+
+                snap.forEach((child) => {
+
+                    district = child.val().district;
+                    province = child.val().province;
+
+                    if (!localListMap[province]) localListMap[province] = [];
+                    localListMap[province].push(child.val());
+                    console.log("hndler GlidingLocalData province:", province);
+                });
+                resolve(localListMap);
+            });
+        }
+    )
+}
 
 exports.getSurfLocalListItem = getSurfLocalListItem;
+exports.getGlidLocalListItem = getGlidLocalListItem;

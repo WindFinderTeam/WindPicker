@@ -418,7 +418,6 @@ class SurfWeatherList extends Component {
         });
 
 
-
         var districtSize = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
             outputRange: [30, 20, 20],
@@ -519,7 +518,8 @@ class SurfWeatherList extends Component {
                         style={{ backgroundColor:'transparent', textAlign:'center',width:SCREEN_WIDTH, color: 'white',fontSize:districtSize, position:'absolute',top:districtPosition}}>{district}</Animated.Text>
 
                     {/*-------------------------- 3.Direction ------------------------------*/}
-                    <Animated.View style={{ position:'absolute',top:directionPosition,width:SCREEN_WIDTH,flexDirection: 'row',  justifyContent: 'center', alignItems: 'center', backgroundColor:'transparent'}}>
+                    <Animated.View
+                        style={{ position:'absolute',top:directionPosition,width:SCREEN_WIDTH,flexDirection: 'row',  justifyContent: 'center', alignItems: 'center', backgroundColor:'transparent'}}>
                         <Text style={{color: '#FFF'}}>최적방향 </Text>
                         <View style={pickerStyle.bestDirection}>
                             {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
@@ -535,13 +535,15 @@ class SurfWeatherList extends Component {
                                 style={{color: '#FFF', textAlign: 'center'}}>일출 {this.state.sunrise}</Animated.Text>
                         </View>
                         <View style={pickerStyle.sunInfo }>
-                            <Animated.Text style={{color: '#FFF', textAlign: 'center'}}>일몰 {this.state.sunset}</Animated.Text>
+                            <Animated.Text
+                                style={{color: '#FFF', textAlign: 'center'}}>일몰 {this.state.sunset}</Animated.Text>
                         </View>
                     </Animated.View>
 
 
                     {/*-------------------------- 5.menu ------------------------------*/}
-                    <Animated.View style={{position:'absolute',top:menuPosition,backgroundColor: 'transparent', width: SCREEN_WIDTH}}>
+                    <Animated.View
+                        style={{position:'absolute',top:menuPosition,backgroundColor: 'transparent', width: SCREEN_WIDTH}}>
                         <SurfMenu tideYN={this.state.tideYN}/>
                     </Animated.View>
                 </Animated.View>
@@ -564,11 +566,11 @@ class SurfWeatherList extends Component {
                 <Toast ref="toast" style={{backgroundColor: '#222222'}} position='bottom'/>
                 {/* ------------------------------- favorite heart configure ---------------------*/}
                 <View style={pickerStyle.navigator}>
-                    <View style={{marginLeft: 10, backgroundColor: 'transparent'}}>
-                        <TouchableOpacity onPress={() => this.props.modalVisible(false)}>
-                            <Ionicons name="ios-arrow-back" size={40} color="white"/>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity onPress={() => {this.props.modalVisible(false);console.log("xxxx")}}>
+                        <View style={{position:'absolute', width:40, backgroundColor: 'transparent'}}>
+                            <Ionicons name="ios-arrow-back" size={40} color="white" style={{marginLeft: 10}}/>
+                        </View>
+                    </TouchableOpacity>
 
                     <View style={pickerStyle.heartView}>
                         <TouchableOpacity onPress={() => {
@@ -580,8 +582,8 @@ class SurfWeatherList extends Component {
                                       color={this.state.heartOnOff == true ? "#94000F" : "#C0C0C0"}/>
                         </TouchableOpacity>
                     </View>
+
                 </View>
-                {/* ------------------------------- Spinner ------------------------------------*/}
                 <Spinner style={pickerStyle.spinner} isVisible={this.state.spinnerVisible} size={80} type={"Bounce"}
                          color={"#94000F"}/>
             </View>

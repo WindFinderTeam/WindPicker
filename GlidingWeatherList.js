@@ -24,23 +24,23 @@ import ActionButton                      from 'react-native-action-button';
 import {realmInstance}                   from "./RealmHndler.js";
 import LinearGradient                    from 'react-native-linear-gradient';
 import Toast, {DURATION}                 from 'react-native-easy-toast';
-import { LazyloadListView, LazyloadView} from 'react-native-lazyload';
+import {LazyloadListView, LazyloadView} from 'react-native-lazyload';
 import WindSpeedChartModal               from './WindSpeedChartModal';
 
 
-var pickerStyle    = require('./pickerStyle');
-var GlidingParser  = require('./GlidingParser');
-var WeatherImage   = require('./WeatherImage');
+var pickerStyle = require('./pickerStyle');
+var GlidingParser = require('./GlidingParser');
+var WeatherImage = require('./WeatherImage');
 var DirectionImage = require('./DirectionImage');
-var GlidingMenu    = require('./GlidingMenu');
-const fetch        = require('react-native-cancelable-fetch');
+var GlidingMenu = require('./GlidingMenu');
+const fetch = require('react-native-cancelable-fetch');
 
 
 var rowKey = 0;           // Listview`s row keys
 var offset = 0;           // scroll position for Action Button
 
 var API_URL;
-var weatherBackImg=(require('./image/wlLoadingBg.jpg'));
+var weatherBackImg = (require('./image/wlLoadingBg.jpg'));
 var district;
 var bestDirection;
 
@@ -64,42 +64,46 @@ class GlidingWeatherList extends Component {
     constructor(props) {
         super(props);
 
-        API_URL       = this.props.rowData.weatherURL; // 날씨URL 가져오기
+        API_URL = this.props.rowData.weatherURL; // 날씨URL 가져오기
         bestDirection = this.props.rowData.direction.split(' ');
 
-        this.fetchData         = this.fetchData.bind(this);
-        this.startCountDown    = this.startCountDown.bind(this);
+        this.fetchData = this.fetchData.bind(this);
+        this.startCountDown = this.startCountDown.bind(this);
         this.setSpinnerVisible = this.setSpinnerVisible.bind(this);
-        this.controlFavorite   = this.controlFavorite.bind(this);
-        this.setHeartOnOff     = this.setHeartOnOff.bind(this);
-        this.renderRow         = this.renderRow.bind(this);
-        this.setWindModalVib   = this.setWindModalVib.bind(this);
-        this.onScrollEnd       = this.onScrollEnd.bind(this);
+        this.controlFavorite = this.controlFavorite.bind(this);
+        this.setHeartOnOff = this.setHeartOnOff.bind(this);
+        this.renderRow = this.renderRow.bind(this);
+        this.setWindModalVib = this.setWindModalVib.bind(this);
+        this.onScrollEnd = this.onScrollEnd.bind(this);
 
-        var getSectionData = (dataBlob, sectionID) => {  return dataBlob[sectionID];  };
-        var getRowData     = (dataBlob, sectionID, rowID) => { return dataBlob[sectionID + ':' + rowID];     };
+        var getSectionData = (dataBlob, sectionID) => {
+            return dataBlob[sectionID];
+        };
+        var getRowData = (dataBlob, sectionID, rowID) => {
+            return dataBlob[sectionID + ':' + rowID];
+        };
 
         district = this.props.rowData.district;
         this.state = {
 
             dataSource: new ListView.DataSource(
                 {
-                    getSectionData          : getSectionData,
-                    getRowData              : getRowData,
-                    rowHasChanged           : (row1, row2) => row1 !== row2,
-                    sectionHeaderHasChanged : (s1, s2) => s1 !== s2
+                    getSectionData: getSectionData,
+                    getRowData: getRowData,
+                    rowHasChanged: (row1, row2) => row1 !== row2,
+                    sectionHeaderHasChanged: (s1, s2) => s1 !== s2
                 })
-            , topAlpha      : 0
-            , sunrise       : "00:00"
-            , sunset        : "00:00"
-            , updateTime    : "00:00"
-            , loadOK        : false
+            , topAlpha: 0
+            , sunrise: "00:00"
+            , sunset: "00:00"
+            , updateTime: "00:00"
+            , loadOK: false
             , spinnerVisible: true
-            , networkState  : true
-            , heartOnOff    : false
-            , windModalVib  : false
-            , windSpeedData : 0
-            , scrollY       : new Animated.Value(0)
+            , networkState: true
+            , heartOnOff: false
+            , windModalVib: false
+            , windSpeedData: 0
+            , scrollY: new Animated.Value(0)
 
         };
     }
@@ -110,10 +114,12 @@ class GlidingWeatherList extends Component {
         fetch.abort(this);
     }
 
-    componentDidMount() {   this.fetchData();   }
+    componentDidMount() {
+        this.fetchData();
+    }
 
     startCountDown() {
-        this.setState({ spinnerVisible: false,   networkState: false    });
+        this.setState({spinnerVisible: false, networkState: false});
         fetch.abort(this);
     }
 
@@ -128,10 +134,10 @@ class GlidingWeatherList extends Component {
             if (Object.keys(specificFavorite) == "") {
 
                 realmInstance.create('FavoriteGliding', {
-                    index   : var_index,
-                    name    : this.props.rowData.district,
-                    webcam  : [],
-                    shop    : (this.props.rowData.shop !='')?this.props.rowData.shop:[]
+                    index: var_index,
+                    name: this.props.rowData.district,
+                    webcam: [],
+                    shop: (this.props.rowData.shop != '') ? this.props.rowData.shop : []
                 });
 
             } else    realmInstance.delete(specificFavorite); // Deletes all books
@@ -161,18 +167,18 @@ class GlidingWeatherList extends Component {
     fetchData() {
         weatherBackImg = WeatherImage.getBackgroundImage();
         var setTimeoudtID = setTimeout(this.startCountDown, 7000);
-        var myOs = Platform.OS=='ios'? 'ios':'android';
+        var myOs = Platform.OS == 'ios' ? 'ios' : 'android';
 
         fetch(API_URL)
             .then((response) => response.json())
             .then((responseJSON) => {
-                var {dataBlob, sectionIDs, rowIDs, sunInfo} = GlidingParser.getGlidingWeather(responseJSON,myOs);  // Data Parsing
+                var {dataBlob, sectionIDs, rowIDs, sunInfo} = GlidingParser.getGlidingWeather(responseJSON, myOs);  // Data Parsing
                 this.setState({
-                    dataSource  : this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
-                    sunrise     : sunInfo[0],
-                    sunset      : sunInfo[1],
-                    updateTime  : sunInfo[2],
-                    loadOK      : true,
+                    dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
+                    sunrise: sunInfo[0],
+                    sunset: sunInfo[1],
+                    updateTime: sunInfo[2],
+                    loadOK: true,
                     networkState: true
                 });
                 this.setSpinnerVisible(false);
@@ -181,7 +187,7 @@ class GlidingWeatherList extends Component {
             .catch((error) => {
                 console.warn(error);
                 clearTimeout(setTimeoudtID);
-                this.setState({ spinnerVisible: false,  networkState: false   });
+                this.setState({spinnerVisible: false, networkState: false});
             });
     }
 
@@ -219,9 +225,14 @@ class GlidingWeatherList extends Component {
         offset = currentOffset;
 
         switch (direction) {
-            case 'down'  : this.setState({topAlpha: 0,}); break;
-            case 'up'    : this.setState({topAlpha: 0.8,}); break;
-        };
+            case 'down'  :
+                this.setState({topAlpha: 0,});
+                break;
+            case 'up'    :
+                this.setState({topAlpha: 0.8,});
+                break;
+        }
+        ;
     }
 
     // Draw List's Rows
@@ -231,7 +242,7 @@ class GlidingWeatherList extends Component {
 
         rowKey++;
 
-        var windSpeedWidth    = (SCREEN_WIDTH * rowData.windSpeed) / 20;
+        var windSpeedWidth = (SCREEN_WIDTH * rowData.windSpeed) / 20;
         var windMaxSpeedWidth = ((SCREEN_WIDTH * rowData.windGust) / 20 ) - windSpeedWidth;
 
         var {weatherImg, precipitationImg} = WeatherImage.getWatherImage(rowData.time, rowData.cloud, rowData.rain, rowData.snowYn + "");
@@ -250,8 +261,10 @@ class GlidingWeatherList extends Component {
                             {precipitationImg}
                         </View>
                         <View style={pickerStyle.menusView}>
-                            <View style={[pickerStyle.rowTemperatureView, {backgroundColor: color[parseInt(rowData.temperature) + 20]}]}>
-                                <Text style={[pickerStyle.rowListText, {color: (Math.round(rowData.temperature) >= 10 && Math.round(rowData.temperature) <= 20 ) ? 'black' : 'white'}]}>{rowData.temperature}℃</Text>
+                            <View
+                                style={[pickerStyle.rowTemperatureView, {backgroundColor: color[parseInt(rowData.temperature) + 20]}]}>
+                                <Text
+                                    style={[pickerStyle.rowListText, {color: (Math.round(rowData.temperature) >= 10 && Math.round(rowData.temperature) <= 20 ) ? 'black' : 'white'}]}>{rowData.temperature}℃</Text>
                             </View>
                         </View>
                         <View style={pickerStyle.menusView}>
@@ -265,7 +278,8 @@ class GlidingWeatherList extends Component {
                             {windArrowSrc}
                         </View>
 
-                        <TouchableOpacity onPress={() => { this.setState({windModalVib: true, windSpeedData: rowData.windSpeed})  }}>
+                        <TouchableOpacity
+                            onPress={() => { this.setState({windModalVib: true, windSpeedData: rowData.windSpeed})  }}>
                             <View style={styles.windView}>
                                 <Text style={styles.windSpeedText}>{rowData.windSpeed + ' m/s'}</Text>
                                 <Text style={styles.windGustText}>{'돌풍 ' + rowData.windGust}</Text>
@@ -295,13 +309,17 @@ class GlidingWeatherList extends Component {
 
     refreshListView() {
 
-        this.setState({ spinnerVisible: true,  networkState: true    });
+        this.setState({spinnerVisible: true, networkState: true});
         this.fetchData();
     }
 
-    setWindModalVib(visible) {  return this.setState({windModalVib: visible});   }
+    setWindModalVib(visible) {
+        return this.setState({windModalVib: visible});
+    }
 
-    setSpinnerVisible(visible) {  this.setState({spinnerVisible: visible});   }
+    setSpinnerVisible(visible) {
+        this.setState({spinnerVisible: visible});
+    }
 
     render() {
 
@@ -369,32 +387,32 @@ class GlidingWeatherList extends Component {
 
             myView = (
                 <LazyloadListView
-                    style                     = {{top: HEADER_MIN_HEIGHT, flex: 1}}
-                    scrollEventThrottle       = {10}
-                    onScroll                  = {Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]  )}
-                    dataSource                = {this.state.dataSource}
-                    renderSectionHeader       = {this.sectionHeader.bind(this)}
-                    renderRow                 = {this.renderRow}
-                    scrollRenderAheadDistance = {200}
-                    renderDistance            = {200}
-                    pageSize                  = {1}
-                    initialListSize           = {8}
-                    scrollsToTop              = {true}
-                    stickyHeaderIndices       = {[0]}
-                    onEndReachedThreshold     = {1000}
-                    renderScrollComponent     = { _ => {}}
-                    name                      = "listExample"
-                    ref                       = "ScrollView"
-                    scrollEnabled             = {this.state.loadOK}
-                    onScrollEndDrag           = {this.onScrollEnd}
-                    onMomentumScrollEnd       = {this.onScrollEnd}
+                    style={{top: HEADER_MIN_HEIGHT, flex: 1}}
+                    scrollEventThrottle={10}
+                    onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]  )}
+                    dataSource={this.state.dataSource}
+                    renderSectionHeader={this.sectionHeader.bind(this)}
+                    renderRow={this.renderRow}
+                    scrollRenderAheadDistance={200}
+                    renderDistance={200}
+                    pageSize={1}
+                    initialListSize={8}
+                    scrollsToTop={true}
+                    stickyHeaderIndices={[0]}
+                    onEndReachedThreshold={1000}
+                    renderScrollComponent={ _ => {}}
+                    name="listExample"
+                    ref="ScrollView"
+                    scrollEnabled={this.state.loadOK}
+                    onScrollEndDrag={this.onScrollEnd}
+                    onMomentumScrollEnd={this.onScrollEnd}
                 />
             );
         }
         else { // OFFLINE VIEW
             myView = ( <View style={pickerStyle.offlineView}>
                 <TouchableOpacity onPress={() => this.refreshListView()}>
-                    <Ionicons name="md-refresh-circle"   style={pickerStyle.refreshView}    />
+                    <Ionicons name="md-refresh-circle" style={pickerStyle.refreshView}/>
                 </TouchableOpacity>
                 <Text>네트워크 상태를 확인하세요</Text>
             </View>);
@@ -418,7 +436,8 @@ class GlidingWeatherList extends Component {
                         style={{ backgroundColor:'transparent', textAlign:'center',width:SCREEN_WIDTH, color: 'white',fontSize:districtSize, position:'absolute',top:districtPosition}}>{district}</Animated.Text>
 
                     {/*-------------------------- 3.Direction ------------------------------*/}
-                    <Animated.View style={{ position:'absolute',top:directionPosition,width:SCREEN_WIDTH,flexDirection: 'row',  justifyContent: 'center', alignItems: 'center', backgroundColor:'transparent'}}>
+                    <Animated.View
+                        style={{ position:'absolute',top:directionPosition,width:SCREEN_WIDTH,flexDirection: 'row',  justifyContent: 'center', alignItems: 'center', backgroundColor:'transparent'}}>
                         <Text style={{color: '#FFF'}}>활공방향 </Text>
                         <View style={pickerStyle.bestDirection}>
                             {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
@@ -436,16 +455,17 @@ class GlidingWeatherList extends Component {
                                 style={{color: '#FFF', textAlign: 'center'}}>일출 {this.state.sunrise}</Animated.Text>
                         </View>
                         <View style={pickerStyle.sunInfo }>
-                            <Animated.Text style={{color: '#FFF', textAlign: 'center'}}>일몰 {this.state.sunset}</Animated.Text>
+                            <Animated.Text
+                                style={{color: '#FFF', textAlign: 'center'}}>일몰 {this.state.sunset}</Animated.Text>
                         </View>
                     </Animated.View>
 
 
                     {/*-------------------------- 5.menu ------------------------------*/}
-                    <Animated.View style={{position:'absolute',top:menuPosition,backgroundColor: 'transparent', width: SCREEN_WIDTH}}>
+                    <Animated.View
+                        style={{position:'absolute',top:menuPosition,backgroundColor: 'transparent', width: SCREEN_WIDTH}}>
                         <GlidingMenu/>
                     </Animated.View>
-
 
 
                 </Animated.View>
@@ -457,22 +477,22 @@ class GlidingWeatherList extends Component {
                                      windSpeedData={this.state.windSpeedData}/>
                 {/* ------------------------- Scroll up to top button -----------------------------*/}
                 <ActionButton
-                    buttonColor = {this.setRgba()}
-                    type        = {'tab'}
-                    position    = {'right'}
-                    offsetY     = {35}
-                    onPress     = {() => this.refs.ScrollView.scrollTo({x: 0, y: 0})}
-                    icon        = {<Ionicons name="md-arrow-round-up" style={{ fontSize: 20,height: 22, color: 'white', opacity: this.state.topAlpha }}/>}
+                    buttonColor={this.setRgba()}
+                    type={'tab'}
+                    position={'right'}
+                    offsetY={35}
+                    onPress={() => this.refs.ScrollView.scrollTo({x: 0, y: 0})}
+                    icon={<Ionicons name="md-arrow-round-up" style={{ fontSize: 20,height: 22, color: 'white', opacity: this.state.topAlpha }}/>}
                 />
                 {/* ------------------------------- Toast ----------------------------------*/}
-                <Toast  ref="toast"  style={{backgroundColor: '#222222'}}   position='bottom'/>
+                <Toast ref="toast" style={{backgroundColor: '#222222'}} position='bottom'/>
                 {/* ------------------------------- favorite heart configure ------------------------------------*/}
                 <View style={pickerStyle.navigator}>
-                    <View style={{marginLeft: 10, backgroundColor: 'transparent'}}>
-                        <TouchableOpacity onPress={() => this.props.modalVisible(false)}>
-                            <Ionicons name="ios-arrow-back" size={40} color="white"/>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity onPress={() => this.props.modalVisible(false)}>
+                        <View style={{position:'absolute', width:40, backgroundColor:'transparent'}}>
+                            <Ionicons name="ios-arrow-back" size={40} color="white" style={{marginLeft: 10}}/>
+                        </View>
+                    </TouchableOpacity>
 
                     <View style={pickerStyle.heartView}>
                         <TouchableOpacity onPress={() => {
@@ -480,12 +500,14 @@ class GlidingWeatherList extends Component {
                             this.setHeartOnOff();
                             this.refs.toast.show(this.state.heartOnOff == true ? '즐겨찾기를 지웁니다' : '즐겨찾기에 추가합니다', DURATION.LENGTH_LONG);
                         }}>
-                            <Ionicons name="md-heart" size={30}   color={this.state.heartOnOff == true ? "#94000F" : "#C0C0C0"}/>
+                            <Ionicons name="md-heart" size={30}
+                                      color={this.state.heartOnOff == true ? "#94000F" : "#C0C0C0"}/>
                         </TouchableOpacity>
                     </View>
                 </View>
                 {/* ------------------------------- Spinner ------------------------------------*/}
-                <Spinner style={pickerStyle.spinner} isVisible={this.state.spinnerVisible} size={80}  type={"Bounce"}  color={"#94000F"}  />
+                <Spinner style={pickerStyle.spinner} isVisible={this.state.spinnerVisible} size={80} type={"Bounce"}
+                         color={"#94000F"}/>
             </View>
         );
     }
@@ -546,24 +568,24 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         marginTop: HEADER_MAX_HEIGHT,
     },
-    windSpeedText:{
+    windSpeedText: {
         color: 'black',
         textAlign: 'center',
         fontSize: 13,
     },
-    windGustText:{
+    windGustText: {
         color: 'black',
         textAlign: 'center',
         fontSize: 10,
     },
-    glidingMainBoardView:{
+    glidingMainBoardView: {
         flex: 1,
         marginTop: 50,
         width: SCREEN_WIDTH,
         justifyContent: 'center',
         alignItems: 'center'
     },
-    windView:{
+    windView: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
