@@ -305,6 +305,45 @@ class GlidingWeatherList extends Component {
 
     render() {
 
+
+        var districtSize = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
+            outputRange: [30, 20, 20],
+            extrapolate: 'clamp',
+        });
+
+        var updateFontSize = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE / 2, 80],
+            outputRange: [15, 7, 1],
+            extrapolate: 'clamp',
+        });
+
+        var suninfoPosition = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [130, 80],
+            extrapolate: 'clamp',
+        });
+
+        var menuPosition = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [184, 94],
+            extrapolate: 'clamp',
+        });
+
+
+        var districtPosition = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [50, 30],
+            extrapolate: 'clamp',
+        });
+
+        var directionPosition = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [100, 60],
+            extrapolate: 'clamp',
+        });
+
+
         var headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],
             outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
@@ -317,17 +356,6 @@ class GlidingWeatherList extends Component {
             extrapolate: 'clamp',
         });
 
-        var menuTextOpacity = this.state.scrollY.interpolate({
-            inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
-            outputRange: [0, 0, 1],
-            extrapolate: 'clamp',
-        });
-
-        var menuOpacity = this.state.scrollY.interpolate({
-            inputRange: [0, HEADER_SCROLL_DISTANCE / 1.2, HEADER_SCROLL_DISTANCE],
-            outputRange: [0, 0, 1],
-            extrapolate: 'clamp',
-        });
 
         var imageTranslate = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],
@@ -378,48 +406,19 @@ class GlidingWeatherList extends Component {
                     <Animated.Image
                         source={weatherBackImg}
                         style={[ styles.backgroundImage, {opacity: 1, transform: [{translateY: imageTranslate}]}  ]}>
-                        <View style={{flex: 1, flexDirection: 'column'}}>
-                            {/*----------------------------------- Main Board-----------------------------------*/}
-                            <View style={styles.glidingMainBoardView  }>
-                                {/*-------------------------- 1.update ------------------------------*/}
-                                <Animated.Text style={{  backgroundColor: 'transparent',  color: '#FFF', opacity:textOpacity }}>업데이트 {this.state.updateTime}</Animated.Text>
-                                <Animated.Text style={[ pickerStyle.headerDistrictText, {opacity:textOpacity} ]}>{district}</Animated.Text>
-                                {/*-------------------------- 2.ideal direction ------------------------------*/}
-                                <View style={pickerStyle.directionMarginTop}>
-                                    <Text style={{color: '#FFF'}}>활공방향 </Text>
-                                    <View style={pickerStyle.bestDirection}>
-                                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
-                                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[1]))}
-                                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[2]))}
-                                        {DirectionImage.getWindDirectionImage(parseInt(bestDirection[3]))}
-                                    </View>
-                                </View>
-                                {/*-------------------------- 3.sun info ------------------------------*/}
 
-                                <Animated.View style={{flexDirection: 'row', marginTop: 2, backgroundColor: 'transparent', opacity:textOpacity}}>
-                                    <View style={pickerStyle.sunInfo }>
-                                        <Text style={{color: '#FFF', textAlign: 'center'}}>일출 {this.state.sunrise}</Text>
-                                    </View>
-                                    <View style={pickerStyle.sunInfo }>
-                                        <Text style={{color: '#FFF', textAlign: 'center'}}>일몰 {this.state.sunset}</Text>
-                                    </View>
-                                </Animated.View>
-                            </View>
-                            {/*-------------------------- 4.menu -------------------------------------*/}
-                            <View style={{backgroundColor: 'transparent', width: SCREEN_WIDTH}}>
-                                <GlidingMenu/>
-                            </View>
-                        </View>
                     </Animated.Image>
-                    {/*-------------------------- NAVIGATOR -------------------------------------*/}
 
-                    {/*-------------------------- 1.district -------------------------------------*/}
-                    <View style={{top: 30}}>
-                        <Animated.Text style={[pickerStyle.districtText, {opacity:menuTextOpacity}]}>{this.props.rowData.district}</Animated.Text>
-                    </View>
+                    {/*-------------------------- 1.update ------------------------------*/}
+                    <Animated.Text
+                        style={{ position:'absolute',top:32, textAlign:'center',width:SCREEN_WIDTH, fontSize:updateFontSize, backgroundColor: 'transparent',  color: '#FFF', opacity:textOpacity }}>업데이트 {this.state.updateTime}</Animated.Text>
 
-                    {/*-------------------------- 2.ideal direction ------------------------------*/}
-                    <Animated.View style={[pickerStyle.directionMarginBottom, {top: 88, backgroundColor: 'transparent',opacity:menuTextOpacity}]}>
+                    {/*-------------------------- 2.District ------------------------------*/}
+                    <Animated.Text
+                        style={{ backgroundColor:'transparent', textAlign:'center',width:SCREEN_WIDTH, color: 'white',fontSize:districtSize, position:'absolute',top:districtPosition}}>{district}</Animated.Text>
+
+                    {/*-------------------------- 3.Direction ------------------------------*/}
+                    <Animated.View style={{ position:'absolute',top:directionPosition,width:SCREEN_WIDTH,flexDirection: 'row',  justifyContent: 'center', alignItems: 'center', backgroundColor:'transparent'}}>
                         <Text style={{color: '#FFF'}}>활공방향 </Text>
                         <View style={pickerStyle.bestDirection}>
                             {DirectionImage.getWindDirectionImage(parseInt(bestDirection[0]))}
@@ -429,10 +428,26 @@ class GlidingWeatherList extends Component {
                         </View>
                     </Animated.View>
 
-                    {/*-------------------------- 3.menu -------------------------------------*/}
-                    <Animated.View style={{top: Platform.OS == 'ios'? 30:73,backgroundColor: 'transparent', opacity:menuTextOpacity}}>
+                    {/*-------------------------- 4.sun info ------------------------------*/}
+                    <Animated.View
+                        style={{position:'absolute',width:SCREEN_WIDTH,top:suninfoPosition,flexDirection: 'row',justifyContent:'center', backgroundColor: 'transparent', opacity:textOpacity}}>
+                        <View style={pickerStyle.sunInfo }>
+                            <Animated.Text
+                                style={{color: '#FFF', textAlign: 'center'}}>일출 {this.state.sunrise}</Animated.Text>
+                        </View>
+                        <View style={pickerStyle.sunInfo }>
+                            <Animated.Text style={{color: '#FFF', textAlign: 'center'}}>일몰 {this.state.sunset}</Animated.Text>
+                        </View>
+                    </Animated.View>
+
+
+                    {/*-------------------------- 5.menu ------------------------------*/}
+                    <Animated.View style={{position:'absolute',top:menuPosition,backgroundColor: 'transparent', width: SCREEN_WIDTH}}>
                         <GlidingMenu/>
                     </Animated.View>
+
+
+
                 </Animated.View>
                 {myView}
 
