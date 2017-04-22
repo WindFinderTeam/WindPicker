@@ -126,7 +126,7 @@ class TabView extends Component {
                     this.setState({shopDetailVisible: true});
                 }}
             >
-            <View style={{height: 30,}}><Text>{rowData.name}</Text></View>
+            <View style={{height: 40, justifyContent:'center'}}><Text style={{fontSize:15}}>{rowData.name}</Text></View>
             </TouchableOpacity>
         );
     }

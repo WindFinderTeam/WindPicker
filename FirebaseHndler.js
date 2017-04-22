@@ -16,4 +16,40 @@ const firebaseConfig = {
 };
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
-module.exports = firebaseApp.database(); //this doesnt have to be database only
+
+
+
+var getSurfLocalListItem = function () {
+
+    return new Promise(
+        function (resolve, reject) {
+
+            var itemsRef = firebaseApp.database().ref().child('SurfLocalData');
+
+            // get children as an array
+            var localListMap = {};
+
+            var district, province;
+
+            itemsRef.on('value', (snap) => {
+
+                snap.forEach((child) => {
+
+                    district = child.val().district;
+                    province = child.val().province;
+
+                    if (!localListMap[province]) localListMap[province] = [];
+                    localListMap[province].push(child.val());
+                    console.log("hnadlfke province:",            province);
+                });
+                resolve(localListMap);
+
+            });
+        }
+    )
+}
+
+
+
+
+exports.getSurfLocalListItem = getSurfLocalListItem;

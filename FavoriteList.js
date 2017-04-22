@@ -21,6 +21,7 @@ import GlidWeatherList      from './GlidingWeatherList';
 import Ionicons             from 'react-native-vector-icons/Ionicons';
 
 import {realmInstance}      from "./RealmHndler.js";
+var FirebaseHndler = require('./FirebaseHndler');
 
 var surfLocalData  = require('./jsData/SurfLocalData.json');
 var glidfLocalData = require('./jsData/GlidingLocalData.json');
@@ -76,19 +77,24 @@ class FavoriteList extends Component {
         realmInstance.write(() => {
 
             let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
-            let AllFavorite_glding  = realmInstance.objects('FavoriteGliding');
+            let AllFavorite_glding = realmInstance.objects('FavoriteGliding');
+
+            let firebase_glidingLocal = {};
+            let firebase_surfLocal = {};
 
             favoriteDataList = [];
 
             if (this.props.viewMode == 'surf'){
                 for (var i in AllFavorite_surfing) {
-                    favoriteDataList.push({
-                        "theme": "surfing",
-                        "index": AllFavorite_surfing[i].index,
-                        "name": AllFavorite_surfing[i].name,
-                        "webcam": AllFavorite_surfing[i].webcam,
-                        "shop": AllFavorite_surfing[i].shop
-                    });
+                    if(AllFavorite_surfing[i].index == firebase_surfLocal[i].index){
+                        favoriteDataList.push({
+                            "theme": "surfing",
+                            "index": firebase_surfLocal[i].index,
+                            "name": firebase_surfLocal[i].name,
+                            "webcam": firebase_surfLocal[i].webcam,
+                            "shop": firebase_surfLocal[i].shop
+                        });
+                    }
                 }
             }
 

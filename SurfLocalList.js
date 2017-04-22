@@ -17,10 +17,10 @@ import {
 import SurfWeatherList   from './SurfWeatherList';
 import Ionicons          from 'react-native-vector-icons/Ionicons';
 import { realmInstance } from "./RealmHndler.js";
-import Firebase          from './FirebaseHndler';
 import Analytics         from 'react-native-firebase-analytics';
 
-var pickerStyle   = require('./pickerStyle') ;
+var FirebaseHndler = require('./FirebaseHndler');
+var pickerStyle    = require('./pickerStyle') ;
 var selectedRowData ;
 
 class LocalList extends Component{
@@ -62,16 +62,28 @@ class LocalList extends Component{
 
         this.controlModeRealm();
 
-        this.itemsRef = Firebase.ref().child('SurfLocalData');
+        // this.itemsRef = Firebase.ref().child('SurfLocalData');
 
     }
 
     componentWillMount() {
         // this.listenForItems(Firebase.ref().child('SurfLocalData'));
-        this.listenForItems(this.itemsRef);
+        // this.listenForItems(this.itemsRef);
+
+
     }
 
     componentDidMount(){
+
+        var that = this;
+
+        FirebaseHndler.getSurfLocalListItem().then(function (items) {
+            console.log(items);
+            that.setState({dataSource:that.state.dataSource.cloneWithRowsAndSections(items)});
+
+        }, function(err){console.log(err)})
+
+
         Analytics.setUserId('SurfLocal_notSelected');
 
         Platform.select({

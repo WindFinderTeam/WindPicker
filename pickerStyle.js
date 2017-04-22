@@ -121,7 +121,7 @@ const pickerStyle = StyleSheet.create({
     },
 
     closeIcon: {
-        right: 10,
+        left: 10,
         top: 5,
         position: 'absolute'
     },
