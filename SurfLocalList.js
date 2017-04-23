@@ -168,6 +168,7 @@ class LocalList extends Component{
     render() {
         return (
             <View>
+
                 <Modal
                     animationType  = {"fade"}
                     transparent    = {false}

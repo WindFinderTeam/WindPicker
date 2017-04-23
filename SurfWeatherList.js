@@ -436,12 +436,18 @@ class SurfWeatherList extends Component {
             extrapolate: 'clamp',
         });
 
-        var menuPosition = this.state.scrollY.interpolate({
+
+        var menuPosition_ios = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],
             outputRange: [184, 94],
             extrapolate: 'clamp',
         });
 
+        var menuPosition_and = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [181, 91],
+            extrapolate: 'clamp',
+        });
 
         var districtPosition = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],
@@ -540,10 +546,9 @@ class SurfWeatherList extends Component {
                         </View>
                     </Animated.View>
 
-
                     {/*-------------------------- 5.menu ------------------------------*/}
                     <Animated.View
-                        style={{position:'absolute',top:menuPosition,backgroundColor: 'transparent', width: SCREEN_WIDTH}}>
+                        style={{position:'absolute',top:Platform.OS == 'ios'? menuPosition_ios:menuPosition_and, backgroundColor: 'transparent', width: SCREEN_WIDTH}}>
                         <SurfMenu tideYN={this.state.tideYN}/>
                     </Animated.View>
                 </Animated.View>
@@ -564,10 +569,10 @@ class SurfWeatherList extends Component {
                 />
                 {/* ------------------------------- Toast ----------------------------------*/}
                 <Toast ref="toast" style={{backgroundColor: '#222222'}} position='bottom'/>
-                {/* ------------------------------- favorite heart configure ---------------------*/}
+                {/* ------------------------------- back button, favorite button configure -----------*/}
                 <View style={pickerStyle.navigator}>
-                    <TouchableOpacity onPress={() => {this.props.modalVisible(false);console.log("xxxx")}}>
-                        <View style={{position:'absolute', width:40, backgroundColor: 'transparent'}}>
+                    <TouchableOpacity onPress={() => {this.props.modalVisible(false)}}>
+                        <View style={{width:40, backgroundColor: 'transparent'}}>
                             <Ionicons name="ios-arrow-back" size={40} color="white" style={{marginLeft: 10}}/>
                         </View>
                     </TouchableOpacity>
@@ -582,7 +587,6 @@ class SurfWeatherList extends Component {
                                       color={this.state.heartOnOff == true ? "#94000F" : "#C0C0C0"}/>
                         </TouchableOpacity>
                     </View>
-
                 </View>
                 <Spinner style={pickerStyle.spinner} isVisible={this.state.spinnerVisible} size={80} type={"Bounce"}
                          color={"#94000F"}/>

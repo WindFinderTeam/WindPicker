@@ -324,6 +324,8 @@ class GlidingWeatherList extends Component {
     render() {
 
 
+        var isIos = Platform.OS == 'ios' ? true : false;
+
         var districtSize = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
             outputRange: [30, 20, 20],
@@ -342,12 +344,17 @@ class GlidingWeatherList extends Component {
             extrapolate: 'clamp',
         });
 
-        var menuPosition = this.state.scrollY.interpolate({
+        var menuPosition_ios = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],
             outputRange: [184, 94],
             extrapolate: 'clamp',
         });
 
+        var menuPosition_and = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [181, 91],
+            extrapolate: 'clamp',
+        });
 
         var districtPosition = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],
@@ -460,13 +467,11 @@ class GlidingWeatherList extends Component {
                         </View>
                     </Animated.View>
 
-
                     {/*-------------------------- 5.menu ------------------------------*/}
                     <Animated.View
-                        style={{position:'absolute',top:menuPosition,backgroundColor: 'transparent', width: SCREEN_WIDTH}}>
+                        style={{position:'absolute',top:Platform.OS == 'ios'? menuPosition_ios:menuPosition_and, backgroundColor: 'transparent', width: SCREEN_WIDTH}}>
                         <GlidingMenu/>
                     </Animated.View>
-
 
                 </Animated.View>
                 {myView}
@@ -486,10 +491,10 @@ class GlidingWeatherList extends Component {
                 />
                 {/* ------------------------------- Toast ----------------------------------*/}
                 <Toast ref="toast" style={{backgroundColor: '#222222'}} position='bottom'/>
-                {/* ------------------------------- favorite heart configure ------------------------------------*/}
+                {/* ------------------------------- back button, favorite button configure -----------*/}
                 <View style={pickerStyle.navigator}>
                     <TouchableOpacity onPress={() => this.props.modalVisible(false)}>
-                        <View style={{position:'absolute', width:40, backgroundColor:'transparent'}}>
+                        <View style={{ width:40, backgroundColor:'transparent'}}>
                             <Ionicons name="ios-arrow-back" size={40} color="white" style={{marginLeft: 10}}/>
                         </View>
                     </TouchableOpacity>

@@ -34,7 +34,7 @@ import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-v
 var ds;
 var webCamView;
 var pickerStyle = require('./pickerStyle');
-var shopUrl='http://mercicandle.cafe24.com/web/windPicker/preparing.html';
+var shopUrl = 'http://mercicandle.cafe24.com/web/windPicker/preparing.html';
 
 
 class TabView extends Component {
@@ -42,56 +42,58 @@ class TabView extends Component {
     constructor(prop) {
         super(prop);
 
-        this.setShopModalVisible   = this.setShopModalVisible.bind(this);
+        this.setShopModalVisible = this.setShopModalVisible.bind(this);
         this.setWebCamModalVisible = this.setWebCamModalVisible.bind(this);
-        this.renderRow             = this.renderRow.bind(this);
+        this.renderRow = this.renderRow.bind(this);
 
         ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); // shop ListView Data
 
         this.state = {
 
-            viewMode            : this.props.viewMode,
-            tabViewSelectedPage : this.props.tabViewSelectedPage,
-            shopModalVisible    : false,
-            shopDetailVisible   : false,
-            webCamModalVisible  : false,
-            dataSource          : ds.cloneWithRows(['row 1', 'row 2']),
-            drawerAnimation     : new Animated.Value(0)
+            viewMode: this.props.viewMode,
+            tabViewSelectedPage: this.props.tabViewSelectedPage,
+            shopModalVisible: false,
+            shopDetailVisible: false,
+            webCamModalVisible: false,
+            dataSource: ds.cloneWithRows(['row 1', 'row 2']),
+            drawerAnimation: new Animated.Value(0)
         };
     }
 
-    componentWillReceiveProps(){
+    componentWillReceiveProps() {
         //this.refs.scrollableTabView.goToPage(0);
         this.refs.LocalScrollView.scrollTo({x: 0, y: 0});
     }
 
-    setShopModalVisible(visible, shopRows) {  this.setState({shopModalVisible: visible, dataSource: ds.cloneWithRows(shopRows)});    }
+    setShopModalVisible(visible, shopRows) {
+        this.setState({shopModalVisible: visible, dataSource: ds.cloneWithRows(shopRows)});
+    }
 
 
     setWebCamModalVisible(visible, webcam) {
 
-       /* Analytics.setUserId('webcam_notSelected');
+        /* Analytics.setUserId('webcam_notSelected');
 
-        Platform.select({
-            ios    : () => Analytics.setUserId('webcam_ios'),
-            android: () => Analytics.setUserId('webcam_android')}
-        );
+         Platform.select({
+         ios    : () => Analytics.setUserId('webcam_ios'),
+         android: () => Analytics.setUserId('webcam_android')}
+         );
 
-        Analytics.setUserProperty('propertyName_webcam', 'propertyValue_webcam');
+         Analytics.setUserProperty('propertyName_webcam', 'propertyValue_webcam');
 
-        Analytics.logEvent('view_item', {
-            'item_id': webcam
-        });*/
+         Analytics.logEvent('view_item', {
+         'item_id': webcam
+         });*/
 
         webCamView = (
             <WebView
-                mediaPlaybackRequiresUserAction  = {false}
-                style                            = {pickerStyle.webView}
-                automaticallyAdjustContentInsets = {true}
-                source                           = {{uri: webcam[0].camUrl}}
-                javaScriptEnabled                = {true}
-                startInLoadingState              = {true}
-                scalesPageToFit                  = {true}
+                mediaPlaybackRequiresUserAction={false}
+                style={pickerStyle.webView}
+                automaticallyAdjustContentInsets={true}
+                source={{uri: webcam[0].camUrl}}
+                javaScriptEnabled={true}
+                startInLoadingState={true}
+                scalesPageToFit={true}
             />
         );
         this.setState({webCamModalVisible: visible});
@@ -100,24 +102,24 @@ class TabView extends Component {
 
     onChangeTab(obj) {
         /* obj.i : 0 날씨정보, 1 즐겨찾기 */
-        if      (obj.i == '1') this.setState({realmReload: true});
+        if (obj.i == '1') this.setState({realmReload: true});
         else if (obj.i == '0') this.setState({realmReload: false});
     }
 
     renderRow(rowData) {   // shop ListView
 
-       /* Analytics.setUserId('shop_notSelected');
+        /* Analytics.setUserId('shop_notSelected');
 
-        Platform.select({
-            ios    : () => Analytics.setUserId('shop_ios'),
-            android: () => Analytics.setUserId('shop_android')}
-        );
+         Platform.select({
+         ios    : () => Analytics.setUserId('shop_ios'),
+         android: () => Analytics.setUserId('shop_android')}
+         );
 
-        Analytics.setUserProperty('propertyName_shop', 'propertyValue_shop');
+         Analytics.setUserProperty('propertyName_shop', 'propertyValue_shop');
 
-        Analytics.logEvent('view_item', {
-            'item_id': rowData.name
-        });*/
+         Analytics.logEvent('view_item', {
+         'item_id': rowData.name
+         });*/
 
         return (
             <TouchableOpacity
@@ -126,7 +128,8 @@ class TabView extends Component {
                     this.setState({shopDetailVisible: true});
                 }}
             >
-            <View style={{height: 40, justifyContent:'center'}}><Text style={{fontSize:15}}>{rowData.name}</Text></View>
+                <View style={{height: 40, justifyContent:'center'}}><Text
+                    style={{fontSize:15}}>{rowData.name}</Text></View>
             </TouchableOpacity>
         );
     }
@@ -134,39 +137,39 @@ class TabView extends Component {
     render() {
 
         var localList;
-        if (this.props.viewMode == 'surf') localList = (<SurfLocalList    setShopModalVisible       = {this.setShopModalVisible}
-                                                                          setWebCamModalVisible     = {this.setWebCamModalVisible}
-                                                        />
-                                                       );
-        else if (this.props.viewMode == 'gliding')   localList = (<GlidingLocalList setShopModalVisible       = {this.setShopModalVisible}
-                                                                  />);
+        if (this.props.viewMode == 'surf') localList = (<SurfLocalList setShopModalVisible={this.setShopModalVisible}
+                                                                       setWebCamModalVisible={this.setWebCamModalVisible}
+            />
+        );
+        else if (this.props.viewMode == 'gliding') localList = (
+            <GlidingLocalList setShopModalVisible={this.setShopModalVisible}
+            />);
 
 
         return (
 
             <View style={{flex: 1}}>
 
-                <ScrollableTabView tabBarUnderlineStyle    = {{backgroundColor: "#94000f"}}
-                                   tabBarActiveTextColor   = "#94000f"
-                                   tabBarInactiveTextColor = "#94000f"
-                                   tabBarBackgroundColor   = "white"
-                                   ref                     = {'scrollableTabView'}
-                                   locked                  = {false}
-                                   tabBarTextStyle         = {styles.tabText}
-                                   onChangeTab             = {(obj) => this.onChangeTab(obj)}
-                                   style                   = {{height: 18}}>
+                <ScrollableTabView tabBarUnderlineStyle={{backgroundColor: "#94000f"}}
+                                   tabBarActiveTextColor="#94000f"
+                                   tabBarInactiveTextColor="#94000f"
+                                   tabBarBackgroundColor="white"
+                                   ref={'scrollableTabView'}
+                                   locked={false}
+                                   tabBarTextStyle={styles.tabText}
+                                   onChangeTab={(obj) => this.onChangeTab(obj)}
+                                   style={{height: 18}}>
 
                     <ScrollView tabLabel="날씨상황" style={styles.tabView} ref="LocalScrollView">
-                        {(Platform.OS == 'ios') && <View style={pickerStyle.localListView}>
+                        <View style={pickerStyle.localListView}>
                             {localList}
-                        </View>}
-                        {!(Platform.OS == 'ios') && localList}
+                        </View>
                     </ScrollView>
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
-                        <FavoriteList setShopModalVisible   = {this.setShopModalVisible  }
-                                      setWebCamModalVisible = {this.setWebCamModalVisible}
-                                      realmReload           = {this.state.realmReload    }
-                                      viewMode              = {this.props.viewMode       }
+                        <FavoriteList setShopModalVisible={this.setShopModalVisible  }
+                                      setWebCamModalVisible={this.setWebCamModalVisible}
+                                      realmReload={this.state.realmReload    }
+                                      viewMode={this.props.viewMode       }
                         />
                     </ScrollView>
                 </ScrollableTabView>
@@ -174,10 +177,10 @@ class TabView extends Component {
 
                 {/*------ webCam Modal ------- */}
                 <Modal
-                    animationType  = {"none"}
-                    transparent    = {true}
-                    visible        = {this.state.webCamModalVisible}
-                    onRequestClose = {() => { this.setState({webCamModalVisible: false});  }}>
+                    animationType={"none"}
+                    transparent={true}
+                    visible={this.state.webCamModalVisible}
+                    onRequestClose={() => { this.setState({webCamModalVisible: false});  }}>
 
                     <View style={pickerStyle.modalContainer}>
                         <View style={[pickerStyle.closeIcon, {opacity: this.state.webCamModalVisible == true ? 1 : 0}]}>
@@ -194,23 +197,23 @@ class TabView extends Component {
 
                 {/* shopList Modal */}
                 <SimpleModal
-                    open          = {this.state.shopModalVisible}
-                    modalDidOpen  = {() => console.log('modal did open')}
-                    modalDidClose = {() => this.setState({shopModalVisible: false})}
-                    style         = {{alignItems: 'center'}}>
+                    open={this.state.shopModalVisible}
+                    modalDidOpen={() => console.log('modal did open')}
+                    modalDidClose={() => this.setState({shopModalVisible: false})}
+                    style={{alignItems: 'center'}}>
 
-                    <Text style = {{fontSize: 20, marginBottom: 15, color: '#94000F'}}>주변샾</Text>
+                    <Text style={{fontSize: 20, marginBottom: 15, color: '#94000F'}}>주변샾</Text>
 
-                    <ListView  dataSource = {this.state.dataSource}   renderRow = {this.renderRow}/>
+                    <ListView dataSource={this.state.dataSource} renderRow={this.renderRow}/>
 
                 </SimpleModal>
 
                 {/*------ Shop Detail Modal ------- */}
                 <Modal
-                    animationType  = {"none"}
-                    transparent    = {true}
-                    visible        = {this.state.shopDetailVisible}
-                    onRequestClose = {() => { this.setState({shopDetailVisible: false});  }}>
+                    animationType={"none"}
+                    transparent={true}
+                    visible={this.state.shopDetailVisible}
+                    onRequestClose={() => { this.setState({shopDetailVisible: false});  }}>
 
                     <View style={pickerStyle.modalContainer}>
                         <View style={[pickerStyle.closeIcon, {opacity: this.state.shopDetailVisible == true ? 1 : 0}]}>
@@ -221,13 +224,13 @@ class TabView extends Component {
                         <View style={{height: SCREEN_HEIGHT / 1.5 ,marginLeft:20, marginRight:20 }}>
 
                             <WebView
-                                mediaPlaybackRequiresUserAction  = {false}
-                                style                            = {pickerStyle.webView}
-                                automaticallyAdjustContentInsets = {true}
-                                source                           = {{uri: shopUrl}}
-                                javaScriptEnabled                = {true}
-                                startInLoadingState              = {true}
-                                scalesPageToFit                  = {true}
+                                mediaPlaybackRequiresUserAction={false}
+                                style={pickerStyle.webView}
+                                automaticallyAdjustContentInsets={true}
+                                source={{uri: shopUrl}}
+                                javaScriptEnabled={true}
+                                startInLoadingState={true}
+                                scalesPageToFit={true}
                             />
                         </View>
 
@@ -253,12 +256,12 @@ const styles = StyleSheet.create({
     tabText: {
         fontSize: 17
     },
-    webCamWaitting:{
+    webCamWaitting: {
         position: 'absolute',
         backgroundColor: 'white',
-        width: SCREEN_WIDTH-40,
-        marginRight:20,
-        marginLeft:20,
+        width: SCREEN_WIDTH - 40,
+        marginRight: 20,
+        marginLeft: 20,
         height: SCREEN_HEIGHT / 1.5
     }
 

@@ -37,7 +37,6 @@ var getSurfLocalListItem = function () {
 
                     if (!localListMap[province]) localListMap[province] = [];
                     localListMap[province].push(child.val());
-                    console.log("hndler getSurfLocalListItem province:", province);
                 });
                 resolve(localListMap);
 
@@ -66,7 +65,6 @@ var getGlidLocalListItem = function () {
 
                     if (!localListMap[province]) localListMap[province] = [];
                     localListMap[province].push(child.val());
-                    console.log("hndler GlidingLocalData province:", province);
                 });
                 resolve(localListMap);
             });

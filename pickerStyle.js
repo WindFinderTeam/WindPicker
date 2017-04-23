@@ -142,7 +142,7 @@ const pickerStyle = StyleSheet.create({
         width: 40,
         height: 40,
         borderWidth: 1,
-        marginLeft: SCREEN_WIDTH-55,
+        marginLeft: (SCREEN_WIDTH-40)-50,
         borderColor: 'white',
         backgroundColor: 'white',
         alignItems: 'center',
