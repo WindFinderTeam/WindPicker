@@ -30,6 +30,8 @@ import SurfLocalList                         from './SurfLocalList';
 import FavoriteList                          from './FavoriteList';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
 //import Analytics                             from 'react-native-firebase-analytics';
+import Spinner            from 'react-native-spinkit';
+
 
 var ds;
 var webCamView;
@@ -45,6 +47,7 @@ class TabView extends Component {
         this.setShopModalVisible = this.setShopModalVisible.bind(this);
         this.setWebCamModalVisible = this.setWebCamModalVisible.bind(this);
         this.renderRow = this.renderRow.bind(this);
+        this.setSpinnerVisible = this.setSpinnerVisible.bind(this);
 
         ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); // shop ListView Data
 
@@ -56,7 +59,8 @@ class TabView extends Component {
             shopDetailVisible: false,
             webCamModalVisible: false,
             dataSource: ds.cloneWithRows(['row 1', 'row 2']),
-            drawerAnimation: new Animated.Value(0)
+            drawerAnimation: new Animated.Value(0),
+            spinnerVisible:true
         };
     }
 
@@ -106,6 +110,11 @@ class TabView extends Component {
         else if (obj.i == '0') this.setState({realmReload: false});
     }
 
+    setSpinnerVisible(val){
+        console.log("setSpinnerVisible okok");
+        this.setState({spinnerVisible:val});
+    }
+
     renderRow(rowData) {   // shop ListView
 
         /* Analytics.setUserId('shop_notSelected');
@@ -139,10 +148,13 @@ class TabView extends Component {
         var localList;
         if (this.props.viewMode == 'surf') localList = (<SurfLocalList setShopModalVisible={this.setShopModalVisible}
                                                                        setWebCamModalVisible={this.setWebCamModalVisible}
+                                                                       setSpinnerVisible={this.setSpinnerVisible}
+
             />
         );
         else if (this.props.viewMode == 'gliding') localList = (
             <GlidingLocalList setShopModalVisible={this.setShopModalVisible}
+                              setSpinnerVisible={this.setSpinnerVisible}
             />);
 
 
@@ -161,9 +173,12 @@ class TabView extends Component {
                                    style={{height: 18}}>
 
                     <ScrollView tabLabel="날씨상황" style={styles.tabView} ref="LocalScrollView">
+
                         <View style={pickerStyle.localListView}>
                             {localList}
                         </View>
+
+
                     </ScrollView>
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
                         <FavoriteList setShopModalVisible={this.setShopModalVisible  }
@@ -236,7 +251,8 @@ class TabView extends Component {
 
                     </View>
                 </Modal>
-
+                <Spinner style={pickerStyle.spinnerLocal} isVisible={this.state.spinnerVisible} size={80} type={"Bounce"}
+                         color={'#94000F'}/>
             </View>
 
         );

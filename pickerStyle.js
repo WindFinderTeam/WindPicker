@@ -248,8 +248,6 @@ const pickerStyle = StyleSheet.create({
     },
 
     localListView:{ 
-        top: 0, 
-        height: SCREEN_HEIGHT, 
     },
     navigatorMenu: {
         position: 'absolute',

@@ -13,7 +13,6 @@ import {
     Platform,
     Dimensions } from 'react-native';
 
-import Spinner           from 'react-native-spinkit';
 import SurfWeatherList   from './SurfWeatherList';
 import Ionicons          from 'react-native-vector-icons/Ionicons';
 import { realmInstance } from "./RealmHndler.js";
@@ -66,6 +65,9 @@ class LocalList extends Component{
 
     }
 
+    componentWillMount(){
+        this.props.setSpinnerVisible(true);
+    }
 
     componentDidMount(){
 
@@ -73,7 +75,7 @@ class LocalList extends Component{
 
         FirebaseHndler.getSurfLocalListItem().then(function (items) {
             that.setState({dataSource:that.state.dataSource.cloneWithRowsAndSections(items)});
-            that.setState({spinnerVisible:false});
+            that.props.setSpinnerVisible(false);
         }, function(err){
             console.log(err)
         });
@@ -187,8 +189,6 @@ class LocalList extends Component{
                     renderRow           = {this.renderRow}
                     automaticallyAdjustContentInsets={false}
                 />
-                <Spinner style={pickerStyle.spinnerLocal} isVisible={this.state.spinnerVisible} size={80} type={"Bounce"}
-                         color={"#94000F"}/>
             </View>
         );
     }

@@ -16,7 +16,6 @@ import {
     Modal,
     Image } from 'react-native';
 
-import Spinner            from 'react-native-spinkit';
 import GlidingWeatherList from './GlidingWeatherList';
 import { realmInstance }  from "./RealmHndler.js";
 import FirebaseHndler     from './FirebaseHndler';
@@ -57,20 +56,25 @@ class LocalList extends Component{
                 rowHasChanged: (r1, r2) => r1 !== r2
             })
             ,modalVisible    : false
-            ,spinnerVisible: true
         };
 
         this.setModeRealm();
 
     }
 
+    componentWillMount(){
+        this.props.setSpinnerVisible(true);
+    }
+
     componentDidMount(){
 
         var that = this;
+        that.props.setSpinnerVisible(true);
+
 
         FirebaseHndler.getGlidLocalListItem().then(function(item){
             that.setState({dataSource:that.state.dataSource.cloneWithRowsAndSections(item)});
-            that.setState({spinnerVisible:false});
+            that.props.setSpinnerVisible(false);
         }, function(error) {
             console.log("error!", error);
         });
@@ -114,7 +118,6 @@ class LocalList extends Component{
         if( rowData.shop == "")     shopShow = false;
         else                        shopShow = true;
 
-
         return (
             <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>
                 {/* row style */}
@@ -127,7 +130,6 @@ class LocalList extends Component{
                     {/* icons */}
                     <View style={pickerStyle.listViewrowCamShop}>
                         {/* space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠 */}
-
                             {shopShow && <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
                                 <View style={{alignItems:'flex-end', paddingRight:20,justifyContent:'center',width:80,height:50}}>
 
@@ -166,9 +168,6 @@ class LocalList extends Component{
                     renderSectionHeader={this.renderSectionHeader}
                     renderRow={this.renderRow}
                 />
-
-                <Spinner style={pickerStyle.spinnerLocal} isVisible={this.state.spinnerVisible} size={80} type={"Bounce"}
-                         color={"#94000F"}/>
             </View>
         );
     }
