@@ -124,7 +124,7 @@ class LocalList extends Component{
         if(rowData.shop == "")      shopShow   = false;
         else                        shopShow   = true;
 
-        if (webcamShow == true) {
+       /* if (webcamShow == true) {
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=>{if(webcamShow==true){this.props.setWebCamModalVisible(true, rowData.webcam)}}}>
                     <View style={[styles.webcamIconView ,{width:webcamShow==false?0:50,height:webcamShow==false?0:50 }]}>
@@ -135,7 +135,8 @@ class LocalList extends Component{
                 </TouchableOpacity>
             );
         }
-        else    webcamShowJudge = (<View style={{flex:1}}/>);
+        else   */
+            webcamShowJudge = (<View style={{flex:1}}/>);
 
         return (
             <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>

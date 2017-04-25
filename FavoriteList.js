@@ -136,19 +136,18 @@ class FavoriteList extends Component {
     _renderRow(rowData) {
 
 
-        var shopShow = false, webcamShowJudge, shopIconImg;
+        var shopShow = false, webcamShowJudge;
 
-        /* shoIconImg judge */
-        if      (rowData.theme === 'surfing')      shopIconImg = (require('./image/surfShop.png'));
-        else if (rowData.theme === 'gliding')      shopIconImg = (require('./image/glidingShop.png'));
 
         /* judge shop showing */
         if (Object.keys(rowData.shop) == "")       shopShow = false;
         else                                       shopShow = true;
 
         /* judge webcam showing */
-        if (Object.keys(rowData.webcam) == "") {  webcamShowJudge = (<View style={{flexGrow: 1}}/>);        }
-        else {
+      //  if (Object.keys(rowData.webcam) == "") {
+            webcamShowJudge = (<View style={{flexGrow: 1}}/>);
+       // }
+        /*else {
             webcamShowJudge = (
                 <TouchableOpacity onPress={()=> { this.props.setWebCamModalVisible(true, rowData.webcam) }}>
                     <View style={styles.webcamIconView}>
@@ -158,7 +157,7 @@ class FavoriteList extends Component {
                     </View>
                 </TouchableOpacity>
             );
-        }
+        }*/
 
         return (
             <TouchableHighlight onPress={() => {  this._onPressButton(rowData)    }}>
