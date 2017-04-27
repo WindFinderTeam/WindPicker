@@ -14,7 +14,6 @@ import {
     Dimensions } from 'react-native';
 
 import SurfWeatherList   from './SurfWeatherList';
-import Ionicons          from 'react-native-vector-icons/Ionicons';
 import { realmInstance } from "./RealmHndler.js";
 import Analytics         from 'react-native-firebase-analytics';
 
@@ -93,6 +92,11 @@ class LocalList extends Component{
         Analytics.logEvent('view_item', {
             'item_id': 'SurfLocalList'
         });
+
+        Analytics.logEvent('myEvent', {
+            'SEJIN': 'SurfLocalList'
+        });
+
         {/*---------------- Analytics ----------------*/}
     }
 

@@ -91,6 +91,12 @@ class LocalList extends Component{
         Analytics.logEvent('view_item', {
             'item_id': 'GlidingLocalList'
         });
+
+
+        Analytics.logEvent('myEvent', {
+            'SEJIN': 'GlidingLocalList'
+        });
+
         {/*---------------- Analytics ----------------*/}
     }
 

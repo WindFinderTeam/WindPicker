@@ -75,7 +75,7 @@ const pickerStyle = StyleSheet.create({
         backgroundColor: 'white',
 
         width: SCREEN_WIDTH-40,
-        height: SCREEN_HEIGHT / 1.5
+        height: SCREEN_HEIGHT / 1.2
     },
 
     rowListText: {
@@ -180,7 +180,7 @@ const pickerStyle = StyleSheet.create({
     spinnerLocal: {
         position: 'absolute',
         left: (SCREEN_WIDTH - SPINNER_SIZE)/2,
-        top: (SCREEN_HEIGHT - SPINNER_SIZE)/3,
+        top: (SCREEN_HEIGHT - SPINNER_SIZE)/2,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
