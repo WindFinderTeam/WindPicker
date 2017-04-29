@@ -29,7 +29,7 @@ import GlidingLocalList                      from './GlidingLocalList';
 import SurfLocalList                         from './SurfLocalList';
 import FavoriteList                          from './FavoriteList';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
-//import Analytics                             from 'react-native-firebase-analytics';
+import Analytics                             from 'react-native-firebase-analytics';
 import Spinner            from 'react-native-spinkit';
 
 
@@ -76,18 +76,7 @@ class TabView extends Component {
 
     setWebCamModalVisible(visible, webcam) {
 
-        /* Analytics.setUserId('webcam_notSelected');
 
-         Platform.select({
-         ios    : () => Analytics.setUserId('webcam_ios'),
-         android: () => Analytics.setUserId('webcam_android')}
-         );
-
-         Analytics.setUserProperty('propertyName_webcam', 'propertyValue_webcam');
-
-         Analytics.logEvent('view_item', {
-         'item_id': webcam
-         });*/
 
         webCamView = (
             <WebView
@@ -111,34 +100,34 @@ class TabView extends Component {
     }
 
     setSpinnerVisible(val){
-        console.log("setSpinnerVisible okok");
         this.setState({spinnerVisible:val});
     }
 
     renderRow(rowData) {   // shop ListView
 
-        /* Analytics.setUserId('shop_notSelected');
-
-         Platform.select({
-         ios    : () => Analytics.setUserId('shop_ios'),
-         android: () => Analytics.setUserId('shop_android')}
-         );
-
-         Analytics.setUserProperty('propertyName_shop', 'propertyValue_shop');
-
-         Analytics.logEvent('view_item', {
-         'item_id': rowData.name
-         });*/
-
         return (
             <TouchableOpacity
                 onPress={() => {
                     shopUrl = rowData.homepage;
+                    console.log(rowData.name.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
                     this.setState({shopDetailVisible: true});
+
+                    Platform.select({
+                        ios    : () => Analytics.setUserId('My_ios'),
+                        android: () => Analytics.setUserId('My_android')}
+                    );
+
+                    Analytics.setUserProperty('user_property_myshop', 'myshop_value');
+
+                    Analytics.logEvent(rowData.name.replace(/[\s`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '_'), {
+                        'ITEM_NAME': 'myshopEventValue'
+                    });
+
+
+
                 }}
             >
-                <View style={{height: 40, justifyContent:'center'}}><Text
-                    style={{fontSize:15}}>{rowData.name}</Text></View>
+                <View style={{height: 40, justifyContent:'center'}}><Text style={{fontSize:15}}>{rowData.name}</Text></View>
             </TouchableOpacity>
         );
     }

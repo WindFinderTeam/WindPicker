@@ -15,7 +15,6 @@ import {
 
 import SurfWeatherList   from './SurfWeatherList';
 import { realmInstance } from "./RealmHndler.js";
-import Analytics         from 'react-native-firebase-analytics';
 
 var FirebaseHndler = require('./FirebaseHndler');
 var pickerStyle    = require('./pickerStyle') ;
@@ -79,25 +78,6 @@ class LocalList extends Component{
             console.log(err)
         });
 
-        {/*---------------- Analytics ----------------*/}
-        Analytics.setUserId('SurfLocal_notSelected');
-
-        Platform.select({
-            ios    : () => Analytics.setUserId('SurfLocal_ios'),
-            android: () => Analytics.setUserId('SurfLocal_android')}
-            );
-
-        Analytics.setUserProperty('propertyName_surf', 'propertyValue_surf');
-
-        Analytics.logEvent('view_item', {
-            'item_id': 'SurfLocalList'
-        });
-
-        Analytics.logEvent('myEvent', {
-            'SEJIN': 'SurfLocalList'
-        });
-
-        {/*---------------- Analytics ----------------*/}
     }
 
     renderSectionHeader(data, sectionId) {

@@ -19,7 +19,6 @@ import {
 import GlidingWeatherList from './GlidingWeatherList';
 import { realmInstance }  from "./RealmHndler.js";
 import FirebaseHndler     from './FirebaseHndler';
-import Analytics          from 'react-native-firebase-analytics';
 
 var pickerStyle      = require('./pickerStyle') ;
 var selectedRowData ;
@@ -79,25 +78,7 @@ class LocalList extends Component{
             console.log("error!", error);
         });
 
-        {/*---------------- Analytics ----------------*/}
-        Analytics.setUserId('GlidingLocal_notSelected');
-        Platform.select({
-            ios    : () => Analytics.setUserId('GlidingLocal_ios'),
-            android: () => Analytics.setUserId('GlidingLocal_android')}
-        );
 
-        Analytics.setUserProperty('propertyName_gliding', 'propertyValue_gliding');
-
-        Analytics.logEvent('view_item', {
-            'item_id': 'GlidingLocalList'
-        });
-
-
-        Analytics.logEvent('myEvent', {
-            'SEJIN': 'GlidingLocalList'
-        });
-
-        {/*---------------- Analytics ----------------*/}
     }
 
     setModeRealm(){
