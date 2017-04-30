@@ -18,15 +18,13 @@ import {
 
 import SurfWeatherList      from './SurfWeatherList';
 import GlidWeatherList      from './GlidingWeatherList';
-import Ionicons             from 'react-native-vector-icons/Ionicons';
 
 import {realmInstance}      from "./RealmHndler.js";
 var FirebaseHndler = require('./FirebaseHndler');
 
-var surfLocalData  = require('./jsData/SurfLocalData.json');
+var surfLocalData = require('./jsData/SurfLocalData.json');
 var glidfLocalData = require('./jsData/GlidingLocalData.json');
-var pickerStyle    = require('./pickerStyle');
-var dataSource     = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+var pickerStyle = require('./pickerStyle');
 var selectedRowData;
 var favoriteDataList = [];
 
@@ -39,24 +37,37 @@ class FavoriteList extends Component {
         super(props);
 
         console.log("now constructor runs");
-        this._renderRow             = this._renderRow.bind(this);
-        this._renderHeader          = this._renderHeader.bind(this);
-        this.setSurfModalVisible    = this.setSurfModalVisible.bind(this);
-        this.setGlidModalVisible    = this.setGlidModalVisible.bind(this);
-        this._onPressButton         = this._onPressButton.bind(this);
-        this.realmRead              = this.realmRead.bind(this);
+        this._renderRow = this._renderRow.bind(this);
+        this._renderHeader = this._renderHeader.bind(this);
+        this.setSurfModalVisible = this.setSurfModalVisible.bind(this);
+        this.setGlidModalVisible = this.setGlidModalVisible.bind(this);
+        this._onPressButton = this._onPressButton.bind(this);
+        this.realmRead = this.realmRead.bind(this);
 
         this.state = {
-            surfModalVisible        : false,
-            glidModalVisible        : false,
-            viewMode                : this.props.viewMode,
+            surfModalVisible: false,
+            glidModalVisible: false,
+            viewMode: this.props.viewMode,
+            dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+
         };
     }
 
-    componentDidMount()          {  this.realmRead();    }
+    componentDidMount() {
+        this.realmRead(this.props.viewMode);
+    }
 
-    setSurfModalVisible(visible) {  this.setState({surfModalVisible: visible});   }
-    setGlidModalVisible(visible) {  this.setState({glidModalVisible: visible});   }
+    componentWillReceiveProps(nextProps) {
+        this.realmRead(nextProps.viewMode);
+    }
+
+    setSurfModalVisible(visible) {
+        this.setState({surfModalVisible: visible});
+    }
+
+    setGlidModalVisible(visible) {
+        this.setState({glidModalVisible: visible});
+    }
 
     _onPressButton(rowData) {
 
@@ -71,49 +82,40 @@ class FavoriteList extends Component {
         }
     }
 
+    realmRead(mode) {
 
-    realmRead() {
+        var that = this;
+        var AllFavorite_surfing, AllFavorite_glding;
         // READ all favorite surfing, gliding data
         realmInstance.write(() => {
-
-            let AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
-            let AllFavorite_glding  = realmInstance.objects('FavoriteGliding');
-
-            favoriteDataList = [];
-
-            if (this.props.viewMode == 'surf'){
-                for (var i in AllFavorite_surfing) {
-                    favoriteDataList.push({
-                        "theme": "surfing",
-                        "index": AllFavorite_surfing[i].index,
-                        "name": AllFavorite_surfing[i].name,
-                        "webcam": AllFavorite_surfing[i].webcam,
-                        "shop": AllFavorite_surfing[i].shop
-                    });
-                }
-            }
-
-            else {
-                for (var i in AllFavorite_glding) {
-                    favoriteDataList.push({
-                        "theme": "gliding",
-                        "index": AllFavorite_glding[i].index,
-                        "name": AllFavorite_glding[i].name,
-                        "webcam": AllFavorite_glding[i].webcam,
-                        "shop": AllFavorite_glding[i].shop
-                    });
-                }
-            }
+            AllFavorite_surfing = realmInstance.objects('FavoriteSurfing');
+            AllFavorite_glding = realmInstance.objects('FavoriteGliding');
         });
-        dataSource =  dataSource.cloneWithRows(favoriteDataList);
-    }
+        favoriteDataList = [];
 
+        if (mode == 'surf') {
+            FirebaseHndler.getSurfFavoriteItem(AllFavorite_surfing).then(function (items) {
+                favoriteDataList = items;
+                that.setState({dataSource: that.state.dataSource.cloneWithRows(favoriteDataList)});
+            }, function (err) {
+                console.log(err)
+            });
+        }
+        else {
+            FirebaseHndler.getGlidFavoriteItem(AllFavorite_glding).then(function (items) {
+                favoriteDataList = items;
+                that.setState({dataSource: that.state.dataSource.cloneWithRows(favoriteDataList)});
+            }, function (err) {
+                console.log(err)
+            });
+        }
+    }
 
     _renderHeader() {
 
         var varRenderHeader = '';
 
-        if (this.props.viewMode == 'surf'){
+        if (this.props.viewMode == 'surf') {
             varRenderHeader = (
                 <Image source={require('./image/fav_surfing.png')} style={styles.container}>
                     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -135,35 +137,19 @@ class FavoriteList extends Component {
 
     _renderRow(rowData) {
 
-
         var shopShow = false, webcamShowJudge;
 
-
         /* judge shop showing */
-        if (Object.keys(rowData.shop) == "")       shopShow = false;
+        if (Object.keys(rowData.shop) == "") shopShow = false;
         else                                       shopShow = true;
 
-        /* judge webcam showing */
-      //  if (Object.keys(rowData.webcam) == "") {
-            webcamShowJudge = (<View style={{flexGrow: 1}}/>);
-       // }
-        /*else {
-            webcamShowJudge = (
-                <TouchableOpacity onPress={()=> { this.props.setWebCamModalVisible(true, rowData.webcam) }}>
-                    <View style={styles.webcamIconView}>
-                        <View style={pickerStyle.iconBorder}>
-                            <Ionicons name="ios-videocam" style={{color: "rgba(156,0,16,1)", fontSize: 25}}/>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-            );
-        }*/
+        webcamShowJudge = (<View style={{flexGrow: 1}}/>);
 
         return (
             <TouchableHighlight onPress={() => {  this._onPressButton(rowData)    }}>
                 <View style={pickerStyle.listViewrow}>
                     <View style={pickerStyle.listViewrowDistrict}>
-                        <Text style={pickerStyle.localListrowText}>{rowData.name}</Text>
+                        <Text style={pickerStyle.localListrowText}>{rowData.district}</Text>
                     </View>
 
                     {/* icons */}
@@ -171,26 +157,26 @@ class FavoriteList extends Component {
                         <View style={{marginRight:0}}>{webcamShowJudge}</View>
                         <View style={{marginRight:0,flex:1}}>
                             {shopShow &&
-                            <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
+                            <TouchableOpacity onPress={() => this.props.setShopModalVisible(true, rowData.shop)}>
                                 <View style={styles.shopIconView}>
                                     <View style={pickerStyle.iconBorder}>
-                                        <Image source={require('./image/surfShop.png')} style={{width: 35, height: 35}}/>
+                                        <Image source={require('./image/surfShop.png')}
+                                               style={{width: 35, height: 35}}/>
                                     </View>
                                 </View>
                             </TouchableOpacity>}
 
-                            { !shopShow &&  <View style={{width:35, height:35}}></View> }
+                            { !shopShow && <View style={{width:35, height:35}}></View> }
                         </View>
                     </View>
                 </View>
             </TouchableHighlight>
-
         );
     }
 
     render() {
 
-        if (this.props.realmReload == true)          this.realmRead();
+        // if (this.props.realmReload == true)          this.realmRead();
 
         return (
             <View style={{flex:1}}>
@@ -220,7 +206,7 @@ class FavoriteList extends Component {
 
                 <ListView
                     enableEmptySections={true}
-                    dataSource={dataSource}
+                    dataSource={this.state.dataSource}
                     renderRow={this._renderRow}
                     renderHeader={this._renderHeader}
                 />
@@ -270,8 +256,8 @@ var styles = StyleSheet.create({
         marginBottom: 0,
         opacity: 0
     },
-    webcamIconView: { alignItems:'flex-end',height:50,width:50, paddingRight:10,justifyContent:'center' },
-    shopIconView  : { alignItems:'flex-end',paddingRight:20, justifyContent:'center',flexGrow:1, height:50}
+    webcamIconView: {alignItems: 'flex-end', height: 50, width: 50, paddingRight: 10, justifyContent: 'center'},
+    shopIconView: {alignItems: 'flex-end', paddingRight: 20, justifyContent: 'center', flexGrow: 1, height: 50}
 
 
 });

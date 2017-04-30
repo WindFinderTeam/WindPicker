@@ -21,14 +21,14 @@ var getSurfLocalListItem = function () {
     return new Promise(
         function (resolve, reject) {
 
-            var itemsRef = firebaseApp.database().ref().child('SurfLocalData');
+            var itemsRef = firebaseApp.database().ref().child('SurfLocalData').orderByChild('district');
 
             // get children as an array
             var localListMap = {};
 
             var district, province;
 
-            itemsRef.on('value', (snap) => {
+            itemsRef.once('value', (snap) => {
 
                 snap.forEach((child) => {
 
@@ -50,13 +50,13 @@ var getGlidLocalListItem = function () {
     return new Promise(
         function (resolve, reject) {
 
-            var itemsRef = firebaseApp.database().ref().child('GlidingLocalData');
+            var itemsRef = firebaseApp.database().ref().child('GlidingLocalData').orderByChild('district');
             // get children as an array
             var localListMap = {};
 
             var district, province;
 
-            itemsRef.on('value', (snap) => {
+            itemsRef.once('value', (snap) => {
 
                 snap.forEach((child) => {
 
@@ -72,5 +72,52 @@ var getGlidLocalListItem = function () {
     )
 }
 
+var getGlidFavoriteItem = function(indexArray){
+    return new Promise(
+        function (resolve, reject) {
+
+            var itemsRef = firebaseApp.database().ref().child('GlidingLocalData');
+            var favoriteDataList = [];
+
+            itemsRef.on('value', (snap) => {
+
+                snap.forEach((child) => {
+
+                    for (var i in indexArray) {
+                        if (indexArray[i].index == child.val().index) {
+                            favoriteDataList.push(child.val());
+                        }
+                    }
+                });
+                resolve(favoriteDataList);
+
+            });
+        })
+}
+
+var getSurfFavoriteItem = function(indexArray){
+    return new Promise(
+        function (resolve, reject) {
+
+            var itemsRef = firebaseApp.database().ref().child('SurfLocalData');
+            var favoriteDataList = [];
+
+            itemsRef.on('value', (snap) => {
+
+                snap.forEach((child) => {
+
+                    for (var i in indexArray) {
+                        if (indexArray[i].index == child.val().index) {
+                            favoriteDataList.push(child.val());
+                        }
+                    }
+                });
+                resolve(favoriteDataList);
+            });
+        })
+}
+
 exports.getSurfLocalListItem = getSurfLocalListItem;
 exports.getGlidLocalListItem = getGlidLocalListItem;
+exports.getGlidFavoriteItem  = getGlidFavoriteItem;
+exports.getSurfFavoriteItem  = getSurfFavoriteItem;
