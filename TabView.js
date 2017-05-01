@@ -29,7 +29,6 @@ import GlidingLocalList                      from './GlidingLocalList';
 import SurfLocalList                         from './SurfLocalList';
 import FavoriteList                          from './FavoriteList';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
-import Analytics                             from 'react-native-firebase-analytics';
 import Spinner            from 'react-native-spinkit';
 
 
@@ -109,22 +108,7 @@ class TabView extends Component {
             <TouchableOpacity
                 onPress={() => {
                     shopUrl = rowData.homepage;
-                    console.log(rowData.name.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''));
                     this.setState({shopDetailVisible: true});
-
-                    Platform.select({
-                        ios    : () => Analytics.setUserId('My_ios'),
-                        android: () => Analytics.setUserId('My_android')}
-                    );
-
-                    Analytics.setUserProperty('user_property_myshop', 'myshop_value');
-
-                    Analytics.logEvent(rowData.name.replace(/[\s`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '_'), {
-                        'ITEM_NAME': 'myshopEventValue'
-                    });
-
-
-
                 }}
             >
                 <View style={{height: 40, justifyContent:'center'}}><Text style={{fontSize:15}}>{rowData.name}</Text></View>
@@ -138,7 +122,6 @@ class TabView extends Component {
         if (this.props.viewMode == 'surf') localList = (<SurfLocalList setShopModalVisible={this.setShopModalVisible}
                                                                        setWebCamModalVisible={this.setWebCamModalVisible}
                                                                        setSpinnerVisible={this.setSpinnerVisible}
-
             />
         );
         else if (this.props.viewMode == 'gliding') localList = (

@@ -19,6 +19,7 @@ import {
 import GlidingWeatherList from './GlidingWeatherList';
 import { realmInstance }  from "./RealmHndler.js";
 import FirebaseHndler     from './FirebaseHndler';
+import Analytics          from 'react-native-firebase-analytics';
 
 var pickerStyle      = require('./pickerStyle') ;
 var selectedRowData ;
@@ -78,6 +79,18 @@ class LocalList extends Component{
             console.log("error!", error);
         });
 
+        Platform.select({
+            ios    : () => Analytics.setUserId('My_ios'),
+            android: () => Analytics.setUserId('My_android')}
+        );
+
+        Analytics.setUserProperty('user_property_gliding', 'user_property_gliding_value');
+
+        Analytics.logEvent("Gliding View", {
+            'ITEM_NAME': 'myshopEventValue'
+        });
+
+
 
     }
 
@@ -115,17 +128,15 @@ class LocalList extends Component{
                     </View>
 
                     {/* icons */}
-                    <View style={pickerStyle.listViewrowCamShop}>
-                        {/* space-around을 쓰기땜에 shop 아이콘 부분과 동일한 간격 띄워둠 */}
-                            {shopShow && <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
-                                <View style={{alignItems:'flex-end', paddingRight:20,justifyContent:'center',width:80,height:50}}>
+                    {shopShow &&
+                    <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
+                        <View style={pickerStyle.shopIconView}>
+                            <View style={pickerStyle.iconBorder}>
+                                <Image source={require('./image/surfShop.png')} style={{width: 35, height: 35}}/>
+                            </View>
+                        </View>
+                    </TouchableOpacity>}
 
-                                    <View style={pickerStyle.iconBorder}>
-                                        <Image source={require('./image/glidingShop.png')} style={{width: 35, height: 35}}/>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>}
-                    </View>
                 </View>
             </TouchableOpacity>
         )

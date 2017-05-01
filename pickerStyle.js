@@ -6,12 +6,12 @@ import {
     Dimensions
 } from 'react-native';
 
-const SCREEN_WIDTH  = Dimensions.get('window').width;
+const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const SPINNER_SIZE = 80;
-const NAVI_HEIGHT  = 60;
-const MENU_HEIGHT  = 60;
+const NAVI_HEIGHT = 60;
+const MENU_HEIGHT = 60;
 
 const pickerStyle = StyleSheet.create({
 
@@ -37,16 +37,16 @@ const pickerStyle = StyleSheet.create({
         height: 25,
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
-        backgroundColor:'white'
+        backgroundColor: 'white'
     },
     menusView: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        borderWidth:0,
-        margin:0,
-        padding:0
+        borderWidth: 0,
+        margin: 0,
+        padding: 0
     },
     menusViewTideYes: {
         justifyContent: 'center',
@@ -58,9 +58,9 @@ const pickerStyle = StyleSheet.create({
         color: '#FFFFFF',
         textAlign: 'center',
         fontSize: 15,
-        margin:0,padding:0
+        margin: 0, padding: 0
     },
-    districtText:{
+    districtText: {
         color: "white",
         fontSize: 20,
         textAlign: 'center',
@@ -68,13 +68,13 @@ const pickerStyle = StyleSheet.create({
     },
 
     webView: {
-        position:'absolute',
+        position: 'absolute',
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white',
 
-        width: SCREEN_WIDTH-40,
+        width: SCREEN_WIDTH - 40,
         height: SCREEN_HEIGHT / 1.2
     },
 
@@ -107,16 +107,16 @@ const pickerStyle = StyleSheet.create({
 
     outerInfoContainer: {
         justifyContent: 'center',
-        alignItems:'center',
+        alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         flex: 1,
     },
 
     innerInfoModal: {
-        backgroundColor:'white',
-        width:SCREEN_WIDTH*.9,
+        backgroundColor: 'white',
+        width: SCREEN_WIDTH * .9,
         borderRadius: 2,
-        padding:10
+        padding: 10
 
     },
 
@@ -142,13 +142,12 @@ const pickerStyle = StyleSheet.create({
         width: 40,
         height: 40,
         borderWidth: 1,
-        marginLeft: (SCREEN_WIDTH-40)-50,
+        marginLeft: (SCREEN_WIDTH - 40) - 50,
         borderColor: 'white',
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
     },
-
 
 
     container: {
@@ -157,10 +156,10 @@ const pickerStyle = StyleSheet.create({
     },
 
     sunInfo: {
-        backgroundColor:'transparent',
+        backgroundColor: 'transparent',
         borderRadius: 20,
         width: 90,
-        height:30,
+        height: 30,
         borderWidth: 1,
         borderColor: '#FFF',
         alignItems: 'center',
@@ -179,8 +178,8 @@ const pickerStyle = StyleSheet.create({
     },
     spinnerLocal: {
         position: 'absolute',
-        left: (SCREEN_WIDTH - SPINNER_SIZE)/2,
-        top: (SCREEN_HEIGHT - SPINNER_SIZE)/2,
+        left: (SCREEN_WIDTH - SPINNER_SIZE) / 2,
+        top: (SCREEN_HEIGHT - SPINNER_SIZE) / 2,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -188,7 +187,7 @@ const pickerStyle = StyleSheet.create({
     },
     navigator: {
         flex: 1,
-        backgroundColor:'transparent',
+        backgroundColor: 'transparent',
         flexDirection: 'row',
         position: 'absolute',
         top: 20,
@@ -211,34 +210,34 @@ const pickerStyle = StyleSheet.create({
         alignItems: 'center',
         borderBottomWidth: 1,
         borderBottomColor: '#e9e9e9',
-        height:50,
+        height: 50,
 
     },
     listViewrowDistrict: {
         flexDirection: 'row',
         paddingLeft: 20,
         alignItems: 'center',
-        flex:2
+        flex: 2
     },
     listViewrowCamShop: {
         flexDirection: 'row',
         flex: 1,
-        justifyContent:'flex-end'
+        justifyContent: 'flex-end'
 
     },
     iconBorder: {
         borderRadius: 100,
         borderWidth: 1,
-        width:35,
-        height:35,
+        width: 35,
+        height: 35,
         borderColor: '#94000F',
         alignItems: 'center',
         justifyContent: 'center'
     },
-    camLoading : {
-        textAlign:'center',
-        color:'gray',
-        fontSize:16
+    camLoading: {
+        textAlign: 'center',
+        color: 'gray',
+        fontSize: 16
     },
     directionMarginBottom: {
         flexDirection: 'row',
@@ -247,11 +246,14 @@ const pickerStyle = StyleSheet.create({
         marginBottom: 18
     },
 
-    localListView:{ 
+    shopIconView: {
+        alignItems: 'center', justifyContent: 'center', width: 70, height: 50
     },
+
+    localListView: {},
     navigatorMenu: {
         position: 'absolute',
-        backgroundColor:'transparent',
+        backgroundColor: 'transparent',
         top: NAVI_HEIGHT + 2,
         width: SCREEN_WIDTH,
         height: MENU_HEIGHT,
@@ -267,12 +269,12 @@ const pickerStyle = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: 'rgba(246,246,246,1)',
-        height:25,
-        marginTop:0,
-        borderBottomWidth:1,
-        borderRightWidth:1,
-        borderBottomColor:'rgba(202,202,202,0.5)',
-        borderRightColor:'rgba(202,202,202,0.5)',
+        height: 25,
+        marginTop: 0,
+        borderBottomWidth: 1,
+        borderRightWidth: 1,
+        borderBottomColor: 'rgba(202,202,202,0.5)',
+        borderRightColor: 'rgba(202,202,202,0.5)',
     },
     localSectionHeaderText: {
         fontSize: 15,
@@ -280,7 +282,7 @@ const pickerStyle = StyleSheet.create({
         marginLeft: 10
     },
 
-    refreshView:{
+    refreshView: {
         fontSize: 50,
         color: '#9c0010',
         marginBottom: 10,

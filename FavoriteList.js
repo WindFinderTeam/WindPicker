@@ -137,13 +137,12 @@ class FavoriteList extends Component {
 
     _renderRow(rowData) {
 
-        var shopShow = false, webcamShowJudge;
+        var shopShow = false;
 
         /* judge shop showing */
         if (Object.keys(rowData.shop) == "") shopShow = false;
-        else                                       shopShow = true;
+        else                                  shopShow = true;
 
-        webcamShowJudge = (<View style={{flexGrow: 1}}/>);
 
         return (
             <TouchableHighlight onPress={() => {  this._onPressButton(rowData)    }}>
@@ -153,22 +152,15 @@ class FavoriteList extends Component {
                     </View>
 
                     {/* icons */}
-                    <View style={pickerStyle.listViewrowCamShop}>
-                        <View style={{marginRight:0}}>{webcamShowJudge}</View>
-                        <View style={{marginRight:0,flex:1}}>
-                            {shopShow &&
-                            <TouchableOpacity onPress={() => this.props.setShopModalVisible(true, rowData.shop)}>
-                                <View style={styles.shopIconView}>
-                                    <View style={pickerStyle.iconBorder}>
-                                        <Image source={require('./image/surfShop.png')}
-                                               style={{width: 35, height: 35}}/>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>}
-
-                            { !shopShow && <View style={{width:35, height:35}}></View> }
+                    {shopShow &&
+                    <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
+                        <View style={pickerStyle.shopIconView}>
+                            <View style={pickerStyle.iconBorder}>
+                                <Image source={require('./image/surfShop.png')} style={{width: 35, height: 35}}/>
+                            </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>}
+
                 </View>
             </TouchableHighlight>
         );
@@ -256,9 +248,6 @@ var styles = StyleSheet.create({
         marginBottom: 0,
         opacity: 0
     },
-    webcamIconView: {alignItems: 'flex-end', height: 50, width: 50, paddingRight: 10, justifyContent: 'center'},
-    shopIconView: {alignItems: 'flex-end', paddingRight: 20, justifyContent: 'center', flexGrow: 1, height: 50}
-
 
 });
 

@@ -15,6 +15,7 @@ import {
 
 import SurfWeatherList   from './SurfWeatherList';
 import { realmInstance } from "./RealmHndler.js";
+import Analytics         from 'react-native-firebase-analytics';
 
 var FirebaseHndler = require('./FirebaseHndler');
 var pickerStyle    = require('./pickerStyle') ;
@@ -23,11 +24,6 @@ var selectedRowData ;
 class LocalList extends Component{
 
     setModalVisible(visible) {     this.setState({modalVisible: visible});   }
-
-    setRgba(alpha) {
-        var myAlpha = alpha;
-        return `"rgba(156,0,16,` + `${myAlpha})"`;
-    }
 
 
     _onPressButton(rowData){
@@ -78,6 +74,17 @@ class LocalList extends Component{
             console.log(err)
         });
 
+        Platform.select({
+            ios    : () => Analytics.setUserId('My_ios'),
+            android: () => Analytics.setUserId('My_android')}
+        );
+
+        Analytics.setUserProperty('user_property_gliding', 'user_property_gliding_value');
+
+        Analytics.logEvent("Gliding View", {
+            'ITEM_NAME': 'myshopEventValue'
+        });
+
     }
 
     renderSectionHeader(data, sectionId) {
@@ -100,27 +107,10 @@ class LocalList extends Component{
 
     renderRow(rowData) {
 
-        var webcamShow = false, shopShow = false, webcamShowJudge;
-
-        if(rowData.webcam == "")    webcamShow = false;
-        else                        webcamShow = true;
+        var shopShow = false;
 
         if(rowData.shop == "")      shopShow   = false;
         else                        shopShow   = true;
-
-       /* if (webcamShow == true) {
-            webcamShowJudge = (
-                <TouchableOpacity onPress={()=>{if(webcamShow==true){this.props.setWebCamModalVisible(true, rowData.webcam)}}}>
-                    <View style={[styles.webcamIconView ,{width:webcamShow==false?0:50,height:webcamShow==false?0:50 }]}>
-                        <View style={[pickerStyle.iconBorder, {opacity:webcamShow==false?0:1}]}>
-                            <Ionicons name="ios-videocam" style={{color:webcamShow==false?this.setRgba(0):this.setRgba(1), fontSize:25}}/>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-            );
-        }
-        else   */
-            webcamShowJudge = (<View style={{flex:1}}/>);
 
         return (
             <TouchableOpacity onPress={() => { this._onPressButton(rowData)}}>
@@ -132,21 +122,15 @@ class LocalList extends Component{
                     </View>
 
                     {/* icons */}
-                    <View style={pickerStyle.listViewrowCamShop}>
-                        <View style={{marginRight:0}}>{webcamShowJudge}</View>
-                        <View style={{marginRight:0,flex:1}}>
-                            {shopShow &&
-                            <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
-                                <View style={styles.shopIconView}>
-                                    <View style={pickerStyle.iconBorder}>
-                                        <Image source={require('./image/surfShop.png')} style={{width: 35, height: 35}}/>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>}
-
-                            { !shopShow &&  <View style={{width:35, height:35}}></View> }
+                    {shopShow &&
+                    <TouchableOpacity onPress = {() => this.props.setShopModalVisible(true, rowData.shop)}>
+                        <View style={pickerStyle.shopIconView}>
+                            <View style={pickerStyle.iconBorder}>
+                                <Image source={require('./image/surfShop.png')} style={{width: 35, height: 35}}/>
+                            </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>}
+
                 </View>
             </TouchableOpacity>
         )
@@ -179,11 +163,5 @@ class LocalList extends Component{
     }
 };
 
-
-var styles = StyleSheet.create({
-
-    webcamIconView: { alignItems:'flex-end', justifyContent:'center',paddingRight:10  },
-    shopIconView  : { alignItems:'flex-end',paddingRight:20, justifyContent:'center',flexGrow:1, height:50}
-});
 
 module.exports = LocalList;
