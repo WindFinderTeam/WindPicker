@@ -87,7 +87,7 @@ class LocalList extends Component{
         Analytics.setUserProperty('user_property_gliding', 'user_property_gliding_value');
 
         Analytics.logEvent("Gliding View", {
-            'ITEM_NAME': 'myshopEventValue'
+            'ITEM_NAME': 'glideEventValue'
         });
 
 

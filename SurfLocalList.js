@@ -79,10 +79,10 @@ class LocalList extends Component{
             android: () => Analytics.setUserId('My_android')}
         );
 
-        Analytics.setUserProperty('user_property_gliding', 'user_property_gliding_value');
+        Analytics.setUserProperty('user_property_surfing', 'user_property_surfing_value');
 
-        Analytics.logEvent("Gliding View", {
-            'ITEM_NAME': 'myshopEventValue'
+        Analytics.logEvent("Surf View", {
+            'ITEM_NAME': 'surfEventValue'
         });
 
     }

@@ -39,6 +39,7 @@ const pickerStyle = StyleSheet.create({
         borderBottomColor: '#e9e9e9',
         backgroundColor: 'white'
     },
+
     menusView: {
         flex: 1,
         justifyContent: 'center',
@@ -48,6 +49,7 @@ const pickerStyle = StyleSheet.create({
         margin: 0,
         padding: 0
     },
+
     menusViewTideYes: {
         justifyContent: 'center',
         alignItems: 'center',
