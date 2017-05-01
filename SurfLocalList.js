@@ -65,6 +65,7 @@ class LocalList extends Component{
 
         var that = this;
 
+
         FirebaseHndler.getSurfLocalListItem().then(function (items) {
             that.setState({dataSource:that.state.dataSource.cloneWithRowsAndSections(items)});
             that.props.setSpinnerVisible(false);
@@ -79,7 +80,7 @@ class LocalList extends Component{
 
         Analytics.setUserProperty('user_property_surfing', 'user_property_surfing_value');
 
-        Analytics.logEvent("Surf View", {
+        Analytics.logEvent("Surf_View", {
             'ITEM_NAME': 'surfEventValue'
         });
 
