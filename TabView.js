@@ -105,14 +105,8 @@ class TabView extends Component {
     renderRow(rowData) {   // shop ListView
 
         return (
-            <TouchableOpacity
-                onPress={() => {
-                    shopUrl = rowData.homepage;
-                    this.setState({shopDetailVisible: true});
-                }}
-            >
+
                 <View style={{height: 40, justifyContent:'center'}}><Text style={{fontSize:15}}>{rowData.name}</Text></View>
-            </TouchableOpacity>
         );
     }
 
