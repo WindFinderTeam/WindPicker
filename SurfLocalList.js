@@ -44,8 +44,6 @@ class LocalList extends Component{
         });
 
         this.state = {
-            // dataSource          : this.ds.cloneWithRowsAndSections(this.renderListViewData())
-            // dataSource      : this.ds.cloneWithRowsAndSections(this.listenForItems(Firebase.ref().child('SurfLocalData')))
             dataSource: new ListView.DataSource({
                 sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
                 rowHasChanged: (r1, r2) => r1 !== r2
