@@ -71,13 +71,13 @@ class FavoriteList extends Component {
 
     _onPressButton(rowData) {
 
-        if (rowData.theme === 'surfing') {
-            selectedRowData = surfLocalData.local[rowData.index];
+        if (this.props.viewMode == 'surf') {
+            selectedRowData = rowData;
             this.setSurfModalVisible(!this.state.surfModalVisible);
         }
 
-        else if (rowData.theme === 'gliding') {
-            selectedRowData = glidfLocalData.local[rowData.index];
+        else if (this.props.viewMode == 'gliding') {
+            selectedRowData = rowData;
             this.setGlidModalVisible(!this.state.glidModalVisible);
         }
     }
