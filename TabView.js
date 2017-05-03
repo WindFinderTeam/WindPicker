@@ -112,6 +112,8 @@ class TabView extends Component {
 
     render() {
 
+        var ios = Platform.OS == 'ios';
+
         var localList;
         if (this.props.viewMode == 'surf') localList = (<SurfLocalList setShopModalVisible={this.setShopModalVisible}
                                                                        setWebCamModalVisible={this.setWebCamModalVisible}
@@ -140,7 +142,7 @@ class TabView extends Component {
 
                     <ScrollView tabLabel="날씨상황" style={styles.tabView} ref="LocalScrollView">
 
-                        <View style={pickerStyle.localListView}>
+                        <View style={ios?pickerStyle.localListView:''}>
                             {localList}
                         </View>
 
