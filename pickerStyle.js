@@ -252,7 +252,10 @@ const pickerStyle = StyleSheet.create({
         alignItems: 'center', justifyContent: 'center', width: 70, height: 50
     },
 
-    localListView: {},
+    localListView: {
+        height:SCREEN_HEIGHT
+    },
+
     navigatorMenu: {
         position: 'absolute',
         backgroundColor: 'transparent',
