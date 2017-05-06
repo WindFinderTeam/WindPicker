@@ -71,6 +71,7 @@ class LocalList extends Component{
 
 
         FirebaseHndler.getSurfLocalListItem().then(function (items) {
+            console.log("xxx", Object.keys(items));
             that.setState({dataSource:that.state.dataSource.cloneWithRowsAndSections(items)});
             that.props.setSpinnerVisible(false);
         }, function(err){

@@ -98,8 +98,8 @@ class TabView extends Component {
         var localList;
         if (this.props.viewMode == 'surf')
             localList = (this.props.showmap ?
-                    <SurfLocalList setShopModalVisible={this.setShopModalVisible}  setSpinnerVisible={this.setSpinnerVisible}
-                    />:<SurfLocalListMap />
+                <SurfLocalListMap />:<SurfLocalList setShopModalVisible={this.setShopModalVisible}  setSpinnerVisible={this.setSpinnerVisible}
+                    />
             );
         else if (this.props.viewMode == 'gliding') localList = (
             <GlidingLocalList setShopModalVisible={this.setShopModalVisible}

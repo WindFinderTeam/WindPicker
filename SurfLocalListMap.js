@@ -20,7 +20,6 @@ var selectedRowData ;
 
 class CustomCallout extends Component {
 
-
     constructor(prop) {
         super(prop);
 
@@ -48,11 +47,11 @@ class CustomCallout extends Component {
     }
 
     render() {
-        console.log("localListVar[0]:", this.state.localList[0] == undefined ? "" : this.state.localList[0].district);
+        console.log("localListVar[0]:", this.state.localList[0] == undefined ? "" : this.state.localList[0].region);
 
         return (
             <MapView.Marker
-                coordinate={{latitude: 37.515917,longitude:126.995917,position:{x:0.0,y:0.0}}}
+                coordinate={this.state.localList[0] == undefined ? {} : this.state.localList[0].region}
                 pinColor={'#ff3399'}
                 zoomEnabled={true}
             >
