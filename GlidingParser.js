@@ -4,19 +4,23 @@ exports.getGlidingWeather = getGlidingWeather;
 function getGlidingWeather (responseJSON,myOs){
 
     var today = new Date();
-    var localeDate  =  today.toLocaleDateString()    ;
-
+    var localeDate  =  today.toLocaleDateString().split('/')    ;
     var year, month, date;
 
-    if(myOs == 'ios'){
-        year      = localeDate.substr(0,4);
-        month     = localeDate.substr(5,2)     ;
-        date      = localeDate.substr(9,2)     ;
-    }else{
-        year        = '20'+localeDate.substr(6,4);
-        month       = localeDate.substr(0,2)     ;
-        date        = localeDate.substr(3,2)     ;
-    }
+    year      = localeDate[2];
+    month     = localeDate[0];
+    date      = localeDate[1];
+
+    // if(myOs == 'ios'){
+    //     year      = localeDate.substr(0,4);
+    //     month     = localeDate.substr(5,2)     ;
+    //     date      = localeDate.substr(9,2)     ;
+    // }else{
+    //     year        = '20'+localeDate.substr(6,4);
+    //     month       = localeDate.substr(0,2)     ;
+    //     date        = localeDate.substr(3,2)     ;
+    // }
+
 
     var dataBlob   = {};
     var sectionIDs = [];
@@ -67,17 +71,17 @@ function getGlidingWeather (responseJSON,myOs){
         if(responseJSON.hr_h[i] === '00') {
 
             today.setDate(today.getDate() + 1);
-            localeDate = today.toLocaleDateString()    ;
+            localeDate = today.toLocaleDateString().split('/')    ;
 
-            if(myOs == 'ios'){
-                year      = localeDate.substr(0,4);
-                month     = localeDate.substr(5,2)     ;
-                date      = localeDate.substr(9,2)     ;
-            }else{
-                year      = '20'+localeDate.substr(6,4);
-                month     = localeDate.substr(0,2)     ;
-                date      = localeDate.substr(3,2)     ;
-            }
+            // if(myOs == 'ios'){
+            //     year      = localeDate.substr(0,4);
+            //     month     = localeDate.substr(5,2)     ;
+            //     date      = localeDate.substr(9,2)     ;
+            // }else{
+            year      = localeDate[2];
+            month     = localeDate[0];
+            date      = localeDate[1];
+            // }
 
             day = week[today.getDay()];
 

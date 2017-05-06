@@ -13,6 +13,16 @@ import Ionicons     from 'react-native-vector-icons/Ionicons';
 class MyToolbar extends Component {
     constructor(props) {
         super(props);
+
+        this.changeShowmap = this.changeShowmap.bind(this);
+
+        this.state = {
+            showmap : false
+        };
+    }
+
+    changeShowmap(){
+        this.setState({showmap: !this.state.showmap});
     }
 
     render() {
@@ -27,6 +37,12 @@ class MyToolbar extends Component {
                     <View style={styles.iosTitleView}>
                         <Text style={[styles.modeText,{marginTop:5}]}>{this.props.modeTitle}</Text>
                     </View>
+                    <TouchableOpacity  onPress={() => {this.changeShowmap(); this.props.setShowmap();}
+
+                    } style={{flex:1,alignItems:'flex-end',paddingRight:15,justifyContent:'center'}}>
+                        {this.state.showmap &&<Ionicons name="ios-map-outline" size={28} color={'#94000F'}/>}
+                        {!this.state.showmap &&<Ionicons name="ios-list" size={33} color={'#94000F'} />}
+                    </TouchableOpacity>
                 </View>
             );
         }
@@ -34,14 +50,16 @@ class MyToolbar extends Component {
             myToolbar = (
                 <View>
                     <Ionicons.ToolbarAndroid  onIconClicked = {() => this.props.openDrawerLayout()}
-                        style={styles.androidToolbar}
-                        iconColor     = "#94000F"
-                        titleColor    = "#94000F"
-                        navIconName   = "md-menu"
+                                              style={styles.androidToolbar}
+                                              iconColor     = "#94000F"
+                                              titleColor    = "#94000F"
+                                              navIconName   = "md-menu"
                     />
                     <View style={styles.anroidTitleView}>
                         <Text style={styles.modeText}>{this.props.modeTitle}</Text>
                     </View>
+                    <Ionicons name="ios-map-outline" size={5} color={'#94000F'}/>
+
                 </View>
             );
         }

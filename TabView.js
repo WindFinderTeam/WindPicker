@@ -28,12 +28,12 @@ import Ionicons                              from 'react-native-vector-icons/Ion
 import GlidingLocalList                      from './GlidingLocalList';
 import SurfLocalList                         from './SurfLocalList';
 import FavoriteList                          from './FavoriteList';
+import SurfLocalListMap                      from './SurfLocalListMap';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
-import Spinner            from 'react-native-spinkit';
+import Spinner                               from 'react-native-spinkit';
 
 
 var ds;
-var webCamView;
 var pickerStyle = require('./pickerStyle');
 var shopUrl = 'http://mercicandle.cafe24.com/web/windPicker/preparing.html';
 
@@ -44,7 +44,6 @@ class TabView extends Component {
         super(prop);
 
         this.setShopModalVisible = this.setShopModalVisible.bind(this);
-        this.setWebCamModalVisible = this.setWebCamModalVisible.bind(this);
         this.renderRow = this.renderRow.bind(this);
         this.setSpinnerVisible = this.setSpinnerVisible.bind(this);
 
@@ -56,7 +55,6 @@ class TabView extends Component {
             tabViewSelectedPage: this.props.tabViewSelectedPage,
             shopModalVisible: false,
             shopDetailVisible: false,
-            webCamModalVisible: false,
             dataSource: ds.cloneWithRows(['row 1', 'row 2']),
             drawerAnimation: new Animated.Value(0),
             spinnerVisible:true
@@ -73,23 +71,7 @@ class TabView extends Component {
     }
 
 
-    setWebCamModalVisible(visible, webcam) {
 
-
-
-        webCamView = (
-            <WebView
-                mediaPlaybackRequiresUserAction={false}
-                style={pickerStyle.webView}
-                automaticallyAdjustContentInsets={true}
-                source={{uri: webcam[0].camUrl}}
-                javaScriptEnabled={true}
-                startInLoadingState={true}
-                scalesPageToFit={true}
-            />
-        );
-        this.setState({webCamModalVisible: visible});
-    }
 
 
     onChangeTab(obj) {
@@ -105,26 +87,24 @@ class TabView extends Component {
     renderRow(rowData) {   // shop ListView
 
         return (
-
-                <View style={{height: 40, justifyContent:'center'}}><Text style={{fontSize:15}}>{rowData.name}</Text></View>
+            <View style={{height: 40, justifyContent:'center'}}><Text style={{fontSize:15}}>{rowData.name}</Text></View>
         );
     }
 
     render() {
 
-        var ios = Platform.OS == 'ios';
+        console.log(this.props.showmap);
 
         var localList;
-        if (this.props.viewMode == 'surf') localList = (<SurfLocalList setShopModalVisible={this.setShopModalVisible}
-                                                                       setWebCamModalVisible={this.setWebCamModalVisible}
-                                                                       setSpinnerVisible={this.setSpinnerVisible}
-            />
-        );
+        if (this.props.viewMode == 'surf')
+            localList = (this.props.showmap ?
+                    <SurfLocalList setShopModalVisible={this.setShopModalVisible}  setSpinnerVisible={this.setSpinnerVisible}
+                    />:<SurfLocalListMap />
+            );
         else if (this.props.viewMode == 'gliding') localList = (
             <GlidingLocalList setShopModalVisible={this.setShopModalVisible}
                               setSpinnerVisible={this.setSpinnerVisible}
             />);
-
 
         return (
 
@@ -142,40 +122,18 @@ class TabView extends Component {
 
                     <ScrollView tabLabel="날씨상황" style={styles.tabView} ref="LocalScrollView">
 
-                        <View style={ios?pickerStyle.localListView:''}>
+                        <View style={pickerStyle.localListView}>
                             {localList}
                         </View>
-
 
                     </ScrollView>
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
                         <FavoriteList setShopModalVisible={this.setShopModalVisible  }
-                                      setWebCamModalVisible={this.setWebCamModalVisible}
                                       realmReload={this.state.realmReload    }
                                       viewMode={this.props.viewMode       }
                         />
                     </ScrollView>
                 </ScrollableTabView>
-
-
-                {/*------ webCam Modal ------- */}
-                <Modal
-                    animationType={"none"}
-                    transparent={true}
-                    visible={this.state.webCamModalVisible}
-                    onRequestClose={() => { this.setState({webCamModalVisible: false});  }}>
-
-                    <View style={pickerStyle.modalContainer}>
-                        <View style={[pickerStyle.closeIcon, {opacity: this.state.webCamModalVisible == true ? 1 : 0}]}>
-                            <TouchableOpacity onPress={() => {  this.setState({webCamModalVisible: false})  }}>
-                                <Ionicons name="md-close" size={40} color={'white'}/>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{height: SCREEN_HEIGHT / 1.5, marginLeft:20, marginRight:20 }}>
-                            {webCamView}
-                        </View>
-                    </View>
-                </Modal>
 
 
                 {/* shopList Modal */}
@@ -228,7 +186,6 @@ class TabView extends Component {
 }
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-const SCREEN_WIDTH = Dimensions.get('window').width;
 
 
 const styles = StyleSheet.create({
@@ -239,14 +196,6 @@ const styles = StyleSheet.create({
     },
     tabText: {
         fontSize: 17
-    },
-    webCamWaitting: {
-        position: 'absolute',
-        backgroundColor: 'white',
-        width: SCREEN_WIDTH - 40,
-        marginRight: 20,
-        marginLeft: 20,
-        height: SCREEN_HEIGHT / 1.5
     }
 
 });

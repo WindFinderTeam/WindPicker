@@ -22,8 +22,6 @@ import GlidWeatherList      from './GlidingWeatherList';
 import {realmInstance}      from "./RealmHndler.js";
 var FirebaseHndler = require('./FirebaseHndler');
 
-var surfLocalData = require('./jsData/SurfLocalData.json');
-var glidfLocalData = require('./jsData/GlidingLocalData.json');
 var pickerStyle = require('./pickerStyle');
 var selectedRowData;
 var favoriteDataList = [];
@@ -43,6 +41,7 @@ class FavoriteList extends Component {
         this.setGlidModalVisible = this.setGlidModalVisible.bind(this);
         this._onPressButton = this._onPressButton.bind(this);
         this.realmRead = this.realmRead.bind(this);
+        this.setRealmReload = this.setRealmReload.bind(this);
 
         this.state = {
             surfModalVisible: false,
@@ -50,7 +49,7 @@ class FavoriteList extends Component {
             viewMode: this.props.viewMode,
             dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
 
-        };
+    };
     }
 
     componentDidMount() {
@@ -80,6 +79,11 @@ class FavoriteList extends Component {
             selectedRowData = rowData;
             this.setGlidModalVisible(!this.state.glidModalVisible);
         }
+    }
+
+    setRealmReload(mode){
+        console.log("setRealmReload in mode is ", mode);
+        this.realmRead(mode);
     }
 
     realmRead(mode) {
@@ -137,12 +141,12 @@ class FavoriteList extends Component {
 
     _renderRow(rowData) {
 
+
         var shopShow = false;
 
         /* judge shop showing */
-        if (Object.keys(rowData.shop) == "") shopShow = false;
+        if (rowData.shop == '') shopShow = false;
         else                                  shopShow = true;
-
 
         return (
             <TouchableHighlight onPress={() => {  this._onPressButton(rowData)    }}>
@@ -181,7 +185,9 @@ class FavoriteList extends Component {
                     <SurfWeatherList
                         modalVisible={this.setSurfModalVisible}
                         rowData={selectedRowData}
+                        realmReload    = {this.setRealmReload}
                     />
+
                 </Modal>
 
                 <Modal
@@ -193,6 +199,7 @@ class FavoriteList extends Component {
                     <GlidWeatherList
                         modalVisible={this.setGlidModalVisible}
                         rowData={selectedRowData}
+                        realmReload    = {this.setRealmReload}
                     />
                 </Modal>
 

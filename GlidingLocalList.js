@@ -66,6 +66,10 @@ class LocalList extends Component{
         this.props.setSpinnerVisible(true);
     }
 
+    setRealmReload(){
+        //It is nothing to do, but necessary
+    }
+
     componentDidMount(){
 
         var that = this;
@@ -89,9 +93,6 @@ class LocalList extends Component{
         Analytics.logEvent("Gliding_View", {
             'ITEM_NAME': 'glideEventValue'
         });
-
-
-
     }
 
     setModeRealm(){
@@ -142,7 +143,6 @@ class LocalList extends Component{
         )
     }
 
-
     render() {
         return (
             <View>
@@ -154,7 +154,9 @@ class LocalList extends Component{
 
                     <GlidingWeatherList
                         modalVisible={this.setModalVisible}
-                        rowData = {selectedRowData} />
+                        rowData = {selectedRowData}
+                        realmReload    = {this.setRealmReload}
+                    />
 
                 </Modal>
 

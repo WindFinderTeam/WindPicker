@@ -57,6 +57,10 @@ class LocalList extends Component{
 
     }
 
+    setRealmReload(){
+        //It is nothing to do, but necessary
+    }
+
     componentWillMount(){
         this.props.setSpinnerVisible(true);
     }
@@ -147,7 +151,9 @@ class LocalList extends Component{
 
                     <SurfWeatherList
                         modalVisible = {this.setModalVisible}
-                        rowData      = {selectedRowData}/>
+                        rowData      = {selectedRowData}
+                        realmReload    = {this.setRealmReload}
+                    />
                 </Modal>
                 <ListView
                     ref                 = "listView"

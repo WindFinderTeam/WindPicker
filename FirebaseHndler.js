@@ -45,6 +45,46 @@ var getSurfLocalListItem = function () {
     )
 }
 
+var getSurfLocalListForMap = function () {
+
+    return new Promise(
+        function (resolve, reject) {
+
+            var itemsRef = firebaseApp.database().ref().child('SurfLocalData').orderByChild('district');
+
+            // get children as an array
+            var localListArray = [];
+
+            itemsRef.once('value', (snap) => {
+                snap.forEach((child) => {
+                    localListArray.push(child.val());
+                });
+                resolve(localListArray);
+            });
+        }
+    )
+}
+
+var getGlidLocalListForMap = function () {
+
+    return new Promise(
+        function (resolve, reject) {
+
+            var itemsRef = firebaseApp.database().ref().child('GlidingLocalData').orderByChild('district');
+
+            // get children as an array
+            var localListArray = [];
+
+            itemsRef.once('value', (snap) => {
+                snap.forEach((child) => {
+                    localListArray.push(child.val());
+                });
+                resolve(localListArray);
+            });
+        }
+    )
+}
+
 var getGlidLocalListItem = function () {
 
     return new Promise(
@@ -117,7 +157,9 @@ var getSurfFavoriteItem = function(indexArray){
         })
 }
 
-exports.getSurfLocalListItem = getSurfLocalListItem;
-exports.getGlidLocalListItem = getGlidLocalListItem;
-exports.getGlidFavoriteItem  = getGlidFavoriteItem;
-exports.getSurfFavoriteItem  = getSurfFavoriteItem;
+exports.getSurfLocalListItem   = getSurfLocalListItem;
+exports.getGlidLocalListItem   = getGlidLocalListItem;
+exports.getGlidFavoriteItem    = getGlidFavoriteItem;
+exports.getSurfFavoriteItem    = getSurfFavoriteItem;
+exports.getSurfLocalListForMap = getSurfLocalListForMap;
+exports.getGlidLocalListForMap = getGlidLocalListForMap;

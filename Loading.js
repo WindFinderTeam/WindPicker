@@ -130,7 +130,7 @@ Loading = codePush(Loading);
 const styles = StyleSheet.create({
 
     logoText:{
-        fontSize    : 20,
+        fontSize    : 25,
         marginBottom: 10,
         color       :'#FFFF',
         fontFamily  :'BMJUA',

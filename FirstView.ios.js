@@ -24,8 +24,11 @@ class FirstView extends Component {
         super(prop);
 
         this.openDrawerLayout = this.openDrawerLayout.bind(this);
+        this.setShowmap       = this.setShowmap.bind(this)      ;
 
-        this.state = {  viewMode : this.props.mode  };
+        this.state = {  viewMode : this.props.mode,
+            showmap  : false
+        };
     }
 
     openDrawerLayout() {    this.refs._drawer.toggleSlideMenu();    }
@@ -44,6 +47,7 @@ class FirstView extends Component {
         this.refs._drawer.toggleSlideMenu();
     }
 
+    setShowmap(){   this.setState({showmap: !this.state.showmap});   }
 
     render() {
 
@@ -55,20 +59,20 @@ class FirstView extends Component {
         };
 
         return (
-        <View style={{flex:1, backgroundColor:'white'}}>
-            <SlideMenu
-                       ref          = {'_drawer'}
-                       menu         = {<MenuList viewMode={this.state.viewMode}
+            <View style={{flex:1, backgroundColor:'white'}}>
+                <SlideMenu
+                    ref          = {'_drawer'}
+                    menu         = {<MenuList viewMode={this.state.viewMode}
                        setModeChange= {(mode) => this.setModeChange(mode)}/>} slideWay='left' moveFrontView={false} width={250}
-                       frontView    = {
+                    frontView    = {
                                 <View style={{flex:1}}>
-                                     <MyToolbar modeTitle={modeTitle} openDrawerLayout={() => this.openDrawerLayout()}/>
-                                     <TabView  viewMode={this.state.viewMode} />
+                                     <MyToolbar modeTitle={modeTitle} setShowmap={() => this.setShowmap()} openDrawerLayout={() => this.openDrawerLayout()}/>
+                                     <TabView  viewMode={this.state.viewMode} showmap={this.state.showmap}/>
                                 </View>
                        }
-            />
-            <Toast    ref="toast"   style={{backgroundColor: '#222222'}}     position='bottom'/>
-        </View>
+                />
+                <Toast    ref="toast"   style={{backgroundColor: '#222222'}}     position='bottom'/>
+            </View>
 
         );
     }

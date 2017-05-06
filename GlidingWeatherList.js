@@ -503,6 +503,7 @@ class GlidingWeatherList extends Component {
                         <TouchableOpacity onPress={() => {
                             this.controlFavorite();
                             this.setHeartOnOff();
+                            this.props.realmReload('gliding');
                             this.refs.toast.show(this.state.heartOnOff == true ? '즐겨찾기를 지웁니다' : '즐겨찾기에 추가합니다', DURATION.LENGTH_LONG);
                         }}>
                             <Ionicons name="md-heart" size={30}
