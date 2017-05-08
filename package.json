@@ -16,6 +16,7 @@
     "react-native-code-push": "^1.16.1-beta",
     "react-native-easy-toast": "^1.0.2",
     "react-native-firebase": "^1.0.2",
+    "react-native-firebase-analytics": "^1.0.6",
     "react-native-lazyload": "^1.1.0",
     "react-native-linear-gradient": "^1.5.14",
     "react-native-maps": "0.12.5",
