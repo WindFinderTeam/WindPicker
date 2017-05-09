@@ -13,10 +13,9 @@ import {
 } from 'react-native';
 import MapView           from 'react-native-maps';
 import SurfWeatherList   from './SurfWeatherList';
+import Ionicons          from 'react-native-vector-icons/Ionicons';
 
-var localListVar = [];
 var FirebaseHndler = require('./FirebaseHndler');
-var selectedRowData ;
 
 class CustomCallout extends Component {
 
@@ -24,45 +23,79 @@ class CustomCallout extends Component {
         super(prop);
 
         this.state = {
-            localList: []
+              modalVisible: false
+            , localData: prop
             , modalVisible: false
+            , pinMarker: {
+                'latitude': prop.region.latitude,
+                'longitude': prop.region.longitude,
+                'latitudeDelta': 0.0,
+                'longitudeDelta': 0.0
+            }
+
         };
+
+        //---------------- Binding to Custom Func ----------------
+        this.setModalVisible = this.setModalVisible.bind(this);
+        this._onPress = this._onPress.bind(this);
+        //---------------------------------------------------------
     }
 
-    componentDidMount() {
-        console.log('custom call props');
-        var that = this;
+    setRealmReload() {
+    }
 
-        FirebaseHndler.getSurfLocalListForMap().then(function (items) {
+    setModalVisible(visible) {
+        console.log("setModalVisible visible", visible);
+        this.setState({modalVisible: visible});
+    }
 
-            that.setState({localList: items});
+    _onPress(selectedData) {
+        this.setState({localData: selectedData});
+        this.setModalVisible(true);
+    }
 
-            for (var i in that.state.localList) {
-                console.log("localList:", that.state.localList[i].district)
-            }
-            // that.props.setSpinnerVisible(false);
-        }, function (err) {
-            console.log(err)
-        });
+    weatherListModal(selectedRowData) {
+        console.log("selectedRowData", selectedRowData);
+        return (
+            <Modal
+                animationType={"fade"}
+                transparent={false}
+                visible={this.state.modalVisible}
+                onRequestClose={() => {this.setModalVisible(false)}}>
+
+                <SurfWeatherList
+                    modalVisible={this.setModalVisible}
+                    rowData={this.state.localData}
+                    realmReload={this.setRealmReload}
+                />
+            </Modal>
+        )
     }
 
     render() {
-        console.log("localListVar[0]:", this.state.localList[0] == undefined ? "" : this.state.localList[0].region);
 
-        return (
-            <MapView.Marker
-                coordinate={this.state.localList[0] == undefined ? {} : this.state.localList[0].region}
-                pinColor={'#ff3399'}
-                zoomEnabled={true}
-            >
-                <MapView.Callout width={100} height={20}>
-                    <TouchableOpacity onPress={() =>{
-                        this.props._onPress(this.state.localList[0])}}>
-                        <Text>{this.state.localList[0] == undefined ? '' : this.state.localList[0].district}</Text>
-                    </TouchableOpacity>
-                </MapView.Callout>
-            </MapView.Marker>
-        )
+        console.log("prop:::", this.state.localData.district.length);
+
+        var district = this.state.localData.district
+        var widthVar = (district.length) * 10 + 20
+
+        return (<MapView.Marker
+            coordinate={
+                this.state.pinMarker
+            }
+            zoomEnabled={true}
+        >
+            <MapView.Callout width={widthVar} height={20}>
+                <TouchableOpacity onPress={() =>{
+                        this._onPress(this.state.localData)}}>
+                    {this.weatherListModal()}
+                    <View style={{flexDirection:'row',alignItems:'center'}}>
+                        <Text>{district}  </Text>
+                        <Ionicons name="ios-arrow-forward" size={15} color={'#C0C0C0'}/>
+                    </View>
+                </TouchableOpacity>
+            </MapView.Callout>
+        </MapView.Marker>)
     }
 }
 
@@ -78,61 +111,51 @@ class SurfLocalListMap extends Component {
                 latitudeDelta: 0.0,
                 longitudeDelta: 0.0,
             },
-            modalVisible : false,
-            selectedRowData : '',
+            selectedRowData: '',
+            localList: []
         };
-        //---------------- Binding to Custom Func ----------------
-        this.setModalVisible = this.setModalVisible.bind(this);
-        this._onPress        = this._onPress.bind(this);
-        //---------------------------------------------------------
-    }
-
-    setRealmReload() {
-    }
-
-    setModalVisible(visible) {
-        console.log("setModalVisible visible", visible);
-        this.setState({modalVisible: visible});
-    }
-
-    _onPress(selectedData){
-        console.log("_onPress:", selectedData);
-        selectedRowData = selectedData;
-        this.setState({selectedRowData:selectedData});
-        this.setModalVisible(true);
 
     }
 
-    weatherListModal(selectedRowData) {
-        console.log("selectedRowData", selectedRowData);
-        return (
-            <Modal
-                animationType={"fade"}
-                transparent={false}
-                visible={this.state.modalVisible}
-                onRequestClose={() => {this.setModalVisible(false)}}>
+    componentDidMount() {
+        console.log('main map call props');
+        var that = this;
 
-                <SurfWeatherList
-                    modalVisible={this.setModalVisible}
-                    rowData={this.state.selectedRowData}
-                    realmReload={this.setRealmReload}
-                />
-            </Modal>
-        )
+        FirebaseHndler.getSurfLocalListForMap().then(function (items) {
+
+            // that.setState({localList: items});
+
+
+            for (var i in items) {
+
+                that.setState({
+                    localList: [
+                        ...that.state.localList,
+                        items[i]]
+                });
+
+
+            }
+            // that.props.setSpinnerVisible(false);
+        }, function (err) {
+            console.log(err)
+        });
     }
+
 
     render() {
 
         return (
             <View style={styles.container}>
-                {this.weatherListModal()}
                 <MapView
                     style={styles.map}
                     initialRegion={this.state.region}
                     followsUserLocation={true}
-                    onMarkerSelect={()=>{console.log("onMarkerSelect")}}
                 >
-                    <CustomCallout _onPress = {this._onPress}/>
+                    {this.state.localList.map((marker) => {
+                        return <CustomCallout {...marker}/>
+
+                    })}
                 </MapView>
             </View >
         );
