@@ -57,9 +57,12 @@ class MyToolbar extends Component {
                     />
                     <View style={styles.anroidTitleView}>
                         <Text style={styles.modeText}>{this.props.modeTitle}</Text>
+                        <TouchableOpacity  onPress={() => {this.changeShowmap(); this.props.setShowmap();}}
+                                           style={{flex:1,alignItems:'flex-end',paddingRight:25,justifyContent:'center'}}>
+                            {!this.state.showmap &&<Ionicons name="ios-map-outline" size={28} color={'#94000F'}/>}
+                            {this.state.showmap &&<Ionicons name="ios-list" size={33} color={'#94000F'} />}
+                        </TouchableOpacity>
                     </View>
-                    <Ionicons name="ios-map-outline" size={5} color={'#94000F'}/>
-
                 </View>
             );
         }

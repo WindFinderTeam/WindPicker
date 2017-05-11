@@ -5,7 +5,7 @@ import {
     Image,
 } from 'react-native';
 
-import firebase  from 'react-native-firebase';
+import firebase  from 'firebase';
 
 // Initialize Firebase
 const firebaseConfig = {
