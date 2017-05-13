@@ -144,16 +144,18 @@ class SurfLocalListMap extends Component {
 
 
     render() {
-
+        var keyValue=0;
         return (
             <View style={styles.container}>
                 <MapView
                     style={styles.map}
                     initialRegion={this.state.region}
                     followsUserLocation={true}
+
                 >
                     {this.state.localList.map((marker) => {
-                        return <CustomCallout {...marker}/>
+                        keyValue = keyValue+1;
+                        return <CustomCallout key={keyValue} {...marker}/>
 
                     })}
                 </MapView>
@@ -166,20 +168,13 @@ module.exports = SurfLocalListMap;
 
 const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
+        ...StyleSheet.absoluteFillObject,
+        flex:1
+
     },
 
     map: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        ...StyleSheet.absoluteFillObject,
+
     },
 });
