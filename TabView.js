@@ -121,12 +121,12 @@ class TabView extends Component {
                                    style={{height: 18}}>
 
                     <ScrollView tabLabel="날씨상황" style={styles.tabView} ref="LocalScrollView">
-
-                        <View style={pickerStyle.localListView}>
+                        {(Platform.OS == 'ios') && <View style={pickerStyle.localListView}>
                             {localList}
-                        </View>
-
+                        </View>}
+                        {!(Platform.OS == 'ios') && localList}
                     </ScrollView>
+
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>
                         <FavoriteList setShopModalVisible={this.setShopModalVisible  }
                                       realmReload={this.state.realmReload    }
