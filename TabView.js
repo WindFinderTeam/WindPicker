@@ -29,7 +29,7 @@ import GlidingLocalList                      from './GlidingLocalList';
 import SurfLocalList                         from './SurfLocalList';
 import FavoriteList                          from './FavoriteList';
 import SurfLocalListMap                      from './SurfLocalListMap';
-import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
+import ScrollableTabView                     from 'react-native-scrollable-tab-view';
 import Spinner                               from 'react-native-spinkit';
 
 

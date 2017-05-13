@@ -572,7 +572,7 @@ class SurfWeatherList extends Component {
                 {/* ------------------------------- back button, favorite button configure -----------*/}
                 <View style={pickerStyle.navigator}>
                     <TouchableOpacity onPress={() => {this.props.modalVisible(false)}}>
-                        <View style={{width:40, backgroundColor: 'transparent'}}>
+                        <View style={{width:40, backgroundColor: 'gold'}}>
                             <Ionicons name="ios-arrow-back" size={40} color="white" style={{marginLeft: 10}}/>
                         </View>
                     </TouchableOpacity>
