@@ -59,12 +59,13 @@ class MyToolbar extends Component {
                     />
                     <View style={styles.anroidTitleView}>
                         <Text style={styles.modeText}>{this.props.modeTitle}</Text>
-                        <TouchableOpacity  onPress={() => {this.changeShowmap(); this.props.setShowmap();}}
-                                           style={{flex:1,alignItems:'flex-end',paddingRight:25,justifyContent:'center'}}>
+                    </View>
+                    <View style={styles.anroidTitleIconView}>
+                        <TouchableOpacity  onPress={() => {this.changeShowmap(); this.props.setShowmap();}}>
                             {this.props.listIconShow &&
                             !this.state.showmap &&<Ionicons name="ios-map-outline" size={28} color={'#94000F'}/>}
                             {this.props.listIconShow &&
-                            this.state.showmap &&<Ionicons name="ios-list" size={33} color={'#94000F'} />}
+                            this.state.showmap &&<Ionicons name="ios-list" size={35} color={'#94000F'} />}
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -79,9 +80,11 @@ const styles = StyleSheet.create({
     iosTitleView    :{ left: 8,  alignItems: 'center'  },
     anroidTitleView :{
         position: 'absolute',
-        left: 8, top: 16,  marginLeft: 40,
-        alignItems: 'center',
-        flexDirection: 'row'
+        left: 50, top: 16,
+    },
+    anroidTitleIconView :{
+        position: 'absolute',
+        top:16, right:15,
     },
     modeText: {
         fontSize: 20,

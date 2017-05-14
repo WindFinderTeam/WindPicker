@@ -29,6 +29,7 @@ import GlidingLocalList                      from './GlidingLocalList';
 import SurfLocalList                         from './SurfLocalList';
 import FavoriteList                          from './FavoriteList';
 import SurfLocalListMap                      from './SurfLocalListMap';
+import GlidLocalListMap                      from './GlidLocalListMap';
 import ScrollableTabView                     from 'react-native-scrollable-tab-view';
 import Spinner                               from 'react-native-spinkit';
 
@@ -101,12 +102,11 @@ class TabView extends Component {
         if (this.props.viewMode == 'surf')
             localList = (this.props.showmap ?
                 <SurfLocalListMap />:<SurfLocalList setShopModalVisible={this.setShopModalVisible}  setSpinnerVisible={this.setSpinnerVisible}
-                    />
-            );
-        else if (this.props.viewMode == 'gliding') localList = (
-            <GlidingLocalList setShopModalVisible={this.setShopModalVisible}
-                              setSpinnerVisible={this.setSpinnerVisible}
-            />);
+                    />);
+        else if (this.props.viewMode == 'gliding')
+            localList = (this.props.showmap ?
+                <GlidLocalListMap />:<GlidingLocalList setShopModalVisible={this.setShopModalVisible} setSpinnerVisible={this.setSpinnerVisible}
+                />);
 
         return (
 
