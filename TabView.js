@@ -70,14 +70,16 @@ class TabView extends Component {
         this.setState({shopModalVisible: visible, dataSource: ds.cloneWithRows(shopRows)});
     }
 
-
-
-
-
     onChangeTab(obj) {
         /* obj.i : 0 날씨정보, 1 즐겨찾기 */
-        if (obj.i == '1') this.setState({realmReload: true});
-        else if (obj.i == '0') this.setState({realmReload: false});
+        if (obj.i == '1') {
+            this.setState({realmReload: true});
+            this.props.setListIconShow(false);
+        }
+        else if (obj.i == '0') {
+            this.setState({realmReload: false});
+            this.props.setListIconShow(true);
+        }
     }
 
     setSpinnerVisible(val){
@@ -124,7 +126,7 @@ class TabView extends Component {
                         {(Platform.OS == 'ios') && <View style={pickerStyle.localListView}>
                             {localList}
                         </View>}
-                        {!(Platform.OS == 'ios') && localList}
+                        {!(Platform.OS == 'ios') && <View style={{height:this.props.showmap==true?SCREEN_HEIGHT:null}}>{localList}</View>}
                     </ScrollView>
 
                     <ScrollView tabLabel="즐겨찾기" style={styles.tabView}>

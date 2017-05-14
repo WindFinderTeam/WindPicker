@@ -24,10 +24,12 @@ class FirstViewAndroid extends Component {
 
         this.openDrawerLayout = this.openDrawerLayout.bind(this);
         this.setShowmap       = this.setShowmap.bind(this)      ;
+        this.setListIconShow       = this.setListIconShow.bind(this)      ;
 
         this.state = {
             viewMode: this.props.mode,
-            showmap  : false
+            showmap  : false,
+            listIconShow : true
         };
     }
 
@@ -49,6 +51,8 @@ class FirstViewAndroid extends Component {
 
     setShowmap(){   this.setState({showmap: !this.state.showmap});   }
 
+    setListIconShow(tf){   this.setState({listIconShow: tf});   }
+
     render() {
 
         var modeTitle;
@@ -65,8 +69,8 @@ class FirstViewAndroid extends Component {
                 ref={'_drawer'}
                 renderNavigationView={() => <MenuList viewMode={this.state.viewMode} setModeChange={(mode) => this.setModeChange(mode)}/>}>
 
-                <MyToolbar modeTitle={modeTitle} setShowmap={() => this.setShowmap()} openDrawerLayout={() => this.openDrawerLayout()}/>
-                <TabView viewMode={this.state.viewMode} showmap={this.state.showmap} />
+                <MyToolbar modeTitle={modeTitle} setShowmap={() => this.setShowmap()} listIconShow={this.state.listIconShow} openDrawerLayout={() => this.openDrawerLayout()}/>
+                <TabView viewMode={this.state.viewMode} showmap={this.state.showmap} setListIconShow={(tf)=>this.setListIconShow(tf)} />
 
                 <Toast   ref="toast"   style={{backgroundColor: '#222222'}}    position='bottom'/>
             </DrawerLayoutAndroid>

@@ -17,7 +17,7 @@ class MyToolbar extends Component {
         this.changeShowmap = this.changeShowmap.bind(this);
 
         this.state = {
-            showmap : false
+            showmap  : false
         };
     }
 
@@ -40,8 +40,10 @@ class MyToolbar extends Component {
                     <TouchableOpacity  onPress={() => {this.changeShowmap(); this.props.setShowmap();}
 
                     } style={{flex:1,alignItems:'flex-end',paddingRight:15,justifyContent:'center'}}>
-                        {!this.state.showmap &&<Ionicons name="ios-map-outline" size={28} color={'#94000F'}/>}
-                        {this.state.showmap &&<Ionicons name="ios-list" size={33} color={'#94000F'} />}
+                        {this.props.listIconShow &&
+                        !this.state.showmap &&<Ionicons name="ios-map-outline" size={28} color={'#94000F'}/>}
+                        {this.props.listIconShow &&
+                        this.state.showmap &&<Ionicons name="ios-list" size={33} color={'#94000F'} />}
                     </TouchableOpacity>
                 </View>
             );
@@ -59,8 +61,10 @@ class MyToolbar extends Component {
                         <Text style={styles.modeText}>{this.props.modeTitle}</Text>
                         <TouchableOpacity  onPress={() => {this.changeShowmap(); this.props.setShowmap();}}
                                            style={{flex:1,alignItems:'flex-end',paddingRight:25,justifyContent:'center'}}>
-                            {!this.state.showmap &&<Ionicons name="ios-map-outline" size={28} color={'#94000F'}/>}
-                            {this.state.showmap &&<Ionicons name="ios-list" size={33} color={'#94000F'} />}
+                            {this.props.listIconShow &&
+                            !this.state.showmap &&<Ionicons name="ios-map-outline" size={28} color={'#94000F'}/>}
+                            {this.props.listIconShow &&
+                            this.state.showmap &&<Ionicons name="ios-list" size={33} color={'#94000F'} />}
                         </TouchableOpacity>
                     </View>
                 </View>

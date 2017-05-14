@@ -6,10 +6,12 @@ import {
     Text,
     Image,
     TouchableOpacity,
+    TouchableHighlight,
     View,
     Linking,
     StatusBar,
     Modal,
+    Platform,
 } from 'react-native';
 import MapView           from 'react-native-maps';
 import SurfWeatherList   from './SurfWeatherList';
@@ -45,7 +47,6 @@ class CustomCallout extends Component {
     }
 
     setModalVisible(visible) {
-        console.log("setModalVisible visible", visible);
         this.setState({modalVisible: visible});
     }
 
@@ -55,7 +56,6 @@ class CustomCallout extends Component {
     }
 
     weatherListModal(selectedRowData) {
-        console.log("selectedRowData", selectedRowData);
         return (
             <Modal
                 animationType={"fade"}
@@ -74,18 +74,18 @@ class CustomCallout extends Component {
 
     render() {
 
-        console.log("prop:::", this.state.localData.district.length);
-
-        var district = this.state.localData.district
-        var widthVar = (district.length) * 10 + 20
+        var district = this.state.localData.district;
+        var widthVar = (Platform.OS == 'ios')? district.length * 10 + 20 : district.length * 12 + 20;
 
         return (<MapView.Marker
             coordinate={
                 this.state.pinMarker
             }
             zoomEnabled={true}
+            key={this.state.localData.index}
+            onCalloutPress={()=>console.log("onMarkerPress ok")}
         >
-            <MapView.Callout width={widthVar} height={20}>
+            <MapView.Callout width={widthVar} height={20} onPress={()=>{this._onPress(this.state.localData)}}>
                 <TouchableOpacity onPress={() =>{
                         this._onPress(this.state.localData)}}>
                     {this.weatherListModal()}

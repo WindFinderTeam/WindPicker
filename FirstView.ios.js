@@ -23,11 +23,14 @@ class FirstView extends Component {
     constructor(prop) {
         super(prop);
 
-        this.openDrawerLayout = this.openDrawerLayout.bind(this);
-        this.setShowmap       = this.setShowmap.bind(this)      ;
+        this.openDrawerLayout      = this.openDrawerLayout.bind(this);
+        this.setShowmap            = this.setShowmap.bind(this)      ;
+        this.setListIconShow       = this.setListIconShow.bind(this)      ;
 
-        this.state = {  viewMode : this.props.mode,
-            showmap  : false
+        this.state = {
+            viewMode : this.props.mode,
+            showmap  : false,
+            listIconShow : true
         };
     }
 
@@ -49,6 +52,8 @@ class FirstView extends Component {
 
     setShowmap(){   this.setState({showmap: !this.state.showmap});   }
 
+    setListIconShow(tf){   this.setState({listIconShow: tf});   }
+
     render() {
 
         var modeTitle;
@@ -66,8 +71,8 @@ class FirstView extends Component {
                        setModeChange= {(mode) => this.setModeChange(mode)}/>} slideWay='left' moveFrontView={false} width={250}
                     frontView    = {
                                 <View style={{flex:1}}>
-                                     <MyToolbar modeTitle={modeTitle} setShowmap={() => this.setShowmap()} openDrawerLayout={() => this.openDrawerLayout()}/>
-                                     <TabView  viewMode={this.state.viewMode} showmap={this.state.showmap}/>
+                                     <MyToolbar modeTitle={modeTitle} setShowmap={() => this.setShowmap()} listIconShow={this.state.listIconShow} openDrawerLayout={() => this.openDrawerLayout()}/>
+                                     <TabView  viewMode={this.state.viewMode} showmap={this.state.showmap} setListIconShow={(tf)=>this.setListIconShow(tf)}/>
                                 </View>
                        }
                 />
