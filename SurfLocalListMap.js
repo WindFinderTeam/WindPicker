@@ -29,10 +29,10 @@ class CustomCallout extends Component {
             , localData: prop
             , modalVisible: false
             , pinMarker: {
-                'latitude': prop.region.latitude,
-                'longitude': prop.region.longitude,
-                'latitudeDelta': 0.0,
-                'longitudeDelta': 0.0
+                'latitude'      : prop.region.latitude ,
+                'longitude'     : prop.region.longitude,
+                'latitudeDelta' : 1,
+                'longitudeDelta': 1
             }
 
         };
