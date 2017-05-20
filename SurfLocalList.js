@@ -20,6 +20,7 @@ var FirebaseHndler = require('./FirebaseHndler');
 var pickerStyle    = require('./pickerStyle') ;
 var selectedRowData ;
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
 class LocalList extends Component{
 
     setModalVisible(visible) {     this.setState({modalVisible: visible});   }
@@ -130,6 +131,7 @@ class LocalList extends Component{
     }
 
     render() {
+        console.log(SCREEN_WIDTH);
         return (
             <View>
 
@@ -145,6 +147,7 @@ class LocalList extends Component{
                         realmReload    = {this.setRealmReload}
                     />
                 </Modal>
+                <View style={{flexDirection:'row', width:SCREEN_WIDTH, height:80, backgroundColor:'gold'}}><Text>배너위치</Text></View>
                 <ListView
                     ref                 = "listView"
                     scrollsToTop        = {true}

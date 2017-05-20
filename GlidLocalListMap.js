@@ -31,8 +31,8 @@ class CustomCallout extends Component {
             , pinMarker: {
                 'latitude': prop.region.latitude,
                 'longitude': prop.region.longitude,
-                'latitudeDelta': 0.0,
-                'longitudeDelta': 0.0
+                'latitudeDelta': 30,
+                'longitudeDelta': 30
             }
 
         };
@@ -108,8 +108,8 @@ class GlidLocalListMap extends Component {
             region: {
                 latitude: 37.515917,
                 longitude: 126.995917,
-                latitudeDelta: 0.0,
-                longitudeDelta: 0.0,
+                latitudeDelta: 10,
+                longitudeDelta: 10,
             },
             selectedRowData: '',
             localList: []

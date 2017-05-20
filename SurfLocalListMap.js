@@ -108,8 +108,8 @@ class SurfLocalListMap extends Component {
             region: {
                 latitude: 37.515917,
                 longitude: 126.995917,
-                latitudeDelta: 0.0,
-                longitudeDelta: 0.0,
+                latitudeDelta: 10,
+                longitudeDelta: 10,
             },
             selectedRowData: '',
             localList: []
