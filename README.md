@@ -11,6 +11,6 @@ They could check the direction and strength of wind and swell.<br>
 </div>
 
 ## Released
-Android - https://play.google.com/store/apps/details?id=com.windpicker&hl=ko
-IOS     - http://app-1227285857.appstor.io/
+Android - https://play.google.com/store/apps/details?id=com.windpicker&hl=ko <br>
+IOS     - http://app-1227285857.appstor.io/
 
